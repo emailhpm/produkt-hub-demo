@@ -11,6 +11,12 @@
 <meta property="og:description" content="Prototyp: Alles für deinen Start mit OMNI9 an einem Ort.">
 <meta property="og:image" content="https://emailhpm.github.io/produkt-hub-demo/vorschau.png">
 <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='14' fill='%231c2029'/%3E%3Ctext x='32' y='45' font-family='Arial,sans-serif' font-size='36' font-weight='700' text-anchor='middle' fill='%23e2b25a'%3E9%3C/text%3E%3C/svg%3E">
+<meta name="theme-color" content="#1c2029">
+<link rel="manifest" href="manifest.webmanifest">
+<link rel="apple-touch-icon" href="bilder/app-icon-180.png">
+<meta name="apple-mobile-web-app-title" content="OMNI9">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="mobile-web-app-capable" content="yes">
 <style>
 @font-face { font-family: "Inter"; src: url("schriften/inter-latin.woff2") format("woff2"); font-weight: 100 900; font-display: block; }
 :root {
@@ -23,6 +29,7 @@ body { font-family: "Inter", -apple-system, BlinkMacSystemFont, "Segoe UI", Robo
 a { color: inherit; text-decoration: none; }
 button { font: inherit; color: inherit; }
 :focus-visible { outline: 2px solid var(--gold); outline-offset: 2px; }
+[hidden] { display: none !important; }
 h1 { font-size: 30px; line-height: 1.15; font-weight: 600; letter-spacing: -.02em; text-wrap: balance; }
 h2 { font-size: 19px; line-height: 1.3; font-weight: 600; letter-spacing: -.01em; }
 h3 { font-size: 15px; font-weight: 600; }
@@ -70,6 +77,20 @@ body:has(.seite:target:not(#start)) #start, body:has(.seite:not(#start) :target)
 .mein-produkt img { width: 46px; height: 46px; border-radius: 10px; object-fit: cover; object-position: center 30%; }
 .mein-produkt small { display: block; font-size: 12px; color: var(--muted); }
 .mein-produkt b { display: block; font-size: 14px; font-weight: 600; line-height: 1.3; }
+button.mein-produkt { width: 100%; grid-template-columns: 46px minmax(0, 1fr) 14px; gap: 10px; padding: 10px 8px 10px 10px; border: 0; text-align: left; cursor: pointer; transition: background .15s; }
+button.mein-produkt b { font-size: 13.5px; }
+button.mein-produkt:hover, button.mein-produkt[aria-expanded="true"] { background: var(--honig); }
+.mein-produkt > svg { width: 14px; height: 14px; color: #8d887f; }
+.produkt-menue { position: fixed; z-index: 40; padding: 6px; border-radius: 14px; background: #fff; box-shadow: 0 0 0 1px #ece6db, 0 24px 50px -24px rgba(28, 32, 41, .45); }
+.produkt-menue a { display: grid; grid-template-columns: 40px minmax(0, 1fr) 16px; gap: 12px; align-items: center; padding: 8px 10px; border-radius: 10px; }
+.produkt-menue a:hover, .produkt-menue a:focus-visible { background: var(--hell); }
+.produkt-menue a[aria-current="true"] { background: var(--honig); }
+.produkt-menue img { width: 40px; height: 40px; border-radius: 10px; object-fit: cover; object-position: center 30%; }
+.produkt-menue b { display: block; font-size: 14px; font-weight: 600; line-height: 1.3; }
+.produkt-menue small { display: block; font-size: 12.5px; color: var(--muted); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.produkt-menue svg { width: 16px; height: 16px; color: var(--gold-dunkel); }
+.produkt-menue .menue-suche { margin-top: 4px; border-top: 1px solid var(--line); border-radius: 0 0 10px 10px; }
+.menue-lupe { width: 40px; height: 40px; border-radius: 10px; background: var(--hell); display: flex; align-items: center; justify-content: center; }
 .nav { display: grid; gap: 6px; margin-top: 16px; }
 .nav-punkt { display: flex; align-items: center; gap: 13px; height: 46px; padding: 0 14px; border-radius: 12px; font-size: 15px; color: #45413b; }
 .nav-punkt svg { flex: none; width: 22px; height: 22px; color: #6f6a62; }
@@ -152,11 +173,15 @@ body:has(.seite:target:not(#start)) #start, body:has(.seite:not(#start) :target)
 .tageszeit span { display: block; margin-top: 2px; font-size: 18px; font-weight: 700; color: var(--gold-dunkel); }
 
 .zeitleiste { list-style: none; position: relative; }
-.zeitleiste::before { content: ""; position: absolute; left: 11px; top: 8px; bottom: 8px; width: 2px; background: #ecdcc0; }
-.zeitleiste li { position: relative; display: grid; grid-template-columns: 24px 1fr; gap: 14px; padding-bottom: 16px; }
+.zeitleiste::before { content: ""; position: absolute; left: 17px; top: 18px; bottom: 18px; width: 2px; background: #ecdcc0; }
+.zeitleiste li { position: relative; display: grid; grid-template-columns: 36px 1fr; gap: 14px; padding-bottom: 18px; }
 .zeitleiste li:last-child { padding-bottom: 0; }
-.punkt { width: 24px; height: 24px; border-radius: 50%; background: #fff; border: 2px solid var(--gold); position: relative; z-index: 1; }
-.zeitleiste li:first-child .punkt { background: var(--gold); }
+.zeitleiste li > div { padding-top: 7px; }
+.punkt { position: relative; z-index: 1; width: 36px; height: 36px; border-radius: 50%; background: #fff; border: 1.5px solid #e2c88f; display: flex; align-items: center; justify-content: center; color: var(--gold-dunkel); }
+.punkt svg { width: 18px; height: 18px; }
+.zeitleiste li.erledigt .punkt { background: var(--honig); }
+.zeitleiste li.jetzt .punkt { background: var(--gold); border-color: var(--gold); color: var(--nacht); box-shadow: 0 0 0 5px rgba(201, 154, 69, .16); }
+.zeitleiste.persoenlich li.jetzt b::after { content: "Du bist hier"; margin-left: 8px; padding: 2px 8px; border-radius: 999px; background: var(--honig); font-size: 11.5px; font-weight: 600; color: var(--gold-dunkel); vertical-align: 1px; }
 .zeitleiste b { display: block; font-size: 14px; }
 .zeitleiste p { font-size: 14px; color: var(--muted); }
 
@@ -281,6 +306,160 @@ a.hilfe-zeile:hover { background: var(--honig); }
 .zahlen b { display: block; font-size: 24px; line-height: 1.1; font-weight: 700; color: var(--gold); }
 .zahlen span { display: block; margin-top: 4px; font-size: 12px; line-height: 1.3; color: rgba(255, 255, 255, .82); }
 
+/* Dein Stand: Glas, Tag, Häkchen, Nachkauf und Ziel. Gespeichert nur auf dem Gerät */
+.stand { padding: 24px 26px 18px; border-radius: 18px; background: #fff; border: 1px solid #ecdcb6; box-shadow: 0 1px 2px rgba(28, 32, 41, .03), 0 24px 46px -34px rgba(28, 32, 41, .5); }
+.stand h2 { font-size: 20px; }
+.stand-start { display: grid; grid-template-columns: minmax(0, 1fr) auto; gap: 16px 32px; align-items: end; }
+.stand-start .text-link { margin-top: 8px; }
+.datum-form { display: flex; flex-wrap: wrap; align-items: flex-end; gap: 10px; }
+.datum-chips { display: flex; flex-wrap: wrap; gap: 6px; }
+.datum-chips button { height: 42px; padding: 0 14px; border: 1px solid #e6dcc6; border-radius: 10px; background: #fff; font-size: 14px; font-weight: 600; cursor: pointer; }
+.datum-chips button:hover { border-color: var(--gold); }
+.datum-chips button[aria-pressed="true"] { background: var(--nacht); border-color: var(--nacht); color: #fff; }
+.datum-feld { display: grid; gap: 4px; font-size: 12.5px; font-weight: 600; color: #6e5a3a; }
+.datum-feld input { height: 42px; padding: 0 10px; border: 1.5px solid #e6dcc6; border-radius: 10px; background: #fff; font: inherit; font-size: 15px; color: var(--text); }
+.datum-feld input:focus { outline: 0; border-color: var(--gold); }
+.datum-form .knopf { margin-top: 0; min-height: 42px; padding: 0 22px; }
+.datum-form .text-link { height: 42px; }
+.stand-laeuft { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1.1fr); gap: 22px 36px; align-items: center; }
+.stand-glas { display: grid; grid-template-columns: 104px minmax(0, 1fr); gap: 20px; align-items: center; }
+[data-glas] { display: block; }
+.honigglas { display: block; width: 100%; height: auto; }
+.honig { transition: transform .8s cubic-bezier(.2, .8, .2, 1); }
+.stand-gruss { font-size: 14px; font-weight: 600; color: var(--gold-dunkel); }
+.stand-tag { margin-top: 2px; font-size: 17px; font-weight: 600; color: #45413b; }
+.stand-tag b { font-size: 46px; line-height: 1.05; font-weight: 700; letter-spacing: -.03em; color: var(--text); font-variant-numeric: tabular-nums; }
+.stand-tag.wort b { font-size: 30px; }
+.stand-rest { margin-top: 6px; font-size: 14px; color: var(--muted); }
+.stand-glas .text-link { display: inline-block; margin-top: 6px; }
+.heute-knopf { display: grid; grid-template-columns: 36px minmax(0, 1fr); gap: 12px; align-items: center; width: 100%; padding: 12px 14px; border: 1.5px solid #e2cf9f; border-radius: 14px; background: var(--creme); text-align: left; cursor: pointer; transition: background .2s, border-color .2s, color .2s; }
+.heute-knopf:hover, .dosis-knopf:hover { border-color: var(--gold); }
+.haken-kreis { width: 36px; height: 36px; border-radius: 50%; border: 2px solid var(--gold); background: #fff; display: flex; align-items: center; justify-content: center; color: transparent; transition: background .2s, color .2s; }
+.haken-kreis svg { width: 18px; height: 18px; }
+.heute-knopf[aria-pressed="true"], .dosis-knopf[aria-pressed="true"] { background: var(--nacht); border-color: var(--nacht); color: #fff; }
+.heute-knopf[aria-pressed="true"] .haken-kreis, .dosis-knopf[aria-pressed="true"] .haken-kreis { background: var(--gold); border-color: var(--gold); color: var(--nacht); }
+.heute-knopf b { display: block; font-size: 15px; }
+.heute-knopf small { display: block; font-size: 12.5px; color: var(--muted); }
+.heute-knopf[aria-pressed="true"] small { color: rgba(255, 255, 255, .72); }
+.dosen { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 8px; }
+.dosen.eins { grid-template-columns: minmax(0, 1fr); }
+.dosis-knopf { display: flex; flex-direction: column; align-items: center; gap: 6px; padding: 10px 6px; border: 1.5px solid #e2cf9f; border-radius: 14px; background: var(--creme); font-size: 13.5px; font-weight: 600; cursor: pointer; transition: background .2s, border-color .2s, color .2s; }
+.dosis-knopf .haken-kreis { width: 30px; height: 30px; }
+.tage-raster { list-style: none; display: grid; grid-template-columns: repeat(10, minmax(0, 1fr)); gap: 5px; margin-top: 12px; }
+.tage-raster.vierzehn { grid-template-columns: repeat(7, minmax(0, 1fr)); }
+.tage-raster li { display: flex; flex-direction: column; align-items: center; justify-content: center; aspect-ratio: 1; border-radius: 8px; border: 1px solid #efe8da; background: #fbfaf6; font-size: 11px; font-weight: 600; color: #b9ae96; font-variant-numeric: tabular-nums; }
+.tage-raster li.ja { background: var(--gold); border-color: var(--gold); color: var(--nacht); }
+.tage-raster li.teil { background: #fbf1da; border-color: #ecd8a8; color: var(--gold-dunkel); }
+.tage-raster li.geschaetzt { background: var(--honig); border-color: #ecdcb6; color: #9a8762; }
+.tage-raster li.nein { background: #fff; border-style: dashed; border-color: #e0d5bf; }
+.tage-raster li.heute { box-shadow: 0 0 0 2px var(--nacht); color: var(--text); }
+.pips { display: flex; gap: 2px; margin-top: 2px; }
+.pips i { width: 4px; height: 4px; border-radius: 50%; background: #e2d6bd; }
+.pips i.an { background: var(--nacht); }
+.serie { margin-top: 10px; font-size: 13.5px; color: #45413b; }
+.serie b { color: var(--gold-dunkel); }
+.stand-nachkauf { grid-column: 1 / -1; display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 12px 24px; padding-top: 18px; border-top: 1px solid var(--line); }
+.stand-nachkauf p { max-width: 520px; font-size: 14.5px; color: #45413b; }
+.stand-nachkauf b { color: var(--text); }
+.stand-knoepfe { display: flex; flex-wrap: wrap; align-items: center; gap: 8px 12px; }
+.stand-knoepfe .knopf { margin-top: 0; min-height: 42px; padding: 8px 16px; font-size: 14px; }
+.knopf svg { flex: none; width: 16px; height: 16px; }
+.check30 { grid-column: 1 / -1; padding: 16px 18px; border-radius: 14px; background: var(--creme); border: 1px solid #ecdcc0; }
+.check30 h3 { font-size: 16px; }
+.check30 p { margin-top: 4px; font-size: 14px; color: #45413b; }
+.check30-wahl { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 12px; }
+.check30-wahl button { height: 40px; padding: 0 18px; border: 1px solid #e2cf9f; border-radius: 10px; background: #fff; font-size: 14px; font-weight: 600; cursor: pointer; }
+.check30-wahl button:hover { background: var(--honig); }
+.check30 .stand-knoepfe { margin-top: 12px; }
+.modus-wahl { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 10px; }
+.modus-karte { display: grid; grid-template-columns: 40px minmax(0, 1fr); gap: 2px 12px; align-items: center; padding: 14px; border: 1.5px solid #ece3d0; border-radius: 14px; background: #fff; text-align: left; cursor: pointer; transition: border-color .15s, background .15s; }
+.modus-karte:hover { border-color: var(--gold); background: var(--creme); }
+.modus-karte .q-ikon { grid-row: 1 / span 2; }
+.modus-karte b { font-size: 15px; }
+.modus-karte small { font-size: 13px; color: var(--muted); }
+.q-ikon { width: 40px; height: 40px; border-radius: 12px; background: var(--honig); color: var(--gold-dunkel); display: flex; align-items: center; justify-content: center; }
+.q-ikon svg { width: 22px; height: 22px; }
+.ziel-zeile { display: grid; grid-template-columns: 48px minmax(0, 1fr) auto; gap: 12px 16px; align-items: center; margin-top: 20px; padding-top: 18px; border-top: 1px solid var(--line); }
+.ziel-ikon { width: 48px; height: 48px; border-radius: 14px; background: var(--nacht); color: var(--gold); display: flex; align-items: center; justify-content: center; }
+.ziel-ikon svg { width: 24px; height: 24px; }
+.ziel-zeile h3 { font-size: 16px; }
+.ziel-zeile p { margin-top: 2px; font-size: 14px; color: #45413b; }
+.ziel-zeile p b { color: var(--gold-dunkel); }
+.ziel-aktion { display: flex; flex-wrap: wrap; align-items: center; justify-content: flex-end; gap: 8px 16px; }
+.ziel-aktion .knopf { margin-top: 0; min-height: 42px; padding: 8px 18px; font-size: 14px; }
+.ziel-achsen { grid-column: 2 / -1; display: flex; flex-wrap: wrap; gap: 6px; }
+.achse-chip { padding: 5px 11px; border: 1px solid #e2cf9f; border-radius: 999px; background: var(--creme); font-size: 12.5px; font-weight: 600; color: #5b4a2c; cursor: pointer; }
+.achse-chip:hover { background: var(--honig); }
+.stand-fuss { display: flex; flex-wrap: wrap; align-items: center; gap: 6px 18px; margin-top: 16px; font-size: 12.5px; color: var(--muted); }
+.stand-fuss span { margin-left: auto; }
+button.text-link { padding: 0; border: 0; background: none; font-size: 14px; cursor: pointer; }
+.stand-fuss button.text-link { font-size: 13px; }
+
+/* Inhalt: Assistent für tiefere Fragen */
+.frag-box { display: grid; grid-template-columns: 48px minmax(0, 1fr); gap: 14px 16px; align-items: center; padding: 22px 24px; border-radius: 18px; background: var(--nacht); color: #fff; }
+.frag-box .blase { width: 48px; height: 48px; }
+.frag-box .blase svg { width: 22px; height: 22px; }
+.frag-box h2 { font-size: 19px; }
+.frag-box p { margin-top: 2px; font-size: 14px; color: rgba(255, 255, 255, .74); }
+.frag-zeile { grid-column: 1 / -1; display: grid; gap: 12px; }
+.frag-feld { display: flex; align-items: center; justify-content: space-between; gap: 10px; width: 100%; height: 50px; padding: 0 6px 0 16px; border: 0; border-radius: 12px; background: #fff; color: #8d887f; font-size: 15px; text-align: left; cursor: text; }
+.frag-feld:hover { box-shadow: 0 0 0 2px var(--gold); }
+.frag-senden { flex: none; width: 38px; height: 38px; border-radius: 10px; background: var(--nacht); display: flex; align-items: center; justify-content: center; }
+.frag-senden svg { width: 17px; height: 17px; }
+.frag-chips { display: flex; flex-wrap: wrap; gap: 8px; }
+.frag-chips button { padding: 7px 12px; border: 1px solid rgba(232, 196, 126, .5); border-radius: 999px; background: rgba(255, 255, 255, .06); color: #f6e7c6; font-size: 13px; font-weight: 500; cursor: pointer; }
+.frag-chips button:hover { background: rgba(232, 196, 126, .18); }
+.achse-frag { display: inline-flex; align-items: center; gap: 8px; margin-top: 18px; padding: 8px 14px; border: 1px solid #e2cf9f; border-radius: 999px; background: #fff; font-size: 13.5px; font-weight: 600; color: #5b4a2c; cursor: pointer; }
+.achse-frag:hover { background: var(--honig); }
+.achse-frag svg { width: 16px; height: 16px; }
+.achsen-liste button.fuer-ziel::after { content: ""; display: inline-block; width: 7px; height: 7px; margin-left: 8px; border-radius: 50%; background: var(--gold); vertical-align: 1px; }
+
+/* 30 Tage: Wenn es hakt, So ging es anderen */
+.hakt-raster { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); column-gap: 32px; margin-top: 12px; }
+.hakt-raster > details:first-of-type { margin-top: 0; }
+.hakt-raster .text-link { display: inline-block; margin-top: 4px; }
+.stimmen { list-style: none; display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 12px; margin-top: 16px; }
+.stimmen li { display: flex; flex-direction: column; padding: 16px; border-radius: 14px; background: var(--hell); }
+.stimme-zeit { align-self: flex-start; padding: 3px 10px; border-radius: 999px; background: var(--nacht); color: #fff; font-size: 12px; font-weight: 600; }
+.stimmen blockquote { margin-top: 10px; font-size: 14px; line-height: 1.5; color: #3f3b35; }
+.stimme-name { display: flex; flex-wrap: wrap; align-items: center; gap: 4px 8px; margin-top: auto; padding-top: 12px; font-size: 12.5px; color: var(--muted); }
+.mini-sterne { display: inline-flex; gap: 1px; color: var(--gold); }
+.mini-sterne svg { width: 12px; height: 12px; }
+.mini-sterne .aus { color: #f3e3c2; }
+.stimmen + .text-link { display: inline-block; margin-top: 14px; }
+
+/* Ziel-Quiz und App-Hinweis */
+.dialog-hell { width: min(94vw, 640px); max-width: none; max-height: 92vh; margin: auto; padding: 0; border: 0; border-radius: 22px; background: #fff; color: var(--text); box-shadow: 0 40px 80px -30px rgba(28, 32, 41, .55); overflow: auto; }
+.dialog-hell::backdrop { background: rgba(20, 22, 28, .55); }
+.quiz-kopf { display: grid; grid-template-columns: 44px minmax(0, 1fr) 38px; gap: 14px; align-items: center; padding: 22px 22px 0; }
+.quiz-glas { width: 44px; }
+.quiz-schritt { font-size: 13px; font-weight: 600; color: var(--gold-dunkel); }
+.quiz-kopf h2 { font-size: 21px; }
+.dialog-zu { width: 38px; height: 38px; border: 0; border-radius: 50%; background: var(--hell); color: #3c3a36; display: flex; align-items: center; justify-content: center; cursor: pointer; }
+.dialog-zu svg { width: 14px; height: 14px; }
+.quiz-antworten { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 10px; padding: 20px 22px 6px; animation: quizrein .28s ease-out; }
+@keyframes quizrein { from { opacity: 0; transform: translateX(14px); } }
+.quiz-antwort { display: grid; grid-template-columns: 40px minmax(0, 1fr); gap: 12px; align-items: center; min-height: 64px; padding: 12px 14px; border: 1.5px solid #ece3d0; border-radius: 14px; background: #fff; font-size: 15px; font-weight: 600; text-align: left; cursor: pointer; transition: border-color .15s, background .15s, transform .15s; }
+.quiz-antwort:hover { border-color: var(--gold); background: var(--creme); }
+.quiz-antwort:active { transform: scale(.98); }
+.quiz-antwort[aria-pressed="true"] { border-color: var(--nacht); background: var(--honig); }
+.quiz-ergebnis { padding: 16px 22px 4px; animation: quizrein .28s ease-out; }
+.plan-achsen { display: flex; flex-wrap: wrap; align-items: center; gap: 6px; }
+.plan-achsen p { margin-right: 4px; font-size: 14px; color: #45413b; }
+.plan-tipps { list-style: none; display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 10px; margin-top: 16px; }
+.plan-tipps li { padding: 14px; border-radius: 14px; background: var(--hell); }
+.plan-tipps b { display: block; font-size: 13px; color: var(--gold-dunkel); }
+.plan-tipps span { display: block; margin-top: 4px; font-size: 14px; line-height: 1.45; color: #3f3b35; }
+.plan-extra { margin-top: 12px; }
+.quiz-fuss { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 10px; padding: 14px 22px 22px; }
+.quiz-fuss:empty { display: none; }
+.quiz-fuss .knopf { margin-top: 0; }
+.app-symbol { width: 44px; height: 44px; border-radius: 11px; }
+.app-inhalt { padding: 14px 22px 22px; }
+.app-inhalt > p { font-size: 15px; color: #45413b; }
+.app-schritte { display: grid; gap: 8px; margin: 14px 0 0 20px; font-size: 14.5px; }
+.app-inhalt .knopf { margin-top: 16px; }
+
 /* Chat */
 .blase { flex: none; width: 30px; height: 30px; border-radius: 50%; background: var(--gold); display: flex; align-items: center; justify-content: center; }
 .blase svg { width: 16px; height: 16px; }
@@ -317,6 +496,9 @@ body.chat-offen .chat-fenster { display: flex; }
 .chat-eingabe button { flex: none; width: 46px; height: 46px; border: 0; border-radius: 12px; background: var(--nacht); display: flex; align-items: center; justify-content: center; cursor: pointer; }
 .chat-eingabe svg { width: 18px; height: 18px; }
 .chat-hinweis { padding: 2px 16px 12px; background: #fff; font-size: 11px; color: var(--muted); }
+.nachricht-links a.support-knopf { padding: 8px 14px; border-radius: 10px; background: var(--nacht); border-color: var(--nacht); color: #fff; }
+.nachricht-links a.support-knopf:hover { background: var(--nacht-2); }
+.chat-hinweis a { font-weight: 600; color: var(--gold-dunkel); }
 @media (min-width: 700px) { .chat-fenster { left: auto; right: 28px; bottom: 28px; width: 400px; height: 640px; max-height: calc(100vh - 56px); border-radius: 20px; box-shadow: 0 0 0 1px #e9e4da, 0 30px 60px -24px rgba(28, 32, 41, .45); } }
 
 /* Großansicht für Bilder, Video und Platzhalter */
@@ -340,6 +522,7 @@ body.chat-offen .chat-fenster { display: flex; }
   .zwei-spalten, .zwei-spalten.breit, .einnahme-raster { grid-template-columns: minmax(0, 1fr); }
   .bild-links { grid-template-columns: 1fr 1fr; }
   .bild-link img { aspect-ratio: 1; }
+  .stimmen { grid-template-columns: repeat(2, minmax(0, 1fr)); }
 }
 /* Handy: Kopfzeile mit Produkt, Kapitel unten als Leiste */
 @media (max-width: 999px) {
@@ -360,9 +543,11 @@ body.chat-offen .chat-fenster { display: flex; }
   .zurueck { flex: none; justify-content: center; width: 40px; padding: 0; }
   .zurueck span { display: none; }
   .zurueck svg { width: 20px; height: 20px; }
-  .top-produkt { display: flex; align-items: center; gap: 10px; min-width: 0; }
+  .top-produkt { display: flex; align-items: center; gap: 6px; min-width: 0; padding: 4px 6px 4px 4px; border: 0; border-radius: 12px; background: none; cursor: pointer; }
+  .top-produkt:hover, .top-produkt[aria-expanded="true"] { background: var(--hell); }
   .top-produkt img { flex: none; width: 34px; height: 34px; border-radius: 9px; object-fit: cover; object-position: center 30%; }
-  .top-produkt b { font-size: 15px; font-weight: 600; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+  .top-produkt b { font-size: 14px; font-weight: 600; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+  .top-produkt .runter { flex: none; width: 14px; height: 14px; color: #8d887f; }
   .assistent-knopf { flex: none; height: 40px; padding: 0 12px 0 5px; font-size: 13.5px; }
   .app { padding: 18px 16px 104px; }
   .tabbar { position: fixed; left: 0; right: 0; bottom: 0; z-index: 20; display: grid; grid-template-columns: repeat(6, minmax(0, 1fr)); padding: 6px 2px calc(6px + env(safe-area-inset-bottom)); background: rgba(255, 255, 255, .95); -webkit-backdrop-filter: blur(14px); backdrop-filter: blur(14px); border-top: 1px solid #ece6db; }
@@ -399,11 +584,37 @@ body.chat-offen .chat-fenster { display: flex; }
   .achse-panel { padding: 18px 16px; }
   .zutaten.lang { grid-template-columns: minmax(0, 1fr); }
   .weiter a { width: 100%; justify-content: center; }
+  .stand { padding: 20px 16px 16px; }
+  .stand-start, .stand-laeuft { grid-template-columns: minmax(0, 1fr); }
+  .stand-glas { grid-template-columns: 74px minmax(0, 1fr); gap: 16px; }
+  .stand-tag b { font-size: 40px; }
+  .datum-form { display: grid; grid-template-columns: minmax(0, 1fr); }
+  .datum-form .knopf { width: 100%; }
+  .modus-wahl { grid-template-columns: minmax(0, 1fr); }
+  .stand-nachkauf .stand-knoepfe { width: 100%; }
+  .stand-nachkauf .knopf { flex: 1 1 auto; padding: 8px 12px; white-space: nowrap; }
+  .ziel-zeile { grid-template-columns: 44px minmax(0, 1fr); }
+  .ziel-ikon { width: 44px; height: 44px; }
+  .ziel-aktion, .ziel-achsen { grid-column: 1 / -1; justify-content: flex-start; }
+  .stand-fuss span { width: 100%; margin-left: 0; }
+  .frag-box { padding: 18px 16px; }
+  .frag-feld { font-size: 14px; }
+  .hakt-raster, .stimmen { grid-template-columns: minmax(0, 1fr); }
+  .dialog-hell { width: 100vw; max-height: 94vh; margin: auto 0 0; border-radius: 22px 22px 0 0; }
+  .quiz-kopf { padding: 18px 16px 0; }
+  .quiz-antworten { gap: 8px; padding: 16px 16px 4px; }
+  .quiz-antwort { grid-template-columns: minmax(0, 1fr); justify-items: start; gap: 8px; min-height: 0; padding: 12px; font-size: 14.5px; }
+  .quiz-ergebnis { padding: 14px 16px 4px; }
+  .plan-tipps { grid-template-columns: minmax(0, 1fr); }
+  .quiz-fuss { padding: 12px 16px calc(18px + env(safe-area-inset-bottom)); }
+  .app-inhalt { padding: 12px 16px calc(20px + env(safe-area-inset-bottom)); }
 }
 @media (prefers-reduced-motion: reduce) {
   html { scroll-behavior: auto; }
   .ansicht:target, .ansicht:has(:target), .seite:target .ansicht.erste { animation: none; }
   .tippt i { animation: none; opacity: .6; }
+  .honig, .heute-knopf, .dosis-knopf, .haken-kreis { transition: none; }
+  .quiz-antworten, .quiz-ergebnis { animation: none; }
   summary svg { transition: none; }
 }
 </style>
@@ -444,6 +655,27 @@ body.chat-offen .chat-fenster { display: flex; }
   <symbol id="i-extern" viewBox="0 0 16 16"><path d="M6.5 3.5h-3v9h9v-3M9.5 2.5h4v4M13.5 2.5L8 8" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></symbol>
   <symbol id="i-schloss" viewBox="0 0 16 16"><g fill="none" stroke="currentColor" stroke-width="1.5"><rect x="3" y="7" width="10" height="7" rx="2"/><path d="M5.5 7V5a2.5 2.5 0 0 1 5 0v2"/></g></symbol>
   <symbol id="ruecksendung" viewBox="0 0 24 24"><g fill="none" stroke="#8a6219" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M8.5 6.5H4V2"/><path d="M4.4 6.5A8 8 0 1 1 4 12"/></g></symbol>
+  <symbol id="i-runter" viewBox="0 0 16 16"><path d="M4 6l4 4 4-4" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></symbol>
+  <symbol id="i-haken" viewBox="0 0 20 20"><path d="M5 10.5l3.2 3.2L15 6.8" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/></symbol>
+  <symbol id="t-keim" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M12 20v-8"/><path d="M12 12c0-4 2.8-6.5 7-6.5 0 4-2.8 6.5-7 6.5z"/><path d="M12 14.5c0-3.3-2.3-5.3-6-5.3 0 3.3 2.3 5.3 6 5.3z"/><path d="M7.5 20h9"/></g></symbol>
+  <symbol id="t-flamme" viewBox="0 0 24 24"><path d="M12 21c-3.9 0-6.5-2.6-6.5-6.2 0-3.3 2.4-5.2 3.6-8 .5 1.6 1.4 2.6 2.4 3.1.2-2.8 1.7-5.1 3.6-6.4-.2 2.9 1 4.6 2.3 6.3 1 1.3 1.6 2.9 1.6 4.9 0 3.7-2.9 6.3-7 6.3z" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linejoin="round"/></symbol>
+  <symbol id="t-thermo" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"><path d="M10 13.5V5a2 2 0 0 1 4 0v8.5a4 4 0 1 1-4 0z"/><path d="M12 10v6.5"/><path d="M17 6h2M17 9h2"/></g></symbol>
+  <symbol id="t-schild" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3l7 2.7v5.5c0 4.4-3 7.8-7 9.6-4-1.8-7-5.2-7-9.6V5.7z"/><path d="M9 12l2.2 2.2 3.8-4"/></g></symbol>
+  <symbol id="t-flocke" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3v18M4.2 7.5l15.6 9M4.2 16.5l15.6-9"/><path d="M9.6 4.6L12 7l2.4-2.4M9.6 19.4L12 17l2.4 2.4"/></g></symbol>
+  <symbol id="z-energie" viewBox="0 0 24 24"><path d="M13.5 2.5L5 13.5h6l-1.5 8L19 10.5h-6z" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linejoin="round"/></symbol>
+  <symbol id="z-schlaf" viewBox="0 0 24 24"><path d="M19.5 14.5A8 8 0 0 1 9.5 4.5a8 8 0 1 0 10 10z" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linejoin="round"/></symbol>
+  <symbol id="z-darm" viewBox="0 0 24 24"><path d="M8 4.5h6.5a3 3 0 0 1 0 6H9a3 3 0 0 0 0 6h6.5a3 3 0 0 1 0 6H9" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"/></symbol>
+  <symbol id="z-fokus" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-width="1.7"><circle cx="12" cy="12" r="8.5"/><circle cx="12" cy="12" r="4.5"/></g><circle cx="12" cy="12" r="1.4" fill="currentColor"/></symbol>
+  <symbol id="z-stress" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"><path d="M3.5 9h11a3 3 0 1 0-3-3"/><path d="M3.5 13h15a3 3 0 1 1-3 3"/><path d="M3.5 17h6"/></g></symbol>
+  <symbol id="z-morgen" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"><path d="M7 16.5a5 5 0 0 1 10 0"/><path d="M3 19.5h18"/><path d="M12 5v3M5.6 9.6l1.6 1.6M18.4 9.6l-1.6 1.6"/></g></symbol>
+  <symbol id="z-mittag" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"><circle cx="12" cy="12" r="4"/><path d="M12 3v2M12 19v2M3 12h2M19 12h2M5.6 5.6L7 7M17 17l1.4 1.4M5.6 18.4L7 17M17 7l1.4-1.4"/></g></symbol>
+  <symbol id="z-abend" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M18 15.5A7 7 0 0 1 9 6.5a7 7 0 1 0 9 9z"/><path d="M17 3.5v3M15.5 5h3"/></g></symbol>
+  <symbol id="z-essen" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M7 3v7a2 2 0 0 0 2 2v9M11 3v7a2 2 0 0 1-2 2M9 3v5"/><path d="M17 21V3c-2 1.5-3 4-3 7v3h3"/></g></symbol>
+  <symbol id="z-bildschirm" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4.5" width="18" height="12" rx="2"/><path d="M8.5 20h7M12 16.5V20"/></g></symbol>
+  <symbol id="z-unterwegs" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-width="1.7" stroke-linejoin="round"><rect x="4" y="7.5" width="16" height="12" rx="2.5"/><path d="M9 7.5V5.5A1.5 1.5 0 0 1 10.5 4h3A1.5 1.5 0 0 1 15 5.5v2M4 12.5h16"/></g></symbol>
+  <symbol id="z-familie" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M4 11l8-6.5 8 6.5"/><path d="M6 9.5V20h12V9.5"/><path d="M10 20v-5h4v5"/></g></symbol>
+  <symbol id="z-sport" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"><path d="M6.5 7.5v9M17.5 7.5v9M3.5 10v4M20.5 10v4M6.5 12h11"/></g></symbol>
+  <symbol id="z-kita" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-width="1.7" stroke-linejoin="round"><rect x="4" y="12" width="7" height="7" rx="1.5"/><rect x="13" y="12" width="7" height="7" rx="1.5"/><path d="M12 4l3.5 6h-7z"/></g></symbol>
 </svg>
 
 <div class="rahmen">
@@ -506,7 +738,7 @@ body.chat-offen .chat-fenster { display: flex; }
 <section class="seite produkt" id="nutrition-system" data-name="Bioaktives Nutrition-System" data-kurz="Deine tägliche Basis, 1 Teelöffel pro Tag" data-suche="omni9 omni 9 nutrition system bioaktiv bioactive basis täglich honig buchweizen set 3er 5er">
   <aside class="seitenleiste">
     <div class="logo-zeile"><img src="bilder/omni9-logo.svg" alt="OMNI9"></div>
-    <div class="mein-produkt"><img src="bilder/ns-glas.jpg" alt=""><div><small>Dein Produkt</small><b>Nutrition-System</b></div></div>
+    <button class="mein-produkt" type="button" title="Produkt wechseln" data-produktwahl aria-haspopup="menu" aria-expanded="false" aria-controls="produkt-menue"><img src="bilder/ns-glas.jpg" alt=""><span><small>Dein Produkt</small><b>Nutrition-System</b></span><svg><use href="#i-runter"/></svg></button>
     <nav class="nav" aria-label="Kapitel">
       <a class="nav-punkt" href="#ns-ueberblick" data-ansicht="ns-ueberblick"><svg><use href="#i-raster"/></svg>Überblick</a>
       <a class="nav-punkt" href="#ns-einnahme" data-ansicht="ns-einnahme"><svg><use href="#i-loeffel-linie"/></svg>Einnahme</a>
@@ -526,7 +758,7 @@ body.chat-offen .chat-fenster { display: flex; }
   <div class="hauptbereich">
     <header class="topleiste">
       <a class="zurueck" href="#start" aria-label="Anderes Produkt"><svg><use href="#zurueck"/></svg><span>Anderes Produkt</span></a>
-      <span class="top-produkt"><img src="bilder/ns-glas.jpg" alt=""><b>Nutrition-System</b></span>
+      <button class="top-produkt" type="button" title="Produkt wechseln" data-produktwahl aria-haspopup="menu" aria-expanded="false" aria-controls="produkt-menue"><img src="bilder/ns-glas.jpg" alt=""><b>Nutrition-System</b><svg class="runter"><use href="#i-runter"/></svg></button>
       <button class="assistent-knopf" type="button" data-chat><span class="blase"><svg><use href="#i-chat"/></svg></span>Assistent</button>
     </header>
     <main class="app">
@@ -541,6 +773,46 @@ body.chat-offen .chat-fenster { display: flex; }
             <div class="fakten"><span>Bio-zertifiziert</span><span>Made in Germany</span></div>
           </div>
         </header>
+        <section class="stand" id="ns-stand" aria-labelledby="ns-stand-titel">
+          <div class="stand-start" data-teil="start">
+            <div>
+              <h2 id="ns-stand-titel" data-start-titel>Wann hast du angefangen?</h2>
+              <p class="block-text">Dann siehst du jeden Tag, wo du stehst und wann dein Glas leer ist.</p>
+            </div>
+            <form class="datum-form" data-datum-form>
+              <div class="datum-chips" role="group" aria-label="Schnell wählen">
+                <button type="button" data-zurueck="0" aria-pressed="true">Heute</button>
+                <button type="button" data-zurueck="1" aria-pressed="false">Gestern</button>
+                <button type="button" data-zurueck="7" aria-pressed="false">Vor einer Woche</button>
+              </div>
+              <label class="datum-feld">Startdatum<input type="date" name="start" required></label>
+              <button class="knopf gold" type="submit">Speichern</button>
+              <button class="text-link" type="button" data-datum-abbrechen hidden>Abbrechen</button>
+            </form>
+          </div>
+          <div class="stand-laeuft" data-teil="laeuft" hidden>
+            <div class="stand-glas">
+              <span data-glas></span>
+              <div>
+                <p class="stand-gruss" data-gruss></p>
+                <p class="stand-tag" data-tag></p>
+                <p class="stand-rest" data-rest></p>
+              </div>
+            </div>
+            <div>
+              <button class="heute-knopf" type="button" data-heute aria-pressed="false"><span class="haken-kreis"><svg><use href="#i-haken"/></svg></span><span><b>Heute genommen</b><small data-heute-text>Tippen, wenn du deinen Löffel hattest</small></span></button>
+              <ol class="tage-raster" data-raster></ol>
+              <p class="serie" data-serie></p>
+            </div>
+            <div class="stand-nachkauf">
+              <p data-bestellen></p>
+              <div class="stand-knoepfe"><button class="knopf hell" type="button" data-kalender><svg><use href="#kalender"/></svg>In den Kalender</button><a class="knopf" href="#ns-nachkauf">Zum Nachkauf</a></div>
+            </div>
+            <div class="check30" data-check30 hidden></div>
+          </div>
+          <div class="ziel-zeile" data-ziel></div>
+          <p class="stand-fuss"><button class="text-link" type="button" data-datum-aendern hidden>Startdatum ändern</button><button class="text-link" type="button" data-neues-glas hidden>Neues Glas angefangen</button><button class="text-link" type="button" data-app>Als App aufs Handy</button><span>Deine Einträge bleiben auf diesem Gerät.</span></p>
+        </section>
         <section class="vorteile">
           <h2>Deine Vorteile mit OMNI9</h2>
           <div class="vorteil-raster">
@@ -593,10 +865,10 @@ body.chat-offen .chat-fenster { display: flex; }
         <div class="zwei-spalten">
           <div class="block">
             <ol class="zeitleiste">
-              <li><span class="punkt"></span><div><b>Tag 1 bis 3</b><p>Sanft starten. Ist dein Darm empfindlich, nimm anfangs etwas weniger als einen Teelöffel.</p></div></li>
-              <li><span class="punkt"></span><div><b>Tag 4 bis 14</b><p>Jeden Tag einen Teelöffel, am besten immer zur gleichen Zeit.</p></div></li>
-              <li><span class="punkt"></span><div><b>Tag 15 bis 30</b><p>Dranbleiben. Regelmäßigkeit ist die Voraussetzung dafür, dass Regeneration passieren kann.</p></div></li>
-              <li><span class="punkt"></span><div><b>Bevor das Glas leer ist</b><p>Ein Glas hat 30 Portionen. Bestell rechtzeitig nach, damit deine Routine nicht abreißt.</p></div></li>
+              <li class="jetzt"><span class="punkt"><svg><use href="#t-keim"/></svg></span><div><b>Tag 1 bis 3</b><p>Sanft starten. Ist dein Darm empfindlich, nimm anfangs etwas weniger als einen Teelöffel.</p></div></li>
+              <li><span class="punkt"><svg><use href="#i-loeffel-linie"/></svg></span><div><b>Tag 4 bis 14</b><p>Jeden Tag einen Teelöffel, am besten immer zur gleichen Zeit.</p></div></li>
+              <li><span class="punkt"><svg><use href="#t-flamme"/></svg></span><div><b>Tag 15 bis 30</b><p>Dranbleiben. Regelmäßigkeit ist die Voraussetzung dafür, dass Regeneration passieren kann.</p></div></li>
+              <li><span class="punkt"><svg><use href="#i-nachkauf"/></svg></span><div><b>Bevor das Glas leer ist</b><p>Ein Glas hat 30 Portionen. Bestell rechtzeitig nach, damit deine Routine nicht abreißt.</p></div></li>
             </ol>
           </div>
           <div class="spalte">
@@ -615,11 +887,45 @@ body.chat-offen .chat-fenster { display: flex; }
             </div>
           </div>
         </div>
+        <section class="block" id="ns-hakt">
+          <h2>Wenn es hakt</h2>
+          <p class="block-text">So kommst du wieder rein, wenn es mal nicht rund läuft.</p>
+          <div class="hakt-raster">
+            <details><summary>Ich vergesse es<svg><use href="#plus"/></svg></summary><p>Nimm deinen Löffel immer zur gleichen Zeit, zum Beispiel morgens, und stell das Glas sichtbar hin. Hak im Überblick jeden Tag ab, dann siehst du deine Serie wachsen.<br><a class="text-link" href="#ns-stand">Zum Abhaken</a></p></details>
+            <details><summary>Mein Bauch rumort<svg><use href="#plus"/></svg></summary><p>Ist dein Darm empfindlich, nimm die ersten Tage weniger und steigere dann langsam auf einen Teelöffel. So pendelt sich dein System sauber ein.</p></details>
+            <details><summary>Der Geschmack ist ungewohnt<svg><use href="#plus"/></svg></summary><p>Das schreiben einige in den Bewertungen, und auch, dass man sich schnell daran gewöhnt. Ein Tipp aus einer Bewertung: den Löffel langsam im Mund zergehen lassen.</p></details>
+            <details><summary>Ich merke noch nichts<svg><use href="#plus"/></svg></summary><p>Das ist individuell. In den ersten Tagen merken manche noch nichts, wichtig ist, dass du jeden Tag dranbleibst. Einige schreiben nach 2 bis 3 Wochen von mehr Energie.</p></details>
+          </div>
+        </section>
+        <section class="block">
+          <h2>So ging es anderen</h2>
+          <p class="block-text">Echte Bewertungen von omni9.de, nach Zeitpunkt sortiert. Jeder Körper ist anders.</p>
+          <ol class="stimmen">
+            <li><span class="stimme-zeit">Nach 5 Tagen</span><blockquote>„Ich nehme es erst seit fünf Tagen. Ich kann es noch nicht beurteilen.“</blockquote><p class="stimme-name"><span class="mini-sterne" role="img" aria-label="4 von 5 Sternen"><svg><use href="#stern"/></svg><svg><use href="#stern"/></svg><svg><use href="#stern"/></svg><svg><use href="#stern"/></svg><svg class="aus"><use href="#stern"/></svg></span>Ralf V., verifizierter Kauf</p></li>
+            <li><span class="stimme-zeit">In Woche 2</span><blockquote>„Ich bin nun in der zweiten Woche der Einnahme und meine, dass mein Körper jetzt schon mehr in den Ruhemodus geschaltet hat. Ich bin ausgeglichener und kann nachts besser schlafen.“</blockquote><p class="stimme-name"><span class="mini-sterne" role="img" aria-label="5 von 5 Sternen"><svg><use href="#stern"/></svg><svg><use href="#stern"/></svg><svg><use href="#stern"/></svg><svg><use href="#stern"/></svg><svg><use href="#stern"/></svg></span>Marc W., verifizierter Kauf</p></li>
+            <li><span class="stimme-zeit">Nach 2,5 Wochen</span><blockquote>„Habe Omni 9 zum ersten Mal ausprobiert und merke nach 2.5 Wochen schon deutlich mehr Energie. Der Geschmack ist gewöhnungsbedürftig, aber es wird zum Ritual und kostet keine große Überwindung.“</blockquote><p class="stimme-name"><span class="mini-sterne" role="img" aria-label="5 von 5 Sternen"><svg><use href="#stern"/></svg><svg><use href="#stern"/></svg><svg><use href="#stern"/></svg><svg><use href="#stern"/></svg><svg><use href="#stern"/></svg></span>Ruth E., verifizierter Kauf</p></li>
+            <li><span class="stimme-zeit">Glas 1 fast leer</span><blockquote>„Erstes Glas fast leer ist gut man muß sich an den Geschmack gewöhnen aber es geht mir besser“</blockquote><p class="stimme-name"><span class="mini-sterne" role="img" aria-label="5 von 5 Sternen"><svg><use href="#stern"/></svg><svg><use href="#stern"/></svg><svg><use href="#stern"/></svg><svg><use href="#stern"/></svg><svg><use href="#stern"/></svg></span>Claudia B., verifizierter Kauf</p></li>
+          </ol>
+          <a class="text-link" data-bewertung-link="ns" target="_blank" rel="noopener">Alle Bewertungen auf omni9.de</a>
+        </section>
         <div class="weiter"><a href="#ns-inhalt">Weiter: Was in OMNI9 steckt<svg><use href="#i-weiter"/></svg></a></div>
       </section>
 
       <section class="ansicht" id="ns-inhalt">
         <header class="ansicht-kopf"><h1>Was in OMNI9 steckt</h1><p>16 Zutaten mit 51 Mikronährstoff- und Wirkstoff-Komponenten, verbunden in einer bioaktiven Honigmatrix. Zusammen versorgen sie alle 9 Regenerations-Achsen deines Körpers.</p></header>
+        <section class="frag-box" aria-labelledby="ns-frag-titel">
+          <span class="blase"><svg><use href="#i-chat"/></svg></span>
+          <div><h2 id="ns-frag-titel">Tiefer einsteigen? Frag den Assistenten</h2><p>Er kennt jede Zutat und jede Achse und antwortet sofort.</p></div>
+          <div class="frag-zeile">
+            <button class="frag-feld" type="button" data-chat-frage=""><span>Deine Frage zu Zutaten oder Wirkung …</span><span class="frag-senden"><svg><use href="#i-senden"/></svg></span></button>
+            <div class="frag-chips">
+              <button type="button" data-chat-frage="Wofür ist NADH drin?">Wofür ist NADH drin?</button>
+              <button type="button" data-chat-frage="Was macht Ashwagandha?">Was macht Ashwagandha?</button>
+              <button type="button" data-chat-frage="Wie gut wird OMNI9 aufgenommen?">Wie gut wird OMNI9 aufgenommen?</button>
+              <button type="button" data-chat-frage="Ist OMNI9 vegan?">Ist OMNI9 vegan?</button>
+            </div>
+          </div>
+        </section>
         <div class="zwei-spalten">
           <button class="video" type="button" data-video="https://cdn.shopify.com/videos/c/vp/8ae7cbcb443242c294f687bcabce8d4c/8ae7cbcb443242c294f687bcabce8d4c.HD-720p-4.5Mbps-77505640.mp4#t=0,186" aria-label="Video ansehen: Wie OMNI9 entstanden ist">
             <img src="bilder/start-video.jpg" alt="">
@@ -843,7 +1149,7 @@ body.chat-offen .chat-fenster { display: flex; }
               <a class="hilfe-zeile" href="https://omni9.de/account" target="_blank" rel="noopener"><span class="ikon"><svg><use href="#kalender"/></svg></span><div><b>Automatische Lieferung verwalten</b><span>Nach der 2. Lieferung pausieren oder kündigen, im Kundenkonto</span></div><svg><use href="#i-extern"/></svg></a>
             </div>
             <h3 class="bewertung">Wie gefällt dir OMNI9?</h3>
-            <div class="sterne" role="radiogroup" aria-label="Deine Bewertung"><button type="button" role="radio" aria-checked="false" aria-label="1 Stern"><svg><use href="#stern"/></svg></button><button type="button" role="radio" aria-checked="false" aria-label="2 Sterne"><svg><use href="#stern"/></svg></button><button type="button" role="radio" aria-checked="false" aria-label="3 Sterne"><svg><use href="#stern"/></svg></button><button type="button" role="radio" aria-checked="false" aria-label="4 Sterne"><svg><use href="#stern"/></svg></button><button type="button" role="radio" aria-checked="false" aria-label="5 Sterne"><svg><use href="#stern"/></svg></button></div>
+            <div class="sterne" role="radiogroup" aria-label="Deine Bewertung" data-bewertung="ns"><button type="button" role="radio" aria-checked="false" aria-label="1 Stern"><svg><use href="#stern"/></svg></button><button type="button" role="radio" aria-checked="false" aria-label="2 Sterne"><svg><use href="#stern"/></svg></button><button type="button" role="radio" aria-checked="false" aria-label="3 Sterne"><svg><use href="#stern"/></svg></button><button type="button" role="radio" aria-checked="false" aria-label="4 Sterne"><svg><use href="#stern"/></svg></button><button type="button" role="radio" aria-checked="false" aria-label="5 Sterne"><svg><use href="#stern"/></svg></button></div>
             <div class="bewertung-antwort" hidden></div>
           </div>
         </div>
@@ -865,7 +1171,7 @@ body.chat-offen .chat-fenster { display: flex; }
 <section class="seite produkt" id="immun-booster" data-name="Immun Booster" data-kurz="Akut-Unterstützung, wenn ein Infekt kommt" data-suche="omni9 omni 9 immun booster immunbooster bioactive abwehr infekt erkältung akut propolis honig set 3er 5er">
   <aside class="seitenleiste">
     <div class="logo-zeile"><img src="bilder/omni9-logo.svg" alt="OMNI9"></div>
-    <div class="mein-produkt"><img src="bilder/ib-glas.jpg" alt=""><div><small>Dein Produkt</small><b>Immun Booster</b></div></div>
+    <button class="mein-produkt" type="button" title="Produkt wechseln" data-produktwahl aria-haspopup="menu" aria-expanded="false" aria-controls="produkt-menue"><img src="bilder/ib-glas.jpg" alt=""><span><small>Dein Produkt</small><b>Immun Booster</b></span><svg><use href="#i-runter"/></svg></button>
     <nav class="nav" aria-label="Kapitel">
       <a class="nav-punkt" href="#ib-ueberblick" data-ansicht="ib-ueberblick"><svg><use href="#i-raster"/></svg>Überblick</a>
       <a class="nav-punkt" href="#ib-einnahme" data-ansicht="ib-einnahme"><svg><use href="#i-loeffel-linie"/></svg>Einnahme</a>
@@ -885,7 +1191,7 @@ body.chat-offen .chat-fenster { display: flex; }
   <div class="hauptbereich">
     <header class="topleiste">
       <a class="zurueck" href="#start" aria-label="Anderes Produkt"><svg><use href="#zurueck"/></svg><span>Anderes Produkt</span></a>
-      <span class="top-produkt"><img src="bilder/ib-glas.jpg" alt=""><b>Immun Booster</b></span>
+      <button class="top-produkt" type="button" title="Produkt wechseln" data-produktwahl aria-haspopup="menu" aria-expanded="false" aria-controls="produkt-menue"><img src="bilder/ib-glas.jpg" alt=""><b>Immun Booster</b><svg class="runter"><use href="#i-runter"/></svg></button>
       <button class="assistent-knopf" type="button" data-chat><span class="blase"><svg><use href="#i-chat"/></svg></span>Assistent</button>
     </header>
     <main class="app">
@@ -900,6 +1206,37 @@ body.chat-offen .chat-fenster { display: flex; }
             <div class="fakten"><span>34 Mikronährstoffe</span><span>Made in Germany</span></div>
           </div>
         </header>
+        <section class="stand" id="ib-stand" aria-labelledby="ib-stand-titel">
+          <div class="stand-start" data-teil="start">
+            <div>
+              <h2 id="ib-stand-titel" data-start-titel>Wofür nimmst du den Booster gerade?</h2>
+              <p class="block-text">Dann siehst du deinen Plan und kannst jede Portion abhaken.</p>
+              <button class="text-link" type="button" data-quiz="ib">Nicht sicher? Dein Plan in 2 Fragen</button>
+            </div>
+            <div class="modus-wahl">
+              <button type="button" class="modus-karte" data-modus="akut"><span class="q-ikon"><svg><use href="#t-thermo"/></svg></span><b>Ich merke erste Anzeichen</b><small>3-mal am Tag, 5 bis 10 Tage</small></button>
+              <button type="button" class="modus-karte" data-modus="vorbeugend"><span class="q-ikon"><svg><use href="#t-schild"/></svg></span><b>Ich will vorbeugen</b><small>1 Teelöffel am Tag</small></button>
+            </div>
+          </div>
+          <div class="stand-laeuft" data-teil="laeuft" hidden>
+            <div class="stand-glas">
+              <span data-glas></span>
+              <div>
+                <p class="stand-gruss" data-gruss></p>
+                <p class="stand-tag" data-tag></p>
+                <p class="stand-rest" data-rest></p>
+                <a class="text-link" href="#ib-nachkauf" data-nachschub hidden>Nachschub bestellen</a>
+              </div>
+            </div>
+            <div>
+              <div class="dosen" data-dosen></div>
+              <ol class="tage-raster" data-raster></ol>
+              <p class="serie" data-serie></p>
+            </div>
+          </div>
+          <div class="ziel-zeile" data-ziel></div>
+          <p class="stand-fuss"><button class="text-link" type="button" data-modus-ende hidden>Akutphase beenden</button><button class="text-link" type="button" data-modus-akut hidden>Erste Anzeichen? Akutphase starten</button><button class="text-link" type="button" data-app>Als App aufs Handy</button><span>Deine Einträge bleiben auf diesem Gerät.</span></p>
+        </section>
         <section class="vorteile">
           <h2>Deine Vorteile mit dem Immun Booster</h2>
           <div class="vorteil-raster">
@@ -954,10 +1291,10 @@ body.chat-offen .chat-fenster { display: flex; }
         <div class="zwei-spalten">
           <div class="block">
             <ol class="zeitleiste">
-              <li><span class="punkt"></span><div><b>Erste Anzeichen</b><p>Sofort starten. So nutzt du das Zeitfenster, in dem dein Körper Unterstützung am besten verwerten kann.</p></div></li>
-              <li><span class="punkt"></span><div><b>5 bis 10 Tage</b><p>Morgens, mittags und abends je 1 Teelöffel (ca. 10 g).</p></div></li>
-              <li><span class="punkt"></span><div><b>Danach</b><p>Bei Bedarf wiederholen. In der Erkältungszeit vorbeugend 1 Teelöffel am Tag.</p></div></li>
-              <li><span class="punkt"></span><div><b>Vor der nächsten Erkältungszeit</b><p>Nachschub sichern, damit der Booster griffbereit ist.</p></div></li>
+              <li class="jetzt"><span class="punkt"><svg><use href="#t-thermo"/></svg></span><div><b>Erste Anzeichen</b><p>Sofort starten. So nutzt du das Zeitfenster, in dem dein Körper Unterstützung am besten verwerten kann.</p></div></li>
+              <li><span class="punkt"><svg><use href="#i-loeffel-linie"/></svg></span><div><b>5 bis 10 Tage</b><p>Morgens, mittags und abends je 1 Teelöffel (ca. 10 g).</p></div></li>
+              <li><span class="punkt"><svg><use href="#t-schild"/></svg></span><div><b>Danach</b><p>Bei Bedarf wiederholen. In der Erkältungszeit vorbeugend 1 Teelöffel am Tag.</p></div></li>
+              <li><span class="punkt"><svg><use href="#t-flocke"/></svg></span><div><b>Vor der nächsten Erkältungszeit</b><p>Nachschub sichern, damit der Booster griffbereit ist.</p></div></li>
             </ol>
           </div>
           <div class="spalte">
@@ -974,6 +1311,19 @@ body.chat-offen .chat-fenster { display: flex; }
 
       <section class="ansicht" id="ib-inhalt">
         <header class="ansicht-kopf"><h1>Was im Booster steckt</h1><p>Eine Akut-Formel in Honigmatrix aus 34 Mikronährstoff-Komponenten. Sie setzt parallel an Abwehr, Schleimhäuten, Entzündungsdruck, oxidativem Stress und Energie an.</p></header>
+        <section class="frag-box" aria-labelledby="ib-frag-titel">
+          <span class="blase"><svg><use href="#i-chat"/></svg></span>
+          <div><h2 id="ib-frag-titel">Tiefer einsteigen? Frag den Assistenten</h2><p>Er kennt jede Zutat und jeden Komplex und antwortet sofort.</p></div>
+          <div class="frag-zeile">
+            <button class="frag-feld" type="button" data-chat-frage=""><span>Deine Frage zu Zutaten oder Wirkung …</span><span class="frag-senden"><svg><use href="#i-senden"/></svg></span></button>
+            <div class="frag-chips">
+              <button type="button" data-chat-frage="Was macht Propolis?">Was macht Propolis?</button>
+              <button type="button" data-chat-frage="Was macht Holunder?">Was macht Holunder?</button>
+              <button type="button" data-chat-frage="Darf ich ihn in Tee nehmen?">Darf ich ihn in Tee nehmen?</button>
+              <button type="button" data-chat-frage="Ist der Booster vegan?">Ist der Booster vegan?</button>
+            </div>
+          </div>
+        </section>
         <section class="block">
           <h2>Drei Komplexe für die Akutphase</h2>
           <p class="block-text">Tipp auf einen Komplex und sieh, wann er dir hilft.</p>
@@ -1114,7 +1464,7 @@ body.chat-offen .chat-fenster { display: flex; }
               <a class="hilfe-zeile" href="https://omni9.de/account" target="_blank" rel="noopener"><span class="ikon"><svg><use href="#kalender"/></svg></span><div><b>Automatische Lieferung verwalten</b><span>Nach der 2. Lieferung pausieren oder kündigen, im Kundenkonto</span></div><svg><use href="#i-extern"/></svg></a>
             </div>
             <h3 class="bewertung">Wie gefällt dir der Immun Booster?</h3>
-            <div class="sterne" role="radiogroup" aria-label="Deine Bewertung"><button type="button" role="radio" aria-checked="false" aria-label="1 Stern"><svg><use href="#stern"/></svg></button><button type="button" role="radio" aria-checked="false" aria-label="2 Sterne"><svg><use href="#stern"/></svg></button><button type="button" role="radio" aria-checked="false" aria-label="3 Sterne"><svg><use href="#stern"/></svg></button><button type="button" role="radio" aria-checked="false" aria-label="4 Sterne"><svg><use href="#stern"/></svg></button><button type="button" role="radio" aria-checked="false" aria-label="5 Sterne"><svg><use href="#stern"/></svg></button></div>
+            <div class="sterne" role="radiogroup" aria-label="Deine Bewertung" data-bewertung="ib"><button type="button" role="radio" aria-checked="false" aria-label="1 Stern"><svg><use href="#stern"/></svg></button><button type="button" role="radio" aria-checked="false" aria-label="2 Sterne"><svg><use href="#stern"/></svg></button><button type="button" role="radio" aria-checked="false" aria-label="3 Sterne"><svg><use href="#stern"/></svg></button><button type="button" role="radio" aria-checked="false" aria-label="4 Sterne"><svg><use href="#stern"/></svg></button><button type="button" role="radio" aria-checked="false" aria-label="5 Sterne"><svg><use href="#stern"/></svg></button></div>
             <div class="bewertung-antwort" hidden></div>
           </div>
         </div>
@@ -1140,13 +1490,38 @@ body.chat-offen .chat-fenster { display: flex; }
   <div class="chat-verlauf" id="chat-verlauf"></div>
   <div class="chat-vorschlaege" id="chat-vorschlaege"></div>
   <form class="chat-eingabe" id="chat-form"><input id="chat-feld" autocomplete="off" placeholder="Schreib deine Frage …" aria-label="Deine Frage"><button type="submit" aria-label="Senden"><svg><use href="#i-senden"/></svg></button></form>
-  <p class="chat-hinweis">Antworten aus den Produktinfos von OMNI9. Ersetzt keine ärztliche Beratung.</p>
+  <p class="chat-hinweis">Antworten aus den Produktinfos von OMNI9. Ersetzt keine ärztliche Beratung. <a id="chat-mensch" href="mailto:service@omni9.de?subject=Frage%20an%20den%20Support">Lieber einem Menschen schreiben</a></p>
 </div>
 
 <dialog class="gross" id="gross" aria-label="Großansicht">
   <button class="gross-zu" type="button" aria-label="Schließen"><svg><use href="#i-x"/></svg></button>
   <div class="gross-inhalt" id="gross-inhalt"></div>
 </dialog>
+
+<dialog class="dialog-hell" id="quiz" aria-labelledby="quiz-titel">
+  <div class="quiz-kopf">
+    <span class="quiz-glas" data-glas></span>
+    <div><p class="quiz-schritt" id="quiz-schritt"></p><h2 id="quiz-titel"></h2></div>
+    <button class="dialog-zu" type="button" data-dialog-zu aria-label="Schließen"><svg><use href="#i-x"/></svg></button>
+  </div>
+  <div id="quiz-koerper"></div>
+  <div class="quiz-fuss" id="quiz-fuss"></div>
+</dialog>
+
+<dialog class="dialog-hell" id="app-dialog" aria-labelledby="app-titel">
+  <div class="quiz-kopf">
+    <img class="app-symbol" src="bilder/app-icon-180.png" alt="">
+    <div><h2 id="app-titel">OMNI9 als App aufs Handy</h2></div>
+    <button class="dialog-zu" type="button" data-dialog-zu aria-label="Schließen"><svg><use href="#i-x"/></svg></button>
+  </div>
+  <div class="app-inhalt">
+    <p>Dann bist du mit einem Tippen bei deinem Stand und deinen Häkchen, ganz ohne App Store.</p>
+    <ol class="app-schritte" id="app-schritte"></ol>
+    <button class="knopf gold" type="button" id="app-installieren" hidden>Jetzt installieren</button>
+  </div>
+</dialog>
+
+<div class="produkt-menue" id="produkt-menue" role="menu" aria-label="Produkt wählen" hidden></div>
 
 <script>
 (function () {
@@ -1271,6 +1646,10 @@ body.chat-offen .chat-fenster { display: flex; }
 
   /* Chat: Antworten nur aus den Produktinfos und Richtlinien von omni9.de.
      p = Produkt (alle, ns, ib), k = Stichwörter, w = schwache Stichwörter, l = Links [Text, Ziel]. */
+  var BEWERTUNG = {
+    ns: "https://omni9.de/products/omni9-bioaktive-nutrition?variant=56780244877660#loox-review",
+    ib: "https://omni9.de/products/omni9-immun-booster?variant=56549866013020#loox-review"
+  };
   var L = {
     ns: ["Zum Nutrition-System", "#nutrition-system"],
     ib: ["Zum Immun Booster", "#immun-booster"],
@@ -1281,7 +1660,6 @@ body.chat-offen .chat-fenster { display: flex; }
     versand: ["Versand-Infos", "https://omni9.de/policies/shipping-policy"],
     widerruf: ["Widerruf und Garantie", "https://omni9.de/policies/refund-policy"],
     konto: ["Zum Kundenkonto", "https://omni9.de/account"],
-    bewertung: ["Bewertung schreiben", "https://omni9.de/pages/bewertungen"],
     mail: ["E-Mail schreiben", "mailto:service@omni9.de?subject=Frage%20zu%20OMNI9"]
   };
   var WISSEN = [
@@ -1297,10 +1675,12 @@ body.chat-offen .chat-fenster { display: flex; }
     { p: "alle", k: ["widerruf", "rueckgabe", "zuruecksenden", "zurueckschick", "retoure", "umtausch", "zurueckgeben", "ruecksendung"], a: "Du hast 14 Tage Widerrufsrecht. Aus Hygienegründen gilt das nicht für Gläser, deren Versiegelung nach der Lieferung entfernt wurde. Sets kannst du nur vollständig und ungeöffnet zurückgeben. Die Kosten für die Rücksendung trägst du selbst.", l: [L.widerruf] },
     { p: "alle", k: ["garantie", "geld zurueck", "erstatt", "nicht zufrieden", "unzufrieden", "wirkt nicht", "hilft nicht"], a: "Für das Nutrition-System gibt es eine freiwillige 90-Tage-Geld-zurück-Garantie. Die Bedingungen: Du hast es mindestens 90 Tage regelmäßig eingenommen und dafür mindestens 3 Gläser gekauft. Für automatische Lieferungen gilt sie nicht. Melde dich mit deinem Kaufnachweis bei service@omni9.de.", l: [L.widerruf, L.mail] },
     { p: "alle", k: ["schwanger", "stillzeit", "stillen", "medikament", "vorerkrank", "erkrankung", "blutverduenn", "arzt", "chronisch", "krankheit"], a: "Bei Schwangerschaft, Stillzeit, Vorerkrankungen oder wenn du Medikamente nimmst, kläre die Einnahme bitte vorher mit deinem Arzt oder deiner Apotheke ab." },
-    { p: "alle", k: ["kind", "jugendlich", "baby", "teenager"], a: "Zur Einnahme bei Kindern und Jugendlichen haben wir in unseren Produktinfos keine Angabe. Bitte kläre das vorher ärztlich ab oder schreib uns.", l: [L.mail] },
+    { p: "alle", k: ["kind", "jugendlich", "baby", "teenager"], a: "Zur Einnahme bei Kindern und Jugendlichen haben wir in unseren Produktinfos keine Angabe. Bitte kläre das vorher ärztlich ab oder frag unser Team.", s: 1 },
     { p: "alle", k: ["nico", "gruender", "wer steckt", "hinter omni9", "wer hat omni9", "entstanden", "geschichte"], a: "OMNI9 hat Nico gegründet. Er war selbst lange erschöpft, hatte Nebel im Kopf, und einzelne Supplements haben ihm nicht geholfen. Daraus entstand die Idee, alle 9 Regenerations-Achsen gleichzeitig zu versorgen: mit Superfoods in einer Honigmatrix, ein Löffel am Tag. Seine Geschichte erzählt Nico im Video.", l: [["Video ansehen", "#ns-inhalt"]] },
     { p: "alle", k: ["kontakt", "mensch", "mitarbeiter", "support", "email", "e mail", " mail ", "telefon", "anrufen", "kundenservice", "service", "erreiche"], a: "Unser Team erreichst du per E-Mail an service@omni9.de. Wir helfen dir gern weiter.", l: [L.mail] },
-    { p: "alle", k: ["bewertung", "bewerten", "rezension", "erfahrung teilen", "sterne", "feedback"], a: "Danke, dass du deine Erfahrung teilen willst! Bewertungen kannst du direkt auf omni9.de abgeben.", l: [L.bewertung] },
+    { p: "alle", k: ["bewertung", "bewerten", "rezension", "erfahrung teilen", "sterne", "feedback"], a: "Danke, dass du deine Erfahrung teilen willst! Bewertungen kannst du direkt auf omni9.de abgeben.", l: [["Nutrition-System bewerten", BEWERTUNG.ns], ["Immun Booster bewerten", BEWERTUNG.ib]] },
+    { p: "ns", k: ["bewertung", "bewerten", "rezension", "erfahrung teilen", "sterne", "feedback"], a: "Danke, dass du deine Erfahrung teilen willst! Deine Bewertung zum Nutrition-System kannst du direkt auf omni9.de abgeben.", l: [["Bewertung schreiben", BEWERTUNG.ns]] },
+    { p: "ib", k: ["bewertung", "bewerten", "rezension", "erfahrung teilen", "sterne", "feedback"], a: "Danke, dass du deine Erfahrung teilen willst! Deine Bewertung zum Immun Booster kannst du direkt auf omni9.de abgeben.", l: [["Bewertung schreiben", BEWERTUNG.ib]] },
     { p: "alle", k: [" set ", " sets ", "3er", "5er", "bundle", "vorrat", "mehrere glaeser", "vorteilspaket", "kostet das set", "set kostet"], a: "Es gibt zwei Sets, in denen der Immun Booster gratis dabei ist: 3 Gläser Nutrition-System mit 1 Immun Booster für 249 € statt 330,90 € und 5 Gläser mit 2 Immun Boostern für 399 € statt 563 €.", l: [["3er Set ansehen", "https://omni9.de/products/3er-set-gratis-immun-booster"], ["5er Set ansehen", "https://omni9.de/products/5er-set-2x-gratis-immun-booster"]] },
     { p: "alle", k: ["wie lange reicht", "reicht ein glas", "portion", "glas reicht", "wie lange haelt ein glas"], a: "Ein Glas Nutrition-System hat 30 Portionen und reicht bei einem Teelöffel pro Tag einen Monat. Ein Glas Immun Booster hat ca. 30 Portionen, das reicht für eine Akutphase von bis zu 10 Tagen mit 3 Teelöffeln am Tag." },
     { p: "alle", k: ["vegan", "vegetar", "tierisch"], a: "Beide Produkte basieren auf Bio-Honig und sind deshalb nicht vegan. Das Omega-3 im Nutrition-System stammt aus Algenöl, nicht aus Fisch." },
@@ -1340,9 +1720,9 @@ body.chat-offen .chat-fenster { display: flex; }
     { p: "ns", k: ["honig", "matrix", "buchweizen"], a: "Der Bio-Buchweizenhonig ist die Matrix: Er macht die Einnahme angenehm, schützt die Wirkstoffe und lässt sie sanft im Darm ankommen." },
     { p: "ns", k: ["aufnahme", "aufgenommen", "bioverfueg", "600", "kommt an", "verwert"], a: "Damit die Nährstoffe auch ankommen, wirkt die bioaktive Honigmatrix als natürliches Transportsystem. Sie steigert die Überlebensrate und Aufnahme der Nährstoffe im Darm um bis zu 600 %. Dazu kommen Akazienfaser und Sporen-Probiotika, Piperin für Curcumin und mikroverkapseltes NADH." },
     { p: "ns", k: ["wann wirkt", "wirkung", "wann merke", "merke ich", "spuere", "wie schnell", "bringt das", "dauert es"], a: "Das ist individuell. Wichtig ist, dass du OMNI9 jeden Tag nimmst und dranbleibst. Und für das Nutrition-System gibt es eine 90-Tage-Geld-zurück-Garantie, die Bedingungen findest du unter Widerruf und Garantie.", l: [L.widerruf] },
-    { p: "ns", k: ["lager", "aufbewahr", "kuehlschrank", "haltbar", "temperatur"], a: "Zur Lagerung des Nutrition-Systems habe ich keine Angabe in unseren Produktinfos. Bitte schau aufs Etikett oder schreib uns.", l: [L.mail] },
+    { p: "ns", k: ["lager", "aufbewahr", "kuehlschrank", "haltbar", "temperatur"], a: "Zur Lagerung des Nutrition-Systems habe ich keine Angabe in unseren Produktinfos. Bitte schau aufs Etikett oder frag unser Team.", s: 1 },
     { p: "ns", k: ["geschmack", "schmeckt", "bitter", "suess", "herb"], a: "Die Basis ist Bio-Buchweizenhonig, dazu kommen 16 Pflanzen- und Nährstoffzutaten. In den Bewertungen schreiben einige, dass der Geschmack anfangs ungewohnt ist und schnell zum Ritual wird." },
-    { p: "ns", k: [" tee ", " tees ", "kaffee", "joghurt", "muesli", "einruehr", "getraenk"], a: "Dazu haben wir für das Nutrition-System keine Angabe. Für den Immun Booster gilt: nur in warmem Tee unter 40 °C, damit die bioaktiven Bestandteile erhalten bleiben. Frag im Zweifel kurz bei uns nach.", l: [L.mail] },
+    { p: "ns", k: [" tee ", " tees ", "kaffee", "joghurt", "muesli", "einruehr", "getraenk"], a: "Dazu haben wir für das Nutrition-System keine Angabe. Für den Immun Booster gilt: nur in warmem Tee unter 40 °C, damit die bioaktiven Bestandteile erhalten bleiben. Frag im Zweifel kurz bei uns nach.", s: 1 },
     { p: "ns", k: ["teuer", "lohnt", "preis leistung", "pro tag", "einzeln kaufen"], a: "Mit automatischer Lieferung kostet das Nutrition-System 69 € im Monat, also etwa 2,30 € am Tag. Wer die gleichen Bereiche mit einzelnen Supplements abdeckt, zahlt laut OMNI9-Vergleich rund 397 € im Monat, etwa 13,32 € am Tag.", l: [L.nsKauf] },
 
     { p: "ib", k: ["einnehm", "einnahme", "dosier", "wie viel", "wieviel", "menge", "teeloeffel", "loeffel", "dosis", "wie nehme", "wie oft"], a: "In der Akutphase 1 Teelöffel (ca. 10 g) morgens, mittags und abends, für 5 bis 10 Tage. Bei Bedarf kannst du die Kur wiederholen. Vorbeugend reicht 1 Teelöffel am Tag." },
@@ -1368,7 +1748,7 @@ body.chat-offen .chat-fenster { display: flex; }
     ns: { thema: "Fragen zu allen OMNI9-Produkten", gruss: "Hallo! Ich bin der OMNI9 Assistent. Frag mich alles zum Nutrition-System, zum Immun Booster, zu Versand oder Nachkauf.", vorschlaege: ["Wie nehme ich OMNI9 ein?", "Wofür ist NADH drin?", "Wie lange reicht ein Glas?", "Kann ich den Booster dazu nehmen?", "Wie funktioniert die automatische Lieferung?"], demo: ["Wofür ist NADH drin?", "Was ist im Immun Booster drin?", "Wie funktioniert die automatische Lieferung?"] },
     ib: { thema: "Fragen zu allen OMNI9-Produkten", gruss: "Hallo! Ich bin der OMNI9 Assistent. Frag mich alles zum Immun Booster, zum Nutrition-System, zu Versand oder Nachkauf.", vorschlaege: ["Wie dosiere ich den Booster?", "Darf ich ihn in Tee nehmen?", "Was macht Propolis?", "Wie lange reicht ein Glas?", "Kann ich ihn vorbeugend nehmen?"], demo: ["Darf ich ihn in Tee nehmen?", "Was macht Propolis?"] }
   };
-  var KEINE_ANTWORT = "Dazu habe ich in unseren Produktinfos keine sichere Antwort. Schreib uns gern an service@omni9.de, unser Team hilft dir weiter.";
+  var KEINE_ANTWORT = "Dazu habe ich in unseren Produktinfos keine sichere Antwort. Unser Team hilft dir gern weiter: Schick deine Frage mit einem Klick per E-Mail.";
 
   function norm(s) {
     return s.toLowerCase().replace(/ä/g, "ae").replace(/ö/g, "oe").replace(/ü/g, "ue").replace(/ß/g, "ss").replace(/[^a-z0-9% ]+/g, " ").replace(/\s+/g, " ").trim();
@@ -1410,10 +1790,10 @@ body.chat-offen .chat-fenster { display: flex; }
       if (e.p === ctx) s += 1;
       if (s > punkte) { punkte = s; beste = e; }
     });
-    if (!beste) return { a: KEINE_ANTWORT, l: [L.mail] };
+    if (!beste) return { a: KEINE_ANTWORT, l: [], s: true };
     var a = beste.a;
     if (beste.p !== "alle" && ctx !== "start" && beste.p !== ctx && nennt !== beste.p) a = (beste.p === "ns" ? "Zum Nutrition-System: " : "Zum Immun Booster: ") + a;
-    return { a: a, l: beste.l || [] };
+    return { a: a, l: beste.l || [], s: !!beste.s };
   }
 
   var verlauf = document.getElementById("chat-verlauf");
@@ -1421,6 +1801,13 @@ body.chat-offen .chat-fenster { display: flex; }
   var chatFeld = document.getElementById("chat-feld");
   var thema = document.getElementById("chat-thema");
   var aktiv = null;
+  var menschLink = document.getElementById("chat-mensch");
+  /* Support-Mail mit der Frage schon drin: für Fragen ohne Antwort und für „Lieber einem Menschen schreiben“ */
+  function supportMail(frage, ohneAntwort) {
+    var produkt = aktiv === "ns" ? "Bioaktives Nutrition-System" : aktiv === "ib" ? "Immun Booster" : "";
+    var text = "Hallo OMNI9-Team,\n\n" + (frage ? (ohneAntwort ? "ich habe eine Frage, auf die der Assistent im Produkt-Hub keine Antwort hatte:" : "ich habe eine Frage:") + "\n\n" + frage + "\n\n" : "ich habe eine Frage:\n\n\n\n") + (produkt ? "Mein Produkt: " + produkt + "\n\n" : "") + "Viele Grüße";
+    return "mailto:service@omni9.de?subject=" + encodeURIComponent("Frage an den Support") + "&body=" + encodeURIComponent(text);
+  }
   function nachricht(text, wer, links) {
     var d = document.createElement("div");
     d.className = "nachricht " + wer;
@@ -1432,6 +1819,7 @@ body.chat-offen .chat-fenster { display: flex; }
         var a = document.createElement("a");
         a.textContent = l[0];
         a.href = l[1];
+        if (l[2]) a.className = l[2];
         if (/^https?:/.test(l[1])) { a.target = "_blank"; a.rel = "noopener"; }
         if (l[1].charAt(0) === "#") a.addEventListener("click", schliessen);
         box.appendChild(a);
@@ -1446,6 +1834,7 @@ body.chat-offen .chat-fenster { display: flex; }
     verlauf.innerHTML = "";
     thema.textContent = THEMEN[ctx].thema;
     nachricht(THEMEN[ctx].gruss, "bot");
+    menschLink.href = supportMail("");
     vorschlaege.innerHTML = "";
     THEMEN[ctx].vorschlaege.forEach(function (v) {
       var b = document.createElement("button");
@@ -1460,13 +1849,15 @@ body.chat-offen .chat-fenster { display: flex; }
     if (!text) return;
     nachricht(text, "ich");
     var r = antwort(text, aktiv);
-    if (sofort) { nachricht(r.a, "bot", r.l); return; }
+    var links = r.s ? [["Frage an den Support senden", supportMail(text, true), "support-knopf"]].concat(r.l) : r.l;
+    menschLink.href = supportMail(text);
+    if (sofort) { nachricht(r.a, "bot", links); return; }
     var t = document.createElement("div");
     t.className = "nachricht bot";
     t.innerHTML = '<span class="tippt"><i></i><i></i><i></i></span>';
     verlauf.appendChild(t);
     verlauf.scrollTop = verlauf.scrollHeight;
-    setTimeout(function () { t.remove(); nachricht(r.a, "bot", r.l); }, 650);
+    setTimeout(function () { t.remove(); nachricht(r.a, "bot", links); }, 650);
   }
   function oeffnen() {
     var ctx = kontext();
@@ -1531,6 +1922,7 @@ body.chat-offen .chat-fenster { display: flex; }
   gross.addEventListener("click", function (e) { if (e.target === gross) gross.close(); });
   gross.querySelector(".gross-zu").addEventListener("click", function () { gross.close(); });
   gross.addEventListener("close", function () {
+    if (gross.open) return;
     var v = grossInhalt.querySelector("video");
     if (v) v.pause();
     grossInhalt.innerHTML = "";
@@ -1593,7 +1985,7 @@ body.chat-offen .chat-fenster { display: flex; }
         if (i >= 3) {
           p.textContent = "Danke, das freut uns sehr! Magst du deine Erfahrung mit anderen teilen?";
           a.textContent = "Bewertung schreiben";
-          a.href = "https://omni9.de/pages/bewertungen";
+          a.href = BEWERTUNG[gruppe.dataset.bewertung];
           a.target = "_blank";
           a.rel = "noopener";
         } else {
@@ -1607,6 +1999,661 @@ body.chat-offen .chat-fenster { display: flex; }
       });
     });
   });
+
+  document.querySelectorAll("[data-bewertung-link]").forEach(function (a) { a.href = BEWERTUNG[a.dataset.bewertungLink]; });
+
+  /* ---------- Persönlicher Bereich: Glas, Häkchen, Ziel und Plan. Alles bleibt im Browser des Kunden ---------- */
+  var SPEICHER = "omni9-hub";
+  var daten = {};
+  /* ?neu=1 setzt den Stand zurück, zum Beispiel vor einer Vorführung */
+  try { if (params.get("neu") === "1") localStorage.removeItem(SPEICHER); daten = JSON.parse(localStorage.getItem(SPEICHER)) || {}; } catch (e) { daten = {}; }
+  daten.ns = daten.ns || {};
+  daten.ns.genommen = daten.ns.genommen || [];
+  daten.ib = daten.ib || {};
+  daten.ib.dosen = daten.ib.dosen || {};
+  daten.ziel = daten.ziel || {};
+  function sichern() {
+    try { localStorage.setItem(SPEICHER, JSON.stringify(daten)); } catch (e) { /* privater Modus: der Stand gilt bis zum Neuladen */ }
+  }
+  function zweistellig(n) { return (n < 10 ? "0" : "") + n; }
+  function heute() { var d = new Date(); return d.getFullYear() + "-" + zweistellig(d.getMonth() + 1) + "-" + zweistellig(d.getDate()); }
+  function utc(s) { var p = s.split("-"); return Date.UTC(+p[0], +p[1] - 1, +p[2]); }
+  function tageZwischen(a, b) { return Math.round((utc(b) - utc(a)) / 864e5); }
+  function plusTage(s, n) { var d = new Date(utc(s) + n * 864e5); return d.getUTCFullYear() + "-" + zweistellig(d.getUTCMonth() + 1) + "-" + zweistellig(d.getUTCDate()); }
+  var WOCHENTAGE = ["Sonntag", "Montag", "Dienstag", "Mittwoch", "Donnerstag", "Freitag", "Samstag"];
+  var MONATE = ["Januar", "Februar", "März", "April", "Mai", "Juni", "Juli", "August", "September", "Oktober", "November", "Dezember"];
+  function datumText(s) { var d = new Date(utc(s)); return WOCHENTAGE[d.getUTCDay()] + ", " + d.getUTCDate() + ". " + MONATE[d.getUTCMonth()]; }
+  var DATUM = /^\d{4}-\d{2}-\d{2}$/;
+  function element(tag, klasse, text) { var e = document.createElement(tag); if (klasse) e.className = klasse; if (text != null) e.textContent = text; return e; }
+  function knopfMit(text, klasse, aktion) { var b = element("button", klasse, text); b.type = "button"; b.addEventListener("click", aktion); return b; }
+  function linkMit(text, klasse, adresse, neuesFenster) { var a = element("a", klasse, text); a.href = adresse; if (neuesFenster) { a.target = "_blank"; a.rel = "noopener"; } return a; }
+  function ikon(id) {
+    var s = document.createElementNS("http://www.w3.org/2000/svg", "svg"), u = document.createElementNS("http://www.w3.org/2000/svg", "use");
+    u.setAttribute("href", "#" + id);
+    s.appendChild(u);
+    return s;
+  }
+
+  /* Persönlicher Link aus der Mail: ?name=Lena&start=2026-11-02. Zum Vorführen: ?tag=12&demo=1 */
+  if (params.get("name")) daten.name = params.get("name").replace(/[^\p{L}\p{M} .'-]/gu, "").trim().slice(0, 24);
+  var startWert = params.get("start"), tagWert = parseInt(params.get("tag"), 10);
+  if (startWert && DATUM.test(startWert) && startWert <= heute()) daten.ns.start = startWert;
+  else if (tagWert >= 1 && tagWert <= 90) daten.ns.start = plusTage(heute(), 1 - tagWert);
+  if (params.get("demo") === "1" && daten.ns.start) {
+    for (var demoTag = daten.ns.start, demoNr = 1; demoTag < heute(); demoTag = plusTage(demoTag, 1), demoNr++) {
+      if (demoNr !== 5 && daten.ns.genommen.indexOf(demoTag) < 0) daten.ns.genommen.push(demoTag);
+    }
+  }
+  sichern();
+
+  /* Das Honigglas: der Füllstand zeigt, wie viele Portionen noch drin sind */
+  var glasNr = 0;
+  function glasEinsetzen(platz) {
+    var id = "glas-" + (++glasNr);
+    platz.innerHTML = '<svg class="honigglas" viewBox="0 0 96 120" aria-hidden="true"><defs><clipPath id="' + id + '-form"><rect x="13" y="27" width="70" height="86" rx="17"/></clipPath><linearGradient id="' + id + '-honig" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#f3d38c"/><stop offset="1" stop-color="#d49c3a"/></linearGradient></defs>' +
+      '<rect x="13" y="27" width="70" height="86" rx="17" fill="#fffdf7"/>' +
+      '<g clip-path="url(#' + id + '-form)"><g class="honig"><path d="M6 31q8-5 16 0t16 0 16 0 16 0 16 0 16 0V124H6z" fill="url(#' + id + '-honig)"/></g></g>' +
+      '<rect x="13" y="27" width="70" height="86" rx="17" fill="none" stroke="#1c2029" stroke-width="2.2"/>' +
+      '<rect x="21" y="20" width="54" height="9" rx="2.5" fill="#fff" stroke="#1c2029" stroke-width="2"/>' +
+      '<rect x="16" y="6" width="64" height="16" rx="5" fill="#e8c47e" stroke="#1c2029" stroke-width="2.2"/>' +
+      '<path d="M25 10v8M33 10v8M41 10v8M49 10v8M57 10v8M65 10v8M73 10v8" stroke="#1c2029" stroke-width="1.1" opacity=".35"/>' +
+      '<rect x="30" y="74" width="36" height="22" rx="4" fill="#fff" stroke="#1c2029" stroke-width="1.6"/>' +
+      '<text x="48" y="88.5" text-anchor="middle" font-family="Inter, sans-serif" font-size="8.5" font-weight="700" fill="#1c2029">OMNI·9</text></svg>';
+    return platz.querySelector(".honig");
+  }
+  function glasFuellen(honig, anteil) {
+    anteil = Math.max(0, Math.min(1, anteil));
+    honig.style.transform = "translateY(" + Math.round((1 - anteil) * 88) + "px)";
+  }
+
+  /* Erinnerung als Kalenderdatei: ohne Server, auf iPhone, Android und am Computer */
+  function icsText(s) { return s.replace(/\\/g, "\\\\").replace(/;/g, "\\;").replace(/,/g, "\\,").replace(/\n/g, "\\n"); }
+  function falten(z) { var teile = []; while (z.length > 73) { teile.push(z.slice(0, 73)); z = " " + z.slice(73); } teile.push(z); return teile.join("\r\n"); }
+  function kalenderDatei(datum, titel, text, adresse) {
+    var tag = datum.replace(/-/g, ""), danach = plusTage(datum, 1).replace(/-/g, "");
+    var zeilen = ["BEGIN:VCALENDAR", "VERSION:2.0", "PRODID:-//OMNI9//Produkt-Hub//DE", "CALSCALE:GREGORIAN", "METHOD:PUBLISH", "BEGIN:VEVENT",
+      "UID:" + tag + "-nachbestellen@omni9-produkt-hub", "DTSTAMP:" + new Date().toISOString().replace(/[-:]/g, "").replace(/\.\d+/, ""),
+      "DTSTART;VALUE=DATE:" + tag, "DTEND;VALUE=DATE:" + danach, "SUMMARY:" + icsText(titel), "DESCRIPTION:" + icsText(text + "\n" + adresse), "URL:" + adresse,
+      "BEGIN:VALARM", "ACTION:DISPLAY", "DESCRIPTION:" + icsText(titel), "TRIGGER:PT9H", "END:VALARM", "END:VEVENT", "END:VCALENDAR"];
+    var datei = new Blob([zeilen.map(falten).join("\r\n") + "\r\n"], { type: "text/calendar;charset=utf-8" });
+    var a = document.createElement("a");
+    a.href = URL.createObjectURL(datei);
+    a.download = "omni9-nachbestellen.ics";
+    document.body.appendChild(a);
+    a.click();
+    setTimeout(function () { URL.revokeObjectURL(a.href); a.remove(); }, 2000);
+  }
+  function hubAdresse(anker) { return location.href.split("#")[0].split("?")[0] + anker; }
+
+  /* Nutrition-System: Starttag, Tag X von 30, Restportionen, Häkchen, Nachbestell-Tag */
+  var nsBox = document.getElementById("ns-stand");
+  var nsHonig = glasEinsetzen(nsBox.querySelector("[data-glas]"));
+  var nsForm = nsBox.querySelector("[data-datum-form]");
+  var nsDatum = nsForm.querySelector("input[type=date]");
+  var nsDatumOffen = false;
+  function nsStand() {
+    var s = daten.ns.start;
+    if (!s || !DATUM.test(s)) return null;
+    var h = heute();
+    var tag = Math.max(1, tageZwischen(s, h) + 1);
+    var genommen = daten.ns.genommen.filter(function (x) { return x >= s && x <= h; }).sort();
+    var heuteDrin = genommen.indexOf(h) > -1;
+    /* Vor dem ersten Häkchen zählt jeder Tag als genommen, danach nur die Häkchen */
+    var vorher = genommen.length ? tageZwischen(s, genommen[0]) : tag - 1;
+    var rest = Math.max(0, 30 - vorher - genommen.length);
+    var leer = rest > 0 ? plusTage(h, heuteDrin ? rest : rest - 1) : h;
+    var serie = 0;
+    for (var t = heuteDrin ? h : plusTage(h, -1); t >= s && genommen.indexOf(t) > -1; t = plusTage(t, -1)) serie++;
+    return { start: s, tag: tag, genommen: genommen, heuteDrin: heuteDrin, ersterHaken: genommen[0] || null, rest: rest, leer: leer, bestellen: plusTage(leer, -7), serie: serie };
+  }
+  function chipsMarkieren() {
+    nsForm.querySelectorAll("[data-zurueck]").forEach(function (b) {
+      b.setAttribute("aria-pressed", nsDatum.value === plusTage(heute(), -b.dataset.zurueck) ? "true" : "false");
+    });
+  }
+  var STATUS_TEXT = { ja: "genommen", offen: "heute", spaeter: "kommt noch", nein: "nicht abgehakt", geschaetzt: "vor dem ersten Häkchen", teil: "teilweise" };
+  function nsZeigen() {
+    var st = nsStand(), h = heute(), formular = !st || nsDatumOffen;
+    nsBox.querySelector("[data-teil=start]").hidden = !formular;
+    nsBox.querySelector("[data-teil=laeuft]").hidden = formular;
+    nsBox.querySelector("[data-start-titel]").textContent = daten.name ? "Hallo " + daten.name + ", wann hast du angefangen?" : "Wann hast du angefangen?";
+    nsForm.querySelector("[data-datum-abbrechen]").hidden = !st;
+    nsBox.querySelector("[data-datum-aendern]").hidden = formular;
+    nsBox.querySelector("[data-neues-glas]").hidden = formular;
+    if (formular) {
+      nsDatum.max = h;
+      nsDatum.value = st ? st.start : h;
+      chipsMarkieren();
+      return;
+    }
+    nsBox.querySelector("[data-gruss]").textContent = daten.name ? "Hallo " + daten.name : "Dein Stand";
+    nsBox.querySelector("[data-tag]").innerHTML = st.tag <= 30 ? "Tag <b>" + st.tag + "</b> von 30" : "<b>Tag " + st.tag + "</b>";
+    nsBox.querySelector("[data-rest]").textContent = st.rest > 0 ? "Noch ca. " + st.rest + (st.rest === 1 ? " Portion" : " Portionen") + " im Glas, leer etwa am " + datumText(st.leer) + "." : "Dein Glas ist wahrscheinlich leer.";
+    glasFuellen(nsHonig, st.rest / 30);
+    nsBox.querySelector("[data-heute]").setAttribute("aria-pressed", st.heuteDrin ? "true" : "false");
+    nsBox.querySelector("[data-heute-text]").textContent = st.heuteDrin ? "Abgehakt. Noch mal tippen macht es rückgängig." : "Tippen, wenn du deinen Löffel hattest";
+    var raster = nsBox.querySelector("[data-raster]");
+    raster.innerHTML = "";
+    for (var i = 0; i < 30; i++) {
+      var d = plusTage(st.start, i);
+      var status = st.genommen.indexOf(d) > -1 ? "ja" : d > h ? "spaeter" : d === h ? "offen" : st.ersterHaken && d >= st.ersterHaken ? "nein" : "geschaetzt";
+      var li = element("li", status + (d === h ? " heute" : ""), String(i + 1));
+      li.title = "Tag " + (i + 1) + ", " + datumText(d) + ": " + STATUS_TEXT[status];
+      raster.appendChild(li);
+    }
+    raster.setAttribute("aria-label", "Deine 30 Tage, " + st.genommen.length + " abgehakt");
+    nsBox.querySelector("[data-serie]").innerHTML = st.serie > 1 ? "<b>" + st.serie + " Tage</b> am Stück abgehakt." : st.serie === 1 ? "<b>1 Tag</b> abgehakt. Morgen geht es weiter." : "Hak jeden Tag ab, dann wächst deine Serie.";
+    nsBox.querySelector("[data-kalender]").hidden = st.rest === 0 || st.bestellen <= h;
+    nsBox.querySelector("[data-bestellen]").innerHTML = st.rest === 0 ? "<b>Zeit für ein neues Glas.</b> Mit automatischer Lieferung kommt es künftig von allein." : st.bestellen <= h ? "<b>Jetzt nachbestellen,</b> dann ist dein neues Glas da, bevor das alte leer ist." : "<b>Nachbestellen bis " + datumText(st.bestellen) + ".</b> Dann ist dein neues Glas rechtzeitig da.";
+    check30Zeigen(st);
+  }
+  /* Check nach einem Glas: gut führt zur Bewertung, nicht gut zum Service */
+  function check30Zeigen(st) {
+    var box = nsBox.querySelector("[data-check30]");
+    box.hidden = !st || (st.tag < 28 && st.rest > 3);
+    if (box.hidden) return;
+    box.innerHTML = "";
+    box.appendChild(element("h3", null, "Wie geht es dir nach einem Glas?"));
+    var wert = daten.ns.check30;
+    if (!wert) {
+      box.appendChild(element("p", null, "Deine ehrliche Antwort hilft uns, dich besser zu begleiten."));
+      var wahl = element("div", "check30-wahl");
+      [["gut", "Gut"], ["mittel", "Geht so"], ["schlecht", "Nicht gut"]].forEach(function (o) {
+        wahl.appendChild(knopfMit(o[1], null, function () { daten.ns.check30 = o[0]; sichern(); check30Zeigen(nsStand()); }));
+      });
+      box.appendChild(wahl);
+      return;
+    }
+    var knoepfe = element("div", "stand-knoepfe");
+    if (wert === "gut") {
+      box.appendChild(element("p", null, "Schön, das freut uns sehr! Magst du anderen von deiner Erfahrung erzählen?"));
+      knoepfe.append(linkMit("Bewertung schreiben", "knopf gold", BEWERTUNG.ns, true), linkMit("Zum Nachkauf", "knopf hell", "#ns-nachkauf"));
+    } else if (wert === "mittel") {
+      box.appendChild(element("p", null, "Danke für deine ehrliche Rückmeldung. Das ist bei jedem individuell. Schau dir an, was hilft, wenn es hakt, oder frag den Assistenten."));
+      knoepfe.append(linkMit("Wenn es hakt", "knopf hell", "#ns-hakt"), knopfMit("Assistent fragen", "knopf hell", oeffnen));
+    } else {
+      box.appendChild(element("p", null, "Danke, dass du es uns sagst. Schreib uns, dann helfen wir dir persönlich weiter."));
+      knoepfe.appendChild(linkMit("E-Mail an den Service", "knopf gold", "mailto:service@omni9.de?subject=" + encodeURIComponent("Rückmeldung nach dem ersten Glas")));
+    }
+    knoepfe.appendChild(knopfMit("Antwort ändern", "text-link", function () { daten.ns.check30 = null; sichern(); check30Zeigen(nsStand()); }));
+    box.appendChild(knoepfe);
+  }
+  nsForm.querySelectorAll("[data-zurueck]").forEach(function (b) {
+    b.addEventListener("click", function () { nsDatum.value = plusTage(heute(), -b.dataset.zurueck); chipsMarkieren(); });
+  });
+  nsDatum.addEventListener("input", chipsMarkieren);
+  nsForm.addEventListener("submit", function (e) {
+    e.preventDefault();
+    if (!DATUM.test(nsDatum.value) || nsDatum.value > heute()) return;
+    if (daten.ns.start !== nsDatum.value) daten.ns.check30 = null;
+    daten.ns.start = nsDatum.value;
+    nsDatumOffen = false;
+    sichern();
+    allesZeigen();
+  });
+  nsForm.querySelector("[data-datum-abbrechen]").addEventListener("click", function () { nsDatumOffen = false; nsZeigen(); });
+  nsBox.querySelector("[data-datum-aendern]").addEventListener("click", function () { nsDatumOffen = true; nsZeigen(); nsDatum.focus(); });
+  nsBox.querySelector("[data-neues-glas]").addEventListener("click", function () { daten.ns.start = heute(); daten.ns.check30 = null; sichern(); allesZeigen(); });
+  nsBox.querySelector("[data-heute]").addEventListener("click", function () {
+    var h = heute(), i = daten.ns.genommen.indexOf(h);
+    if (i > -1) daten.ns.genommen.splice(i, 1); else daten.ns.genommen.push(h);
+    sichern();
+    allesZeigen();
+  });
+  nsBox.querySelector("[data-kalender]").addEventListener("click", function () {
+    var st = nsStand();
+    if (st) kalenderDatei(st.bestellen, "OMNI9 nachbestellen", "Dein Glas OMNI9 ist bald leer. Bestell heute nach, dann ist das neue Glas rechtzeitig da.", hubAdresse("#ns-nachkauf"));
+  });
+
+  /* Immun Booster: Akutphase mit 3 Häkchen am Tag oder vorbeugend mit einem */
+  var ibBox = document.getElementById("ib-stand");
+  var ibHonig = glasEinsetzen(ibBox.querySelector("[data-glas]"));
+  var DOSEN = [["m", "Morgens"], ["t", "Mittags"], ["a", "Abends"]];
+  function ibStand() {
+    if (!daten.ib.modus) return null;
+    var h = heute(), s = daten.ib.start && DATUM.test(daten.ib.start) ? daten.ib.start : h;
+    var gesamt = 0;
+    Object.keys(daten.ib.dosen).forEach(function (k) { gesamt += daten.ib.dosen[k].length; });
+    var heuteListe = daten.ib.dosen[h] || [];
+    var serie = 0;
+    for (var t = heuteListe.length ? h : plusTage(h, -1); (daten.ib.dosen[t] || []).length; t = plusTage(t, -1)) serie++;
+    return { modus: daten.ib.modus, start: s, tag: Math.max(1, tageZwischen(s, h) + 1), heute: heuteListe, rest: Math.max(0, 30 - gesamt), serie: serie };
+  }
+  function dosisUmschalten(code) {
+    var h = heute(), dosen = (daten.ib.dosen[h] || []).slice(), i = dosen.indexOf(code);
+    if (i > -1) dosen.splice(i, 1); else dosen.push(code);
+    if (dosen.length) daten.ib.dosen[h] = dosen; else delete daten.ib.dosen[h];
+    sichern();
+    allesZeigen();
+  }
+  function hakenKnopf(klasse, gedrueckt, aktion) {
+    var b = knopfMit("", klasse, aktion);
+    b.setAttribute("aria-pressed", gedrueckt ? "true" : "false");
+    var kreis = element("span", "haken-kreis");
+    kreis.appendChild(ikon("i-haken"));
+    b.appendChild(kreis);
+    return b;
+  }
+  function ibZeigen() {
+    var st = ibStand(), h = heute();
+    ibBox.querySelector("[data-teil=start]").hidden = !!st;
+    ibBox.querySelector("[data-teil=laeuft]").hidden = !st;
+    ibBox.querySelector("[data-start-titel]").textContent = daten.name ? "Hallo " + daten.name + ", wofür nimmst du den Booster gerade?" : "Wofür nimmst du den Booster gerade?";
+    ibBox.querySelector("[data-modus-ende]").hidden = !st || st.modus !== "akut";
+    ibBox.querySelector("[data-modus-akut]").hidden = !st || st.modus !== "vorbeugend";
+    if (!st) return;
+    var akut = st.modus === "akut";
+    ibBox.querySelector("[data-gruss]").textContent = daten.name ? "Hallo " + daten.name : akut ? "Deine Akutphase" : "Vorbeugend in der Erkältungszeit";
+    var tagZeile = ibBox.querySelector("[data-tag]");
+    tagZeile.className = "stand-tag" + (akut ? "" : " wort");
+    tagZeile.innerHTML = akut ? "Tag <b>" + st.tag + "</b> deiner Akutphase" : "<b>1 Teelöffel</b> am Tag";
+    var hinweis = !akut ? "Merkst du erste Anzeichen, starte die Akutphase." : st.tag <= 4 ? "Bleib 5 bis 10 Tage dran, morgens, mittags und abends." : st.tag <= 10 ? "Nach 5 bis 10 Tagen kannst du die Akutphase beenden." : "Fühlst du dich weiter krank, sprich bitte mit Arzt oder Apotheke.";
+    ibBox.querySelector("[data-rest]").textContent = "Noch ca. " + st.rest + (st.rest === 1 ? " Portion" : " Portionen") + " im Glas. " + hinweis;
+    ibBox.querySelector("[data-nachschub]").hidden = st.rest > 5;
+    glasFuellen(ibHonig, st.rest / 30);
+    var dosen = ibBox.querySelector("[data-dosen]");
+    dosen.innerHTML = "";
+    dosen.className = "dosen" + (akut ? "" : " eins");
+    if (akut) {
+      DOSEN.forEach(function (d) {
+        var b = hakenKnopf("dosis-knopf", st.heute.indexOf(d[0]) > -1, function () { dosisUmschalten(d[0]); });
+        b.appendChild(document.createTextNode(d[1]));
+        dosen.appendChild(b);
+      });
+    } else {
+      var an = st.heute.length > 0;
+      var k = hakenKnopf("heute-knopf", an, function () { dosisUmschalten("t"); });
+      var texte = element("span");
+      texte.append(element("b", null, "Heute genommen"), element("small", null, an ? "Abgehakt. Noch mal tippen macht es rückgängig." : "Tippen, wenn du deinen Löffel hattest"));
+      k.appendChild(texte);
+      dosen.appendChild(k);
+    }
+    var raster = ibBox.querySelector("[data-raster]");
+    raster.innerHTML = "";
+    raster.className = "tage-raster" + (akut ? "" : " vierzehn");
+    var anzahl = akut ? 10 : 14, erster = akut ? (st.tag > 10 ? plusTage(h, -9) : st.start) : plusTage(h, -13);
+    for (var i = 0; i < anzahl; i++) {
+      var d = plusTage(erster, i), n = (daten.ib.dosen[d] || []).length, nr = tageZwischen(st.start, d) + 1;
+      var status = d > h ? "spaeter" : akut ? (n >= 3 ? "ja" : n ? "teil" : d === h ? "offen" : "nein") : (n ? "ja" : d === h ? "offen" : "nein");
+      var li = element("li", status + (d === h ? " heute" : ""), akut ? String(nr) : String(+d.slice(8)));
+      li.title = (akut ? "Tag " + nr : datumText(d)) + ": " + (d > h ? "kommt noch" : akut ? n + " von 3" : STATUS_TEXT[status]);
+      if (akut) {
+        var pips = element("span", "pips");
+        for (var j = 0; j < 3; j++) pips.appendChild(element("i", j < n ? "an" : null));
+        li.appendChild(pips);
+      }
+      raster.appendChild(li);
+    }
+    raster.setAttribute("aria-label", akut ? "Deine Akutphase Tag für Tag" : "Deine letzten 14 Tage");
+    ibBox.querySelector("[data-serie]").innerHTML = akut ? "Heute <b>" + st.heute.length + " von 3</b> abgehakt." : st.serie > 1 ? "<b>" + st.serie + " Tage</b> am Stück abgehakt." : st.serie === 1 ? "<b>1 Tag</b> abgehakt." : "Hak jeden Tag ab, dann wächst deine Serie.";
+  }
+  function modusSetzen(m) { daten.ib.modus = m; daten.ib.start = m ? heute() : null; sichern(); allesZeigen(); }
+  ibBox.querySelectorAll("[data-modus]").forEach(function (b) { b.addEventListener("click", function () { modusSetzen(b.dataset.modus); }); });
+  ibBox.querySelector("[data-modus-ende]").addEventListener("click", function () { modusSetzen(null); });
+  ibBox.querySelector("[data-modus-akut]").addEventListener("click", function () { modusSetzen("akut"); });
+
+  /* Ziel-Quiz: die Antworten ergeben einen Plan mit Tipps. Produkttipps nur aus omni9.de, Alltagstipps allgemein */
+  var ZIELE = {
+    energie: { name: "Mehr Energie", icon: "z-energie", achsen: [3, 2, 4],
+      produkt: "Für deine Energie arbeiten in OMNI9 NADH, aktive B-Vitamine und Pterostilben zusammen. Nimm deinen Löffel am besten morgens, als festen Start in den Tag.",
+      fortschritt: "Achte darauf, wie du dich am Nachmittag fühlst. In den Bewertungen schreiben einige nach 2 bis 3 Wochen von mehr Energie. Bei jedem ist es anders." },
+    schlaf: { name: "Besser schlafen", icon: "z-schlaf", achsen: [4, 5, 1],
+      produkt: "Für Ruhe und Schlaf sind vor allem Ashwagandha und die aktiven B-Vitamine drin. Wichtiger als die Uhrzeit ist, dass du OMNI9 jeden Tag nimmst.",
+      fortschritt: "Achte darauf, wie erholt du morgens aufwachst. Gib dir ein paar Wochen, bei jedem ist es anders." },
+    darm: { name: "Ruhiger Bauch", icon: "z-darm", achsen: [2, 9, 6],
+      produkt: "Akazienfaser und Sporen-Probiotika bilden das Darm-Fundament von OMNI9. Ist dein Bauch empfindlich, starte mit weniger und steigere dann auf einen Teelöffel.",
+      fortschritt: "Achte darauf, wie sich dein Bauch nach dem Essen anfühlt. Gib dir ein paar Wochen, bei jedem ist es anders." },
+    fokus: { name: "Klarer Kopf", icon: "z-fokus", achsen: [5, 3, 7],
+      produkt: "Lion’s Mane, Ginkgo, DHA aus Algenöl und NADH arbeiten in OMNI9 für deinen Kopf. Wichtig ist, dass du jeden Tag dranbleibst.",
+      fortschritt: "Achte darauf, wie lange du dich am Stück konzentrieren kannst. Gib dir ein paar Wochen, bei jedem ist es anders." },
+    stress: { name: "Weniger Stress", icon: "z-stress", achsen: [4, 1, 5],
+      produkt: "Ashwagandha hilft deinem Nervensystem, Stress besser zu regulieren. Mach deinen Löffel zu einem kurzen, ruhigen Moment am Tag.",
+      fortschritt: "Achte darauf, wie schnell du abends abschalten kannst. Gib dir ein paar Wochen, bei jedem ist es anders." },
+    abwehr: { name: "Starke Abwehr", icon: "t-schild", achsen: [6, 2], booster: true,
+      produkt: "Vitamin C aus Acerola, Zink und Vitamin D3 versorgen deine Abwehr jeden Tag. Kommt doch ein Infekt, nimm für ein paar Tage zusätzlich den Immun Booster.",
+      fortschritt: "Achte darauf, wie du durch die nächste Erkältungszeit kommst. Bei jedem ist es anders." }
+  };
+  var ZEITEN = {
+    morgens: { name: "Morgens", icon: "z-morgen", titel: "Für deinen Morgen", tipp: "Stell dein Glas neben die Kaffeemaschine oder die Zahnbürste. Dann wird der Löffel zum ersten Schritt in den Tag." },
+    nachmittag: { name: "Im Nachmittagstief", icon: "z-mittag", titel: "Für deinen Nachmittag", tipp: "Geh nach dem Mittagessen 10 Minuten raus ans Tageslicht und trink ein großes Glas Wasser." },
+    abends: { name: "Abends", icon: "z-abend", titel: "Für deinen Abend", tipp: "Leg eine Stunde vor dem Schlafen das Handy weg und schreib kurz auf, was morgen ansteht. Dann kann dein Kopf leichter abschalten." },
+    essen: { name: "Nach dem Essen", icon: "z-essen", titel: "Rund ums Essen", tipp: "Iss in Ruhe, kau gründlich und probier kleinere Portionen." }
+  };
+  var ALLTAG = {
+    bildschirm: { name: "Viel Bildschirm", icon: "z-bildschirm", tipp: "Steh alle 60 bis 90 Minuten kurz auf, beweg dich und schau ein paar Sekunden in die Ferne." },
+    unterwegs: { name: "Viel unterwegs", icon: "z-unterwegs", tipp: "Nimm deinen Löffel, bevor du losgehst. Kein Abwiegen, kein Anrühren, dann musst du unterwegs an nichts denken." },
+    familie: { name: "Familie, wenig Zeit", icon: "z-familie", tipp: "Verknüpf deinen Löffel mit etwas, das du sowieso jeden Tag machst, zum Beispiel mit dem ersten Kaffee." },
+    sport: { name: "Viel Sport", icon: "z-sport", tipp: "Plan bewusst Pausen ein. Regeneration passiert in den Pausen, nicht im Training." }
+  };
+  var IB_MODUS = {
+    akut: { name: "Ich merke erste Anzeichen", icon: "t-thermo" },
+    vorbeugend: { name: "Ich will vorbeugen", icon: "t-schild" }
+  };
+  var IB_KONTAKT = {
+    kita: { name: "Kita oder Schule", icon: "z-kita", tipp: "Mit Kita- oder Schulkindern geht oft etwas rum. Stell den Booster griffbereit in den Küchenschrank, dann kannst du beim ersten Halskratzen sofort starten." },
+    buero: { name: "Büro", icon: "z-bildschirm", tipp: "Im Büro mit vielen Kolleginnen und Kollegen: Starte beim ersten Kratzen im Hals sofort, nicht erst, wenn es richtig losgeht." },
+    reisen: { name: "Reisen und Bahn", icon: "z-unterwegs", tipp: "Viel unterwegs? Pack den Booster für längere Reisen ein, dann kannst du auch unterwegs sofort starten." },
+    wenig: { name: "Eher wenig Kontakt", icon: "z-familie", tipp: "Auch mit wenig Kontakt gilt: Bei den ersten Anzeichen sofort starten. So nutzt du das Zeitfenster, in dem dein Körper Unterstützung am besten verwerten kann." }
+  };
+  var QUIZ = {
+    ns: [{ id: "ziel", frage: "Was soll sich als Erstes ändern?", quelle: ZIELE }, { id: "zeit", frage: "Wann bremst es dich am meisten aus?", quelle: ZEITEN }, { id: "alltag", frage: "Wie sieht dein Alltag aus?", quelle: ALLTAG }],
+    ib: [{ id: "modus", frage: "Wofür nimmst du den Booster gerade?", quelle: IB_MODUS }, { id: "kontakt", frage: "Wo hast du gerade viel Kontakt?", quelle: IB_KONTAKT }]
+  };
+  var ACHSEN_NAMEN = { 1: "Entzündung", 2: "Darm", 3: "Zellenergie", 4: "Stress", 5: "Gehirn und Fokus", 6: "Immunsystem", 7: "Herz und Gefäße", 8: "Leber", 9: "Bioverfügbarkeit" };
+  function planGueltig(produkt, a) {
+    if (!a) return false;
+    return produkt === "ns" ? !!(ZIELE[a.ziel] && ZEITEN[a.zeit] && ALLTAG[a.alltag]) : !!(IB_MODUS[a.modus] && IB_KONTAKT[a.kontakt]);
+  }
+  function planTipps(produkt, a) {
+    if (produkt === "ns") return [
+      { titel: "Mit OMNI9", text: ZIELE[a.ziel].produkt },
+      { titel: ZEITEN[a.zeit].titel, text: ZEITEN[a.zeit].tipp },
+      { titel: "Für deinen Alltag", text: ALLTAG[a.alltag].tipp },
+      { titel: "Woran du Fortschritt merkst", text: ZIELE[a.ziel].fortschritt }
+    ];
+    var akut = a.modus === "akut";
+    return [
+      { titel: "So nimmst du ihn", text: akut ? "1 Teelöffel (ca. 10 g) morgens, mittags und abends, 5 bis 10 Tage lang. Starte am besten sofort." : "In der Erkältungszeit 1 Teelöffel am Tag, besonders in Phasen mit viel Kontakt." },
+      { titel: "Für deinen Alltag", text: IB_KONTAKT[a.kontakt].tipp },
+      { titel: akut ? "So geht es leichter" : "Wenn es doch losgeht", text: akut ? "Pur vom Löffel oder in warmem Tee unter 40 °C." : "Merkst du erste Anzeichen, wechsle in die Akutphase: 3-mal am Tag 1 Teelöffel." },
+      { titel: "Gut zu wissen", text: "Bei einer Allergie gegen Bienenprodukte bitte verzichten. Bei Schwangerschaft, Stillzeit oder Medikamenten vorher mit Arzt oder Apotheke sprechen." }
+    ];
+  }
+  var quiz = document.getElementById("quiz");
+  var quizHonig = glasEinsetzen(quiz.querySelector("[data-glas]"));
+  var quizZustand = { produkt: "ns", schritt: 0, antworten: {} };
+  function quizOeffnen(produkt, antworten, modusVorgabe) {
+    quizZustand = { produkt: produkt, schritt: antworten ? QUIZ[produkt].length : modusVorgabe ? 1 : 0, antworten: antworten ? Object.assign({}, antworten) : modusVorgabe ? { modus: modusVorgabe } : {} };
+    if (!quiz.open) quiz.showModal();
+    quizRendern();
+  }
+  function quizRendern() {
+    var fragenListe = QUIZ[quizZustand.produkt], n = fragenListe.length;
+    var koerper = document.getElementById("quiz-koerper"), fuss = document.getElementById("quiz-fuss");
+    var schritt = document.getElementById("quiz-schritt"), titel = document.getElementById("quiz-titel");
+    glasFuellen(quizHonig, quizZustand.schritt / n);
+    koerper.innerHTML = "";
+    fuss.innerHTML = "";
+    if (quizZustand.schritt >= n) { quizErgebnis(koerper, fuss, schritt, titel); return; }
+    var f = fragenListe[quizZustand.schritt];
+    schritt.textContent = "Frage " + (quizZustand.schritt + 1) + " von " + n;
+    titel.textContent = f.frage;
+    var raster = element("div", "quiz-antworten");
+    Object.keys(f.quelle).forEach(function (wert) {
+      var info = f.quelle[wert];
+      var b = knopfMit("", "quiz-antwort", function () { quizZustand.antworten[f.id] = wert; quizZustand.schritt++; quizRendern(); });
+      b.setAttribute("aria-pressed", quizZustand.antworten[f.id] === wert ? "true" : "false");
+      var bild = element("span", "q-ikon");
+      bild.appendChild(ikon(info.icon));
+      b.append(bild, element("span", null, info.name));
+      raster.appendChild(b);
+    });
+    koerper.appendChild(raster);
+    if (quizZustand.schritt > 0) fuss.appendChild(knopfMit("Zurück", "text-link", function () { quizZustand.schritt--; quizRendern(); }));
+    raster.firstChild.focus({ preventScroll: true });
+  }
+  function quizErgebnis(koerper, fuss, schritt, titel) {
+    var p = quizZustand.produkt, a = quizZustand.antworten;
+    schritt.textContent = "Dein Plan";
+    var box = element("div", "quiz-ergebnis");
+    if (p === "ns") {
+      titel.textContent = ZIELE[a.ziel].name;
+      var achsen = element("div", "plan-achsen");
+      achsen.appendChild(element("p", null, "Diese Achsen arbeiten für dein Ziel:"));
+      ZIELE[a.ziel].achsen.forEach(function (nr) {
+        achsen.appendChild(knopfMit(ACHSEN_NAMEN[nr], "achse-chip", function () { planSpeichern(); quiz.close(); achseOeffnen(nr); }));
+      });
+      box.appendChild(achsen);
+    } else {
+      titel.textContent = a.modus === "akut" ? "Dein Akut-Plan" : "Dein Plan zum Vorbeugen";
+    }
+    var tipps = element("ul", "plan-tipps");
+    planTipps(p, a).forEach(function (t) {
+      var li = element("li");
+      li.append(element("b", null, t.titel), element("span", null, t.text));
+      tipps.appendChild(li);
+    });
+    box.appendChild(tipps);
+    if (p === "ns" && ZIELE[a.ziel].booster) {
+      var extra = element("p", "plan-extra");
+      var zumBooster = linkMit("Immun Booster ansehen", "text-link", "#immun-booster");
+      zumBooster.addEventListener("click", function () { planSpeichern(); quiz.close(); });
+      extra.appendChild(zumBooster);
+      box.appendChild(extra);
+    }
+    koerper.appendChild(box);
+    var speichern = knopfMit("Plan speichern", "knopf gold", function () { planSpeichern(); quiz.close(); });
+    fuss.append(knopfMit("Nochmal von vorn", "text-link", function () { quizZustand.schritt = 0; quizZustand.antworten = {}; quizRendern(); }), speichern);
+    speichern.focus({ preventScroll: true });
+  }
+  function planSpeichern() {
+    var p = quizZustand.produkt, a = quizZustand.antworten;
+    if (!planGueltig(p, a)) return;
+    daten.ziel[p] = Object.assign({}, a);
+    if (p === "ib" && daten.ib.modus !== a.modus) { daten.ib.modus = a.modus; daten.ib.start = heute(); }
+    sichern();
+    allesZeigen();
+    if (p === "ns") achseVorwaehlen();
+  }
+  quiz.addEventListener("click", function (e) { if (e.target === quiz) quiz.close(); });
+
+  /* Ziel-Zeile im Überblick: Quiz starten oder Plan mit Tipp des Tages zeigen */
+  var bewegungAus = matchMedia("(prefers-reduced-motion: reduce)").matches;
+  function tagesZahl() { var st = nsStand(), h = heute(); return st ? st.tag : tageZwischen(h.slice(0, 4) + "-01-01", h) + 1; }
+  function zielZeileNS() {
+    var box = nsBox.querySelector("[data-ziel]"), a = daten.ziel.ns;
+    var bild = element("span", "ziel-ikon"), text = element("div"), aktion = element("div", "ziel-aktion");
+    box.innerHTML = "";
+    if (!planGueltig("ns", a)) {
+      bild.appendChild(ikon("z-fokus"));
+      text.append(element("h3", null, "Was ist dein Ziel?"), element("p", null, "3 kurze Fragen, dann bekommst du deinen Plan mit Tipps für jeden Tag."));
+      aktion.appendChild(knopfMit("Ziel finden", "knopf gold", function () { quizOeffnen("ns"); }));
+      box.append(bild, text, aktion);
+      return;
+    }
+    var info = ZIELE[a.ziel], tipps = planTipps("ns", a), tipp = tipps[(tagesZahl() - 1) % tipps.length];
+    var zeile = element("p");
+    zeile.append(element("b", null, "Tipp des Tages: "), tipp.text);
+    bild.appendChild(ikon(info.icon));
+    text.append(element("h3", null, "Dein Ziel: " + info.name), zeile);
+    aktion.append(knopfMit("Ganzen Plan ansehen", "text-link", function () { quizOeffnen("ns", a); }), knopfMit("Ziel ändern", "text-link", function () { quizOeffnen("ns"); }));
+    var achsen = element("div", "ziel-achsen");
+    info.achsen.forEach(function (nr) { achsen.appendChild(knopfMit(ACHSEN_NAMEN[nr], "achse-chip", function () { achseOeffnen(nr); })); });
+    box.append(bild, text, aktion, achsen);
+  }
+  function zielZeileIB() {
+    var box = ibBox.querySelector("[data-ziel]"), a = daten.ziel.ib;
+    var bild = element("span", "ziel-ikon"), text = element("div"), aktion = element("div", "ziel-aktion");
+    box.innerHTML = "";
+    box.hidden = !daten.ib.modus;
+    if (box.hidden) return;
+    if (!planGueltig("ib", a)) {
+      bild.appendChild(ikon("t-schild"));
+      text.append(element("h3", null, "Passende Tipps in 2 Fragen"), element("p", null, "Sag uns, wo du gerade viel Kontakt hast. Dann bekommst du deinen Plan."));
+      aktion.appendChild(knopfMit("Plan erstellen", "knopf gold", function () { quizOeffnen("ib", null, daten.ib.modus); }));
+      box.append(bild, text, aktion);
+      return;
+    }
+    var zeile = element("p");
+    zeile.append(element("b", null, "Dein Tipp: "), IB_KONTAKT[a.kontakt].tipp);
+    bild.appendChild(ikon(IB_KONTAKT[a.kontakt].icon));
+    text.append(element("h3", null, daten.ib.modus === "akut" ? "Dein Akut-Plan" : "Dein Plan zum Vorbeugen"), zeile);
+    aktion.append(knopfMit("Ganzen Plan ansehen", "text-link", function () { quizOeffnen("ib", Object.assign({}, a, { modus: daten.ib.modus })); }), knopfMit("Plan ändern", "text-link", function () { quizOeffnen("ib"); }));
+    box.append(bild, text, aktion);
+  }
+  document.querySelectorAll("[data-quiz]").forEach(function (b) { b.addEventListener("click", function () { quizOeffnen(b.dataset.quiz); }); });
+
+  /* Achse aus Ziel oder Plan öffnen; die Achsen des Ziels sind im Kapitel Inhalt markiert */
+  function achseOeffnen(nr) {
+    var tab = document.getElementById("ns-achse-" + nr + "-tab");
+    if (!tab) return;
+    if (location.hash !== "#ns-inhalt") location.hash = "#ns-inhalt";
+    tab.click();
+    setTimeout(function () { tab.closest(".block").scrollIntoView({ behavior: bewegungAus ? "auto" : "smooth", block: "start" }); }, 150);
+  }
+  function achseVorwaehlen() {
+    var a = daten.ziel.ns;
+    document.querySelectorAll("#ns-inhalt .achsen-liste [role=tab]").forEach(function (t) { t.classList.remove("fuer-ziel"); t.removeAttribute("title"); });
+    if (!planGueltig("ns", a)) return;
+    ZIELE[a.ziel].achsen.forEach(function (nr) {
+      var t = document.getElementById("ns-achse-" + nr + "-tab");
+      if (t) { t.classList.add("fuer-ziel"); t.title = "Wichtig für dein Ziel"; }
+    });
+    document.getElementById("ns-achse-" + ZIELE[a.ziel].achsen[0] + "-tab").click();
+  }
+
+  /* Produkt wechseln: gleiches Kapitel beim anderen Produkt */
+  var menue = document.getElementById("produkt-menue");
+  var menueAusloeser = null;
+  var KAPITEL_PAAR = { "ns-30": "ib-plan", "ib-plan": "ns-30" };
+  function aktuellesKapitel() {
+    var z = ziel();
+    if (!z) return null;
+    var a = z.classList.contains("seite") ? z.querySelector(".ansicht.erste") : z.closest(".ansicht");
+    return a ? a.id : null;
+  }
+  function menueBauen(knopf) {
+    var eigenes = knopf.closest(".seite").id === "nutrition-system" ? "ns" : "ib";
+    var kapitel = aktuellesKapitel() || eigenes + "-ueberblick";
+    menue.innerHTML = "";
+    PRODUKTE.forEach(function (p) {
+      var praefix = p.id === "nutrition-system" ? "ns" : "ib";
+      var zielKapitel = praefix === eigenes ? kapitel : (KAPITEL_PAAR[kapitel] || praefix + kapitel.slice(2));
+      var a = linkMit("", null, "#" + zielKapitel);
+      a.setAttribute("role", "menuitem");
+      var bild = element("img");
+      bild.src = p.bild;
+      bild.alt = "";
+      var text = element("span");
+      text.append(element("b", null, p.name), element("small", null, p.kurz));
+      a.append(bild, text);
+      if (praefix === eigenes) { a.setAttribute("aria-current", "true"); a.appendChild(ikon("i-haken")); }
+      a.addEventListener("click", menueZu);
+      menue.appendChild(a);
+    });
+    var suche = linkMit("", "menue-suche", "#start");
+    suche.setAttribute("role", "menuitem");
+    var lupe = element("span", "menue-lupe");
+    lupe.appendChild(ikon("lupe"));
+    suche.append(lupe, element("b", null, "Anderes Produkt suchen"));
+    suche.addEventListener("click", menueZu);
+    menue.appendChild(suche);
+  }
+  function menueAuf(knopf) {
+    menueBauen(knopf);
+    menue.hidden = false;
+    var r = knopf.getBoundingClientRect(), breite = Math.min(320, window.innerWidth - 24);
+    menue.style.width = breite + "px";
+    menue.style.left = Math.max(12, Math.min(r.left, window.innerWidth - breite - 12)) + "px";
+    menue.style.top = (r.bottom + 6) + "px";
+    knopf.setAttribute("aria-expanded", "true");
+    menueAusloeser = knopf;
+    menue.querySelector("a").focus({ preventScroll: true });
+  }
+  function menueZu() {
+    if (menue.hidden) return;
+    menue.hidden = true;
+    if (menueAusloeser) menueAusloeser.setAttribute("aria-expanded", "false");
+  }
+  document.querySelectorAll("[data-produktwahl]").forEach(function (k) {
+    k.addEventListener("click", function (e) {
+      e.stopPropagation();
+      var warOffen = !menue.hidden && menueAusloeser === k;
+      menueZu();
+      if (!warOffen) menueAuf(k);
+    });
+  });
+  document.addEventListener("click", function (e) { if (!menue.hidden && !menue.contains(e.target)) menueZu(); });
+  menue.addEventListener("keydown", function (e) {
+    var links = Array.prototype.slice.call(menue.querySelectorAll("a")), i = links.indexOf(document.activeElement);
+    if (e.key === "ArrowDown" || e.key === "ArrowUp") { e.preventDefault(); links[(i + (e.key === "ArrowDown" ? 1 : links.length - 1)) % links.length].focus(); }
+    else if (e.key === "Escape") { menueZu(); if (menueAusloeser) menueAusloeser.focus(); }
+  });
+  window.addEventListener("hashchange", menueZu);
+  window.addEventListener("resize", menueZu);
+
+  /* Assistent aus dem Kapitel Inhalt: Beispielfragen und eine Frage pro Achse */
+  var ACHSEN_FRAGE = {
+    "ns-achse-1": "Was tut OMNI9 bei Entzündungen?", "ns-achse-2": "Was tut OMNI9 für den Darm?", "ns-achse-3": "Wie hilft OMNI9 bei der Energie?",
+    "ns-achse-4": "Was hilft bei Stress?", "ns-achse-5": "Was hilft beim Fokus?", "ns-achse-6": "Was tut OMNI9 für das Immunsystem?",
+    "ns-achse-7": "Was tut OMNI9 für Herz und Gefäße?", "ns-achse-8": "Was tut OMNI9 für die Leber?", "ns-achse-9": "Wie gut wird OMNI9 aufgenommen?",
+    "ib-komplex-1": "Stärkt der Booster mein Immunsystem?", "ib-komplex-2": "Was hilft bei Hals und Schleimhäuten?", "ib-komplex-3": "Was hilft gegen den Entzündungsdruck?"
+  };
+  Object.keys(ACHSEN_FRAGE).forEach(function (id) {
+    var panel = document.getElementById(id);
+    if (!panel) return;
+    var b = element("button", "achse-frag");
+    b.type = "button";
+    b.dataset.chatFrage = ACHSEN_FRAGE[id];
+    b.append(ikon("i-chat"), id.indexOf("komplex") > -1 ? "Frag den Assistenten zu diesem Komplex" : "Frag den Assistenten zu dieser Achse");
+    panel.appendChild(b);
+  });
+  document.addEventListener("click", function (e) {
+    var b = e.target.closest("[data-chat-frage]");
+    if (!b) return;
+    oeffnen();
+    if (b.dataset.chatFrage) fragen(b.dataset.chatFrage);
+    else chatFeld.focus();
+  });
+
+  /* Als App auf den Home-Bildschirm */
+  var appDialog = document.getElementById("app-dialog");
+  var installEreignis = null;
+  var istIOS = /iphone|ipad|ipod/i.test(navigator.userAgent) || (navigator.platform === "MacIntel" && navigator.maxTouchPoints > 1);
+  var istAndroid = /android/i.test(navigator.userAgent);
+  var alsApp = matchMedia("(display-mode: standalone)").matches || navigator.standalone === true;
+  window.addEventListener("beforeinstallprompt", function (e) { e.preventDefault(); installEreignis = e; });
+  function appSchritte() {
+    var liste = document.getElementById("app-schritte");
+    var schritte = istIOS ? ["Tippe unten in Safari auf „Teilen“, das Quadrat mit dem Pfeil.", "Wähle „Zum Home-Bildschirm“.", "Tippe auf „Hinzufügen“. Fertig."]
+      : istAndroid ? ["Tippe oben rechts in Chrome auf das Menü mit den drei Punkten.", "Wähle „Zum Startbildschirm hinzufügen“ oder „App installieren“.", "Bestätige mit „Hinzufügen“."]
+      : ["Öffne diese Seite am Handy, zum Beispiel über den QR-Code im Paket.", "iPhone: in Safari auf „Teilen“ tippen, dann „Zum Home-Bildschirm“.", "Android: in Chrome auf das Menü tippen, dann „Zum Startbildschirm hinzufügen“."];
+    liste.innerHTML = "";
+    schritte.forEach(function (s) { liste.appendChild(element("li", null, s)); });
+    document.getElementById("app-installieren").hidden = !installEreignis;
+  }
+  document.getElementById("app-installieren").addEventListener("click", function () {
+    if (!installEreignis) return;
+    installEreignis.prompt();
+    installEreignis.userChoice.then(function () { installEreignis = null; appDialog.close(); });
+  });
+  document.querySelectorAll("[data-app]").forEach(function (b) {
+    b.hidden = alsApp;
+    b.addEventListener("click", function () { appSchritte(); appDialog.showModal(); });
+  });
+  document.querySelectorAll("[data-dialog-zu]").forEach(function (b) { b.addEventListener("click", function () { b.closest("dialog").close(); }); });
+  appDialog.addEventListener("click", function (e) { if (e.target === appDialog) appDialog.close(); });
+  /* Als App gestartet: gleich beim zuletzt geöffneten Produkt weitermachen */
+  window.addEventListener("hashchange", function () {
+    var z = ziel(), s = z && (z.classList.contains("seite") ? z : z.closest(".seite"));
+    if (s && s.id !== "start" && daten.zuletzt !== s.id) { daten.zuletzt = s.id; sichern(); }
+  });
+  if (alsApp && !location.hash && daten.zuletzt && document.getElementById(daten.zuletzt)) location.replace("#" + daten.zuletzt);
+
+  /* Zeitleisten: der aktuelle Schritt kommt aus dem persönlichen Stand */
+  function stufenSetzen(liste, nr, persoenlich) {
+    if (!liste) return;
+    liste.classList.toggle("persoenlich", persoenlich);
+    Array.prototype.forEach.call(liste.children, function (li, i) {
+      li.classList.toggle("erledigt", i < nr);
+      li.classList.toggle("jetzt", i === nr);
+      if (i === nr) li.setAttribute("aria-current", "step"); else li.removeAttribute("aria-current");
+    });
+  }
+  function zeitleisteMarkieren() {
+    var st = nsStand(), ib = ibStand();
+    stufenSetzen(document.querySelector("#ns-30 .zeitleiste"), !st ? 0 : st.rest <= 7 ? 3 : st.tag <= 3 ? 0 : st.tag <= 14 ? 1 : 2, !!st);
+    stufenSetzen(document.querySelector("#ib-plan .zeitleiste"), !ib ? 0 : ib.rest <= 5 ? 3 : ib.modus === "akut" ? 1 : 2, !!ib);
+  }
+  function allesZeigen() {
+    nsZeigen();
+    ibZeigen();
+    zielZeileNS();
+    zielZeileIB();
+    zeitleisteMarkieren();
+  }
+  allesZeigen();
+  achseVorwaehlen();
 
   navMarkieren();
   if (params.get("chat") === "demo") {
