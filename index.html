@@ -1139,7 +1139,7 @@ body.chat-offen .chat-fenster { display: flex; }
   <div class="chat-kopf"><span class="chat-avatar">O9</span><div><b>OMNI9 Assistent</b><small id="chat-thema">Fragen zu allen OMNI9-Produkten</small></div><button class="chat-zu" type="button" data-chat-zu aria-label="Schließen"><svg><use href="#i-x"/></svg></button></div>
   <div class="chat-verlauf" id="chat-verlauf"></div>
   <div class="chat-vorschlaege" id="chat-vorschlaege"></div>
-  <form class="chat-eingabe" id="chat-form"><input id="chat-feld" autocomplete="off" placeholder="Frag zum Beispiel: Wie lange reicht ein Glas?"><button type="submit" aria-label="Senden"><svg><use href="#i-senden"/></svg></button></form>
+  <form class="chat-eingabe" id="chat-form"><input id="chat-feld" autocomplete="off" placeholder="Schreib deine Frage …" aria-label="Deine Frage"><button type="submit" aria-label="Senden"><svg><use href="#i-senden"/></svg></button></form>
   <p class="chat-hinweis">Antworten aus den Produktinfos von OMNI9. Ersetzt keine ärztliche Beratung.</p>
 </div>
 
@@ -1365,7 +1365,7 @@ body.chat-offen .chat-fenster { display: flex; }
   ];
   var THEMEN = {
     start: { thema: "Fragen zu allen OMNI9-Produkten", gruss: "Hallo! Ich bin der OMNI9 Assistent. Frag mich alles zu unseren Produkten: Einnahme, Zutaten, Versand oder Nachkauf.", vorschlaege: ["Welches Produkt passt zu mir?", "Wie lange dauert der Versand?", "Wie funktioniert die automatische Lieferung?", "Kann ich beide zusammen nehmen?"], demo: [] },
-    ns: { thema: "Fragen zu allen OMNI9-Produkten", gruss: "Hallo! Ich bin der OMNI9 Assistent. Frag mich alles zum Nutrition-System, zum Immun Booster, zu Versand oder Nachkauf.", vorschlaege: ["Wie nehme ich OMNI9 ein?", "Wofür ist NADH drin?", "Wie lange reicht ein Glas?", "Kann ich den Booster dazu nehmen?", "Wie funktioniert die automatische Lieferung?"], demo: ["Wofür ist NADH drin?", "Kann ich den Booster dazu nehmen?"] },
+    ns: { thema: "Fragen zu allen OMNI9-Produkten", gruss: "Hallo! Ich bin der OMNI9 Assistent. Frag mich alles zum Nutrition-System, zum Immun Booster, zu Versand oder Nachkauf.", vorschlaege: ["Wie nehme ich OMNI9 ein?", "Wofür ist NADH drin?", "Wie lange reicht ein Glas?", "Kann ich den Booster dazu nehmen?", "Wie funktioniert die automatische Lieferung?"], demo: ["Wofür ist NADH drin?", "Was ist im Immun Booster drin?", "Wie funktioniert die automatische Lieferung?"] },
     ib: { thema: "Fragen zu allen OMNI9-Produkten", gruss: "Hallo! Ich bin der OMNI9 Assistent. Frag mich alles zum Immun Booster, zum Nutrition-System, zu Versand oder Nachkauf.", vorschlaege: ["Wie dosiere ich den Booster?", "Darf ich ihn in Tee nehmen?", "Was macht Propolis?", "Wie lange reicht ein Glas?", "Kann ich ihn vorbeugend nehmen?"], demo: ["Darf ich ihn in Tee nehmen?", "Was macht Propolis?"] }
   };
   var KEINE_ANTWORT = "Dazu habe ich in unseren Produktinfos keine sichere Antwort. Schreib uns gern an service@omni9.de, unser Team hilft dir weiter.";
