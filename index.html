@@ -158,19 +158,66 @@ button.mein-produkt:hover, button.mein-produkt[aria-expanded="true"] { backgroun
 .play svg { width: 16px; height: 16px; margin-left: 3px; fill: var(--nacht); }
 .dauer { position: absolute; right: 12px; bottom: 14px; z-index: 1; padding: 2px 7px; border-radius: 4px; background: rgba(0, 0, 0, .6); font-size: 12px; font-weight: 600; }
 
-.dosis { display: grid; grid-template-columns: 96px 1fr; gap: 16px; align-items: center; }
-.dosis-zahl { display: flex; flex-direction: column; align-items: center; justify-content: center; height: 96px; border-radius: 16px; background: var(--creme); border: 1px solid #ecdcc0; text-align: center; }
-.dosis-zahl b { font-size: 34px; line-height: 1; font-weight: 700; color: var(--gold-dunkel); }
-.dosis-zahl span { margin-top: 4px; font-size: 12px; font-weight: 600; color: #6e5a3a; line-height: 1.2; }
-.dosis p { font-size: 15px; color: #45413b; }
+/* Einnahme: Tagesplan mit Löffeln, beim Booster für Akutphase oder vorbeugend */
+.tagesplan { padding: 26px 28px 24px; border-radius: 20px; background: linear-gradient(160deg, #fffaf0 0%, #f6ecd6 100%); border: 1px solid #ecdcb6; }
+.tp-wahl { display: inline-flex; gap: 4px; margin-bottom: 20px; padding: 4px; border-radius: 14px; background: rgba(255, 255, 255, .75); box-shadow: inset 0 0 0 1px #ead9b4; }
+.tp-wahl button { display: flex; align-items: center; gap: 10px; padding: 8px 16px 8px 10px; border: 0; border-radius: 10px; background: none; color: var(--gold-dunkel); text-align: left; cursor: pointer; transition: background .15s, color .15s; }
+.tp-wahl button svg { flex: none; width: 22px; height: 22px; }
+.tp-wahl b { display: block; font-size: 14.5px; color: var(--text); }
+.tp-wahl small { display: block; font-size: 12px; color: var(--muted); }
+.tp-wahl button[aria-checked="true"] { background: var(--nacht); color: var(--gold); }
+.tp-wahl button[aria-checked="true"] b { color: #fff; }
+.tp-wahl button[aria-checked="true"] small { color: rgba(255, 255, 255, .7); }
+.tp-kopf { display: flex; flex-wrap: wrap; align-items: flex-end; justify-content: space-between; gap: 14px 24px; }
+.tp-kopf h2 { font-size: 30px; line-height: 1.1; letter-spacing: -.02em; }
+.tp-kopf p { max-width: 540px; margin-top: 6px; font-size: 15px; color: #45413b; }
+.tp-erinnerung { margin-top: 0; min-height: 44px; padding: 8px 16px; font-size: 14px; }
+.tp-erinnerung svg { flex: none; width: 18px; height: 18px; }
+.tp-zeiten { list-style: none; display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 12px; margin-top: 22px; }
+.tp-zeiten li { display: grid; justify-items: center; align-content: start; gap: 6px; padding: 16px 12px 18px; border-radius: 16px; background: #fff; border: 1px solid #efe1c2; text-align: center; transition: background .25s, border-color .25s; }
+.tp-zeit { display: inline-flex; align-items: center; gap: 6px; font-size: 13.5px; font-weight: 600; color: var(--gold-dunkel); }
+.tp-zeit svg { width: 18px; height: 18px; }
+.tp-loeffel { width: 34px; height: 70px; }
+.tp-zeiten b { font-size: 15px; }
+.tp-zeiten small { font-size: 12.5px; color: var(--muted); }
+.tp-zeiten li.aus { background: rgba(255, 255, 255, .45); border-style: dashed; border-color: #e3d5b6; }
+.tp-zeiten li.aus .tp-zeit { color: #a89c84; }
+.tp-zeiten li.aus b { font-weight: 500; color: #9a907f; }
+.tp-dauer { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 12px 20px; margin-top: 18px; padding-top: 16px; border-top: 1px solid #ead9b4; }
+.tp-dauer p { font-size: 14.5px; color: #45413b; }
+.tp-tage { list-style: none; display: flex; gap: 5px; }
+.tp-tage li { display: flex; align-items: center; justify-content: center; width: 28px; height: 28px; border-radius: 8px; background: var(--gold); font-size: 12px; font-weight: 700; color: var(--nacht); font-variant-numeric: tabular-nums; }
+.tp-tage li.kann { background: #fff; box-shadow: inset 0 0 0 1.5px #e2cf9f; color: var(--gold-dunkel); }
+.tp-schritte { list-style: none; display: flex; align-items: center; gap: 10px; }
+.tp-schritte li { position: relative; display: flex; align-items: center; gap: 10px; padding: 8px 14px 8px 8px; border-radius: 12px; background: #fff; }
+.tp-schritte li + li { margin-left: 18px; }
+.tp-schritte li + li::before { content: ""; position: absolute; left: -19px; top: 50%; width: 8px; height: 8px; border-top: 2px solid var(--gold); border-right: 2px solid var(--gold); transform: translateY(-50%) rotate(45deg); }
+.tp-schritte .tp-loeffel { width: 20px; height: 42px; }
+.tp-schritte b { display: block; font-size: 13.5px; }
+.tp-schritte span { font-size: 13px; color: #45413b; }
+
+/* Nachkauf: Spar-Rechner mit den Preisen aus dem Vergleich auf omni9.de */
+.sparen-raster { display: grid; grid-template-columns: minmax(0, 1.25fr) minmax(0, 1fr); gap: 20px 28px; align-items: start; margin-top: 16px; }
+.sparen-wahl { display: flex; flex-wrap: wrap; gap: 8px; }
+.sparen-chip { display: inline-flex; align-items: baseline; gap: 8px; padding: 8px 13px; border: 1.5px solid #ece3d0; border-radius: 999px; background: #fff; font-size: 14px; font-weight: 600; color: var(--text); cursor: pointer; transition: background .15s, border-color .15s, color .15s; }
+.sparen-chip small { font-size: 12.5px; color: var(--gold-dunkel); font-variant-numeric: tabular-nums; }
+.sparen-chip:hover { border-color: var(--gold); }
+.sparen-chip[aria-pressed="true"] { background: var(--nacht); border-color: var(--nacht); color: #fff; }
+.sparen-chip[aria-pressed="true"] small { color: var(--gold); }
+.sparen-ergebnis { display: grid; gap: 12px; padding: 18px; border-radius: 16px; background: var(--creme); border: 1px solid #ecdcc0; }
+.sparen-leer { font-size: 14px; color: var(--muted); }
+.sparen-balken { display: grid; grid-template-columns: 74px minmax(0, 1fr) 66px; gap: 10px; align-items: center; font-size: 13.5px; }
+.sparen-name { font-weight: 600; color: #45413b; }
+.sparen-spur { height: 12px; border-radius: 999px; background: #efe4cc; overflow: hidden; }
+.sparen-spur i { display: block; height: 100%; border-radius: 999px; background: #9a907f; transition: width .4s ease-out; }
+.sparen-balken.omni9 .sparen-spur i { background: var(--gold); }
+.sparen-balken b { text-align: right; font-variant-numeric: tabular-nums; }
+.sparen-fazit { font-size: 14.5px; color: #45413b; }
+.sparen-fazit b { display: block; font-size: 19px; letter-spacing: -.01em; color: var(--text); }
+.sparen-basis { font-size: 12.5px; color: var(--muted); }
 .haken-liste { list-style: none; display: grid; gap: 10px; }
 .haken-liste li { display: grid; grid-template-columns: 20px 1fr; gap: 10px; font-size: 14px; }
 .haken-liste svg { width: 20px; height: 20px; margin-top: 1px; }
-.dosis + .haken-liste, .tageszeit + .haken-liste { margin-top: 18px; padding-top: 18px; border-top: 1px solid var(--line); }
-.tageszeit { display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px; }
-.tageszeit div { padding: 12px 8px; border-radius: 12px; background: var(--creme); border: 1px solid #ecdcc0; text-align: center; }
-.tageszeit b { display: block; font-size: 13px; }
-.tageszeit span { display: block; margin-top: 2px; font-size: 18px; font-weight: 700; color: var(--gold-dunkel); }
 
 .zeitleiste { list-style: none; position: relative; }
 .zeitleiste::before { content: ""; position: absolute; left: 17px; top: 18px; bottom: 18px; width: 2px; background: #ecdcc0; }
@@ -269,13 +316,16 @@ details p { padding: 0 0 16px; font-size: 14px; color: var(--muted); }
 
 .knopf { display: flex; align-items: center; justify-content: center; gap: 8px; min-height: 48px; margin-top: 14px; padding: 12px 20px; border-radius: 12px; background: var(--nacht); color: #fff; font-weight: 600; text-align: center; }
 .knopf.hell { background: #fff; color: var(--nacht); border: 1.5px solid var(--nacht); }
+button.knopf { border: 0; cursor: pointer; }
 .knopf.gold { background: var(--gold); color: var(--nacht); }
 .text-link { font-size: 14px; font-weight: 600; color: var(--gold-dunkel); }
 .text-link:hover { text-decoration: underline; }
 
 .hilfe-liste { display: grid; grid-template-columns: repeat(auto-fit, minmax(230px, 1fr)); gap: 10px; margin-top: 14px; }
 .hilfe-zeile { display: grid; grid-template-columns: 36px minmax(0, 1fr) 14px; gap: 12px; align-items: center; padding: 12px; border-radius: 12px; background: var(--hell); transition: background .15s; }
-a.hilfe-zeile:hover { background: var(--honig); }
+a.hilfe-zeile:hover, button.hilfe-zeile:hover { background: var(--honig); }
+button.hilfe-zeile { width: 100%; border: 0; font: inherit; color: inherit; text-align: left; cursor: pointer; }
+.hilfe-zeile .ikon img { width: 28px; height: 28px; border-radius: 7px; }
 .hilfe-zeile > svg { width: 14px; height: 14px; color: #a29c91; }
 .hilfe-zeile .ikon { width: 36px; height: 36px; border-radius: 10px; background: #fff; display: flex; align-items: center; justify-content: center; }
 .hilfe-zeile .ikon svg { width: 20px; height: 20px; }
@@ -317,6 +367,7 @@ a.hilfe-zeile:hover { background: var(--honig); }
 .honig { transition: transform .4s cubic-bezier(.2, .8, .2, 1); }
 .fs-anzeige b { display: block; font-size: 42px; line-height: 1; font-weight: 700; letter-spacing: -.03em; font-variant-numeric: tabular-nums; }
 .fs-anzeige span { display: block; margin-top: 6px; font-size: 13.5px; color: var(--muted); }
+.fs-anzeige .fs-erinnerung { display: block; margin-top: 6px; font-size: 13px; text-align: left; white-space: nowrap; }
 .fs-schiene { --daumen: 30px; position: relative; margin-top: 14px; padding-bottom: 20px; }
 .fs-regler { -webkit-appearance: none; appearance: none; display: block; width: 100%; height: 44px; margin: 0; background: none; cursor: pointer; touch-action: pan-y; }
 .fs-regler:focus-visible { outline: none; }
@@ -362,19 +413,10 @@ a.hilfe-zeile:hover { background: var(--honig); }
 .fs-hinweis .knopf { flex: none; margin-top: 0; min-height: 42px; padding: 8px 18px; background: var(--gold); color: var(--nacht); font-size: 14px; }
 .q-ikon { width: 40px; height: 40px; border-radius: 12px; background: var(--honig); color: var(--gold-dunkel); display: flex; align-items: center; justify-content: center; }
 .q-ikon svg { width: 22px; height: 22px; }
-.ziel-zeile { display: grid; grid-template-columns: 48px minmax(0, 1fr) auto; gap: 12px 16px; align-items: center; margin-top: 20px; padding-top: 18px; border-top: 1px solid var(--line); }
-.ziel-ikon { width: 48px; height: 48px; border-radius: 14px; background: var(--nacht); color: var(--gold); display: flex; align-items: center; justify-content: center; }
-.ziel-ikon svg { width: 24px; height: 24px; }
-.ziel-zeile h3 { font-size: 16px; }
-.ziel-zeile p { margin-top: 2px; font-size: 14px; color: #45413b; }
-.ziel-zeile p b { color: var(--gold-dunkel); }
-.ziel-aktion { display: flex; flex-wrap: wrap; align-items: center; justify-content: flex-end; gap: 8px 16px; }
-.ziel-aktion .knopf { margin-top: 0; min-height: 42px; padding: 8px 18px; font-size: 14px; }
 .achse-chip { padding: 5px 11px; border: 1px solid #e2cf9f; border-radius: 999px; background: var(--creme); font-size: 12.5px; font-weight: 600; color: #5b4a2c; cursor: pointer; }
 .achse-chip:hover { background: var(--honig); }
 .fs-fuss { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 6px 18px; margin-top: 14px; font-size: 12.5px; color: var(--muted); }
 button.text-link { padding: 0; border: 0; background: none; font-size: 14px; cursor: pointer; }
-.fs-fuss button.text-link { font-size: 13px; }
 
 /* Inhalt: Assistent für tiefere Fragen */
 .frag-box { display: grid; grid-template-columns: 48px minmax(0, 1fr); gap: 14px 16px; align-items: center; padding: 22px 24px; border-radius: 18px; background: var(--nacht); color: #fff; }
@@ -437,8 +479,29 @@ button.text-link { padding: 0; border: 0; background: none; font-size: 14px; cur
 .plan-extra { margin-top: 12px; }
 .quiz-fuss { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 10px; padding: 14px 22px 22px; }
 .quiz-fuss:empty { display: none; }
-.quiz-fuss .knopf { margin-top: 0; }
 .app-symbol { width: 44px; height: 44px; border-radius: 11px; }
+.quiz-box { padding-bottom: 6px; border-radius: 18px; background: #fff; border: 1px solid #ecdcb6; box-shadow: 0 1px 2px rgba(28, 32, 41, .03), 0 24px 46px -34px rgba(28, 32, 41, .5); scroll-margin-top: 90px; }
+.quiz-box .quiz-kopf { grid-template-columns: 44px minmax(0, 1fr); }
+.quiz-box .quiz-antworten { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+.quiz-box .plan-tipps { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+.kal-symbol { width: 44px; height: 44px; border-radius: 12px; background: var(--honig); display: flex; align-items: center; justify-content: center; }
+.kal-symbol svg { width: 24px; height: 24px; }
+.kal-inhalt { padding: 14px 22px 22px; }
+.kal-inhalt > p { font-size: 15px; color: #45413b; }
+.kal-felder { display: grid; grid-template-columns: repeat(auto-fill, minmax(130px, 1fr)); gap: 12px; margin-top: 16px; }
+.kal-feld { display: grid; gap: 6px; font-size: 13px; font-weight: 600; color: #6e5a3a; }
+.kal-feld:has(.kal-dauer) { grid-column: 1 / -1; }
+.kal-feld input { height: 44px; padding: 0 12px; border: 1.5px solid #e6dcc6; border-radius: 10px; background: #fff; font: inherit; font-size: 16px; color: var(--text); }
+.kal-feld input:focus { outline: 0; border-color: var(--gold); }
+.kal-dauer { display: flex; flex-wrap: wrap; gap: 6px; }
+.kal-dauer button { height: 44px; padding: 0 16px; border: 1.5px solid #e6dcc6; border-radius: 10px; background: #fff; font-size: 14px; font-weight: 600; cursor: pointer; }
+.kal-dauer button[aria-checked="true"] { background: var(--nacht); border-color: var(--nacht); color: #fff; }
+.kal-knoepfe { display: grid; gap: 10px; margin-top: 20px; }
+.kal-knoepfe .knopf { margin-top: 0; }
+.kal-google { display: flex; flex-wrap: wrap; gap: 8px; }
+.kal-google .knopf { flex: 1 1 110px; }
+.kal-google p { flex-basis: 100%; font-size: 13px; font-weight: 600; color: #6e5a3a; }
+.kal-hinweis { margin-top: 14px; font-size: 12.5px; color: var(--muted); }
 .app-inhalt { padding: 14px 22px 22px; }
 .app-inhalt > p { font-size: 15px; color: #45413b; }
 .app-schritte { display: grid; gap: 8px; margin: 14px 0 0 20px; font-size: 14.5px; }
@@ -534,9 +597,9 @@ body.chat-offen .chat-fenster { display: flex; }
   .top-produkt .runter { flex: none; width: 14px; height: 14px; color: #8d887f; }
   .assistent-knopf { flex: none; height: 40px; padding: 0 12px 0 5px; font-size: 13.5px; }
   .app { padding: 18px 16px 104px; }
-  .tabbar { position: fixed; left: 0; right: 0; bottom: 0; z-index: 20; display: grid; grid-template-columns: repeat(6, minmax(0, 1fr)); padding: 6px 2px calc(6px + env(safe-area-inset-bottom)); background: rgba(255, 255, 255, .95); -webkit-backdrop-filter: blur(14px); backdrop-filter: blur(14px); border-top: 1px solid #ece6db; }
-  .tab { display: flex; flex-direction: column; align-items: center; gap: 2px; padding: 2px 0; font-size: 10.5px; font-weight: 500; color: #6f6a62; }
-  .tab svg { width: 44px; height: 30px; padding: 4px 11px; border-radius: 999px; }
+  .tabbar { position: fixed; left: 0; right: 0; bottom: 0; z-index: 20; display: grid; grid-template-columns: repeat(7, minmax(0, 1fr)); padding: 6px 2px calc(6px + env(safe-area-inset-bottom)); background: rgba(255, 255, 255, .95); -webkit-backdrop-filter: blur(14px); backdrop-filter: blur(14px); border-top: 1px solid #ece6db; }
+  .tab { display: flex; flex-direction: column; align-items: center; gap: 2px; padding: 2px 0; font-size: 10px; font-weight: 500; color: #6f6a62; }
+  .tab svg { width: 40px; height: 30px; padding: 4px 9px; border-radius: 999px; }
   .tab.an { color: var(--text); font-weight: 600; }
   .tab.an svg { background: var(--honig); color: var(--gold-dunkel); }
   .ansicht > * + * { margin-top: 18px; }
@@ -578,11 +641,30 @@ body.chat-offen .chat-fenster { display: flex; }
   .fs-name { font-size: 11px; }
   .fs-phase { grid-template-columns: minmax(0, 1fr); }
   .fs-hinweis .knopf { width: 100%; }
-  .ziel-zeile { grid-template-columns: 44px minmax(0, 1fr); }
-  .ziel-ikon { width: 44px; height: 44px; }
-  .ziel-aktion { grid-column: 1 / -1; justify-content: flex-start; }
   .plan-tipps > li { grid-template-columns: 36px minmax(0, 1fr); gap: 12px; padding: 14px; }
   .plan-tipps .q-ikon { width: 36px; height: 36px; }
+  .quiz-box .quiz-antworten { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .quiz-box .plan-tipps { grid-template-columns: minmax(0, 1fr); }
+  .tagesplan { padding: 20px 16px 18px; }
+  .tp-wahl { display: flex; }
+  .tp-wahl button { flex: 1; justify-content: center; padding: 8px 10px; text-align: center; }
+  .tp-wahl button svg { display: none; }
+  .tp-wahl b { font-size: 14px; }
+  .tp-wahl small { font-size: 11.5px; }
+  .tp-kopf h2 { font-size: 25px; }
+  .tp-erinnerung { width: 100%; }
+  .tp-zeiten { gap: 8px; margin-top: 18px; }
+  .tp-zeiten li { padding: 12px 6px 14px; }
+  .tp-loeffel { width: 28px; height: 58px; }
+  .tp-zeiten b { font-size: 13.5px; }
+  .tp-schritte { flex-direction: column; align-items: stretch; width: 100%; }
+  .tp-schritte li + li { margin-left: 0; }
+  .tp-schritte li + li::before { display: none; }
+  .tp-tage { width: 100%; }
+  .tp-tage li { flex: 1; width: auto; height: 30px; }
+  .sparen-raster { grid-template-columns: minmax(0, 1fr); }
+  .kal-inhalt { padding: 12px 16px calc(20px + env(safe-area-inset-bottom)); }
+  .kal-felder { grid-template-columns: repeat(auto-fill, minmax(96px, 1fr)); }
   .frag-box { padding: 18px 16px; }
   .frag-feld { font-size: 14px; }
   .hakt-raster, .stimmen { grid-template-columns: minmax(0, 1fr); }
@@ -598,7 +680,7 @@ body.chat-offen .chat-fenster { display: flex; }
   html { scroll-behavior: auto; }
   .ansicht:target, .ansicht:has(:target), .seite:target .ansicht.erste { animation: none; }
   .tippt i { animation: none; opacity: .6; }
-  .honig, .fs-punkt, .fs-stufen::after { transition: none; }
+  .honig, .fs-punkt, .fs-stufen::after, .tp-zeiten li, .sparen-spur i { transition: none; }
   .fs-phase.neu { animation: none; }
   .quiz-antworten, .quiz-ergebnis { animation: none; }
   summary svg { transition: none; }
@@ -663,6 +745,10 @@ body.chat-offen .chat-fenster { display: flex; }
   <symbol id="z-sport" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"><path d="M6.5 7.5v9M17.5 7.5v9M3.5 10v4M20.5 10v4M6.5 12h11"/></g></symbol>
   <symbol id="z-kita" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-width="1.7" stroke-linejoin="round"><rect x="4" y="12" width="7" height="7" rx="1.5"/><rect x="13" y="12" width="7" height="7" rx="1.5"/><path d="M12 4l3.5 6h-7z"/></g></symbol>
   <symbol id="z-hals" viewBox="0 0 24 24"><path d="M12 3.5c3 4 6 7.3 6 10.5a6 6 0 0 1-12 0c0-3.2 3-6.5 6-10.5z" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linejoin="round"/></symbol>
+  <defs><linearGradient id="lh-honig" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#f3d38c"/><stop offset="1" stop-color="#d49c3a"/></linearGradient></defs>
+  <symbol id="loeffel-honig" viewBox="0 0 48 100"><path d="M24 40v54" stroke="#1c2029" stroke-width="5.5" stroke-linecap="round"/><ellipse cx="24" cy="23" rx="17" ry="21" fill="#fff" stroke="#1c2029" stroke-width="2.4"/><ellipse cx="24" cy="25" rx="12.5" ry="15.5" fill="url(#lh-honig)"/><path d="M17.5 17.5c2.2-3.2 5.6-4.4 8.8-3.5" fill="none" stroke="#fff" stroke-width="2.2" stroke-linecap="round" opacity=".75"/></symbol>
+  <symbol id="loeffel-wenig" viewBox="0 0 48 100"><path d="M24 40v54" stroke="#1c2029" stroke-width="5.5" stroke-linecap="round"/><ellipse cx="24" cy="23" rx="17" ry="21" fill="#fff" stroke="#1c2029" stroke-width="2.4"/><ellipse cx="24" cy="31" rx="9" ry="8" fill="url(#lh-honig)"/></symbol>
+  <symbol id="loeffel-leer" viewBox="0 0 48 100"><path d="M24 40v54" stroke="#dcd1bb" stroke-width="5.5" stroke-linecap="round"/><ellipse cx="24" cy="23" rx="17" ry="21" fill="none" stroke="#dcd1bb" stroke-width="2.4" stroke-dasharray="5 4"/></symbol>
 </svg>
 
 <div class="rahmen">
@@ -730,6 +816,7 @@ body.chat-offen .chat-fenster { display: flex; }
       <a class="nav-punkt" href="#ns-ueberblick" data-ansicht="ns-ueberblick"><svg><use href="#i-raster"/></svg>Überblick</a>
       <a class="nav-punkt" href="#ns-einnahme" data-ansicht="ns-einnahme"><svg><use href="#i-loeffel-linie"/></svg>Einnahme</a>
       <a class="nav-punkt" href="#ns-30" data-ansicht="ns-30"><svg><use href="#i-kalender-linie"/></svg>30 Tage</a>
+      <a class="nav-punkt" href="#ns-tipps" data-ansicht="ns-tipps"><svg><use href="#z-fokus"/></svg>Ziel und Tipps</a>
       <a class="nav-punkt" href="#ns-inhalt" data-ansicht="ns-inhalt"><svg><use href="#i-glas"/></svg>Inhalt</a>
       <a class="nav-punkt" href="#ns-nachkauf" data-ansicht="ns-nachkauf"><svg><use href="#i-nachkauf"/></svg>Nachkauf</a>
       <a class="nav-punkt" href="#ns-fragen" data-ansicht="ns-fragen"><svg><use href="#i-hilfe"/></svg>Fragen</a>
@@ -767,7 +854,7 @@ body.chat-offen .chat-fenster { display: flex; }
               <h2 id="ns-fortschritt-titel">Seit wie vielen Tagen nimmst du OMNI9?</h2>
               <p class="block-text">Schieb den Regler auf deinen Tag. Dann siehst du, was gerade in deinem Körper passiert.</p>
             </div>
-            <div class="fs-anzeige"><span class="fs-glas" data-glas></span><p><b data-tag-zahl></b><span data-tag-unter></span></p></div>
+            <div class="fs-anzeige"><span class="fs-glas" data-glas></span><p><b data-tag-zahl></b><span data-tag-unter></span><button class="text-link fs-erinnerung" type="button" data-erinnerung="ns-nachbestellen" hidden>Erinnerung zum Nachbestellen</button></p></div>
           </div>
           <div class="fs-schiene">
             <input class="fs-regler" type="range" min="0" max="41" step="1" value="0" aria-labelledby="ns-fortschritt-titel" data-regler>
@@ -779,12 +866,7 @@ body.chat-offen .chat-fenster { display: flex; }
             <div class="fs-phase" data-phase></div>
             <div class="fs-hinweis" data-hinweis hidden></div>
           </div>
-          <div class="ziel-zeile">
-            <span class="ziel-ikon"><svg><use href="#z-fokus"/></svg></span>
-            <div><h3>Was ist dein Ziel?</h3><p>3 kurze Fragen, dann bekommst du ausführliche Tipps, die zu dir passen.</p></div>
-            <div class="ziel-aktion"><button class="knopf gold" type="button" data-quiz="ns">Ziel finden</button></div>
-          </div>
-          <p class="fs-fuss"><span>Die Zeiten sind eine Orientierung aus echten Bewertungen. Jeder Körper ist anders.</span><button class="text-link" type="button" data-app>Als App aufs Handy</button></p>
+          <p class="fs-fuss"><span>Die Zeitangaben dienen als Orientierung und stammen aus echten Bewertungen. Jeder Körper ist anders.</span></p>
         </section>
         <section class="vorteile">
           <h2>Deine Vorteile mit OMNI9</h2>
@@ -804,14 +886,32 @@ body.chat-offen .chat-fenster { display: flex; }
           <h2>So geht es für dich weiter</h2>
           <ol class="fahrplan">
             <li><span class="nr">1</span><b>Heute</b><p>Start-Video ansehen und den ersten Teelöffel nehmen.</p><a href="#ns-einnahme">Zur Einnahme<svg><use href="#i-weiter"/></svg></a></li>
-            <li><span class="nr">2</span><b>Tag 1 bis 30</b><p>Jeden Tag ein Teelöffel, am besten immer zur gleichen Zeit.</p><a href="#ns-30">Zum 30-Tage-Plan<svg><use href="#i-weiter"/></svg></a></li>
-            <li><span class="nr">3</span><b>Bevor das Glas leer ist</b><p>Ein Glas reicht 30 Tage. Automatisch geliefert kostet es 69&nbsp;€ statt 89&nbsp;€.</p><a href="#ns-nachkauf">Zum Nachkauf<svg><use href="#i-weiter"/></svg></a></li>
+            <li><span class="nr">2</span><b>Tag 1 bis 30</b><p>Jeden Tag einen Teelöffel, am besten immer zur gleichen Zeit.</p><a href="#ns-30">Zum 30-Tage-Plan<svg><use href="#i-weiter"/></svg></a></li>
+            <li><span class="nr">3</span><b>Bevor das Glas leer ist</b><p>Ein Glas reicht 30 Tage. Mit automatischer Lieferung kostet es 69&nbsp;€ statt 89&nbsp;€.</p><a href="#ns-nachkauf">Zum Nachkauf<svg><use href="#i-weiter"/></svg></a></li>
           </ol>
         </section>
       </section>
 
       <section class="ansicht" id="ns-einnahme">
         <header class="ansicht-kopf"><h1>So nimmst du OMNI9</h1><p>Ein Löffel. Jeden Tag. Ohne Aufwand.</p></header>
+        <section class="tagesplan" aria-labelledby="ns-tagesplan-titel">
+          <div class="tp-kopf">
+            <div><h2 id="ns-tagesplan-titel">1 Teelöffel pro Tag</h2><p>Immer zur gleichen Zeit, zum Beispiel morgens. So wird es schnell zur Routine.</p></div>
+            <button class="knopf hell tp-erinnerung" type="button" data-erinnerung="ns-taeglich"><svg><use href="#i-kalender-linie"/></svg><span>Erinnere mich jeden Tag</span></button>
+          </div>
+          <ol class="tp-zeiten">
+            <li class="an"><span class="tp-zeit"><svg><use href="#z-morgen"/></svg>Morgens</span><svg class="tp-loeffel"><use href="#loeffel-honig"/></svg><b>1 Teelöffel</b><small>oder zu deiner festen Zeit</small></li>
+            <li class="aus"><span class="tp-zeit"><svg><use href="#z-mittag"/></svg>Mittags</span><svg class="tp-loeffel"><use href="#loeffel-leer"/></svg><b>Nichts mehr nötig</b></li>
+            <li class="aus"><span class="tp-zeit"><svg><use href="#z-abend"/></svg>Abends</span><svg class="tp-loeffel"><use href="#loeffel-leer"/></svg><b>Nichts mehr nötig</b></li>
+          </ol>
+          <div class="tp-dauer">
+            <p><b>Empfindlicher Darm?</b> So startest du sanft.</p>
+            <ol class="tp-schritte">
+              <li><svg class="tp-loeffel"><use href="#loeffel-wenig"/></svg><span><b>Die ersten Tage</b>Etwas weniger als einen Teelöffel</span></li>
+              <li><svg class="tp-loeffel"><use href="#loeffel-honig"/></svg><span><b>Danach</b>1 Teelöffel pro Tag</span></li>
+            </ol>
+          </div>
+        </section>
         <div class="einnahme-raster">
           <button class="video" type="button" data-platzhalter="Platzhalter: Hier läuft später euer Start-Video „So nimmst du OMNI9“, ca. 1 Minute." aria-label="Start-Video ansehen">
             <img src="bilder/start-video.jpg" alt="">
@@ -819,13 +919,10 @@ body.chat-offen .chat-fenster { display: flex; }
             <span class="dauer">1:04</span>
           </button>
           <div class="block">
-            <div class="dosis">
-              <div class="dosis-zahl"><b>1</b><span>Teelöffel<br>pro Tag</span></div>
-              <p>Mehr braucht es nicht. Kein Protokoll, kein Pillenregal, kein Rätselraten.</p>
-            </div>
+            <h2>So klappt es</h2>
             <ul class="haken-liste">
-              <li><svg><use href="#haken"/></svg><span>Empfindlicher Darm? Starte die ersten Tage mit weniger und steigere dann auf einen Teelöffel.</span></li>
-              <li><svg><use href="#haken"/></svg><span>Immer zur gleichen Zeit, zum Beispiel morgens. So wird es schnell zur Routine.</span></li>
+              <li><svg><use href="#haken"/></svg><span>Stell das Glas sichtbar hin, etwa neben die Kaffeemaschine. Dann vergisst du deinen Löffel nicht.</span></li>
+              <li><svg><use href="#haken"/></svg><span>Ein Glas hat 30 Portionen und reicht einen Monat.</span></li>
               <li><svg><use href="#haken"/></svg><span>Andere Supplements? Viele nutzen OMNI9 als Basis, die den Rest ersetzt oder stark reduziert.</span></li>
             </ul>
           </div>
@@ -840,8 +937,8 @@ body.chat-offen .chat-fenster { display: flex; }
             <ol class="zeitleiste">
               <li class="jetzt"><span class="punkt"><svg><use href="#t-keim"/></svg></span><div><b>Tag 1 bis 3</b><p>Sanft starten. Ist dein Darm empfindlich, nimm anfangs etwas weniger als einen Teelöffel.</p></div></li>
               <li><span class="punkt"><svg><use href="#i-loeffel-linie"/></svg></span><div><b>Tag 4 bis 14</b><p>Jeden Tag einen Teelöffel, am besten immer zur gleichen Zeit.</p></div></li>
-              <li><span class="punkt"><svg><use href="#t-flamme"/></svg></span><div><b>Tag 15 bis 30</b><p>Dranbleiben. Regelmäßigkeit ist die Voraussetzung dafür, dass Regeneration passieren kann.</p></div></li>
-              <li><span class="punkt"><svg><use href="#i-nachkauf"/></svg></span><div><b>Bevor das Glas leer ist</b><p>Ein Glas hat 30 Portionen. Bestell rechtzeitig nach, damit deine Routine nicht abreißt.</p></div></li>
+              <li><span class="punkt"><svg><use href="#t-flamme"/></svg></span><div><b>Tag 15 bis 30</b><p>Dranbleiben. Regelmäßigkeit ist die Voraussetzung dafür, dass Regeneration stattfinden kann.</p></div></li>
+              <li><span class="punkt"><svg><use href="#i-nachkauf"/></svg></span><div><b>Bevor das Glas leer ist</b><p>Ein Glas enthält 30 Portionen. Bestell rechtzeitig nach, damit deine Routine nicht abreißt.</p></div></li>
             </ol>
           </div>
           <div class="spalte">
@@ -864,10 +961,10 @@ body.chat-offen .chat-fenster { display: flex; }
           <h2>Wenn es hakt</h2>
           <p class="block-text">So kommst du wieder rein, wenn es mal nicht rund läuft.</p>
           <div class="hakt-raster">
-            <details><summary>Ich vergesse es<svg><use href="#plus"/></svg></summary><p>Nimm deinen Löffel immer zur gleichen Zeit, zum Beispiel morgens, und stell das Glas sichtbar hin, etwa neben die Kaffeemaschine. Am leichtesten klappt es, wenn du ihn mit etwas verknüpfst, das du sowieso jeden Tag machst.</p></details>
-            <details><summary>Mein Bauch rumort<svg><use href="#plus"/></svg></summary><p>Ist dein Darm empfindlich, nimm die ersten Tage weniger und steigere dann langsam auf einen Teelöffel. So pendelt sich dein System sauber ein.</p></details>
-            <details><summary>Der Geschmack ist ungewohnt<svg><use href="#plus"/></svg></summary><p>Das schreiben einige in den Bewertungen, und auch, dass man sich schnell daran gewöhnt. Ein Tipp aus einer Bewertung: den Löffel langsam im Mund zergehen lassen.</p></details>
-            <details><summary>Ich merke noch nichts<svg><use href="#plus"/></svg></summary><p>Das ist individuell. In den ersten Tagen merken manche noch nichts, wichtig ist, dass du jeden Tag dranbleibst. Einige schreiben nach 2 bis 3 Wochen von mehr Energie.<br><a class="text-link" href="#ns-fortschritt">Sieh nach, was an deinem Tag passiert</a></p></details>
+            <details><summary>Ich vergesse es<svg><use href="#plus"/></svg></summary><p>Nimm deinen Löffel immer zur gleichen Zeit, zum Beispiel morgens. Stell das Glas sichtbar hin, etwa neben die Kaffeemaschine. Am leichtesten klappt es, wenn du die Einnahme mit etwas verknüpfst, das du sowieso jeden Tag machst.<br><button class="text-link" type="button" data-erinnerung="ns-taeglich">Erinnere mich jeden Tag</button></p></details>
+            <details><summary>Mein Bauch rumort<svg><use href="#plus"/></svg></summary><p>Ist dein Darm empfindlich, nimm die ersten Tage weniger und steigere dann langsam auf einen Teelöffel. So pendelt sich dein System gut ein.</p></details>
+            <details><summary>Der Geschmack ist ungewohnt<svg><use href="#plus"/></svg></summary><p>Das schreiben einige in den Bewertungen. Sie berichten auch, dass man sich schnell daran gewöhnt. Ein Tipp aus einer Bewertung: den Löffel langsam im Mund zergehen lassen.</p></details>
+            <details><summary>Ich merke noch nichts<svg><use href="#plus"/></svg></summary><p>Das ist bei jedem anders. In den ersten Tagen merken manche noch nichts. Wichtig ist, dass du jeden Tag dranbleibst. Einige schreiben nach 2 bis 3 Wochen von mehr Energie.<br><a class="text-link" href="#ns-fortschritt">Sieh nach, was an deinem Tag passiert</a></p></details>
           </div>
         </section>
         <section class="block">
@@ -881,6 +978,16 @@ body.chat-offen .chat-fenster { display: flex; }
           </ol>
           <a class="text-link" data-bewertung-link="ns" target="_blank" rel="noopener">Alle Bewertungen auf omni9.de</a>
         </section>
+        <div class="weiter"><a href="#ns-tipps">Weiter: Dein Ziel, deine Tipps<svg><use href="#i-weiter"/></svg></a></div>
+      </section>
+
+      <section class="ansicht" id="ns-tipps">
+        <header class="ansicht-kopf"><h1>Dein Ziel, deine Tipps</h1><p>3 kurze Fragen zu deinem Ziel und deinem Alltag. Dann bekommst du ausführliche Tipps, die zu dir passen.</p></header>
+        <div class="quiz-box" data-quiz-box="ns">
+          <div class="quiz-kopf"><span class="quiz-glas" data-glas></span><div><p class="quiz-schritt" data-q-schritt></p><h2 data-q-titel></h2></div></div>
+          <div data-q-koerper></div>
+          <div class="quiz-fuss" data-q-fuss></div>
+        </div>
         <div class="weiter"><a href="#ns-inhalt">Weiter: Was in OMNI9 steckt<svg><use href="#i-weiter"/></svg></a></div>
       </section>
 
@@ -906,12 +1013,12 @@ body.chat-offen .chat-fenster { display: flex; }
             <span class="dauer">3:06</span>
           </button>
           <div class="block">
-            <h2>Synergie statt Supplement-Chaos</h2>
-            <p class="block-text">Einzelstoffe verpuffen oft, weil der Partner fehlt. OMNI9 kombiniert deshalb Paare, die sich gegenseitig verstärken.</p>
+            <h2>Zusammenspiel statt Supplement-Chaos</h2>
+            <p class="block-text">Einzelstoffe wirken oft kaum, weil der passende Partner fehlt. OMNI9 kombiniert deshalb Paare, die sich gegenseitig verstärken.</p>
             <ul class="synergie">
               <li><b>Curcumin + Piperin</b><span>Piperin verstärkt die Wirkung von Curcumin um ein Vielfaches.</span></li>
               <li><b>Vitamin D3 + K2</b><span>D3 bringt Calcium in den Körper, K2 bringt es an den richtigen Ort.</span></li>
-              <li><b>Vitamin C + Polyphenole</b><span>Zellschutz im Verbund gegen oxidativen Stress, wie in echter Nahrung.</span></li>
+              <li><b>Vitamin C + Polyphenole</b><span>Gemeinsamer Zellschutz gegen oxidativen Stress, wie in echter Nahrung.</span></li>
             </ul>
           </div>
         </div>
@@ -934,9 +1041,9 @@ body.chat-offen .chat-fenster { display: flex; }
               <h3>Entzündungs- &amp; Schmerz-Achse</h3>
               <p class="unterzeile">Stille Entzündungen regulieren</p>
               <dl>
-                <div><dt>Typischer Alltag</dt><dd>Morgens steif, diffuse Beschwerden, ein schwerer Körper, Brain Fog. Das Gefühl, ständig unter Strom zu stehen.</dd></div>
+                <div><dt>Typischer Alltag</dt><dd>Morgens steif, diffuse Beschwerden, ein schwerer Körper, Nebel im Kopf. Das Gefühl, ständig unter Strom zu stehen.</dd></div>
                 <div><dt>Darin steckt</dt><dd class="komplexe"><span>Bio-Curcumin + Bio-Piperin</span><span>Omega-3 aus Bio-Algenöl</span><span>Bio-Phycocyanin</span><span>Bio-Granatapfel</span><span>Pterostilben</span></dd></div>
-                <div><dt>Warum das hilft</dt><dd>Stille Entzündungen wirken wie ein Schwelbrand im Gewebe und halten deinen Körper im Daueralarm. Curcumin und Omega-3 setzen an unterschiedlichen Stellen an, Piperin verbessert die Verfügbarkeit von Curcumin. Phycocyanin, Granatapfel und Pterostilben verstärken den Zellschutz.</dd></div>
+                <div><dt>Warum das hilft</dt><dd>Stille Entzündungen wirken wie ein Schwelbrand im Gewebe und halten deinen Körper im Daueralarm. Curcumin und Omega-3 setzen an unterschiedlichen Stellen an. Piperin verbessert die Verfügbarkeit von Curcumin. Phycocyanin, Granatapfel und Pterostilben verstärken den Zellschutz.</dd></div>
               </dl>
             </div>
             <div class="achse-panel" role="tabpanel" id="ns-achse-2" aria-labelledby="ns-achse-2-tab" hidden>
@@ -945,7 +1052,7 @@ body.chat-offen .chat-fenster { display: flex; }
               <dl>
                 <div><dt>Typischer Alltag</dt><dd>Blähbauch, ein schwerer Magen, Müdigkeit nach dem Essen. Supplements bringen kaum einen spürbaren Unterschied.</dd></div>
                 <div><dt>Darin steckt</dt><dd class="komplexe"><span>Bacillus coagulans</span><span>Bio-Akazienfaser</span><span>Honig-Oligosaccharide aus Bio-Buchweizenhonig</span></dd></div>
-                <div><dt>Warum das hilft</dt><dd>Ein gereizter Darm ist wie ausgelaugter Boden: Nur ein Teil der Nährstoffe kommt wirklich an. Akazienfaser nährt hilfreiche Darmbakterien, die Sporenkultur Bacillus coagulans unterstützt das Darmmilieu. Wird der Darm stabiler, werden Nährstoffe wieder besser aufgenommen.</dd></div>
+                <div><dt>Warum das hilft</dt><dd>Ein gereizter Darm ist wie ausgelaugter Boden: Nur ein Teil der Nährstoffe kommt wirklich an. Akazienfaser nährt hilfreiche Darmbakterien. Die Sporenkultur Bacillus coagulans unterstützt das Darmmilieu. Wird der Darm stabiler, nimmt er Nährstoffe wieder besser auf.</dd></div>
               </dl>
             </div>
             <div class="achse-panel" role="tabpanel" id="ns-achse-3" aria-labelledby="ns-achse-3-tab" hidden>
@@ -954,7 +1061,7 @@ body.chat-offen .chat-fenster { display: flex; }
               <dl>
                 <div><dt>Typischer Alltag</dt><dd>Trotz Schlaf nicht erholt, ein halber Akku am Morgen, das Nachmittagsloch. Nach kleinen Belastungen völlig leer.</dd></div>
                 <div><dt>Darin steckt</dt><dd class="komplexe"><span>Aktives NADH</span><span>Pterostilben</span><span>Vitamin B6 als P5P</span><span>Vitamin B9 als 5-MTHF</span><span>Vitamin B12 als Methylcobalamin</span><span>Omega-3 und Antioxidantien</span></dd></div>
-                <div><dt>Warum das hilft</dt><dd>Deine Mitochondrien liefern die Energie für Gehirn, Muskeln und Nerven. NADH unterstützt die Prozesse, durch die dort ATP entsteht. Die aktiven B-Vitamine liefern wichtige Cofaktoren. So entsteht Energie nicht als kurzer Push, sondern als stabile Kraft über den Tag.</dd></div>
+                <div><dt>Warum das hilft</dt><dd>Deine Mitochondrien liefern die Energie für Gehirn, Muskeln und Nerven. NADH unterstützt die Prozesse, durch die dort ATP entsteht. Die aktiven B-Vitamine liefern wichtige Cofaktoren. So entsteht Energie nicht als kurzer Schub, sondern als stabile Kraft über den Tag.</dd></div>
               </dl>
             </div>
             <div class="achse-panel" role="tabpanel" id="ns-achse-4" aria-labelledby="ns-achse-4-tab" hidden>
@@ -963,25 +1070,25 @@ body.chat-offen .chat-fenster { display: flex; }
               <dl>
                 <div><dt>Typischer Alltag</dt><dd>Müde, aber innerlich unruhig. Schnell gereizt. Der Kopf schaltet nicht ab, und der Schlaf erholt nicht.</dd></div>
                 <div><dt>Darin steckt</dt><dd class="komplexe"><span>Bio-Ashwagandha</span><span>Aktive B-Vitamine</span><span>Vitamin D3 aus Bio-Flechte</span><span>Vitamin K2 aus Bio-Natto</span><span>Omega-3</span><span>Zink aus Bio-Guavenblatt</span><span>Bio-Acerola und Bio-Granatapfel</span></dd></div>
-                <div><dt>Warum das hilft</dt><dd>Bleibt dein Stresssystem dauerhaft aktiv, kann dein Körper nicht sauber zwischen Anspannung und Erholung wechseln. Ashwagandha unterstützt die Regulation der Stressachse. Die aktiven B-Vitamine versorgen dein Nervensystem. So kann Schlaf wieder zu echter Regeneration werden.</dd></div>
+                <div><dt>Warum das hilft</dt><dd>Bleibt dein Stresssystem dauerhaft aktiv, kann dein Körper nicht gut zwischen Anspannung und Erholung wechseln. Ashwagandha unterstützt die Regulation der Stressachse. Die aktiven B-Vitamine versorgen dein Nervensystem. So kann Schlaf wieder zu echter Regeneration werden.</dd></div>
               </dl>
             </div>
             <div class="achse-panel" role="tabpanel" id="ns-achse-5" aria-labelledby="ns-achse-5-tab" hidden>
               <h3>Neuro- &amp; Fokus-Achse</h3>
               <p class="unterzeile">Klarer Kopf, weniger Nebel</p>
               <dl>
-                <div><dt>Typischer Alltag</dt><dd>Du liest Sätze zweimal, Wörter fallen dir nicht ein, die Konzentration bricht schnell ab.</dd></div>
+                <div><dt>Typischer Alltag</dt><dd>Du liest Sätze zweimal, Wörter fallen dir nicht ein, die Konzentration lässt schnell nach.</dd></div>
                 <div><dt>Darin steckt</dt><dd class="komplexe"><span>Bio-Lion’s-Mane</span><span>Aktive B-Vitamine</span><span>Aktives NADH</span><span>Bio-Ginkgo-Biloba</span><span>Bio-Acerola und Bio-Granatapfel</span></dd></div>
-                <div><dt>Warum das hilft</dt><dd>Dein Gehirn braucht gleichzeitig Energie, Durchblutung und stabile Nervenverbindungen. Lion’s Mane unterstützt die Nervenregeneration, Ginkgo die Versorgung des Gehirns, und DHA ist ein wichtiger Baustein der Nervenzellen. NADH liefert dazu Zellenergie.</dd></div>
+                <div><dt>Warum das hilft</dt><dd>Dein Gehirn braucht gleichzeitig Energie, Durchblutung und stabile Nervenverbindungen. Lion’s Mane unterstützt die Nervenregeneration, Ginkgo die Versorgung des Gehirns. DHA ist ein wichtiger Baustein der Nervenzellen. NADH liefert dazu Zellenergie.</dd></div>
               </dl>
             </div>
             <div class="achse-panel" role="tabpanel" id="ns-achse-6" aria-labelledby="ns-achse-6-tab" hidden>
               <h3>Immun- &amp; Schleimhaut-Achse</h3>
               <p class="unterzeile">Immunabwehr stabilisieren</p>
               <dl>
-                <div><dt>Typischer Alltag</dt><dd>Du fühlst dich schnell angeschlagen, Stress wirft dich aus der Bahn, und nach Belastungen brauchst du lange, um dich zu fangen.</dd></div>
+                <div><dt>Typischer Alltag</dt><dd>Du fühlst dich schnell angeschlagen, Stress wirft dich aus der Bahn, und nach Belastungen brauchst du lange, um dich zu erholen.</dd></div>
                 <div><dt>Darin steckt</dt><dd class="komplexe"><span>Vitamin C aus Bio-Acerola</span><span>Vitamin D3 aus Bio-Flechte</span><span>Zink aus Bio-Guavenblatt</span><span>Polyphenole aus Bio-Granatapfel</span><span>Sporen-Probiotika</span><span>Präbiotika aus Bio-Akazienfaser</span></dd></div>
-                <div><dt>Warum das hilft</dt><dd>Ein großer Teil deiner Immunregulation beginnt im Darm und an den Schleimhäuten. Bacillus coagulans und Akazienfaser stabilisieren die Darmbasis. Vitamin C, D3 und Zink versorgen zentrale Bereiche deiner Abwehr.</dd></div>
+                <div><dt>Warum das hilft</dt><dd>Ein großer Teil deiner Immunregulation beginnt im Darm und an den Schleimhäuten. Bacillus coagulans und Akazienfaser stabilisieren die Grundlage im Darm. Vitamin C, D3 und Zink versorgen zentrale Bereiche deiner Abwehr.</dd></div>
               </dl>
             </div>
             <div class="achse-panel" role="tabpanel" id="ns-achse-7" aria-labelledby="ns-achse-7-tab" hidden>
@@ -999,7 +1106,7 @@ body.chat-offen .chat-fenster { display: flex; }
               <dl>
                 <div><dt>Typischer Alltag</dt><dd>Innerlich belastet, träge, schlechte Regeneration nach Stress oder schwerem Essen.</dd></div>
                 <div><dt>Darin steckt</dt><dd class="komplexe"><span>Bio-Spirulina</span><span>Bio-Phycocyanin</span><span>Bio-Granatapfel</span><span>Bio-Curcumin</span><span>Bio-Piperin</span><span>Pterostilben</span><span>Vitamin C aus Bio-Acerola</span></dd></div>
-                <div><dt>Warum das hilft</dt><dd>Leber und Zellen haben eigene Reinigungs- und Recyclingsysteme, die unter Dauerstress ins Hintertreffen geraten. Spirulina liefert Aminosäuren und Pflanzenstoffe. Phycocyanin, Curcumin, Granatapfel und Vitamin C fangen freie Radikale ab.</dd></div>
+                <div><dt>Warum das hilft</dt><dd>Leber und Zellen haben eigene Reinigungs- und Recyclingsysteme, die bei Dauerstress nicht mehr hinterherkommen. Spirulina liefert Aminosäuren und Pflanzenstoffe. Phycocyanin, Curcumin, Granatapfel und Vitamin C fangen freie Radikale ab.</dd></div>
               </dl>
             </div>
             <div class="achse-panel" role="tabpanel" id="ns-achse-9" aria-labelledby="ns-achse-9-tab" hidden>
@@ -1008,7 +1115,7 @@ body.chat-offen .chat-fenster { display: flex; }
               <dl>
                 <div><dt>Typischer Alltag</dt><dd>Du hast schon Vitamine, Pulver und Kapseln genommen, aber kaum einen Unterschied gespürt.</dd></div>
                 <div><dt>Darin steckt</dt><dd class="komplexe"><span>Enzymaktive Honigmatrix</span><span>Bio-Akazienfaser</span><span>Bacillus coagulans</span><span>Bio-Piperin</span><span>Mikroverkapseltes NADH</span><span>Vitamin D3 + K2</span><span>Vitamin C + Zink</span></dd></div>
-                <div><dt>Warum das hilft</dt><dd>Die bioaktive Honigmatrix wirkt als natürliches Transportsystem und steigert die Aufnahme der Nährstoffe im Darm um bis zu 600 %. Akazienfaser und Bacillus coagulans unterstützen das Aufnahmeumfeld, Piperin die Verfügbarkeit von Curcumin, und NADH ist durch Mikroverkapselung geschützt.</dd></div>
+                <div><dt>Warum das hilft</dt><dd>Die bioaktive Honigmatrix wirkt als natürliches Transportsystem und steigert die Aufnahme der Nährstoffe im Darm um bis zu 600 %. Akazienfaser und Bacillus coagulans unterstützen die Bedingungen für die Aufnahme, Piperin die Verfügbarkeit von Curcumin. NADH ist durch Mikroverkapselung geschützt.</dd></div>
               </dl>
             </div>
           </div>
@@ -1060,7 +1167,7 @@ body.chat-offen .chat-fenster { display: flex; }
               <li><svg><use href="#haken"/></svg><span>Lieferung mit DHL in 2–7 Tagen</span></li>
               <li><svg><use href="#haken"/></svg><span>Keine weitere Bindung</span></li>
             </ul>
-            <a class="knopf hell" href="https://omni9.de/cart/add?id=56780244877660&amp;quantity=1&amp;return_to=/checkout" target="_blank" rel="noopener">Jetzt nachbestellen</a>
+            <a class="knopf hell" data-kauf="ns-einmal" href="https://omni9.de/cart/56780244877660:1" target="_blank" rel="noopener">Jetzt nachbestellen</a>
           </section>
           <section class="option empfohlen" data-auto="56780244877660">
             <span class="option-marke">20&nbsp;€ günstiger pro Glas</span>
@@ -1073,26 +1180,34 @@ body.chat-offen .chat-fenster { display: flex; }
               <label><input type="radio" name="ns-rhythmus" value="692318962012"><span>Alle 6 Wochen</span></label>
             </fieldset>
             <ul class="haken-liste">
-              <li><svg><use href="#haken"/></svg><span>Kommt von allein, ohne dass du daran denken musst</span></li>
+              <li><svg><use href="#haken"/></svg><span>Kommt automatisch, ohne dass du daran denken musst</span></li>
               <li><svg><use href="#haken"/></svg><span>Mindestens 2 Lieferungen, danach jederzeit kündbar oder pausierbar</span></li>
-              <li><svg><use href="#haken"/></svg><span>Bequem verwalten in deinem Kundenkonto</span></li>
+              <li><svg><use href="#haken"/></svg><span>Einfach in deinem Kundenkonto verwalten</span></li>
             </ul>
-            <a class="knopf gold" data-auto-link href="https://omni9.de/cart/add?id=56780244877660&amp;quantity=1&amp;selling_plan=692303823196&amp;return_to=/checkout" target="_blank" rel="noopener">Automatisch liefern lassen</a>
+            <a class="knopf gold" data-auto-link data-kauf="ns-automatisch" href="https://omni9.de/cart/add?id=56780244877660&amp;quantity=1&amp;selling_plan=692303823196&amp;return_to=/checkout" target="_blank" rel="noopener">Automatisch liefern lassen</a>
           </section>
         </div>
-        <p class="kasse-hinweis"><svg><use href="#i-schloss"/></svg>Beide Knöpfe führen direkt in die sichere Kasse von omni9.de. Bezahlen kannst du zum Beispiel mit Klarna, Apple Pay oder Google Pay.</p>
+        <p class="kasse-hinweis"><svg><use href="#i-schloss"/></svg>Beide Knöpfe führen direkt zur sicheren Kasse von omni9.de. Bezahlen kannst du zum Beispiel mit Klarna, Apple Pay oder Google Pay.</p>
+        <section class="block sparen" id="ns-sparen" aria-labelledby="ns-sparen-titel">
+          <h2 id="ns-sparen-titel">Was OMNI9 dir ersetzt</h2>
+          <p class="block-text">Tipp an, was du vorher einzeln genommen hast. Die Preise pro Monat stammen aus dem Vergleich auf omni9.de.</p>
+          <div class="sparen-raster">
+            <div class="sparen-wahl" role="group" aria-label="Was du vorher genommen hast" data-sparen-wahl></div>
+            <div class="sparen-ergebnis" aria-live="polite" data-sparen-ergebnis></div>
+          </div>
+        </section>
         <section class="block">
           <h2>Mehr auf Vorrat</h2>
           <p class="block-text">In beiden Sets ist der Immun Booster gratis dabei.</p>
           <div class="sets">
-            <a class="set" href="https://omni9.de/products/3er-set-gratis-immun-booster" target="_blank" rel="noopener"><span class="set-bild"><img src="bilder/ns-glas.jpg" alt=""><em>3 + 1</em></span><span class="set-text"><b>3er Set + Immun Booster gratis</b><span>3 Gläser Nutrition-System und 1 Immun Booster</span><span class="set-preis">249,00&nbsp;€ <s>330,90&nbsp;€</s></span></span><svg><use href="#i-extern"/></svg></a>
-            <a class="set" href="https://omni9.de/products/5er-set-2x-gratis-immun-booster" target="_blank" rel="noopener"><span class="set-bild"><img src="bilder/ns-glas.jpg" alt=""><em>5 + 2</em></span><span class="set-text"><b>5er Set + 2 Immun Booster gratis</b><span>5 Gläser Nutrition-System und 2 Immun Booster</span><span class="set-preis">399,00&nbsp;€ <s>563,00&nbsp;€</s></span></span><svg><use href="#i-extern"/></svg></a>
+            <a class="set" data-kauf="ns-set3" href="https://omni9.de/products/3er-set-gratis-immun-booster" target="_blank" rel="noopener"><span class="set-bild"><img src="bilder/ns-glas.jpg" alt=""><em>3 + 1</em></span><span class="set-text"><b>3er-Set + Immun Booster gratis</b><span>3 Gläser Nutrition-System und 1 Immun Booster</span><span class="set-preis">249,00&nbsp;€ <s>330,90&nbsp;€</s></span></span><svg><use href="#i-extern"/></svg></a>
+            <a class="set" data-kauf="ns-set5" href="https://omni9.de/products/5er-set-2x-gratis-immun-booster" target="_blank" rel="noopener"><span class="set-bild"><img src="bilder/ns-glas.jpg" alt=""><em>5 + 2</em></span><span class="set-text"><b>5er-Set + 2 Immun Booster gratis</b><span>5 Gläser Nutrition-System und 2 Immun Booster</span><span class="set-preis">399,00&nbsp;€ <s>563,00&nbsp;€</s></span></span><svg><use href="#i-extern"/></svg></a>
           </div>
         </section>
         <section class="block dazu-karte">
           <img src="bilder/ib-glas.jpg" alt="">
           <div><h2>Passt dazu: Immun Booster</h2><p>Deine Akut-Unterstützung, wenn ein Infekt kommt. Viele nehmen ihn für ein paar Tage zusätzlich zu OMNI9.</p></div>
-          <div class="dazu-knoepfe"><a class="knopf hell" href="https://omni9.de/cart/add?id=56549866013020&amp;quantity=1&amp;return_to=/checkout" target="_blank" rel="noopener">Bestellen für 59,90&nbsp;€</a><a class="text-link" href="#immun-booster">Mehr erfahren</a></div>
+          <div class="dazu-knoepfe"><a class="knopf hell" data-kauf="ns-dazu-booster" href="https://omni9.de/cart/56549866013020:1" target="_blank" rel="noopener">Bestellen für 59,90&nbsp;€</a><a class="text-link" href="#immun-booster">Mehr erfahren</a></div>
         </section>
         <div class="weiter"><a href="#ns-fragen">Weiter: Fragen und Hilfe<svg><use href="#i-weiter"/></svg></a></div>
       </section>
@@ -1102,12 +1217,12 @@ body.chat-offen .chat-fenster { display: flex; }
         <div class="zwei-spalten breit">
           <div class="block">
             <h2>Häufige Fragen</h2>
-            <details open><summary>Wie nehme ich OMNI9 ein?<svg><use href="#plus"/></svg></summary><p>Einen Teelöffel pro Tag. Kein Protokoll, kein Pillenregal, kein Rätselraten. Genau dafür ist OMNI9 gebaut.</p></details>
-            <details><summary>Was, wenn ich einen empfindlichen Darm habe?<svg><use href="#plus"/></svg></summary><p>Gerade deshalb ist das Darm-Fundament eingebaut. Starte die ersten Tage mit weniger und steigere dann auf die Standardmenge. So pendelt sich dein System sauber ein.</p></details>
-            <details><summary>Kann ich OMNI9 mit meinen Supplements kombinieren?<svg><use href="#plus"/></svg></summary><p>Ja. Der Gedanke von OMNI9 ist aber, dass du nicht 8 bis 16 Mittel parallel brauchst. Viele nutzen OMNI9 als Basis, die den Rest ersetzt oder stark reduziert.</p></details>
-            <details><summary>Treibt der Honig meinen Blutzucker hoch?<svg><use href="#plus"/></svg></summary><p>OMNI9 ist als kleines tägliches Ritual gedacht, nicht als Snack. Normal in den Alltag eingebaut, ist es kein Zucker-Upgrade, sondern ein System-Upgrade.</p></details>
+            <details open><summary>Wie nehme ich OMNI9 ein?<svg><use href="#plus"/></svg></summary><p>Einen Teelöffel pro Tag. Kein Protokoll, kein Pillenregal, kein Rätselraten. Genau dafür ist OMNI9 gedacht.</p></details>
+            <details><summary>Was, wenn ich einen empfindlichen Darm habe?<svg><use href="#plus"/></svg></summary><p>Genau dafür enthält OMNI9 das Darm-Fundament. Starte die ersten Tage mit weniger und steigere dann auf die Standardmenge. So stellt sich dein System gut darauf ein.</p></details>
+            <details><summary>Kann ich OMNI9 mit meinen Supplements kombinieren?<svg><use href="#plus"/></svg></summary><p>Ja. OMNI9 ist aber dafür gedacht, dass du nicht 8 bis 16 Mittel parallel brauchst. Viele nutzen OMNI9 als Basis, die den Rest ersetzt oder stark reduziert.</p></details>
+            <details><summary>Treibt der Honig meinen Blutzucker hoch?<svg><use href="#plus"/></svg></summary><p>OMNI9 ist als kleines tägliches Ritual gedacht, nicht als Snack. Als Teil deines Alltags geht es dabei nicht um mehr Zucker, sondern um die Unterstützung deines Systems.</p></details>
             <details><summary>Für wen ist OMNI9 gemacht?<svg><use href="#plus"/></svg></summary><p>Für Menschen, die funktionieren müssen, aber merken: Der Bauch ist unruhig, der Kopf benebelt, die Energie bricht weg, und der Schlaf erholt nicht. Und die keine Lust mehr auf Supplement-Chaos haben.</p></details>
-            <details><summary>Für wen ist OMNI9 nicht das Richtige?<svg><use href="#plus"/></svg></summary><p>Wenn du nur einen kurzen Kick suchst. OMNI9 ist auf Regeneration und Stabilität ausgelegt, nicht auf Peaks.</p></details>
+            <details><summary>Für wen ist OMNI9 nicht das Richtige?<svg><use href="#plus"/></svg></summary><p>Wenn du nur einen kurzen Kick suchst. OMNI9 ist auf Regeneration und Stabilität ausgelegt, nicht auf kurze Leistungsspitzen.</p></details>
             <details><summary>Allergien oder Unverträglichkeiten?<svg><use href="#plus"/></svg></summary><p>Bist du sehr empfindlich oder hast du bekannte Allergien, prüf bitte die Zutatenliste und kläre es im Zweifel ärztlich ab.</p></details>
             <details><summary>Schwangerschaft, Stillzeit oder Vorerkrankungen?<svg><use href="#plus"/></svg></summary><p>Bitte kläre die Einnahme vorab ärztlich ab.</p></details>
             <button class="chat-cta" type="button" data-chat><span class="blase"><svg><use href="#i-chat"/></svg></span><span><b>Deine Frage ist nicht dabei?</b><small>Der OMNI9 Assistent antwortet sofort, auch zu Nährstoffen, Versand und Nachkauf</small></span></button>
@@ -1119,7 +1234,8 @@ body.chat-offen .chat-fenster { display: flex; }
               <a class="hilfe-zeile" href="https://omni9.de/policies/shipping-policy" target="_blank" rel="noopener"><span class="ikon"><svg><use href="#paket"/></svg></span><div><b>Versand mit DHL</b><span>3,90&nbsp;€, 2–7 Tage, nach Deutschland, Österreich und in die Schweiz</span></div><svg><use href="#i-extern"/></svg></a>
               <a class="hilfe-zeile" href="https://omni9.de/policies/refund-policy" target="_blank" rel="noopener"><span class="ikon"><svg><use href="#ruecksendung"/></svg></span><div><b>Widerruf und Rückgabe</b><span>14 Tage, solange die Versiegelung unversehrt ist</span></div><svg><use href="#i-extern"/></svg></a>
               <a class="hilfe-zeile" href="mailto:service@omni9.de?subject=Frage%20zu%20OMNI9"><span class="ikon"><svg><use href="#mail"/></svg></span><div><b>service@omni9.de</b><span>Schreib uns, wir helfen dir gern weiter</span></div><svg><use href="#i-weiter"/></svg></a>
-              <a class="hilfe-zeile" href="https://omni9.de/account" target="_blank" rel="noopener"><span class="ikon"><svg><use href="#kalender"/></svg></span><div><b>Automatische Lieferung verwalten</b><span>Nach der 2. Lieferung pausieren oder kündigen, im Kundenkonto</span></div><svg><use href="#i-extern"/></svg></a>
+              <a class="hilfe-zeile" href="https://omni9.de/account" target="_blank" rel="noopener"><span class="ikon"><svg><use href="#kalender"/></svg></span><div><b>Automatische Lieferung verwalten</b><span>Nach der 2. Lieferung im Kundenkonto pausieren oder kündigen</span></div><svg><use href="#i-extern"/></svg></a>
+              <button class="hilfe-zeile" type="button" data-app><span class="ikon"><img src="bilder/app-icon-180.png" alt=""></span><div><b>Als App aufs Handy</b><span>Mit einem Tippen da, ganz ohne App Store</span></div><svg><use href="#i-weiter"/></svg></button>
             </div>
             <h3 class="bewertung">Wie gefällt dir OMNI9?</h3>
             <div class="sterne" role="radiogroup" aria-label="Deine Bewertung" data-bewertung="ns"><button type="button" role="radio" aria-checked="false" aria-label="1 Stern"><svg><use href="#stern"/></svg></button><button type="button" role="radio" aria-checked="false" aria-label="2 Sterne"><svg><use href="#stern"/></svg></button><button type="button" role="radio" aria-checked="false" aria-label="3 Sterne"><svg><use href="#stern"/></svg></button><button type="button" role="radio" aria-checked="false" aria-label="4 Sterne"><svg><use href="#stern"/></svg></button><button type="button" role="radio" aria-checked="false" aria-label="5 Sterne"><svg><use href="#stern"/></svg></button></div>
@@ -1133,6 +1249,7 @@ body.chat-offen .chat-fenster { display: flex; }
       <a class="tab" href="#ns-ueberblick" data-ansicht="ns-ueberblick"><svg><use href="#i-raster"/></svg>Überblick</a>
       <a class="tab" href="#ns-einnahme" data-ansicht="ns-einnahme"><svg><use href="#i-loeffel-linie"/></svg>Einnahme</a>
       <a class="tab" href="#ns-30" data-ansicht="ns-30"><svg><use href="#i-kalender-linie"/></svg>30 Tage</a>
+      <a class="tab" href="#ns-tipps" data-ansicht="ns-tipps"><svg><use href="#z-fokus"/></svg>Tipps</a>
       <a class="tab" href="#ns-inhalt" data-ansicht="ns-inhalt"><svg><use href="#i-glas"/></svg>Inhalt</a>
       <a class="tab" href="#ns-nachkauf" data-ansicht="ns-nachkauf"><svg><use href="#i-nachkauf"/></svg>Nachkauf</a>
       <a class="tab" href="#ns-fragen" data-ansicht="ns-fragen"><svg><use href="#i-hilfe"/></svg>Fragen</a>
@@ -1149,6 +1266,7 @@ body.chat-offen .chat-fenster { display: flex; }
       <a class="nav-punkt" href="#ib-ueberblick" data-ansicht="ib-ueberblick"><svg><use href="#i-raster"/></svg>Überblick</a>
       <a class="nav-punkt" href="#ib-einnahme" data-ansicht="ib-einnahme"><svg><use href="#i-loeffel-linie"/></svg>Einnahme</a>
       <a class="nav-punkt" href="#ib-plan" data-ansicht="ib-plan"><svg><use href="#i-kalender-linie"/></svg>Akutphase</a>
+      <a class="nav-punkt" href="#ib-tipps" data-ansicht="ib-tipps"><svg><use href="#z-fokus"/></svg>Tipps</a>
       <a class="nav-punkt" href="#ib-inhalt" data-ansicht="ib-inhalt"><svg><use href="#i-glas"/></svg>Inhalt</a>
       <a class="nav-punkt" href="#ib-nachkauf" data-ansicht="ib-nachkauf"><svg><use href="#i-nachkauf"/></svg>Nachkauf</a>
       <a class="nav-punkt" href="#ib-fragen" data-ansicht="ib-fragen"><svg><use href="#i-hilfe"/></svg>Fragen</a>
@@ -1198,12 +1316,7 @@ body.chat-offen .chat-fenster { display: flex; }
             <div class="fs-phase" data-phase></div>
             <div class="fs-hinweis" data-hinweis hidden></div>
           </div>
-          <div class="ziel-zeile">
-            <span class="ziel-ikon"><svg><use href="#t-schild"/></svg></span>
-            <div><h3>Passende Tipps in 2 Fragen</h3><p>Vorbeugen oder schon erste Anzeichen? Sag uns, wo du viel Kontakt hast.</p></div>
-            <div class="ziel-aktion"><button class="knopf gold" type="button" data-quiz="ib">Tipps holen</button></div>
-          </div>
-          <p class="fs-fuss"><span>Die Zeiten sind eine Orientierung. Wird es nicht besser, sprich mit Arzt oder Apotheke.</span><button class="text-link" type="button" data-app>Als App aufs Handy</button></p>
+          <p class="fs-fuss"><span>Die Zeiten dienen zur Orientierung. Wird es nicht besser, sprich mit Arzt oder Apotheke.</span></p>
         </section>
         <section class="vorteile">
           <h2>Deine Vorteile mit dem Immun Booster</h2>
@@ -1231,6 +1344,29 @@ body.chat-offen .chat-fenster { display: flex; }
 
       <section class="ansicht" id="ib-einnahme">
         <header class="ansicht-kopf"><h1>So nimmst du den Booster</h1><p>Am besten so früh wie möglich: bei Halskratzen, Frösteln, Gliederschwere oder wenn du merkst, „da kommt was“.</p></header>
+        <section class="tagesplan" aria-labelledby="ib-tagesplan-titel" data-tagesplan>
+          <div class="tp-wahl" role="radiogroup" aria-label="Wofür nimmst du den Booster?">
+            <button type="button" role="radio" aria-checked="true" data-modus="akut"><svg><use href="#t-thermo"/></svg><span><b>Erste Anzeichen</b><small>Akutphase</small></span></button>
+            <button type="button" role="radio" aria-checked="false" data-modus="vorbeugend"><svg><use href="#t-schild"/></svg><span><b>Vorbeugen</b><small>In der Erkältungszeit</small></span></button>
+          </div>
+          <div class="tp-kopf">
+            <div><h2 id="ib-tagesplan-titel" data-tp-titel>3 Teelöffel am Tag</h2><p data-tp-text>Morgens, mittags und abends je 1 Teelöffel (ca. 10 g). Pur vom Löffel oder in warmem Tee unter 40 °C.</p></div>
+            <button class="knopf hell tp-erinnerung" type="button" data-erinnerung="ib-akut"><svg><use href="#i-kalender-linie"/></svg><span data-tp-erinnerung-text>Erinnere mich 3-mal am Tag</span></button>
+          </div>
+          <ol class="tp-zeiten">
+            <li class="an"><span class="tp-zeit"><svg><use href="#z-morgen"/></svg>Morgens</span><svg class="tp-loeffel"><use href="#loeffel-honig"/></svg><b>1 Teelöffel</b></li>
+            <li class="an" data-akut-zeit><span class="tp-zeit"><svg><use href="#z-mittag"/></svg>Mittags</span><svg class="tp-loeffel"><use href="#loeffel-honig"/></svg><b>1 Teelöffel</b></li>
+            <li class="an" data-akut-zeit><span class="tp-zeit"><svg><use href="#z-abend"/></svg>Abends</span><svg class="tp-loeffel"><use href="#loeffel-honig"/></svg><b>1 Teelöffel</b></li>
+          </ol>
+          <div class="tp-dauer" data-tp-modus="akut">
+            <p><b>5 bis 10 Tage lang.</b> Bei Bedarf kannst du die Kur wiederholen.</p>
+            <ol class="tp-tage" aria-hidden="true"><li>1</li><li>2</li><li>3</li><li>4</li><li>5</li><li class="kann">6</li><li class="kann">7</li><li class="kann">8</li><li class="kann">9</li><li class="kann">10</li></ol>
+          </div>
+          <div class="tp-dauer" data-tp-modus="vorbeugend" hidden>
+            <p><b>In der Erkältungszeit</b>, besonders in Phasen mit viel Kontakt wie Kita, Büro oder Reisen.</p>
+            <button class="text-link" type="button" data-modus-wechsel="akut">Erste Anzeichen? Zur Akutphase wechseln</button>
+          </div>
+        </section>
         <div class="einnahme-raster">
           <button class="video" type="button" data-platzhalter="Platzhalter: Hier läuft später euer Start-Video „Der Booster in der Akutphase“, ca. 1 Minute." aria-label="Start-Video ansehen">
             <img src="bilder/start-video.jpg" alt="">
@@ -1238,16 +1374,12 @@ body.chat-offen .chat-fenster { display: flex; }
             <span class="dauer">0:52</span>
           </button>
           <div class="block">
-            <div class="tageszeit">
-              <div><b>Morgens</b><span>1 TL</span></div>
-              <div><b>Mittags</b><span>1 TL</span></div>
-              <div><b>Abends</b><span>1 TL</span></div>
-            </div>
+            <h2>So klappt es</h2>
             <ul class="haken-liste">
-              <li><svg><use href="#haken"/></svg><span>Akutphase: 5 bis 10 Tage, bei Bedarf wiederholen.</span></li>
-              <li><svg><use href="#haken"/></svg><span>Vorbeugend in der Erkältungszeit: 1 Teelöffel am Tag.</span></li>
-              <li><svg><use href="#haken"/></svg><span>Pur vom Löffel oder in warmem Tee unter 40 °C.</span></li>
+              <li><svg><use href="#haken"/></svg><span>Stell den Booster griffbereit in den Küchenschrank. Dann kannst du beim ersten Halskratzen sofort starten.</span></li>
+              <li><svg><use href="#haken"/></svg><span>Magst du es warm, rühr ihn in Tee unter 40 °C. So bleibt die Rohkostqualität erhalten.</span></li>
               <li><svg><use href="#haken"/></svg><span>Mit OMNI9 kombinierbar: OMNI9 ist die tägliche Basis, der Booster kommt für ein paar Tage dazu.</span></li>
+              <li><svg><use href="#haken"/></svg><span>Bei einer Allergie gegen Bienenprodukte bitte verzichten.</span></li>
             </ul>
           </div>
         </div>
@@ -1274,11 +1406,21 @@ body.chat-offen .chat-fenster { display: flex; }
             </div>
           </div>
         </div>
+        <div class="weiter"><a href="#ib-tipps">Weiter: Deine Tipps<svg><use href="#i-weiter"/></svg></a></div>
+      </section>
+
+      <section class="ansicht" id="ib-tipps">
+        <header class="ansicht-kopf"><h1>Deine Tipps</h1><p>2 kurze Fragen: Willst du vorbeugen oder merkst du schon erste Anzeichen, und wo hast du viel Kontakt? Dann bekommst du Tipps, die zu deinem Alltag passen.</p></header>
+        <div class="quiz-box" data-quiz-box="ib">
+          <div class="quiz-kopf"><span class="quiz-glas" data-glas></span><div><p class="quiz-schritt" data-q-schritt></p><h2 data-q-titel></h2></div></div>
+          <div data-q-koerper></div>
+          <div class="quiz-fuss" data-q-fuss></div>
+        </div>
         <div class="weiter"><a href="#ib-inhalt">Weiter: Was im Booster steckt<svg><use href="#i-weiter"/></svg></a></div>
       </section>
 
       <section class="ansicht" id="ib-inhalt">
-        <header class="ansicht-kopf"><h1>Was im Booster steckt</h1><p>Eine Akut-Formel in Honigmatrix aus 34 Mikronährstoff-Komponenten. Sie setzt parallel an Abwehr, Schleimhäuten, Entzündungsdruck, oxidativem Stress und Energie an.</p></header>
+        <header class="ansicht-kopf"><h1>Was im Booster steckt</h1><p>Eine Akut-Formel mit 34 Mikronährstoff-Komponenten in einer Honigmatrix. Sie setzt gleichzeitig an Abwehr, Schleimhäuten, Entzündungsdruck, oxidativem Stress und Energie an.</p></header>
         <section class="frag-box" aria-labelledby="ib-frag-titel">
           <span class="blase"><svg><use href="#i-chat"/></svg></span>
           <div><h2 id="ib-frag-titel">Tiefer einsteigen? Frag den Assistenten</h2><p>Er kennt jede Zutat und jeden Komplex und antwortet sofort.</p></div>
@@ -1303,11 +1445,11 @@ body.chat-offen .chat-fenster { display: flex; }
             </div>
             <div class="achse-panel" role="tabpanel" id="ib-komplex-1" aria-labelledby="ib-komplex-1-tab">
               <h3>Abwehr-Aktivierung</h3>
-              <p class="unterzeile">Dein Abwehrsystem laden</p>
+              <p class="unterzeile">Dein Abwehrsystem unterstützen</p>
               <dl>
                 <div><dt>Du merkst</dt><dd>Ein Infekt bahnt sich an, du fühlst dich anfälliger als sonst.</dd></div>
                 <div><dt>Darin steckt</dt><dd class="komplexe"><span>Bio-Acerola</span><span>Bio-Propolis</span><span>Bio-Holunder</span><span>Bio-Hagebutte</span></dd></div>
-                <div><dt>Warum das hilft</dt><dd>Gibt deinem Immunsystem die Basis, um sauber zu reagieren, statt nur zu hoffen.</dd></div>
+                <div><dt>Warum das hilft</dt><dd>Gibt deinem Immunsystem die Grundlage, angemessen zu reagieren, statt nur zu hoffen.</dd></div>
               </dl>
             </div>
             <div class="achse-panel" role="tabpanel" id="ib-komplex-2" aria-labelledby="ib-komplex-2-tab" hidden>
@@ -1316,16 +1458,16 @@ body.chat-offen .chat-fenster { display: flex; }
               <dl>
                 <div><dt>Du merkst</dt><dd>Kratzen, Räuspern, ein trockener Hals, unangenehmes Schlucken.</dd></div>
                 <div><dt>Darin steckt</dt><dd class="komplexe"><span>Bio-Holunder</span><span>Bio-Honig</span><span>Bio-Zimt</span><span>Bio-Propolis</span></dd></div>
-                <div><dt>Warum das hilft</dt><dd>Unterstützt die Schleimhäute dort, wo die Welle oft zuerst startet.</dd></div>
+                <div><dt>Warum das hilft</dt><dd>Unterstützt die Schleimhäute dort, wo ein Infekt oft zuerst beginnt.</dd></div>
               </dl>
             </div>
             <div class="achse-panel" role="tabpanel" id="ib-komplex-3" aria-labelledby="ib-komplex-3-tab" hidden>
               <h3>Entzündungsdruck regulieren</h3>
-              <p class="unterzeile">Die Reaktion deines Körpers balancieren</p>
+              <p class="unterzeile">Die Reaktion deines Körpers ausgleichen</p>
               <dl>
-                <div><dt>Du merkst</dt><dd>Druck, schwere Glieder, das System läuft heiß.</dd></div>
+                <div><dt>Du merkst</dt><dd>Druck, schwere Glieder, dein Körper läuft heiß.</dd></div>
                 <div><dt>Darin steckt</dt><dd class="komplexe"><span>Bio-Kurkuma</span><span>Bio-Ingwer</span><span>Bio-Piperin</span></dd></div>
-                <div><dt>Warum das hilft</dt><dd>Hilft deinem Körper, die Reaktion zu balancieren, statt dass es dich komplett zerlegt. Piperin verstärkt die Wirkung von Kurkuma um ein Vielfaches.</dd></div>
+                <div><dt>Warum das hilft</dt><dd>Hilft deinem Körper, die Reaktion auszugleichen, damit sie dich nicht völlig aus der Bahn wirft. Piperin verstärkt die Wirkung von Kurkuma um ein Vielfaches.</dd></div>
               </dl>
             </div>
           </div>
@@ -1335,7 +1477,7 @@ body.chat-offen .chat-fenster { display: flex; }
             <h2>Alle Zutaten</h2>
             <ul class="zutaten lang">
               <li class="basis"><b>Basis: Bio-Buchweizenhonig</b><span>Die Matrix: schützt die Wirkstoffe und macht die Einnahme angenehm</span></li>
-              <li><b>Bio-Acerola-Extrakt</b><span>Vitamin C für dein Immunsystem und Zellschutz vor oxidativem Stress</span></li>
+              <li><b>Bio-Acerola-Extrakt</b><span>Vitamin C für dein Immunsystem und den Schutz deiner Zellen vor oxidativem Stress</span></li>
               <li><b>Bio-Ingwer-Extrakt</b><span>Wärmt von innen und unterstützt dich in der frühen Infektphase</span></li>
               <li><b>Bio-Holunder-Extrakt</b><span>Für die Erkältungszeit, wenn Hals und Atemwege gereizt sind</span></li>
               <li><b>Bio-Hagebutte</b><span>Pflanzliche Vitamin-C-Synergie, unterstützt die Regeneration nach einem Infekt</span></li>
@@ -1370,7 +1512,7 @@ body.chat-offen .chat-fenster { display: flex; }
               <li><svg><use href="#haken"/></svg><span>Lieferung mit DHL in 2–7 Tagen</span></li>
               <li><svg><use href="#haken"/></svg><span>Keine weitere Bindung</span></li>
             </ul>
-            <a class="knopf hell" href="https://omni9.de/cart/add?id=56549866013020&amp;quantity=1&amp;return_to=/checkout" target="_blank" rel="noopener">Jetzt nachbestellen</a>
+            <a class="knopf hell" data-kauf="ib-einmal" href="https://omni9.de/cart/56549866013020:1" target="_blank" rel="noopener">Jetzt nachbestellen</a>
           </section>
           <section class="option empfohlen" data-auto="56549866013020">
             <span class="option-marke">10&nbsp;€ günstiger pro Glas</span>
@@ -1386,40 +1528,40 @@ body.chat-offen .chat-fenster { display: flex; }
             <ul class="haken-liste">
               <li><svg><use href="#haken"/></svg><span>Immer ein Glas im Schrank, wenn es losgeht</span></li>
               <li><svg><use href="#haken"/></svg><span>Mindestens 2 Lieferungen, danach jederzeit kündbar oder pausierbar</span></li>
-              <li><svg><use href="#haken"/></svg><span>Bequem verwalten in deinem Kundenkonto</span></li>
+              <li><svg><use href="#haken"/></svg><span>Einfach in deinem Kundenkonto verwalten</span></li>
             </ul>
-            <a class="knopf gold" data-auto-link href="https://omni9.de/cart/add?id=56549866013020&amp;quantity=1&amp;selling_plan=692321059164&amp;return_to=/checkout" target="_blank" rel="noopener">Automatisch liefern lassen</a>
+            <a class="knopf gold" data-auto-link data-kauf="ib-automatisch" href="https://omni9.de/cart/add?id=56549866013020&amp;quantity=1&amp;selling_plan=692321059164&amp;return_to=/checkout" target="_blank" rel="noopener">Automatisch liefern lassen</a>
           </section>
         </div>
-        <p class="kasse-hinweis"><svg><use href="#i-schloss"/></svg>Beide Knöpfe führen direkt in die sichere Kasse von omni9.de. Bezahlen kannst du zum Beispiel mit Klarna, Apple Pay oder Google Pay.</p>
+        <p class="kasse-hinweis"><svg><use href="#i-schloss"/></svg>Beide Knöpfe führen direkt zur sicheren Kasse von omni9.de. Bezahlen kannst du zum Beispiel mit Klarna, Apple Pay oder Google Pay.</p>
         <section class="block">
           <h2>Mehr auf Vorrat</h2>
           <p class="block-text">In beiden Sets mit dem Nutrition-System ist der Immun Booster gratis dabei.</p>
           <div class="sets">
-            <a class="set" href="https://omni9.de/products/3er-set-gratis-immun-booster" target="_blank" rel="noopener"><span class="set-bild"><img src="bilder/ns-glas.jpg" alt=""><em>3 + 1</em></span><span class="set-text"><b>3er Set + Immun Booster gratis</b><span>3 Gläser Nutrition-System und 1 Immun Booster</span><span class="set-preis">249,00&nbsp;€ <s>330,90&nbsp;€</s></span></span><svg><use href="#i-extern"/></svg></a>
-            <a class="set" href="https://omni9.de/products/5er-set-2x-gratis-immun-booster" target="_blank" rel="noopener"><span class="set-bild"><img src="bilder/ns-glas.jpg" alt=""><em>5 + 2</em></span><span class="set-text"><b>5er Set + 2 Immun Booster gratis</b><span>5 Gläser Nutrition-System und 2 Immun Booster</span><span class="set-preis">399,00&nbsp;€ <s>563,00&nbsp;€</s></span></span><svg><use href="#i-extern"/></svg></a>
+            <a class="set" data-kauf="ib-set3" href="https://omni9.de/products/3er-set-gratis-immun-booster" target="_blank" rel="noopener"><span class="set-bild"><img src="bilder/ns-glas.jpg" alt=""><em>3 + 1</em></span><span class="set-text"><b>3er-Set + Immun Booster gratis</b><span>3 Gläser Nutrition-System und 1 Immun Booster</span><span class="set-preis">249,00&nbsp;€ <s>330,90&nbsp;€</s></span></span><svg><use href="#i-extern"/></svg></a>
+            <a class="set" data-kauf="ib-set5" href="https://omni9.de/products/5er-set-2x-gratis-immun-booster" target="_blank" rel="noopener"><span class="set-bild"><img src="bilder/ns-glas.jpg" alt=""><em>5 + 2</em></span><span class="set-text"><b>5er-Set + 2 Immun Booster gratis</b><span>5 Gläser Nutrition-System und 2 Immun Booster</span><span class="set-preis">399,00&nbsp;€ <s>563,00&nbsp;€</s></span></span><svg><use href="#i-extern"/></svg></a>
           </div>
         </section>
         <section class="block dazu-karte">
           <img src="bilder/ns-glas.jpg" alt="">
           <div><h2>Die tägliche Basis: Nutrition-System</h2><p>1 Teelöffel pro Tag für alle 9 Regenerations-Achsen.</p></div>
-          <div class="dazu-knoepfe"><a class="knopf hell" href="https://omni9.de/cart/add?id=56780244877660&amp;quantity=1&amp;return_to=/checkout" target="_blank" rel="noopener">Bestellen für 89,00&nbsp;€</a><a class="text-link" href="#nutrition-system">Mehr erfahren</a></div>
+          <div class="dazu-knoepfe"><a class="knopf hell" data-kauf="ib-dazu-ns" href="https://omni9.de/cart/56780244877660:1" target="_blank" rel="noopener">Bestellen für 89,00&nbsp;€</a><a class="text-link" href="#nutrition-system">Mehr erfahren</a></div>
         </section>
         <div class="weiter"><a href="#ib-fragen">Weiter: Fragen und Hilfe<svg><use href="#i-weiter"/></svg></a></div>
       </section>
 
       <section class="ansicht" id="ib-fragen">
-        <header class="ansicht-kopf"><h1>Fragen und Hilfe</h1><p>Gut zu wissen rund um den Booster und alle Wege zu uns.</p></header>
+        <header class="ansicht-kopf"><h1>Fragen und Hilfe</h1><p>Wissenswertes zum Booster und alle Wege zu uns.</p></header>
         <div class="zwei-spalten breit">
           <div class="block">
             <h2>Häufige Fragen</h2>
-            <details open><summary>Wann nehme ich den Booster am besten?<svg><use href="#plus"/></svg></summary><p>So früh wie möglich, sobald du merkst: Halskratzen, Frösteln, Gliederschwere oder „da kommt was“. Dann 5 bis 10 Tage lang, 2- bis 3-mal am Tag.</p></details>
-            <details><summary>Wie dosiere ich ihn, und wie lange reicht ein Glas?<svg><use href="#plus"/></svg></summary><p>In der Akutphase 1 Teelöffel (ca. 10 g) morgens, mittags und abends, 5 bis 10 Tage lang, bei Bedarf wiederholen. Ein Glas hat ca. 30 Portionen.</p></details>
+            <details open><summary>Wann nehme ich den Booster am besten?<svg><use href="#plus"/></svg></summary><p>So früh wie möglich, sobald du Halskratzen, Frösteln oder Gliederschwere spürst oder denkst: „Da kommt was.“ Dann 5 bis 10 Tage lang, 2- bis 3-mal am Tag.</p></details>
+            <details><summary>Wie dosiere ich ihn, und wie lange reicht ein Glas?<svg><use href="#plus"/></svg></summary><p>In der Akutphase 1 Teelöffel (ca. 10 g) morgens, mittags und abends, 5 bis 10 Tage lang. Bei Bedarf wiederholen. Ein Glas enthält ca. 30 Portionen.</p></details>
             <details><summary>Kann ich ihn zusammen mit OMNI9 nehmen?<svg><use href="#plus"/></svg></summary><p>Ja. OMNI9 ist die tägliche Basis, der Immun Booster die Akut-Unterstützung. Viele nehmen OMNI9 weiter und den Booster für ein paar Tage zusätzlich.</p></details>
-            <details><summary>Kann ich ihn auch vorbeugend nehmen?<svg><use href="#plus"/></svg></summary><p>Ja. In der Erkältungszeit kannst du ihn vorbeugend einmal täglich nehmen, besonders in Phasen mit viel Kontakt, zum Beispiel Kita, Büro oder Reisen.</p></details>
+            <details><summary>Kann ich ihn auch vorbeugend nehmen?<svg><use href="#plus"/></svg></summary><p>Ja. In der Erkältungszeit kannst du ihn vorbeugend einmal täglich nehmen, besonders wenn du viel Kontakt mit anderen hast, zum Beispiel in der Kita, im Büro oder auf Reisen.</p></details>
             <details><summary>Darf ich ihn in Tee nehmen?<svg><use href="#plus"/></svg></summary><p>Ja, aber nur in warmem Tee unter 40 °C. So bleibt die Rohkostqualität erhalten. Alternativ einfach pur vom Löffel.</p></details>
             <details><summary>Ist das nicht nur Honig?<svg><use href="#plus"/></svg></summary><p>Der Honig ist die Matrix: Er macht die Einnahme einfach und trägt die Wirkstoffe, also Vitamin C und Zink sowie Holunder, Propolis, Ingwer, Kurkuma und Piperin.</p></details>
-            <details><summary>Für wen ist er nicht geeignet?<svg><use href="#plus"/></svg></summary><p>Bei einer Allergie gegen Bienenprodukte bitte verzichten, wegen Propolis und Honig. Bei Schwangerschaft, Stillzeit, chronischen Erkrankungen oder Medikamenten vorher kurz mit Arzt oder Apotheke sprechen.</p></details>
+            <details><summary>Für wen ist er nicht geeignet?<svg><use href="#plus"/></svg></summary><p>Bei einer Allergie gegen Bienenprodukte bitte wegen Propolis und Honig darauf verzichten. Wenn du schwanger bist, stillst, chronisch erkrankt bist oder Medikamente nimmst, sprich vorher kurz mit deinem Arzt oder deiner Apotheke.</p></details>
             <details><summary>Wie lagere ich ihn?<svg><use href="#plus"/></svg></summary><p>Kühl (bis 22 °C), trocken und dunkel. Er ist mindestens 12 Monate haltbar.</p></details>
             <button class="chat-cta" type="button" data-chat><span class="blase"><svg><use href="#i-chat"/></svg></span><span><b>Noch eine Frage?</b><small>Der OMNI9 Assistent antwortet sofort, auch zu Zutaten, Versand und Nachkauf</small></span></button>
           </div>
@@ -1429,7 +1571,8 @@ body.chat-offen .chat-fenster { display: flex; }
               <a class="hilfe-zeile" href="https://omni9.de/policies/shipping-policy" target="_blank" rel="noopener"><span class="ikon"><svg><use href="#paket"/></svg></span><div><b>Versand mit DHL</b><span>3,90&nbsp;€, 2–7 Tage, nach Deutschland, Österreich und in die Schweiz</span></div><svg><use href="#i-extern"/></svg></a>
               <a class="hilfe-zeile" href="https://omni9.de/policies/refund-policy" target="_blank" rel="noopener"><span class="ikon"><svg><use href="#ruecksendung"/></svg></span><div><b>Widerruf und Rückgabe</b><span>14 Tage, solange die Versiegelung unversehrt ist</span></div><svg><use href="#i-extern"/></svg></a>
               <a class="hilfe-zeile" href="mailto:service@omni9.de?subject=Frage%20zum%20Immun%20Booster"><span class="ikon"><svg><use href="#mail"/></svg></span><div><b>service@omni9.de</b><span>Schreib uns, wir helfen dir gern weiter</span></div><svg><use href="#i-weiter"/></svg></a>
-              <a class="hilfe-zeile" href="https://omni9.de/account" target="_blank" rel="noopener"><span class="ikon"><svg><use href="#kalender"/></svg></span><div><b>Automatische Lieferung verwalten</b><span>Nach der 2. Lieferung pausieren oder kündigen, im Kundenkonto</span></div><svg><use href="#i-extern"/></svg></a>
+              <a class="hilfe-zeile" href="https://omni9.de/account" target="_blank" rel="noopener"><span class="ikon"><svg><use href="#kalender"/></svg></span><div><b>Automatische Lieferung verwalten</b><span>Nach der 2. Lieferung im Kundenkonto pausieren oder kündigen</span></div><svg><use href="#i-extern"/></svg></a>
+              <button class="hilfe-zeile" type="button" data-app><span class="ikon"><img src="bilder/app-icon-180.png" alt=""></span><div><b>Als App aufs Handy</b><span>Mit einem Tippen da, ganz ohne App Store</span></div><svg><use href="#i-weiter"/></svg></button>
             </div>
             <h3 class="bewertung">Wie gefällt dir der Immun Booster?</h3>
             <div class="sterne" role="radiogroup" aria-label="Deine Bewertung" data-bewertung="ib"><button type="button" role="radio" aria-checked="false" aria-label="1 Stern"><svg><use href="#stern"/></svg></button><button type="button" role="radio" aria-checked="false" aria-label="2 Sterne"><svg><use href="#stern"/></svg></button><button type="button" role="radio" aria-checked="false" aria-label="3 Sterne"><svg><use href="#stern"/></svg></button><button type="button" role="radio" aria-checked="false" aria-label="4 Sterne"><svg><use href="#stern"/></svg></button><button type="button" role="radio" aria-checked="false" aria-label="5 Sterne"><svg><use href="#stern"/></svg></button></div>
@@ -1443,6 +1586,7 @@ body.chat-offen .chat-fenster { display: flex; }
       <a class="tab" href="#ib-ueberblick" data-ansicht="ib-ueberblick"><svg><use href="#i-raster"/></svg>Überblick</a>
       <a class="tab" href="#ib-einnahme" data-ansicht="ib-einnahme"><svg><use href="#i-loeffel-linie"/></svg>Einnahme</a>
       <a class="tab" href="#ib-plan" data-ansicht="ib-plan"><svg><use href="#i-kalender-linie"/></svg>Akutphase</a>
+      <a class="tab" href="#ib-tipps" data-ansicht="ib-tipps"><svg><use href="#z-fokus"/></svg>Tipps</a>
       <a class="tab" href="#ib-inhalt" data-ansicht="ib-inhalt"><svg><use href="#i-glas"/></svg>Inhalt</a>
       <a class="tab" href="#ib-nachkauf" data-ansicht="ib-nachkauf"><svg><use href="#i-nachkauf"/></svg>Nachkauf</a>
       <a class="tab" href="#ib-fragen" data-ansicht="ib-fragen"><svg><use href="#i-hilfe"/></svg>Fragen</a>
@@ -1466,14 +1610,18 @@ body.chat-offen .chat-fenster { display: flex; }
   <div class="gross-inhalt" id="gross-inhalt"></div>
 </dialog>
 
-<dialog class="dialog-hell" id="quiz" aria-labelledby="quiz-titel">
+<dialog class="dialog-hell" id="kalender-dialog" aria-labelledby="kalender-titel">
   <div class="quiz-kopf">
-    <span class="quiz-glas" data-glas></span>
-    <div><p class="quiz-schritt" id="quiz-schritt"></p><h2 id="quiz-titel"></h2></div>
+    <span class="kal-symbol"><svg><use href="#kalender"/></svg></span>
+    <div><h2 id="kalender-titel">In deinen Kalender</h2></div>
     <button class="dialog-zu" type="button" data-dialog-zu aria-label="Schließen"><svg><use href="#i-x"/></svg></button>
   </div>
-  <div id="quiz-koerper"></div>
-  <div class="quiz-fuss" id="quiz-fuss"></div>
+  <div class="kal-inhalt">
+    <p data-kal-text></p>
+    <div class="kal-felder" data-kal-felder></div>
+    <div class="kal-knoepfe" data-kal-knoepfe></div>
+    <p class="kal-hinweis">Der Hub speichert nichts. Der Termin landet nur in deinem Kalender, dort kannst du ihn jederzeit löschen.</p>
+  </div>
 </dialog>
 
 <dialog class="dialog-hell" id="app-dialog" aria-labelledby="app-titel">
@@ -1618,6 +1766,19 @@ body.chat-offen .chat-fenster { display: flex; }
     ns: "https://omni9.de/products/omni9-bioaktive-nutrition?variant=56780244877660#loox-review",
     ib: "https://omni9.de/products/omni9-immun-booster?variant=56549866013020#loox-review"
   };
+  /* Kennung an Kauf-Links: So sieht der Shop, welcher Umsatz über den Hub kommt.
+     utm_source übernimmt die Quelle des Besuchs (paketkarte beim QR-Code im Paket), sonst produkt-hub.
+     ref steht bei Links direkt in die Kasse in der Bestellung unter „Conversion-Zusammenfassung“, utm_* in den Berichten nach Quelle. */
+  var HUB_QUELLE = (params.get("utm_source") || "").toLowerCase().replace(/[^a-z0-9_-]/g, "").slice(0, 40) || "produkt-hub";
+  function mitKennung(adresse, stelle) {
+    var u = new URL(adresse);
+    if (/^\/cart\/\d+:\d+/.test(u.pathname)) u.searchParams.set("ref", "produkt-hub");
+    u.searchParams.set("utm_source", HUB_QUELLE);
+    u.searchParams.set("utm_medium", "produkt-hub");
+    u.searchParams.set("utm_campaign", "nachkauf");
+    if (stelle) u.searchParams.set("utm_content", stelle);
+    return u.toString();
+  }
   var L = {
     ns: ["Zum Nutrition-System", "#nutrition-system"],
     ib: ["Zum Immun Booster", "#immun-booster"],
@@ -1636,80 +1797,80 @@ body.chat-offen .chat-fenster { display: flex; }
     { p: "alle", k: ["booster dazu", "den booster", "mit dem booster", "booster zusaetzlich", "booster zusammen", "beide zusammen", "beides", "zusammen nehmen", "gleichzeitig", "mit omni9", "zu omni9", "omni9 dazu", "dazu nehmen"], a: "Ja, das passt gut zusammen: Das Nutrition-System ist die tägliche Basis, der Immun Booster die Akut-Unterstützung. Viele nehmen OMNI9 weiter und den Booster für ein paar Tage zusätzlich, wenn ein Infekt kommt." },
     { p: "alle", k: ["versand", "versandkosten", "kostet der versand", "versand kostet", "lieferzeit", "paket", "dhl", "wann kommt", "sendung", "lieferdauer", "verschick", "porto", "liefert ihr", "lieferland", "oesterreich", "schweiz", "ausland"], a: "Wir versenden mit DHL nach Deutschland, Österreich und in die Schweiz. Die Lieferung dauert 2 bis 7 Tage, der Versand kostet 3,90 € pro Bestellung. Dauert es länger, schreib uns mit deiner Bestellnummer an service@omni9.de.", l: [L.versand, L.mail] },
     { p: "alle", k: ["was kostet", "wie viel kostet", "wieviel kostet", "kostet ein glas", "preis", "kosten"], a: "Ein Glas Nutrition-System kostet 89 €, mit automatischer Lieferung 69 €. Der Immun Booster kostet 59,90 €, automatisch geliefert 49,90 €. Dazu kommen 3,90 € Versand pro Bestellung.", l: [L.nsKauf, L.ibKauf] },
-    { p: "alle", k: ["bezahl", "zahlung", "zahlart", "klarna", "paypal", "kreditkarte", "apple pay", "google pay", "auf rechnung", "sofortueberweisung"], a: "In der Kasse siehst du alle Zahlungsarten, die für dich gelten, zum Beispiel Kreditkarte, Klarna, Apple Pay oder Google Pay." },
+    { p: "alle", k: ["bezahl", "zahlung", "zahlart", "klarna", "paypal", "kreditkarte", "apple pay", "google pay", "auf rechnung", "sofortueberweisung"], a: "An der Kasse siehst du alle Zahlungsarten, die dir zur Verfügung stehen, zum Beispiel Kreditkarte, Klarna, Apple Pay oder Google Pay." },
     { p: "alle", k: ["abo", "abonnement", "automatisch", "automatische lieferung", "regelmaessig", "nachbestell", "nachschub", "nachkauf", "nachkaufen", "liefern lassen", "sparen", "guenstiger", "rabatt"], a: "Beide Produkte kannst du automatisch liefern lassen: das Nutrition-System für 69 € statt 89 € (alle 2, 4 oder 6 Wochen), den Immun Booster für 49,90 € statt 59,90 € (alle 4, 8, 12 oder 16 Wochen). Nach mindestens 2 Lieferungen kannst du jederzeit kündigen oder pausieren.", l: [L.nsKauf, L.ibKauf] },
     { p: "alle", k: ["kuendig", "pausier", "verwalt", "rhythmus", "intervall", "ueberspringen", "aussetzen", "beenden", "stoppen"], a: "Nach der zweiten Lieferung kannst du deine automatische Lieferung jederzeit kündigen oder pausieren. Das gilt dann für alle weiteren Lieferungen. Das geht in deinem Kundenkonto auf omni9.de. Für andere Änderungen schreib uns gern.", l: [L.konto, L.mail] },
-    { p: "alle", k: ["stornier", "bestellung aendern", "adresse aendern", "falsche adresse", "bestellung abbrechen", "vertippt"], a: "Nach der Bestellung startet die Bearbeitung meist sofort. Deshalb lässt sich eine Bestellung in der Regel nicht mehr ändern oder stornieren. Hast du einen Fehler bemerkt, etwa bei der Adresse? Schreib uns so schnell wie möglich, wir prüfen, was noch geht.", l: [L.mail] },
+    { p: "alle", k: ["stornier", "bestellung aendern", "adresse aendern", "falsche adresse", "bestellung abbrechen", "vertippt"], a: "Nach der Bestellung startet die Bearbeitung meist sofort. Deshalb lässt sich eine Bestellung in der Regel nicht mehr ändern oder stornieren. Hast du einen Fehler bemerkt, etwa bei der Adresse? Schreib uns so schnell wie möglich. Wir prüfen, was noch geht.", l: [L.mail] },
     { p: "alle", k: ["widerruf", "rueckgabe", "zuruecksenden", "zurueckschick", "retoure", "umtausch", "zurueckgeben", "ruecksendung"], a: "Du hast 14 Tage Widerrufsrecht. Aus Hygienegründen gilt das nicht für Gläser, deren Versiegelung nach der Lieferung entfernt wurde. Sets kannst du nur vollständig und ungeöffnet zurückgeben. Die Kosten für die Rücksendung trägst du selbst.", l: [L.widerruf] },
     { p: "alle", k: ["garantie", "geld zurueck", "erstatt", "nicht zufrieden", "unzufrieden", "wirkt nicht", "hilft nicht"], a: "Für das Nutrition-System gibt es eine freiwillige 90-Tage-Geld-zurück-Garantie. Die Bedingungen: Du hast es mindestens 90 Tage regelmäßig eingenommen und dafür mindestens 3 Gläser gekauft. Für automatische Lieferungen gilt sie nicht. Melde dich mit deinem Kaufnachweis bei service@omni9.de.", l: [L.widerruf, L.mail] },
     { p: "alle", k: ["schwanger", "stillzeit", "stillen", "medikament", "vorerkrank", "erkrankung", "blutverduenn", "arzt", "chronisch", "krankheit"], a: "Bei Schwangerschaft, Stillzeit, Vorerkrankungen oder wenn du Medikamente nimmst, kläre die Einnahme bitte vorher mit deinem Arzt oder deiner Apotheke ab." },
-    { p: "alle", k: ["kind", "jugendlich", "baby", "teenager"], a: "Zur Einnahme bei Kindern und Jugendlichen haben wir in unseren Produktinfos keine Angabe. Bitte kläre das vorher ärztlich ab oder frag unser Team.", s: 1 },
-    { p: "alle", k: ["nico", "gruender", "wer steckt", "hinter omni9", "wer hat omni9", "entstanden", "geschichte"], a: "OMNI9 hat Nico gegründet. Er war selbst lange erschöpft, hatte Nebel im Kopf, und einzelne Supplements haben ihm nicht geholfen. Daraus entstand die Idee, alle 9 Regenerations-Achsen gleichzeitig zu versorgen: mit Superfoods in einer Honigmatrix, ein Löffel am Tag. Seine Geschichte erzählt Nico im Video.", l: [["Video ansehen", "#ns-inhalt"]] },
+    { p: "alle", k: ["kind", "jugendlich", "baby", "teenager"], a: "Zur Einnahme bei Kindern und Jugendlichen gibt es in unseren Produktinfos keine Angaben. Bitte kläre das vorher ärztlich ab oder frag unser Team.", s: 1 },
+    { p: "alle", k: ["nico", "gruender", "wer steckt", "hinter omni9", "wer hat omni9", "entstanden", "geschichte"], a: "Nico hat OMNI9 gegründet. Er war selbst lange erschöpft, hatte Nebel im Kopf, und einzelne Supplements haben ihm nicht geholfen. Daraus entstand die Idee, alle 9 Regenerations-Achsen gleichzeitig zu versorgen: mit Superfoods in einer Honigmatrix, ein Löffel am Tag. Seine Geschichte erzählt Nico im Video.", l: [["Video ansehen", "#ns-inhalt"]] },
     { p: "alle", k: ["kontakt", "mensch", "mitarbeiter", "support", "email", "e mail", " mail ", "telefon", "anrufen", "kundenservice", "service", "erreiche"], a: "Unser Team erreichst du per E-Mail an service@omni9.de. Wir helfen dir gern weiter.", l: [L.mail] },
     { p: "alle", k: ["bewertung", "bewerten", "rezension", "erfahrung teilen", "sterne", "feedback"], a: "Danke, dass du deine Erfahrung teilen willst! Bewertungen kannst du direkt auf omni9.de abgeben.", l: [["Nutrition-System bewerten", BEWERTUNG.ns], ["Immun Booster bewerten", BEWERTUNG.ib]] },
     { p: "ns", k: ["bewertung", "bewerten", "rezension", "erfahrung teilen", "sterne", "feedback"], a: "Danke, dass du deine Erfahrung teilen willst! Deine Bewertung zum Nutrition-System kannst du direkt auf omni9.de abgeben.", l: [["Bewertung schreiben", BEWERTUNG.ns]] },
     { p: "ib", k: ["bewertung", "bewerten", "rezension", "erfahrung teilen", "sterne", "feedback"], a: "Danke, dass du deine Erfahrung teilen willst! Deine Bewertung zum Immun Booster kannst du direkt auf omni9.de abgeben.", l: [["Bewertung schreiben", BEWERTUNG.ib]] },
-    { p: "alle", k: [" set ", " sets ", "3er", "5er", "bundle", "vorrat", "mehrere glaeser", "vorteilspaket", "kostet das set", "set kostet"], a: "Es gibt zwei Sets, in denen der Immun Booster gratis dabei ist: 3 Gläser Nutrition-System mit 1 Immun Booster für 249 € statt 330,90 € und 5 Gläser mit 2 Immun Boostern für 399 € statt 563 €.", l: [["3er Set ansehen", "https://omni9.de/products/3er-set-gratis-immun-booster"], ["5er Set ansehen", "https://omni9.de/products/5er-set-2x-gratis-immun-booster"]] },
-    { p: "alle", k: ["wie lange reicht", "reicht ein glas", "portion", "glas reicht", "wie lange haelt ein glas"], a: "Ein Glas Nutrition-System hat 30 Portionen und reicht bei einem Teelöffel pro Tag einen Monat. Ein Glas Immun Booster hat ca. 30 Portionen, das reicht für eine Akutphase von bis zu 10 Tagen mit 3 Teelöffeln am Tag." },
+    { p: "alle", k: [" set ", " sets ", "3er", "5er", "bundle", "vorrat", "mehrere glaeser", "vorteilspaket", "kostet das set", "set kostet"], a: "Es gibt zwei Sets, in denen der Immun Booster gratis dabei ist: 3 Gläser Nutrition-System mit 1 Immun Booster für 249 € statt 330,90 € und 5 Gläser mit 2 Immun Boostern für 399 € statt 563 €.", l: [["3er-Set ansehen", mitKennung("https://omni9.de/products/3er-set-gratis-immun-booster", "chat-set3")], ["5er-Set ansehen", mitKennung("https://omni9.de/products/5er-set-2x-gratis-immun-booster", "chat-set5")]] },
+    { p: "alle", k: ["wie lange reicht", "reicht ein glas", "portion", "glas reicht", "wie lange haelt ein glas"], a: "Ein Glas Nutrition-System enthält 30 Portionen und reicht bei einem Teelöffel pro Tag einen Monat. Ein Glas Immun Booster enthält ca. 30 Portionen. Das reicht für eine Akutphase von bis zu 10 Tagen mit 3 Teelöffeln am Tag." },
     { p: "alle", k: ["vegan", "vegetar", "tierisch"], a: "Beide Produkte basieren auf Bio-Honig und sind deshalb nicht vegan. Das Omega-3 im Nutrition-System stammt aus Algenöl, nicht aus Fisch." },
-    { p: "alle", k: ["kurkuma", "curcumin", "piperin", "pfeffer"], a: "Kurkuma unterstützt die natürliche Entzündungsbalance und schützt die Zellen. Piperin aus schwarzem Pfeffer macht andere Wirkstoffe wie Curcumin deutlich besser verfügbar, damit dein Körper sie wirklich aufnehmen kann." },
+    { p: "alle", k: ["kurkuma", "curcumin", "piperin", "pfeffer"], a: "Kurkuma unterstützt die natürliche Entzündungsbalance und schützt die Zellen. Piperin aus schwarzem Pfeffer macht andere Wirkstoffe wie Curcumin deutlich besser verfügbar, damit dein Körper sie aufnehmen kann." },
     { p: "alle", k: ["akazien", "ballaststoff"], a: "Akazienfaser füttert gezielt deine guten Darmbakterien und stabilisiert die Darmflora. Sie unterstützt Verdauung, Stuhlqualität und Nährstoffaufnahme." },
     { p: "alle", k: ["acerola", "vitamin c"], a: "Vitamin C aus Bio-Acerola unterstützt dein Immunsystem und schützt die Zellen vor oxidativem Stress. Es hilft außerdem beim Kollagenaufbau für Haut, Gefäße und Bindegewebe." },
-    { p: "alle", k: ["zink", "guave", "guavenblatt"], a: "Zink kommt aus Bio-Guavenblatt-Extrakt. Es unterstützt Abwehr, Haut und Wundheilung und hilft deinem Körper bei Zellschutz und Reparatur." },
+    { p: "alle", k: ["zink", "guave", "guavenblatt"], a: "Zink stammt aus Bio-Guavenblatt-Extrakt. Es unterstützt Abwehr, Haut und Wundheilung und hilft deinem Körper bei Zellschutz und Reparatur." },
     { p: "alle", k: ["danke", "dankeschoen"], w: ["super", "toll", "perfekt", "klasse"], a: "Gern! Wenn du noch etwas wissen willst, frag einfach." },
 
-    { p: "ns", k: ["einnehm", "einnahme", "dosier", "wie viel", "wieviel", "menge", "teeloeffel", "loeffel", "dosis", "wie nehme", "wie oft"], a: "Ein Teelöffel pro Tag, mehr nicht. Am besten immer zur gleichen Zeit, zum Beispiel morgens, dann wird es schnell zur Routine. Bei empfindlichem Darm starte die ersten Tage mit weniger und steigere dann." },
-    { p: "ns", k: ["wann nehme", "wann soll", "wann am besten", "zu welcher zeit", "uhrzeit", "morgens", "abends", "nuechtern", "zum essen", "tageszeit"], a: "Wichtig ist vor allem, dass du OMNI9 jeden Tag nimmst. Viele machen es morgens zum festen Ritual, ein fester Zeitpunkt hilft beim Dranbleiben." },
-    { p: "ns", k: ["wie lange reicht", "reicht ein glas", "portion", "glas reicht", "wie lange haelt ein glas"], a: "Ein Glas Nutrition-System hat 30 Portionen. Bei einem Teelöffel pro Tag reicht es also einen Monat.", l: [L.nsKauf] },
-    { p: "ns", k: ["abo", "abonnement", "automatisch", "automatische lieferung", "regelmaessig", "nachbestell", "nachschub", "nachkauf", "nachkaufen", "liefern lassen", "sparen", "guenstiger", "rabatt"], a: "Mit automatischer Lieferung kostet das Nutrition-System 69 € statt 89 €, geliefert alle 2, 4 oder 6 Wochen. Nach mindestens 2 Lieferungen kannst du jederzeit kündigen oder pausieren. Verwalten kannst du alles in deinem Kundenkonto.", l: [L.nsKauf] },
+    { p: "ns", k: ["einnehm", "einnahme", "dosier", "wie viel", "wieviel", "menge", "teeloeffel", "loeffel", "dosis", "wie nehme", "wie oft"], a: "Ein Teelöffel pro Tag, mehr nicht. Am besten immer zur gleichen Zeit, zum Beispiel morgens. So wird es schnell zur Routine. Bei empfindlichem Darm starte in den ersten Tagen mit weniger und steigere dann die Menge." },
+    { p: "ns", k: ["wann nehme", "wann soll", "wann am besten", "zu welcher zeit", "uhrzeit", "morgens", "abends", "nuechtern", "zum essen", "tageszeit"], a: "Wichtig ist vor allem, dass du OMNI9 jeden Tag nimmst. Viele machen es morgens zum festen Ritual. Ein fester Zeitpunkt hilft beim Dranbleiben." },
+    { p: "ns", k: ["wie lange reicht", "reicht ein glas", "portion", "glas reicht", "wie lange haelt ein glas"], a: "Ein Glas Nutrition-System enthält 30 Portionen. Bei einem Teelöffel pro Tag reicht es also einen Monat.", l: [L.nsKauf] },
+    { p: "ns", k: ["abo", "abonnement", "automatisch", "automatische lieferung", "regelmaessig", "nachbestell", "nachschub", "nachkauf", "nachkaufen", "liefern lassen", "sparen", "guenstiger", "rabatt"], a: "Mit automatischer Lieferung kostet das Nutrition-System 69 € statt 89 €. Du erhältst es alle 2, 4 oder 6 Wochen. Nach mindestens 2 Lieferungen kannst du jederzeit kündigen oder pausieren. Alles verwaltest du in deinem Kundenkonto.", l: [L.nsKauf] },
     { p: "ns", k: ["fuer wen", "zielgruppe", "fuer mich geeignet", "ist das was fuer mich"], a: "Für Menschen, die funktionieren müssen, aber merken: Der Bauch ist unruhig, der Kopf benebelt, die Energie bricht weg, und der Schlaf erholt nicht. Und die keine Lust mehr auf Supplement-Chaos haben." },
-    { p: "ns", k: ["fuer wen nicht", "nicht das richtige", "nicht fuer mich", "kurzen kick", "nicht geeignet"], a: "Wenn du nur einen kurzen Kick suchst, passt OMNI9 nicht. Es ist auf Regeneration und Stabilität ausgelegt, nicht auf Peaks. Bei Schwangerschaft, Stillzeit oder Vorerkrankungen kläre die Einnahme bitte vorher ärztlich ab." },
+    { p: "ns", k: ["fuer wen nicht", "nicht das richtige", "nicht fuer mich", "kurzen kick", "nicht geeignet"], a: "Wenn du nur einen kurzen Energieschub suchst, passt OMNI9 nicht. Es ist auf Regeneration und Stabilität ausgelegt, nicht auf kurzfristige Leistungsspitzen. Bei Schwangerschaft, Stillzeit oder Vorerkrankungen kläre die Einnahme bitte vorher ärztlich ab." },
     { p: "ns", k: ["achse", "achsen", "9 achsen", "neun achsen", "regenerations"], a: "OMNI9 versorgt 9 Regenerations-Achsen gleichzeitig: Entzündung, Darm und Mikrobiom, Zellenergie, Stress, Gehirn und Fokus, Immunsystem und Schleimhäute, Herz und Gefäße, Leber und Entgiftung sowie Bioverfügbarkeit. Sie greifen wie Zahnräder ineinander.", l: [L.nsInhalt] },
-    { p: "ns", k: ["entzuend", "schmerz", "steif", "gelenk"], a: "Für die Entzündungs-Achse arbeiten Bio-Curcumin mit Piperin, Omega-3 aus Algenöl, Phycocyanin, Granatapfel und Pterostilben zusammen. Curcumin und Omega-3 setzen an unterschiedlichen Stellen an, Piperin verbessert die Verfügbarkeit von Curcumin.", l: [L.nsInhalt] },
+    { p: "ns", k: ["entzuend", "schmerz", "steif", "gelenk"], a: "Für die Entzündungs-Achse arbeiten Bio-Curcumin mit Piperin, Omega-3 aus Algenöl, Phycocyanin, Granatapfel und Pterostilben zusammen. Curcumin und Omega-3 setzen an unterschiedlichen Stellen an. Piperin verbessert die Verfügbarkeit von Curcumin.", l: [L.nsInhalt] },
     { p: "ns", k: ["herz", "gefaess", "kreislauf", "durchblutung", "kalte haende", "kalte fuesse"], a: "Für Herz, Gefäße und Gewebe stecken Omega-3, Vitamin K2, Zink, Granatapfel, Pterostilben, Vitamin C und Ginkgo in OMNI9. Omega-3 unterstützt flexible Zellmembranen, Ginkgo die Mikrozirkulation, Vitamin C Kollagen und Gefäßstruktur.", l: [L.nsInhalt] },
-    { p: "ns", k: ["bio", "zertifi", "gentechnik", "schadstoff", "made in germany", "hergestellt", "qualitaet", "zusatzstoff"], a: "OMNI9 ist bio-zertifiziert, frei von Gentechnik, Schadstoffen und Allergenen, ohne Zusatz von Zucker und aus 100 % natürlichen Inhaltsstoffen. Hergestellt in Deutschland." },
-    { p: "ns", k: ["darm", "blaeh", "bauch", "empfindlich", "verdauung", "stuhl", "magen", "durchfall", "verstopf"], a: "Dafür ist das Darm-Fundament eingebaut: Akazienfaser und Sporen-Probiotika (Bacillus coagulans und subtilis) helfen, dein Mikrobiom zu stabilisieren. Wenn du empfindlich bist, starte die ersten Tage mit weniger und steigere dann auf einen Teelöffel." },
+    { p: "ns", k: ["bio", "zertifi", "gentechnik", "schadstoff", "made in germany", "hergestellt", "qualitaet", "zusatzstoff"], a: "OMNI9 ist bio-zertifiziert und besteht zu 100 % aus natürlichen Inhaltsstoffen. Es ist frei von Gentechnik, Schadstoffen und Allergenen und enthält keinen zugesetzten Zucker. Hergestellt in Deutschland." },
+    { p: "ns", k: ["darm", "blaeh", "bauch", "empfindlich", "verdauung", "stuhl", "magen", "durchfall", "verstopf"], a: "Dafür enthält OMNI9 das Darm-Fundament: Akazienfaser und Sporen-Probiotika (Bacillus coagulans und subtilis) helfen, dein Mikrobiom zu stabilisieren. Wenn du empfindlich bist, starte in den ersten Tagen mit weniger und steigere dann auf einen Teelöffel." },
     { p: "ns", k: ["probiot", "bacillus", "bakterien", "praebiot", "mikrobiom", "darmflora", "sporen"], a: "Die Sporen-Probiotika Bacillus coagulans und subtilis helfen, dein Mikrobiom zu stabilisieren. Sie unterstützen Verdauung, Darmbarriere und Abwehr. Honig-Oligosaccharide ergänzen die präbiotische Basis." },
-    { p: "ns", k: ["supplement", "multivitamin", "tabletten", "kapseln", "andere mittel", "kombinier"], a: "Ja, das geht. Die Idee von OMNI9 ist aber, dass du nicht 8 bis 16 Mittel parallel brauchst. Viele nutzen OMNI9 als Basis, die den Rest ersetzt oder stark reduziert." },
-    { p: "ns", k: ["viel zucker", "zucker", "blutzucker", "kalorien", "dick", "abnehm", "diabet"], a: "OMNI9 ist als kleines tägliches Ritual gedacht, nicht als Snack. Normal in den Alltag eingebaut, ist ein Teelöffel kein Zucker-Upgrade, sondern ein System-Upgrade. Bei Diabetes kläre die Einnahme bitte vorher ärztlich ab." },
-    { p: "ns", k: ["allerg", "unvertraeglich", "gluten", "laktose", "histamin"], a: "Prüf bitte die Zutatenliste, OMNI9 basiert auf Bio-Buchweizenhonig. Bei bekannten Allergien kläre es im Zweifel ärztlich ab.", l: [L.nsInhalt] },
-    { p: "ns", k: ["zutat", "inhaltsstoff", "was ist drin", "was steckt", "enthaelt", "enthalten", "inhalt"], w: ["drin"], a: "In OMNI9 stecken 16 Zutaten in einer Matrix aus Bio-Buchweizenhonig: Acerola, Akazienfaser, Sporen-Probiotika, Kurkuma, schwarzer Pfeffer (Piperin), Ceylon-Zimt, Ashwagandha, Phycocyanin, Spirulina, Flechte (Vitamin D3), Natto (Vitamin K2), Algen, Lion's Mane, Ginkgo, Granatapfel und Guavenblatt (Zink). Frag mich gern zu einer einzelnen Zutat.", l: [L.nsInhalt] },
-    { p: "ns", k: ["nadh", "mitochondri", "atp", "zellenergie"], a: "NADH unterstützt direkt die Prozesse, durch die in deinen Mitochondrien Energie (ATP) entsteht. In OMNI9 ist es mikroverkapselt, damit es geschützt ankommt. So entsteht Energie als stabile Kraft über den Tag, nicht als kurzer Push." },
+    { p: "ns", k: ["supplement", "multivitamin", "tabletten", "kapseln", "andere mittel", "kombinier"], a: "Ja, das geht. Die Idee von OMNI9 ist aber, dass du nicht 8 bis 16 Mittel gleichzeitig brauchst. Viele nutzen OMNI9 als Basis, die den Rest ersetzt oder stark reduziert." },
+    { p: "ns", k: ["viel zucker", "zucker", "blutzucker", "kalorien", "dick", "abnehm", "diabet"], a: "OMNI9 ist als kleines tägliches Ritual gedacht, nicht als Snack. Im Alltag dient ein Teelöffel nicht als zusätzliche Zuckerquelle, sondern als Ergänzung für dein System. Bei Diabetes kläre die Einnahme bitte vorher ärztlich ab." },
+    { p: "ns", k: ["allerg", "unvertraeglich", "gluten", "laktose", "histamin"], a: "Prüf bitte die Zutatenliste. OMNI9 basiert auf Bio-Buchweizenhonig. Bei bekannten Allergien kläre die Einnahme im Zweifel ärztlich ab.", l: [L.nsInhalt] },
+    { p: "ns", k: ["zutat", "inhaltsstoff", "was ist drin", "was steckt", "enthaelt", "enthalten", "inhalt"], w: ["drin"], a: "In OMNI9 stecken 16 Zutaten in einer Matrix aus Bio-Buchweizenhonig: Acerola, Akazienfaser, Sporen-Probiotika, Kurkuma, schwarzer Pfeffer (Piperin), Ceylon-Zimt, Ashwagandha, Phycocyanin, Spirulina, Flechte (Vitamin D3), Natto (Vitamin K2), Algen, Lion’s Mane, Ginkgo, Granatapfel und Guavenblatt (Zink). Frag mich gern zu einer einzelnen Zutat.", l: [L.nsInhalt] },
+    { p: "ns", k: ["nadh", "mitochondri", "atp", "zellenergie"], a: "NADH unterstützt direkt die Prozesse, durch die in deinen Mitochondrien Energie (ATP) entsteht. In OMNI9 ist es mikroverkapselt, damit es geschützt ankommt. So entsteht gleichmäßige Energie über den Tag, nicht nur ein kurzer Energieschub." },
     { p: "ns", k: ["energie", "muede", "erschoepft", "schlapp", "leistung"], a: "Für deine Energie arbeiten mehrere Bausteine zusammen: NADH für die Zellkraftwerke, aktive B-Vitamine als Cofaktoren und Pterostilben zum Schutz der Mitochondrien. Dazu kommt Ceylon-Zimt für einen gleichmäßigen Energiefluss." },
-    { p: "ns", k: ["b6", "b9", "b12", "folsaeure", "folat", "p5p", "mthf", "methylcobalamin", "vitamin b", "b vitamin"], a: "Die B-Vitamine sind in aktiver Form drin: B6 als P5P, B9 als 5-MTHF und B12 als Methylcobalamin. Sie liefern wichtige Cofaktoren für Energie, Nerven und Zellteilung." },
-    { p: "ns", k: ["omega", "dha", "epa", "algenoel", "fisch"], a: "Omega-3 (DHA und EPA) kommt aus Bio-Algenöl, nicht aus Fisch. Es versorgt Gehirn, Nerven und Augen und unterstützt die Entzündungsbalance, das Herz-Kreislauf-System und stabile Zellmembranen." },
-    { p: "ns", k: ["ashwagandha", "stress", "cortisol", "unruh", "nervoes", "abschalten"], a: "Ashwagandha hilft deinem Nervensystem, Stress besser zu regulieren. Es unterstützt Ruhe, Schlafqualität und mentale Belastbarkeit, ohne dich „wegzudrücken“. Die aktiven B-Vitamine versorgen zusätzlich deine Nerven." },
-    { p: "ns", k: ["schlaf", "einschlaf", "durchschlaf", "ruhe"], a: "Für Ruhe und Schlaf sorgen vor allem Ashwagandha, das deinem Nervensystem hilft, Stress zu regulieren, und die aktiven B-Vitamine für die Nerven. Vitamin D3, K2, Omega-3 und Zink stärken das hormonelle Umfeld." },
-    { p: "ns", k: ["vitamin d", "d3", "k2", "natto", "flechte", "calcium", "knochen"], a: "Vitamin D3 aus Bio-Flechte stärkt dein Immunsystem und unterstützt Muskeln, Knochen und Stimmung. Vitamin K2 (MK-7) aus Natto lenkt Calcium dorthin, wo es hingehört, in Knochen und Zähne, und arbeitet als Partner von D3." },
-    { p: "ns", k: ["lion", "ginkgo", "fokus", "konzentration", "gehirn", "brain fog", "gedaechtnis", "nebel"], a: "Lion's Mane unterstützt Fokus, Gedächtnis und neuronale Regeneration. Ginkgo fördert die Durchblutung und damit mentale Klarheit. Dazu kommen DHA aus Algenöl als Baustein der Nervenzellen und NADH für die Energie." },
-    { p: "ns", k: ["antioxid", "freie radikal", "phycocyanin", "spirulina", "granatapfel", "pterostilben", "zellschutz", "detox", "leber", "entgift"], a: "Phycocyanin, Kurkuma, Granatapfel und Vitamin C fangen freie Radikale ab. Spirulina liefert Aminosäuren und Pflanzenstoffe für deine körpereigenen Schutzsysteme, Pterostilben unterstützt die zelluläre Qualitätskontrolle." },
-    { p: "ns", k: ["immun", "abwehr", "erkaelt", "infekt", "krank"], a: "Vitamin C aus Acerola, Zink aus Guavenblatt und Vitamin D3 versorgen zentrale Bereiche deiner Abwehr, Akazienfaser und Sporen-Probiotika stabilisieren die Darmbasis. Wenn ein Infekt kommt, kannst du zusätzlich den Immun Booster für ein paar Tage nehmen.", l: [L.ib] },
-    { p: "ns", k: ["zimt", "ceylon"], a: "Ceylon-Zimt unterstützt einen gleichmäßigen Energiefluss und hilft, Blutzucker-Spitzen abzufedern. Er kann außerdem Verdauung und Mikrobiom günstig beeinflussen." },
+    { p: "ns", k: ["b6", "b9", "b12", "folsaeure", "folat", "p5p", "mthf", "methylcobalamin", "vitamin b", "b vitamin"], a: "Die B-Vitamine sind in aktiver Form enthalten: B6 als P5P, B9 als 5-MTHF und B12 als Methylcobalamin. Sie liefern wichtige Cofaktoren für Energie, Nerven und Zellteilung." },
+    { p: "ns", k: ["omega", "dha", "epa", "algenoel", "fisch"], a: "Omega-3 (DHA und EPA) stammt aus Bio-Algenöl, nicht aus Fisch. Es versorgt Gehirn, Nerven und Augen und unterstützt die Entzündungsbalance, das Herz-Kreislauf-System und stabile Zellmembranen." },
+    { p: "ns", k: ["ashwagandha", "stress", "cortisol", "unruh", "nervoes", "abschalten"], a: "Ashwagandha hilft deinem Nervensystem, Stress besser zu regulieren. Es unterstützt Ruhe, Schlafqualität und mentale Belastbarkeit, ohne dich zu dämpfen. Die aktiven B-Vitamine versorgen zusätzlich deine Nerven." },
+    { p: "ns", k: ["schlaf", "einschlaf", "durchschlaf", "ruhe"], a: "Für Ruhe und Schlaf sorgen vor allem Ashwagandha und die aktiven B-Vitamine. Ashwagandha hilft deinem Nervensystem, Stress zu regulieren. Die B-Vitamine versorgen die Nerven. Vitamin D3, K2, Omega-3 und Zink stärken das hormonelle Umfeld." },
+    { p: "ns", k: ["vitamin d", "d3", "k2", "natto", "flechte", "calcium", "knochen"], a: "Vitamin D3 aus Bio-Flechte stärkt dein Immunsystem und unterstützt Muskeln, Knochen und Stimmung. Vitamin K2 (MK-7) aus Natto lenkt Calcium dorthin, wo es hingehört: in Knochen und Zähne. Dabei arbeitet es als Partner von D3." },
+    { p: "ns", k: ["lion", "ginkgo", "fokus", "konzentration", "gehirn", "brain fog", "gedaechtnis", "nebel"], a: "Lion’s Mane unterstützt Fokus, Gedächtnis und neuronale Regeneration. Ginkgo fördert die Durchblutung und damit mentale Klarheit. Dazu kommen DHA aus Algenöl als Baustein der Nervenzellen und NADH für die Energie." },
+    { p: "ns", k: ["antioxid", "freie radikal", "phycocyanin", "spirulina", "granatapfel", "pterostilben", "zellschutz", "detox", "leber", "entgift"], a: "Phycocyanin, Kurkuma, Granatapfel und Vitamin C fangen freie Radikale ab. Spirulina liefert Aminosäuren und Pflanzenstoffe für deine körpereigenen Schutzsysteme. Pterostilben unterstützt die zelluläre Qualitätskontrolle." },
+    { p: "ns", k: ["immun", "abwehr", "erkaelt", "infekt", "krank"], a: "Vitamin C aus Acerola, Zink aus Guavenblatt und Vitamin D3 versorgen zentrale Bereiche deiner Abwehr. Akazienfaser und Sporen-Probiotika stabilisieren die Darmbasis. Wenn ein Infekt kommt, kannst du zusätzlich den Immun Booster für ein paar Tage nehmen.", l: [L.ib] },
+    { p: "ns", k: ["zimt", "ceylon"], a: "Ceylon-Zimt unterstützt einen gleichmäßigen Energiefluss und hilft, Blutzuckerspitzen abzufedern. Er kann außerdem Verdauung und Mikrobiom günstig beeinflussen." },
     { p: "ns", k: ["honig", "matrix", "buchweizen"], a: "Der Bio-Buchweizenhonig ist die Matrix: Er macht die Einnahme angenehm, schützt die Wirkstoffe und lässt sie sanft im Darm ankommen." },
     { p: "ns", k: ["aufnahme", "aufgenommen", "bioverfueg", "600", "kommt an", "verwert"], a: "Damit die Nährstoffe auch ankommen, wirkt die bioaktive Honigmatrix als natürliches Transportsystem. Sie steigert die Überlebensrate und Aufnahme der Nährstoffe im Darm um bis zu 600 %. Dazu kommen Akazienfaser und Sporen-Probiotika, Piperin für Curcumin und mikroverkapseltes NADH." },
-    { p: "ns", k: ["wann wirkt", "wirkung", "wann merke", "merke ich", "spuere", "wie schnell", "bringt das", "dauert es"], a: "Das ist individuell. Wichtig ist, dass du OMNI9 jeden Tag nimmst und dranbleibst. Und für das Nutrition-System gibt es eine 90-Tage-Geld-zurück-Garantie, die Bedingungen findest du unter Widerruf und Garantie.", l: [L.widerruf] },
-    { p: "ns", k: ["lager", "aufbewahr", "kuehlschrank", "haltbar", "temperatur"], a: "Zur Lagerung des Nutrition-Systems habe ich keine Angabe in unseren Produktinfos. Bitte schau aufs Etikett oder frag unser Team.", s: 1 },
-    { p: "ns", k: ["geschmack", "schmeckt", "bitter", "suess", "herb"], a: "Die Basis ist Bio-Buchweizenhonig, dazu kommen 16 Pflanzen- und Nährstoffzutaten. In den Bewertungen schreiben einige, dass der Geschmack anfangs ungewohnt ist und schnell zum Ritual wird." },
+    { p: "ns", k: ["wann wirkt", "wirkung", "wann merke", "merke ich", "spuere", "wie schnell", "bringt das", "dauert es"], a: "Das ist bei jedem anders. Wichtig ist, dass du OMNI9 jeden Tag nimmst und dranbleibst. Für das Nutrition-System gibt es eine 90-Tage-Geld-zurück-Garantie. Die Bedingungen findest du unter Widerruf und Garantie.", l: [L.widerruf] },
+    { p: "ns", k: ["lager", "aufbewahr", "kuehlschrank", "haltbar", "temperatur"], a: "Zur Lagerung des Nutrition-Systems finde ich keine Angabe in unseren Produktinfos. Bitte schau aufs Etikett oder frag unser Team.", s: 1 },
+    { p: "ns", k: ["geschmack", "schmeckt", "bitter", "suess", "herb"], a: "Die Basis ist Bio-Buchweizenhonig, dazu kommen 16 Pflanzen- und Nährstoffzutaten. In den Bewertungen schreiben einige, dass der Geschmack anfangs ungewohnt ist und die Einnahme schnell zum Ritual wird." },
     { p: "ns", k: [" tee ", " tees ", "kaffee", "joghurt", "muesli", "einruehr", "getraenk"], a: "Dazu haben wir für das Nutrition-System keine Angabe. Für den Immun Booster gilt: nur in warmem Tee unter 40 °C, damit die bioaktiven Bestandteile erhalten bleiben. Frag im Zweifel kurz bei uns nach.", s: 1 },
     { p: "ns", k: ["teuer", "lohnt", "preis leistung", "pro tag", "einzeln kaufen"], a: "Mit automatischer Lieferung kostet das Nutrition-System 69 € im Monat, also etwa 2,30 € am Tag. Wer die gleichen Bereiche mit einzelnen Supplements abdeckt, zahlt laut OMNI9-Vergleich rund 397 € im Monat, etwa 13,32 € am Tag.", l: [L.nsKauf] },
 
-    { p: "ib", k: ["einnehm", "einnahme", "dosier", "wie viel", "wieviel", "menge", "teeloeffel", "loeffel", "dosis", "wie nehme", "wie oft"], a: "In der Akutphase 1 Teelöffel (ca. 10 g) morgens, mittags und abends, für 5 bis 10 Tage. Bei Bedarf kannst du die Kur wiederholen. Vorbeugend reicht 1 Teelöffel am Tag." },
-    { p: "ib", k: ["wann", "anzeichen", "halskratzen", "kratz", "froestel", "glieder", "fruehzeitig", "sofort"], a: "So früh wie möglich, sobald du merkst: Halskratzen, Frösteln, Gliederschwere oder „da kommt was“. Dann nutzt du das Zeitfenster, in dem dein Körper Unterstützung am besten verwerten kann." },
-    { p: "ib", k: ["vorbeug", "praevent", "winter", "erkaeltungszeit", "dauerhaft", "jeden tag"], a: "Ja. In der Erkältungszeit kannst du ihn vorbeugend einmal täglich nehmen, besonders in Phasen mit viel Kontakt, zum Beispiel Kita, Büro oder Reisen." },
+    { p: "ib", k: ["einnehm", "einnahme", "dosier", "wie viel", "wieviel", "menge", "teeloeffel", "loeffel", "dosis", "wie nehme", "wie oft"], a: "In der Akutphase nimmst du morgens, mittags und abends 1 Teelöffel (ca. 10 g), für 5 bis 10 Tage. Bei Bedarf kannst du die Kur wiederholen. Vorbeugend reicht 1 Teelöffel am Tag." },
+    { p: "ib", k: ["wann", "anzeichen", "halskratzen", "kratz", "froestel", "glieder", "fruehzeitig", "sofort"], a: "So früh wie möglich, sobald du Halskratzen, Frösteln oder Gliederschwere bemerkst oder denkst: „Da kommt was.“ Dann nutzt du das Zeitfenster, in dem dein Körper Unterstützung am besten verwerten kann." },
+    { p: "ib", k: ["vorbeug", "praevent", "winter", "erkaeltungszeit", "dauerhaft", "jeden tag"], a: "Ja. In der Erkältungszeit kannst du ihn vorbeugend einmal täglich nehmen, besonders in Phasen mit viel Kontakt, zum Beispiel in der Kita, im Büro oder auf Reisen." },
     { p: "ib", k: [" tee ", " tees ", "warm", "heiss", "getraenk"], a: "Ja, aber bitte nur in warmem Tee unter 40 °C. So bleibt die Rohkostqualität erhalten. Alternativ einfach pur vom Löffel." },
     { p: "ib", k: ["lager", "aufbewahr", "kuehlschrank", "haltbar", "temperatur"], a: "Kühl (bis 22 °C), trocken und dunkel lagern. Der Booster ist mindestens 12 Monate haltbar." },
-    { p: "ib", k: ["wie lange reicht", "reicht ein glas", "portion", "glas reicht", "wie lange haelt ein glas"], a: "Ein Glas Immun Booster hat ca. 30 Portionen. Das reicht für eine Akutphase von bis zu 10 Tagen mit 3 Teelöffeln am Tag.", l: [L.ibKauf] },
-    { p: "ib", k: ["abo", "abonnement", "automatisch", "automatische lieferung", "regelmaessig", "nachbestell", "nachschub", "nachkauf", "nachkaufen", "liefern lassen", "sparen", "guenstiger", "rabatt"], a: "Mit automatischer Lieferung kostet der Immun Booster 49,90 € statt 59,90 €, geliefert alle 4, 8, 12 oder 16 Wochen. Nach mindestens 2 Lieferungen kannst du jederzeit kündigen oder pausieren. Verwalten kannst du alles in deinem Kundenkonto.", l: [L.ibKauf] },
-    { p: "ib", k: ["allerg", "biene", "unvertraeglich", "nicht geeignet"], a: "Bei einer Allergie gegen Bienenprodukte solltest du wegen Propolis und Honig verzichten. Bei Schwangerschaft, Stillzeit, chronischen Erkrankungen oder Medikamenten kläre die Einnahme bitte vorher mit Arzt oder Apotheke ab." },
-    { p: "ib", k: ["zutat", "inhaltsstoff", "was ist drin", "was steckt", "enthaelt", "enthalten", "inhalt", "mikronaehr"], w: ["drin"], a: "Der Booster ist eine Akut-Formel in Honigmatrix mit 34 bioaktiven Mikronährstoffen: Vitamin C und Zink, dazu Holunder, Propolis, Ingwer, Kurkuma mit Piperin, Acerola, Hagebutte, Akazienfaser und Orangenschale. Frag mich gern zu einer einzelnen Zutat.", l: [L.ibInhalt] },
-    { p: "ib", k: ["propolis"], a: "Propolis wird traditionell genutzt, wenn du das Gefühl hast, „da sitzt was im Hals“. Es unterstützt die Immunantwort, besonders in der Phase, in der du schnell gegensteuern willst. Achtung bei einer Allergie gegen Bienenprodukte." },
+    { p: "ib", k: ["wie lange reicht", "reicht ein glas", "portion", "glas reicht", "wie lange haelt ein glas"], a: "Ein Glas Immun Booster enthält ca. 30 Portionen. Das reicht für eine Akutphase von bis zu 10 Tagen mit 3 Teelöffeln am Tag.", l: [L.ibKauf] },
+    { p: "ib", k: ["abo", "abonnement", "automatisch", "automatische lieferung", "regelmaessig", "nachbestell", "nachschub", "nachkauf", "nachkaufen", "liefern lassen", "sparen", "guenstiger", "rabatt"], a: "Mit automatischer Lieferung kostet der Immun Booster 49,90 € statt 59,90 €. Du erhältst ihn alle 4, 8, 12 oder 16 Wochen. Nach mindestens 2 Lieferungen kannst du jederzeit kündigen oder pausieren. Alles verwaltest du in deinem Kundenkonto.", l: [L.ibKauf] },
+    { p: "ib", k: ["allerg", "biene", "unvertraeglich", "nicht geeignet"], a: "Bei einer Allergie gegen Bienenprodukte solltest du wegen Propolis und Honig darauf verzichten. Bei Schwangerschaft, Stillzeit, chronischen Erkrankungen oder wenn du Medikamente nimmst, kläre die Einnahme bitte vorher mit Arzt oder Apotheke ab." },
+    { p: "ib", k: ["zutat", "inhaltsstoff", "was ist drin", "was steckt", "enthaelt", "enthalten", "inhalt", "mikronaehr"], w: ["drin"], a: "Der Booster ist eine Akut-Formel in einer Honigmatrix mit 34 bioaktiven Mikronährstoffen: Vitamin C und Zink, dazu Holunder, Propolis, Ingwer, Kurkuma mit Piperin, Acerola, Hagebutte, Akazienfaser und Orangenschale. Frag mich gern zu einer einzelnen Zutat.", l: [L.ibInhalt] },
+    { p: "ib", k: ["propolis"], a: "Propolis wird traditionell genutzt, wenn du das Gefühl hast: „Da sitzt was im Hals.“ Es unterstützt die Immunantwort, besonders in der Phase, in der du schnell gegensteuern willst. Achtung bei einer Allergie gegen Bienenprodukte." },
     { p: "ib", k: ["holunder"], a: "Holunder wird in der Erkältungszeit genutzt, wenn Hals und Atemwege gereizt sind. Er unterstützt die Schleimhäute." },
     { p: "ib", k: ["ingwer"], a: "Ingwer wärmt von innen und unterstützt den Körper in der frühen Infektphase, zum Beispiel bei Frösteln oder Druck im Kopf." },
     { p: "ib", k: ["hagebutte"], a: "Hagebutte liefert pflanzliche Vitamin-C-Synergie und unterstützt die Regeneration nach einem Infekt." },
-    { p: "ib", k: ["orange", "geschmack", "schmeckt"], a: "Die Bio-Orangenschale ist „just for the taste“: Sie sorgt für einen frischen, runden Geschmack, damit du den Booster gern nimmst, gerade dann, wenn es zählt." },
+    { p: "ib", k: ["orange", "geschmack", "schmeckt"], a: "Die Bio-Orangenschale ist nur für den Geschmack dabei: Sie sorgt für einen frischen, runden Geschmack, damit du den Booster gern nimmst, gerade dann, wenn es zählt." },
     { p: "ib", k: ["zucker", "nur honig", "honig", "matrix"], a: "Der Honig ist hier nicht Deko, sondern die Matrix: Er macht die Einnahme einfach und trägt die Wirkstoffe, also Vitamin C und Zink sowie Holunder, Propolis, Ingwer, Kurkuma und Piperin." },
     { p: "ib", k: ["entzuend", "druck", "schwere glieder", "laeuft heiss"], a: "Gegen den Entzündungsdruck in der Infektphase arbeiten im Booster Bio-Kurkuma, Bio-Ingwer und Bio-Piperin zusammen. Piperin verstärkt die Wirkung von Kurkuma um ein Vielfaches." },
-    { p: "ib", k: ["immun", "abwehr", "erkaelt", "infekt", "hals", "schleimhaut", "krank"], a: "Der Booster setzt parallel an Abwehr, Schleimhäuten, Entzündungsdruck, oxidativem Stress und Energie an: Vitamin C und Zink für dein Immunsystem, Holunder und Propolis für Hals und Schleimhäute, Ingwer und Kurkuma für die frühe Infektphase.", l: [L.ibInhalt] }
+    { p: "ib", k: ["immun", "abwehr", "erkaelt", "infekt", "hals", "schleimhaut", "krank"], a: "Der Booster setzt gleichzeitig an Abwehr, Schleimhäuten, Entzündungsdruck, oxidativem Stress und Energie an: Vitamin C und Zink für dein Immunsystem, Holunder und Propolis für Hals und Schleimhäute, Ingwer und Kurkuma für die frühe Infektphase.", l: [L.ibInhalt] }
   ];
   var THEMEN = {
     start: { thema: "Fragen zu allen OMNI9-Produkten", gruss: "Hallo! Ich bin der OMNI9 Assistent. Frag mich alles zu unseren Produkten: Einnahme, Zutaten, Versand oder Nachkauf.", vorschlaege: ["Welches Produkt passt zu mir?", "Wie lange dauert der Versand?", "Wie funktioniert die automatische Lieferung?", "Kann ich beide zusammen nehmen?"], demo: [] },
@@ -1842,12 +2003,13 @@ body.chat-offen .chat-fenster { display: flex; }
     chatFeld.value = "";
   });
 
-  /* Automatische Lieferung: der gewählte Rhythmus geht als Lieferplan mit in die Kasse */
+  /* Kauf-Links bekommen die Kennung. Automatische Lieferung: der gewählte Rhythmus geht als Lieferplan mit in die Kasse */
+  document.querySelectorAll("a[data-kauf]").forEach(function (a) { a.href = mitKennung(a.href, a.dataset.kauf); });
   document.querySelectorAll("[data-auto]").forEach(function (box) {
     var link = box.querySelector("[data-auto-link]");
     box.querySelectorAll("input[type=radio]").forEach(function (r) {
       r.addEventListener("change", function () {
-        link.href = "https://omni9.de/cart/add?id=" + box.dataset.auto + "&quantity=1&selling_plan=" + r.value + "&return_to=/checkout";
+        link.href = mitKennung("https://omni9.de/cart/add?id=" + box.dataset.auto + "&quantity=1&selling_plan=" + r.value + "&return_to=/checkout", link.dataset.kauf);
       });
     });
   });
@@ -2019,26 +2181,26 @@ body.chat-offen .chat-fenster { display: flex; }
   }
 
   /* Fortschritt im Körper: Phasen nach der Kettenreaktion auf omni9.de, die Zeiten sind eine Orientierung aus echten Bewertungen */
-  var WARNUNG = "Geht es dir nach ein paar Tagen nicht besser oder schlechter, sprich bitte mit Arzt oder Apotheke.";
+  var WARNUNG = "Geht es dir nach ein paar Tagen nicht besser oder sogar schlechter, sprich bitte mit Arzt oder Apotheke.";
   var NS_PHASEN = [
     { bis: 3, stufe: 0, zeit: "Tag 1 bis 3", titel: "Die Nährstoffe kommen an",
       koerper: "Alle 16 Zutaten stecken in einer bioaktiven Honigmatrix. Ihre Enzyme und Polyphenole sorgen dafür, dass die Nährstoffe nicht einfach durchgespült werden, sondern in deinem Körper ankommen, auch in einem belasteten Darm.",
-      tipp: "Empfindlicher Darm? Nimm die ersten Tage etwas weniger als einen Teelöffel und steigere dann. Ist der Geschmack ungewohnt, lass den Löffel langsam im Mund zergehen.",
+      tipp: "Empfindlicher Darm? Nimm die ersten Tage etwas weniger als einen Teelöffel und steigere dann die Menge. Ist der Geschmack ungewohnt, lass den Löffel langsam im Mund zergehen.",
       stimme: { zeit: "Nach ein paar Tagen", text: "…nehme es erst paar Tage aber es hilft schon ein bisal", name: "Claudia B., verifizierter Kauf", sterne: 5 } },
     { bis: 7, stufe: 1, zeit: "Tag 4 bis 7", titel: "Dein Darm als Fundament",
       koerper: "Hier beginnt die Kettenreaktion. Akazienfaser nährt hilfreiche Darmbakterien, die Sporenkultur Bacillus coagulans unterstützt das Darmmilieu. Das Ziel: Die Darmbarriere dichtet ab, mit weniger Immun-Alarm, weniger Entzündung und weniger Reizung.",
-      tipp: "Noch nichts zu merken ist jetzt normal. Wichtig ist, dass du jeden Tag dranbleibst, am besten immer zur gleichen Zeit.",
+      tipp: "Dass du noch nichts merkst, ist jetzt normal. Wichtig ist, dass du jeden Tag dranbleibst, am besten immer zur gleichen Zeit.",
       stimme: { zeit: "Nach 5 Tagen", text: "Ich nehme es erst seit fünf Tagen. Ich kann es noch nicht beurteilen.", name: "Ralf V., verifizierter Kauf", sterne: 4 } },
     { bis: 14, stufe: 2, zeit: "Tag 8 bis 14", titel: "Mehr Ruhe im System",
-      koerper: "Sinkt die stille Entzündung, fällt der Dauerstress im Körper: weniger Kompensation, mehr Ruhe. Ashwagandha unterstützt die Regulation deiner Stressachse, die aktiven B-Vitamine versorgen dein Nervensystem. So wird Schlaf wieder Reparatur statt Notprogramm.",
+      koerper: "Sinkt die stille Entzündung, nimmt der Dauerstress im Körper ab. Dein Körper muss weniger ausgleichen und kommt mehr zur Ruhe. Ashwagandha unterstützt die Regulation deiner Stressachse, die aktiven B-Vitamine versorgen dein Nervensystem. So wird Schlaf wieder Reparatur statt Notprogramm.",
       tipp: "Achte diese Woche darauf, wie du einschläfst und wie erholt du aufwachst. Leg eine Stunde vor dem Schlafen das Handy weg.",
       stimme: { zeit: "In Woche 2", text: "Ich bin nun in der zweiten Woche der Einnahme und meine, dass mein Körper jetzt schon mehr in den Ruhemodus geschaltet hat. Ich bin ausgeglichener und kann nachts besser schlafen.", name: "Marc W., verifizierter Kauf", sterne: 5 } },
     { bis: 21, stufe: 3, zeit: "Tag 15 bis 21", titel: "Energie für den ganzen Tag",
       koerper: "Am Ende der Kette steht deine Zellenergie: keine Energie-Crashs mehr, sondern stabile Kraft über den Tag. NADH unterstützt in deinen Mitochondrien die Prozesse, durch die Energie entsteht. Die aktiven B-Vitamine liefern wichtige Cofaktoren.",
-      tipp: "Achte auf deinen Nachmittag: Kommt das Tief später oder schwächer? Geh nach dem Mittagessen 10 Minuten raus ans Tageslicht.",
+      tipp: "Achte auf deinen Nachmittag: Kommt das Tief später oder fällt es schwächer aus? Geh nach dem Mittagessen 10 Minuten raus ans Tageslicht.",
       stimme: { zeit: "Nach 2,5 Wochen", text: "Habe Omni 9 zum ersten Mal ausprobiert und merke nach 2.5 Wochen schon deutlich mehr Energie. Der Geschmack ist gewöhnungsbedürftig, aber es wird zum Ritual und kostet keine große Überwindung.", name: "Ruth E., verifizierter Kauf", sterne: 5 } },
     { bis: 30, stufe: 3, zeit: "Tag 22 bis 30", titel: "Dein erstes Glas wird leer",
-      koerper: "Regelmäßigkeit ist die Voraussetzung dafür, dass Regeneration überhaupt passieren kann. OMNI9 ist auf Stabilität ausgelegt, nicht auf kurze Peaks. Darum zählt jetzt vor allem eins: ohne Pause weitermachen.",
+      koerper: "Regelmäßigkeit ist die Voraussetzung dafür, dass Regeneration überhaupt möglich ist. OMNI9 ist auf Stabilität ausgelegt, nicht auf kurze Leistungsspitzen. Darum zählt jetzt vor allem eins: ohne Pause weitermachen.",
       tipp: "Bestell etwa eine Woche vorher nach, dann ist dein neues Glas rechtzeitig da. Mit automatischer Lieferung passiert das von allein.",
       stimme: { zeit: "Glas 1 fast leer", text: "Erstes Glas fast leer ist gut man muß sich an den Geschmack gewöhnen aber es geht mir besser", name: "Claudia B., verifizierter Kauf", sterne: 5 } },
     { bis: 60, stufe: 4, zeit: "Glas 2", titel: "Alle Achsen greifen ineinander",
@@ -2046,7 +2208,7 @@ body.chat-offen .chat-fenster { display: flex; }
       tipp: "Vergleich mit deinem Start: Wie sind dein Schlaf, deine Energie am Nachmittag und dein Bauch nach dem Essen? Schreib dir drei Stichworte auf.",
       stimme: { text: "Ich fühle mich seit dem fitter in Verbindung mit Bioactive Nutrition System....habe auch am Nachmittag noch genug Energie und schlafe seitdem besser.", name: "Heike D., verifizierter Kauf", sterne: 5 } },
     { bis: 90, stufe: 4, zeit: "Glas 3", titel: "Zeit für deine Bilanz",
-      koerper: "Du nimmst OMNI9 jetzt seit rund zwei Monaten. Es ist auf Regeneration und Stabilität ausgelegt, nicht auf kurze Peaks. Jetzt lohnt sich der Blick zurück: Was ist anders als am Anfang?",
+      koerper: "Du nimmst OMNI9 jetzt seit rund zwei Monaten. Es ist auf Regeneration und Stabilität ausgelegt, nicht auf kurze Leistungsspitzen. Jetzt lohnt sich der Blick zurück: Was ist anders als am Anfang?",
       tipp: "Schau auf deine Stichworte vom Start. Magst du anderen von deiner Erfahrung erzählen? Deine Bewertung hilft beim Start.",
       link: ["Bewertung schreiben", BEWERTUNG.ns],
       stimme: { text: "zum ersten mal seit langem fühle ich mich wie ich selbst", name: "Franzi H., verifizierter Kauf", sterne: 5 } }
@@ -2057,19 +2219,19 @@ body.chat-offen .chat-fenster { display: flex; }
       tipp: "Morgens, mittags und abends je 1 Teelöffel (ca. 10 g), pur vom Löffel oder in warmem Tee unter 40 °C.",
       stimme: { zeit: "Bei den ersten Anzeichen", text: "Dann kam ein Tag, wo ich morgens schon so ein Druckgefühl hatte und dachte ‘oh nein’. Booster genommen, abends nochmal. Man spürt wie es dem Hals direkt gut tut, wie so eine Art sanftes kribbeln.", name: "Christian B., auf omni9.de" } },
     { bis: 3, stufe: 1, zeit: "Tag 2 bis 3", titel: "Hals und Schleimhäute",
-      koerper: "Für deine Schleimhäute stecken Holunder, Honig, Zimt und Propolis im Booster. Sie unterstützen dort, wo die Welle oft zuerst startet: bei Kratzen, Räuspern oder einem trockenen Hals. Alle drei Komplexe stecken in jedem Löffel.",
-      tipp: "Bleib bei 3 Löffeln am Tag, auch wenn es schon besser wird. Magst du es warm, rühr ihn in Tee unter 40 °C.",
+      koerper: "Für deine Schleimhäute stecken Holunder, Honig, Zimt und Propolis im Booster. Sie unterstützen dort, wo die Erkältung oft zuerst beginnt: bei Kratzen, Räuspern oder einem trockenen Hals. Alle drei Komplexe stecken in jedem Löffel.",
+      tipp: "Bleib bei 3 Löffeln am Tag, auch wenn es schon besser wird. Magst du es warm, rühr den Booster in Tee unter 40 °C.",
       stimme: { zeit: "Nach kurzer Zeit", text: "Und ich schwöre, man merkt’s direkt im Hals. Dieses kratzige Gefühl war bei mir nach kurzer Zeit deutlich ruhiger.", name: "Steffen S., auf omni9.de" } },
     { bis: 5, stufe: 2, zeit: "Tag 4 bis 5", titel: "Die Reaktion ausbalancieren", warnung: true,
-      koerper: "Druck, schwere Glieder, das System läuft heiß: Dafür stecken Kurkuma, Ingwer und Piperin im Booster. Sie helfen deinem Körper, die Reaktion zu balancieren, statt dass es dich komplett zerlegt. Piperin verstärkt die Wirkung von Kurkuma um ein Vielfaches.",
+      koerper: "Druck, schwere Glieder, dein Körper läuft heiß: Dafür stecken Kurkuma, Ingwer und Piperin im Booster. Sie helfen deinem Körper, die Reaktion auszugleichen, damit sie dich nicht völlig aus der Bahn wirft. Piperin verstärkt die Wirkung von Kurkuma um ein Vielfaches.",
       tipp: "Halte durch: Die Kur dauert 5 bis 10 Tage. Gönn dir Ruhe und schlaf genug.",
       stimme: { text: "Diesmal hab ich sofort reagiert. Es war viel milder. Und ja, ich war trotzdem müde, aber nicht dieses ‘ich bin zerstört’-Level.", name: "Manuela H., auf omni9.de" } },
     { bis: 10, stufe: 3, zeit: "Tag 6 bis 10", titel: "Zurück zu Kräften", warnung: true,
-      koerper: "Der Booster setzt parallel an Abwehr, Schleimhäuten, Entzündungsdruck, oxidativem Stress und Energie an, damit dein Körper schneller wieder auf Stabilität kommt. Viele merken vor allem, dass sich die Erschöpfung nach der Erkältung schneller beruhigt.",
+      koerper: "Der Booster setzt gleichzeitig an Abwehr, Schleimhäuten, Entzündungsdruck, oxidativem Stress und Energie an, damit dein Körper schneller wieder stabil wird. Viele merken vor allem, dass die Erschöpfung nach der Erkältung schneller nachlässt.",
       tipp: "Nach 5 bis 10 Tagen kannst du die Kur beenden. Bei Bedarf wiederholst du sie.",
       stimme: { text: "Diesmal mit dem Booster: nicht weggezaubert, aber ich hab’s besser ausgehalten und war schneller wieder arbeitsfähig.", name: "Jenni D., auf omni9.de" } },
     { bis: 11, stufe: 4, zeit: "Nach der Akutphase", titel: "Vorbeugen für die Erkältungszeit",
-      koerper: "In der Erkältungszeit kannst du den Booster vorbeugend nehmen, besonders in Phasen mit viel Kontakt wie Kita, Büro oder Reisen. Dann reicht 1 Teelöffel am Tag.",
+      koerper: "In der Erkältungszeit kannst du den Booster vorbeugend nehmen, besonders wenn du viele Kontakte hast, etwa in der Kita, im Büro oder auf Reisen. Dann reicht 1 Teelöffel am Tag.",
       tipp: "Stell den Booster griffbereit in den Küchenschrank. Merkst du wieder erste Anzeichen, startest du sofort mit 3 Löffeln am Tag.",
       stimme: { text: "Bei uns geht gefühlt alle zwei Wochen was rum. Seitdem ich den Immun Booster da habe, starte ich sofort, wenn ich merke, da kommt was.", name: "Elke W., Kita-Mama, auf omni9.de" } }
   ];
@@ -2078,6 +2240,7 @@ body.chat-offen .chat-fenster { display: flex; }
   var NS_TAGE = [];
   for (var t = 1; t <= 30; t++) NS_TAGE.push(t);
   for (t = 35; t <= 90; t += 5) NS_TAGE.push(t);
+  var nsTag = 1;
   var NS_FORTSCHRITT = {
     id: "ns-fortschritt", tage: NS_TAGE, phasen: NS_PHASEN, marken: [1, 7, 14, 21, 30, 60, 90],
     stufen: [["Ankommen", "i-loeffel-linie"], ["Darm", "z-darm"], ["Ruhe", "z-schlaf"], ["Energie", "z-energie"], ["Stabilität", "t-keim"]],
@@ -2087,8 +2250,12 @@ body.chat-offen .chat-fenster { display: flex; }
     hinweis: function (tag) {
       var rest = nsRest(tag);
       if (rest > 7) return null;
-      return rest ? { titel: "Dein Glas ist bald leer.", text: "Bestell jetzt nach, dann ist das neue da, bevor das alte leer ist. Automatisch geliefert kostet es 69\u00a0€ statt 89\u00a0€.", link: ["Zum Nachkauf", "#ns-nachkauf"] }
+      return rest ? { titel: "Dein Glas ist bald leer.", text: "Bestell jetzt nach, dann ist das neue da, bevor das alte leer ist. Mit automatischer Lieferung kostet es 69\u00a0€ statt 89\u00a0€.", link: ["Zum Nachkauf", "#ns-nachkauf"] }
         : { titel: "Zeit für ein neues Glas.", text: "Mit automatischer Lieferung kommt es künftig von allein, für 69\u00a0€ statt 89\u00a0€.", link: ["Zum Nachkauf", "#ns-nachkauf"] };
+    },
+    beiTag: function (tag) {
+      nsTag = tag;
+      document.querySelector("[data-erinnerung=ns-nachbestellen]").hidden = nsRest(tag) <= 7;
     },
     zeitleiste: ["#ns-30 .zeitleiste", function (tag) { return tag > 30 ? 4 : tag <= 3 ? 0 : tag <= 14 ? 1 : nsRest(tag) <= 7 ? 3 : 2; }]
   };
@@ -2099,7 +2266,7 @@ body.chat-offen .chat-fenster { display: flex; }
     unter: function (tag) { var rest = ibRest(tag); return tag > 10 ? "Akutphase vorbei" : rest ? "Akutphase, noch ca. " + rest + " Portionen" : "Akutphase, Glas leer"; },
     fuellung: function (tag) { return ibRest(tag) / 30; },
     hinweis: function (tag) {
-      return ibRest(tag) > 9 ? null : { titel: "Nachschub für die nächste Erkältungszeit.", text: "Ein Glas reicht für eine Akutphase von bis zu 10 Tagen. Automatisch geliefert kostet es 49,90\u00a0€ statt 59,90\u00a0€.", link: ["Zum Nachkauf", "#ib-nachkauf"] };
+      return ibRest(tag) > 9 ? null : { titel: "Nachschub für die nächste Erkältungszeit.", text: "Ein Glas reicht für eine Akutphase von bis zu 10 Tagen. Mit automatischer Lieferung kostet es 49,90\u00a0€ statt 59,90\u00a0€.", link: ["Zum Nachkauf", "#ib-nachkauf"] };
     },
     zeitleiste: ["#ib-plan .zeitleiste", function (tag) { return tag === 1 ? 0 : tag <= 10 ? 1 : 2; }]
   };
@@ -2169,6 +2336,7 @@ body.chat-offen .chat-fenster { display: flex; }
         satz.append(element("b", null, h.titel), " " + h.text);
         hinweisBox.replaceChildren(satz, linkMit(h.link[0], "knopf", h.link[1]));
       }
+      if (cfg.beiTag) cfg.beiTag(tag);
       if (persoenlich) stufenSetzen(zeitleiste, cfg.zeitleiste[1](tag), true);
     }
     regler.addEventListener("input", function () { zeigen(true); });
@@ -2184,32 +2352,32 @@ body.chat-offen .chat-fenster { display: flex; }
      Produkttipps nur aus omni9.de, Alltagstipps allgemein (von OMNI9 freigeben lassen). */
   var ZIELE = {
     energie: { name: "Mehr Energie", icon: "z-energie", achsen: [3, 2, 4],
-      produkt: { titel: "Energie aus deinen Zellen", text: "Für deine Energie arbeiten in OMNI9 vor allem aktives NADH und die aktiven B-Vitamine B6, B9 und B12. NADH unterstützt in deinen Mitochondrien die Prozesse, durch die Energie entsteht. Gedacht ist das als stabile Kraft über den Tag, nicht als kurzer Push wie bei Kaffee.", schritte: ["Nimm deinen Teelöffel morgens, als festen Start in den Tag.", "Gib dir Zeit: Erst wenn dein Darm stabiler ist, kommen die Nährstoffe richtig an."] },
-      fortschritt: { titel: "Schau auf Morgen und Nachmittag", text: "Achte darauf, wie du morgens aufstehst und ob das Tief am Nachmittag später oder schwächer kommt. In den Bewertungen schreiben einige nach 2 bis 3 Wochen von mehr Energie, zum Beispiel morgens beim Aufstehen. Bei jedem ist es anders.", schritte: ["Notier dir eine Woche lang um 15 Uhr deine Energie von 1 bis 5.", "Vergleich die Zahlen nach drei Wochen."] } },
+      produkt: { titel: "Energie aus deinen Zellen", text: "Für deine Energie arbeiten in OMNI9 vor allem aktives NADH und die aktiven B-Vitamine B6, B9 und B12. NADH unterstützt in deinen Mitochondrien die Prozesse, durch die Energie entsteht. Gedacht ist das als stabile Kraft über den Tag, nicht als kurzer Energieschub wie bei Kaffee.", schritte: ["Nimm deinen Teelöffel morgens, als festen Start in den Tag.", "Gib dir Zeit: Erst wenn dein Darm stabiler ist, kommen die Nährstoffe richtig an."] },
+      fortschritt: { titel: "Schau auf Morgen und Nachmittag", text: "Achte darauf, wie du morgens aufstehst und ob das Tief am Nachmittag später kommt oder schwächer ausfällt. In den Bewertungen schreiben einige nach 2 bis 3 Wochen von mehr Energie, zum Beispiel morgens beim Aufstehen. Bei jedem ist es anders.", schritte: ["Notier dir eine Woche lang um 15 Uhr deine Energie von 1 bis 5.", "Vergleich die Zahlen nach drei Wochen."] } },
     schlaf: { name: "Besser schlafen", icon: "z-schlaf", achsen: [4, 5, 1],
-      produkt: { titel: "Ruhe für dein Nervensystem", text: "Für Ruhe und Schlaf sind vor allem Ashwagandha und die aktiven B-Vitamine drin. Ashwagandha unterstützt die Regulation deiner Stressachse, die B-Vitamine versorgen dein Nervensystem. So kann Schlaf wieder Reparatur werden statt Notprogramm.", schritte: ["Wichtiger als die Uhrzeit ist, dass du OMNI9 jeden Tag nimmst.", "Such dir einen festen Moment, dann vergisst du ihn nicht."] },
+      produkt: { titel: "Ruhe für dein Nervensystem", text: "Für Ruhe und Schlaf sind vor allem Ashwagandha und die aktiven B-Vitamine enthalten. Ashwagandha unterstützt die Regulation deiner Stressachse, die B-Vitamine versorgen dein Nervensystem. So kann Schlaf wieder Reparatur werden statt Notprogramm.", schritte: ["Wichtiger als die Uhrzeit ist, dass du OMNI9 jeden Tag nimmst.", "Such dir einen festen Moment, dann vergisst du die Einnahme nicht."] },
       fortschritt: { titel: "Schau auf deine Nächte", text: "Achte darauf, wie schnell du einschläfst und wie erholt du aufwachst. Ein Kunde schreibt in Woche 2, er sei ausgeglichener und könne nachts besser schlafen. Gib dir ein paar Wochen, bei jedem ist es anders.", schritte: ["Gib dir jeden Morgen eine Note von 1 bis 5: Wie erholt bin ich?", "Schau nach zwei Wochen, ob sich etwas verändert hat."] } },
     darm: { name: "Ruhiger Bauch", icon: "z-darm", achsen: [2, 9, 6],
-      produkt: { titel: "Das Fundament für deinen Bauch", text: "Das Darm-Fundament von OMNI9 sind Bio-Akazienfaser, die hilfreiche Darmbakterien nährt, und die Sporenkultur Bacillus coagulans, die das Darmmilieu unterstützt. Dazu kommen Oligosaccharide aus dem Buchweizenhonig. Wird der Darm stabiler, kann er Nährstoffe besser aufnehmen.", schritte: ["Ist dein Bauch empfindlich, starte die ersten Tage mit weniger als einem Teelöffel.", "Steigere dann langsam auf einen Teelöffel pro Tag."] },
+      produkt: { titel: "Das Fundament für deinen Bauch", text: "Die Grundlage für deinen Darm bilden in OMNI9 Bio-Akazienfaser, die hilfreiche Darmbakterien nährt, und die Sporenkultur Bacillus coagulans, die das Darmmilieu unterstützt. Dazu kommen Oligosaccharide aus dem Buchweizenhonig. Wird der Darm stabiler, kann er Nährstoffe besser aufnehmen.", schritte: ["Ist dein Bauch empfindlich, starte die ersten Tage mit weniger als einem Teelöffel.", "Steigere dann langsam auf einen Teelöffel pro Tag."] },
       fortschritt: { titel: "Schau auf die Zeit nach dem Essen", text: "Achte darauf, wie sich dein Bauch nach dem Essen anfühlt, vor allem abends. Eine Kundin schreibt, ihr Blähbauch am Abend sei deutlich weniger geworden. Gib dir ein paar Wochen, bei jedem ist es anders.", schritte: ["Notier dir eine Woche lang, nach welchem Essen es rumort.", "Vergleich nach drei Wochen."] } },
     fokus: { name: "Klarer Kopf", icon: "z-fokus", achsen: [5, 3, 7],
-      produkt: { titel: "Versorgung für deinen Kopf", text: "Für deinen Kopf arbeiten in OMNI9 Lion’s Mane, Ginkgo, DHA aus Algenöl und NADH zusammen. Lion’s Mane unterstützt die Nervenregeneration, Ginkgo die Versorgung des Gehirns, DHA ist ein Baustein der Nervenzellen, und NADH liefert Zellenergie.", schritte: ["Nimm deinen Löffel vor dem Arbeiten, zum Beispiel zum Frühstück.", "Bleib jeden Tag dran, auch am Wochenende."] },
+      produkt: { titel: "Versorgung für deinen Kopf", text: "Für deinen Kopf arbeiten in OMNI9 Lion’s Mane, Ginkgo, DHA aus Algenöl und NADH zusammen. Lion’s Mane unterstützt die Nervenregeneration, Ginkgo die Versorgung des Gehirns. DHA ist ein Baustein der Nervenzellen, und NADH liefert Zellenergie.", schritte: ["Nimm deinen Löffel vor der Arbeit, zum Beispiel zum Frühstück.", "Bleib jeden Tag dran, auch am Wochenende."] },
       fortschritt: { titel: "Schau auf deine Konzentration", text: "Achte darauf, wie lange du dich am Stück konzentrieren kannst und ob du Sätze seltener zweimal liest. Ein Kunde schreibt, er fühle sich klarer und nicht mehr so matschig im Kopf. Gib dir ein paar Wochen, bei jedem ist es anders.", schritte: ["Merk dir, wie lange du heute ohne Ablenkung arbeiten konntest.", "Vergleich nach drei Wochen."] } },
     stress: { name: "Weniger Stress", icon: "z-stress", achsen: [4, 1, 5],
-      produkt: { titel: "Raus aus dem Daueralarm", text: "Bleibt dein Stresssystem dauerhaft aktiv, kann dein Körper nicht sauber zwischen Anspannung und Erholung wechseln. Ashwagandha unterstützt die Regulation deiner Stressachse, die aktiven B-Vitamine versorgen dein Nervensystem.", schritte: ["Mach deinen Löffel zu einem ruhigen Moment: hinsetzen und langsam im Mund zergehen lassen.", "Nimm ihn jeden Tag, auch an ruhigen Tagen."] },
+      produkt: { titel: "Raus aus dem Daueralarm", text: "Bleibt dein Stresssystem dauerhaft aktiv, kann dein Körper nicht gut zwischen Anspannung und Erholung wechseln. Ashwagandha unterstützt die Regulation deiner Stressachse, die aktiven B-Vitamine versorgen dein Nervensystem.", schritte: ["Nimm dir für deinen Löffel einen ruhigen Moment: Setz dich hin und lass ihn langsam im Mund zergehen.", "Nimm ihn jeden Tag, auch an ruhigen Tagen."] },
       fortschritt: { titel: "Schau auf deine Abende", text: "Achte darauf, wie schnell du abends abschalten kannst und wie oft du gereizt reagierst. Ein Kunde schreibt in Woche 2, er sei ausgeglichener. Gib dir ein paar Wochen, bei jedem ist es anders.", schritte: ["Notier dir abends kurz: Wie angespannt war ich heute, von 1 bis 5?", "Vergleich nach drei Wochen."] } },
     abwehr: { name: "Starke Abwehr", icon: "t-schild", achsen: [6, 2], booster: true,
-      produkt: { titel: "Deine tägliche Basis für die Abwehr", text: "Für deine Abwehr stecken in OMNI9 Vitamin C aus Acerola, Vitamin D3 aus Flechte und Zink aus Guavenblatt. Ein großer Teil deiner Immunregulation beginnt im Darm und an den Schleimhäuten, deshalb gehören Bacillus coagulans und Akazienfaser dazu.", schritte: ["Nimm OMNI9 jeden Tag, auch wenn es dir gut geht.", "Kommt doch ein Infekt, nimm 5 bis 10 Tage zusätzlich den Immun Booster."] },
-      fortschritt: { titel: "Schau auf die Erkältungszeit", text: "Achte darauf, wie du durch die nächste Erkältungszeit kommst und wie schnell du dich nach Belastungen wieder fängst. Bei jedem ist es anders.", schritte: ["Stell den Immun Booster schon jetzt in den Küchenschrank, dann hast du ihn beim ersten Halskratzen griffbereit."] } }
+      produkt: { titel: "Deine tägliche Basis für die Abwehr", text: "Für deine Abwehr stecken in OMNI9 Vitamin C aus Acerola, Vitamin D3 aus Flechte und Zink aus Guavenblatt. Ein großer Teil deiner Immunregulation beginnt im Darm und an den Schleimhäuten. Deshalb gehören Bacillus coagulans und Akazienfaser dazu.", schritte: ["Nimm OMNI9 jeden Tag, auch wenn es dir gut geht.", "Kommt doch ein Infekt, nimm 5 bis 10 Tage zusätzlich den Immun Booster."] },
+      fortschritt: { titel: "Schau auf die Erkältungszeit", text: "Achte darauf, wie du durch die nächste Erkältungszeit kommst und wie schnell du dich nach Belastungen wieder erholst. Bei jedem ist es anders.", schritte: ["Stell den Immun Booster schon jetzt in den Küchenschrank, dann hast du ihn beim ersten Halskratzen griffbereit."] } }
   };
   var ZEITEN = {
     morgens: { name: "Morgens", icon: "z-morgen", art: "Für deinen Morgen", titel: "Ein Start ohne Nachdenken", text: "Wenn der Morgen schwerfällt, hilft eine feste Reihenfolge, über die du nicht nachdenken musst.", schritte: ["Stell dein Glas neben die Kaffeemaschine oder die Zahnbürste.", "Erst ein großes Glas Wasser, dann dein Löffel, dann der Kaffee.", "Geh in der ersten Stunde ein paar Minuten ans Tageslicht, zum Beispiel ans offene Fenster."] },
-    nachmittag: { name: "Im Nachmittagstief", icon: "z-mittag", art: "Für deinen Nachmittag", titel: "Dem Tief zuvorkommen", text: "Das Tief nach dem Mittag wird oft von einem schweren Essen und zu wenig Bewegung verstärkt.", schritte: ["Geh nach dem Mittagessen 10 Minuten raus ans Tageslicht.", "Trink ein großes Glas Wasser, bevor du zum nächsten Kaffee greifst.", "Iss mittags lieber etwas leichter."] },
+    nachmittag: { name: "Im Nachmittagstief", icon: "z-mittag", art: "Für deinen Nachmittag", titel: "Dem Tief zuvorkommen", text: "Das Tief nach dem Mittagessen wird oft durch schweres Essen und zu wenig Bewegung verstärkt.", schritte: ["Geh nach dem Mittagessen 10 Minuten raus ans Tageslicht.", "Trink ein großes Glas Wasser, bevor du zum nächsten Kaffee greifst.", "Iss mittags lieber etwas leichter."] },
     abends: { name: "Abends", icon: "z-abend", art: "Für deinen Abend", titel: "Ein klarer Schluss für den Tag", text: "Damit dein Kopf abschalten kann, braucht er ein Signal: Der Tag ist vorbei.", schritte: ["Leg eine Stunde vor dem Schlafen das Handy weg.", "Schreib kurz auf, was morgen ansteht. Dann musst du es nicht im Kopf behalten.", "Halt das Schlafzimmer kühl und dunkel."] },
     essen: { name: "Nach dem Essen", icon: "z-essen", art: "Rund ums Essen", titel: "Ruhe beim Essen", text: "Ein ruhiger Bauch fängt oft schon beim Essen an.", schritte: ["Iss in Ruhe und kau gründlich.", "Probier kleinere Portionen.", "Mach nach dem Essen einen kurzen Spaziergang."] }
   };
   var ALLTAG = {
-    bildschirm: { name: "Viel Bildschirm", icon: "z-bildschirm", art: "Für deinen Alltag", titel: "Pausen für Augen und Körper", text: "Langes Sitzen vor dem Bildschirm macht müde, auch ohne körperliche Arbeit.", schritte: ["Steh alle 60 bis 90 Minuten kurz auf und beweg dich.", "Schau zwischendurch ein paar Sekunden in die Ferne.", "Stell dir eine Flasche Wasser sichtbar auf den Schreibtisch."] },
+    bildschirm: { name: "Viel Bildschirm", icon: "z-bildschirm", art: "Für deinen Alltag", titel: "Pausen für Augen und Körper", text: "Langes Sitzen vor dem Bildschirm macht müde, auch ohne körperliche Arbeit.", schritte: ["Steh alle 60 bis 90 Minuten kurz auf und beweg dich.", "Schau zwischendurch ein paar Sekunden in die Ferne.", "Stell dir eine Flasche Wasser gut sichtbar auf den Schreibtisch."] },
     unterwegs: { name: "Viel unterwegs", icon: "z-unterwegs", art: "Für deinen Alltag", titel: "Eine Routine, die überall klappt", text: "Wenn jeder Tag anders aussieht, muss die Routine ganz einfach sein.", schritte: ["Nimm deinen Löffel, bevor du das Haus verlässt.", "Kein Abwiegen, kein Anrühren: Ein Löffel reicht.", "Pack dir für lange Tage Wasser und einen Snack ein."] },
     familie: { name: "Familie, wenig Zeit", icon: "z-familie", art: "Für deinen Alltag", titel: "Ein fester Anker im Trubel", text: "Wenn wenig Zeit für dich bleibt, verknüpf OMNI9 mit etwas, das du sowieso jeden Tag machst.", schritte: ["Nimm deinen Löffel zum ersten Kaffee oder beim Frühstückmachen.", "Stell das Glas so hin, dass du es siehst, Kinder aber nicht drankommen.", "Plan dir jeden Tag 10 Minuten nur für dich ein."] },
     sport: { name: "Viel Sport", icon: "z-sport", art: "Für deinen Alltag", titel: "Regeneration einplanen", text: "Fortschritt im Training entsteht in den Pausen, nicht im Training selbst.", schritte: ["Plan bewusst Ruhetage ein.", "Achte auf genug Schlaf, gerade nach harten Einheiten.", "Nimm deinen Löffel auch an trainingsfreien Tagen."] }
@@ -2219,14 +2387,14 @@ body.chat-offen .chat-fenster { display: flex; }
     vorbeugend: { name: "Ich will vorbeugen", icon: "t-schild", art: "So nimmst du ihn vorbeugend", titel: "1 Teelöffel am Tag", text: "In der Erkältungszeit kannst du den Booster vorbeugend nehmen, besonders in Phasen mit viel Kontakt.", schritte: ["1 Teelöffel am Tag, pur oder in warmem Tee unter 40 °C.", "Merkst du erste Anzeichen, wechsle in die Akutphase: morgens, mittags und abends je 1 Teelöffel.", "Du nimmst schon OMNI9? Der Booster kommt einfach dazu."] }
   };
   var IB_KONTAKT = {
-    kita: { name: "Kita oder Schule", icon: "z-kita", art: "Für deinen Alltag", titel: "Mit Kita- oder Schulkindern", text: "Bei Kindern in Kita oder Schule geht oft etwas rum. Eine Kita-Mama schreibt auf omni9.de, dass sie seitdem sofort startet, wenn sie merkt, da kommt was.", schritte: ["Stell den Booster griffbereit in den Küchenschrank.", "Wascht euch nach dem Abholen gleich die Hände.", "Starte beim ersten Halskratzen, nicht erst, wenn es richtig losgeht."] },
+    kita: { name: "Kita oder Schule", icon: "z-kita", art: "Für deinen Alltag", titel: "Mit Kita- oder Schulkindern", text: "Bei Kindern in Kita oder Schule geht oft etwas rum. Eine Kita-Mama schreibt auf omni9.de, dass sie seitdem sofort startet, sobald sie merkt, dass etwas im Anflug ist.", schritte: ["Stell den Booster griffbereit in den Küchenschrank.", "Wascht euch nach dem Abholen gleich die Hände.", "Starte beim ersten Halskratzen, nicht erst, wenn es richtig losgeht."] },
     buero: { name: "Büro", icon: "z-bildschirm", art: "Für deinen Alltag", titel: "Im Büro", text: "Wo viele Menschen zusammenkommen, geht schnell etwas rum.", schritte: ["Lüfte regelmäßig, zum Beispiel jede Stunde ein paar Minuten.", "Nimm deine eigene Tasse und wasch dir öfter die Hände.", "Starte beim ersten Kratzen im Hals sofort."] },
     reisen: { name: "Reisen und Bahn", icon: "z-unterwegs", art: "Für deinen Alltag", titel: "Auf Reisen", text: "Unterwegs bist du vielen Menschen nah und schläfst oft schlechter.", schritte: ["Nimm den Booster auf längere Reisen mit.", "Trink unterwegs genug, gerade in Bahn und Flugzeug.", "Plan nach der Reise einen ruhigen Abend ein."] },
     wenig: { name: "Eher wenig Kontakt", icon: "z-familie", art: "Für deinen Alltag", titel: "Mit wenig Kontakt", text: "Auch mit wenig Kontakt kann dich ein Infekt erwischen. Dann zählt der Start.", schritte: ["Bewahr den Booster dort auf, wo du ihn schnell findest.", "Starte bei den ersten Anzeichen sofort.", "Gönn dir dann Ruhe und schlaf genug."] }
   };
   var IB_EXTRA = {
-    akut: { art: "Was dir zusätzlich hilft", icon: "z-abend", titel: "Ruhe für deinen Körper", text: "In der Akutphase braucht dein Körper vor allem Ruhe.", schritte: ["Schlaf genug und schalt einen Gang zurück.", "Trink viel, zum Beispiel warmen Tee. Den Booster nur in Tee unter 40 °C rühren.", "Viele nehmen OMNI9 weiter und den Booster für ein paar Tage dazu."] },
-    vorbeugend: { art: "Für die Erkältungszeit", icon: "t-flocke", titel: "Gut vorbereitet", text: "Vorbeugen heißt vor allem: Dein Körper bekommt, was er braucht, und du bist vorbereitet.", schritte: ["Schlaf ausreichend, gerade in stressigen Wochen.", "Geh jeden Tag raus, auch bei grauem Wetter.", "Halt immer ein Glas Booster als Vorrat bereit."] }
+    akut: { art: "Was dir zusätzlich hilft", icon: "z-abend", titel: "Ruhe für deinen Körper", text: "In der Akutphase braucht dein Körper vor allem Ruhe.", schritte: ["Schlaf genug und schalt einen Gang zurück.", "Trink viel, zum Beispiel warmen Tee. Rühr den Booster nur in Tee unter 40 °C.", "Viele nehmen OMNI9 weiter und für ein paar Tage den Booster dazu."] },
+    vorbeugend: { art: "Für die Erkältungszeit", icon: "t-flocke", titel: "Gut vorbereitet", text: "Vorbeugen heißt vor allem: Du gibst deinem Körper, was er braucht, und bist vorbereitet.", schritte: ["Schlaf ausreichend, gerade in stressigen Wochen.", "Geh jeden Tag raus, auch bei grauem Wetter.", "Halt immer ein Glas Booster als Vorrat bereit."] }
   };
   var QUIZ = {
     ns: [{ id: "ziel", frage: "Was soll sich als Erstes ändern?", quelle: ZIELE }, { id: "zeit", frage: "Wann bremst es dich am meisten aus?", quelle: ZEITEN }, { id: "alltag", frage: "Wie sieht dein Alltag aus?", quelle: ALLTAG }],
@@ -2243,51 +2411,52 @@ body.chat-offen .chat-fenster { display: flex; }
     return [tipp(m.art, m.icon, m), tipp(k.art, k.icon, k), tipp(extra.art, extra.icon, extra),
       tipp("Gut zu wissen", "i-hilfe", { titel: "Sicher anwenden", text: "Bei einer Allergie gegen Bienenprodukte bitte verzichten. Bei Schwangerschaft, Stillzeit, chronischen Erkrankungen oder wenn du Medikamente nimmst, sprich vorher kurz mit Arzt oder Apotheke.", schritte: a.modus === "akut" ? [WARNUNG] : [] })];
   }
-  var quiz = document.getElementById("quiz");
-  var quizHonig = glasEinsetzen(quiz.querySelector("[data-glas]"));
-  var quizZustand = { produkt: "ns", schritt: 0, antworten: {} };
-  function quizOeffnen(produkt) {
-    quizZustand = { produkt: produkt, schritt: 0, antworten: {} };
-    if (!quiz.open) quiz.showModal();
-    quizRendern();
+  /* Ziel-Quiz im eigenen Kapitel (Ziel und Tipps): eine Box pro Produkt, gespeichert wird nichts */
+  var QUIZ_BOXEN = {};
+  document.querySelectorAll("[data-quiz-box]").forEach(function (box) {
+    var p = box.dataset.quizBox;
+    QUIZ_BOXEN[p] = { box: box, honig: glasEinsetzen(box.querySelector("[data-glas]")), schritt: 0, antworten: {} };
+    quizRendern(p);
+  });
+  function quizRendern(p, nachKlick) {
+    var q = QUIZ_BOXEN[p], box = q.box, fragenListe = QUIZ[p], n = fragenListe.length;
+    var koerper = box.querySelector("[data-q-koerper]"), fuss = box.querySelector("[data-q-fuss]");
+    var schritt = box.querySelector("[data-q-schritt]"), titel = box.querySelector("[data-q-titel]");
+    glasFuellen(q.honig, q.schritt / n);
+    koerper.replaceChildren();
+    fuss.replaceChildren();
+    if (q.schritt >= n) quizErgebnis(p, koerper, fuss, schritt, titel);
+    else {
+      var f = fragenListe[q.schritt];
+      schritt.textContent = "Frage " + (q.schritt + 1) + " von " + n;
+      titel.textContent = f.frage;
+      var raster = element("div", "quiz-antworten");
+      Object.keys(f.quelle).forEach(function (wert) {
+        var info = f.quelle[wert];
+        var b = knopfMit("", "quiz-antwort", function () { q.antworten[f.id] = wert; q.schritt++; quizRendern(p, true); });
+        b.setAttribute("aria-pressed", q.antworten[f.id] === wert ? "true" : "false");
+        var bild = element("span", "q-ikon");
+        bild.appendChild(ikon(info.icon));
+        b.append(bild, element("span", null, info.name));
+        raster.appendChild(b);
+      });
+      koerper.appendChild(raster);
+      if (q.schritt > 0) fuss.appendChild(knopfMit("Zurück", "text-link", function () { q.schritt--; quizRendern(p, true); }));
+    }
+    if (!nachKlick) return;
+    if (box.getBoundingClientRect().top < 0) box.scrollIntoView({ behavior: bewegungAus ? "auto" : "smooth", block: "start" });
+    var erste = box.querySelector(".quiz-antwort");
+    if (erste) erste.focus({ preventScroll: true });
   }
-  function quizRendern() {
-    var fragenListe = QUIZ[quizZustand.produkt], n = fragenListe.length;
-    var koerper = document.getElementById("quiz-koerper"), fuss = document.getElementById("quiz-fuss");
-    var schritt = document.getElementById("quiz-schritt"), titel = document.getElementById("quiz-titel");
-    glasFuellen(quizHonig, quizZustand.schritt / n);
-    koerper.innerHTML = "";
-    fuss.innerHTML = "";
-    quiz.scrollTop = 0;
-    if (quizZustand.schritt >= n) { quizErgebnis(koerper, fuss, schritt, titel); return; }
-    var f = fragenListe[quizZustand.schritt];
-    schritt.textContent = "Frage " + (quizZustand.schritt + 1) + " von " + n;
-    titel.textContent = f.frage;
-    var raster = element("div", "quiz-antworten");
-    Object.keys(f.quelle).forEach(function (wert) {
-      var info = f.quelle[wert];
-      var b = knopfMit("", "quiz-antwort", function () { quizZustand.antworten[f.id] = wert; quizZustand.schritt++; quizRendern(); });
-      b.setAttribute("aria-pressed", quizZustand.antworten[f.id] === wert ? "true" : "false");
-      var bild = element("span", "q-ikon");
-      bild.appendChild(ikon(info.icon));
-      b.append(bild, element("span", null, info.name));
-      raster.appendChild(b);
-    });
-    koerper.appendChild(raster);
-    if (quizZustand.schritt > 0) fuss.appendChild(knopfMit("Zurück", "text-link", function () { quizZustand.schritt--; quizRendern(); }));
-    raster.firstChild.focus({ preventScroll: true });
-  }
-  function quizErgebnis(koerper, fuss, schritt, titel) {
-    var p = quizZustand.produkt, a = quizZustand.antworten;
+  function quizErgebnis(p, koerper, fuss, schritt, titel) {
+    var a = QUIZ_BOXEN[p].antworten;
     schritt.textContent = "Dein Plan";
     var box = element("div", "quiz-ergebnis");
     if (p === "ns") {
       titel.textContent = ZIELE[a.ziel].name;
       var achsen = element("div", "plan-achsen");
       achsen.appendChild(element("p", null, "Diese Achsen arbeiten für dein Ziel:"));
-      ZIELE[a.ziel].achsen.forEach(function (nr) {
-        achsen.appendChild(knopfMit(ACHSEN_NAMEN[nr], "achse-chip", function () { quiz.close(); achseOeffnen(nr); }));
-      });
+      ZIELE[a.ziel].achsen.forEach(function (nr) { achsen.appendChild(knopfMit(ACHSEN_NAMEN[nr], "achse-chip", function () { achseOeffnen(nr); })); });
       box.appendChild(achsen);
     } else {
       titel.textContent = a.modus === "akut" ? "Dein Akut-Plan" : "Dein Plan zum Vorbeugen";
@@ -2312,18 +2481,12 @@ body.chat-offen .chat-fenster { display: flex; }
     box.appendChild(tipps);
     if (p === "ns" && ZIELE[a.ziel].booster) {
       var extra = element("p", "plan-extra");
-      var zumBooster = linkMit("Immun Booster ansehen", "text-link", "#immun-booster");
-      zumBooster.addEventListener("click", function () { quiz.close(); });
-      extra.appendChild(zumBooster);
+      extra.appendChild(linkMit("Immun Booster ansehen", "text-link", "#immun-booster"));
       box.appendChild(extra);
     }
     koerper.appendChild(box);
-    var fertig = knopfMit("Fertig", "knopf gold", function () { quiz.close(); });
-    fuss.append(knopfMit("Nochmal von vorn", "text-link", function () { quizZustand.schritt = 0; quizZustand.antworten = {}; quizRendern(); }), fertig);
-    fertig.focus({ preventScroll: true });
+    fuss.appendChild(knopfMit("Nochmal von vorn", "text-link", function () { QUIZ_BOXEN[p].schritt = 0; QUIZ_BOXEN[p].antworten = {}; quizRendern(p, true); }));
   }
-  quiz.addEventListener("click", function (e) { if (e.target === quiz) quiz.close(); });
-  document.querySelectorAll("[data-quiz]").forEach(function (b) { b.addEventListener("click", function () { quizOeffnen(b.dataset.quiz); }); });
 
   /* Achse aus dem Plan öffnen */
   function achseOeffnen(nr) {
@@ -2465,6 +2628,173 @@ body.chat-offen .chat-fenster { display: flex; }
       li.classList.toggle("jetzt", i === nr);
       if (i === nr) li.setAttribute("aria-current", "step"); else li.removeAttribute("aria-current");
     });
+  }
+
+  /* Erinnerung im Kalender: Der Hub speichert nichts, der Termin liegt nur im Kalender des Kunden.
+     iPhone und Computer bekommen eine Kalenderdatei, Android zuerst den Link zu Google Kalender. */
+  var WOCHENTAGE = ["Sonntag", "Montag", "Dienstag", "Mittwoch", "Donnerstag", "Freitag", "Samstag"];
+  var MONATE = ["Januar", "Februar", "März", "April", "Mai", "Juni", "Juli", "August", "September", "Oktober", "November", "Dezember"];
+  function datumText(d) { return WOCHENTAGE[d.getDay()] + ", " + d.getDate() + ". " + MONATE[d.getMonth()]; }
+  function zwei(n) { return (n < 10 ? "0" : "") + n; }
+  function plusTage(d, n) { var x = new Date(d); x.setDate(x.getDate() + n); return x; }
+  function icsTag(d) { return d.getFullYear() + zwei(d.getMonth() + 1) + zwei(d.getDate()); }
+  function icsZeit(d) { return icsTag(d) + "T" + zwei(d.getHours()) + zwei(d.getMinutes()) + "00"; }
+  function icsText(s) { return s.replace(/\\/g, "\\\\").replace(/;/g, "\\;").replace(/,/g, "\\,").replace(/\n/g, "\\n"); }
+  /* Kalenderzeilen höchstens 75 Byte, Umlaute zählen doppelt */
+  function falten(z) {
+    var teile = [], zeile = "", bytes = 0;
+    Array.from(z).forEach(function (c) {
+      var n = c.codePointAt(0) < 0x80 ? 1 : c.codePointAt(0) < 0x800 ? 2 : c.codePointAt(0) < 0x10000 ? 3 : 4;
+      if (bytes + n > 75) { teile.push(zeile); zeile = " "; bytes = 1; }
+      zeile += c;
+      bytes += n;
+    });
+    teile.push(zeile);
+    return teile.join("\r\n");
+  }
+  function hubAdresse(anker) { return location.href.split("#")[0].split("?")[0] + anker; }
+  function naechsterTermin(uhrzeit) {
+    var t = (uhrzeit || "08:00").split(":"), d = new Date();
+    d.setHours(+t[0], +t[1], 0, 0);
+    if (d <= new Date()) d.setDate(d.getDate() + 1);
+    return d;
+  }
+  function zeitraum(t) { return t.ganztags ? icsTag(t.start) + "/" + icsTag(plusTage(t.start, 1)) : icsZeit(t.start) + "/" + icsZeit(new Date(t.start.getTime() + 600000)); }
+  /* termine: [{ titel, text, start, ganztags, anzahl }] */
+  function kalenderDatei(termine, name) {
+    var stempel = new Date().toISOString().replace(/[-:]/g, "").replace(/\.\d+/, "");
+    var zeilen = ["BEGIN:VCALENDAR", "VERSION:2.0", "PRODID:-//OMNI9//Produkt-Hub//DE", "CALSCALE:GREGORIAN", "METHOD:PUBLISH"];
+    termine.forEach(function (t, i) {
+      var bis = zeitraum(t).split("/");
+      zeilen.push("BEGIN:VEVENT", "UID:" + stempel + "-" + i + "@omni9-produkt-hub", "DTSTAMP:" + stempel);
+      zeilen.push(t.ganztags ? "DTSTART;VALUE=DATE:" + bis[0] : "DTSTART:" + bis[0], t.ganztags ? "DTEND;VALUE=DATE:" + bis[1] : "DTEND:" + bis[1]);
+      if (t.anzahl > 1) zeilen.push("RRULE:FREQ=DAILY;COUNT=" + t.anzahl);
+      zeilen.push("SUMMARY:" + icsText(t.titel), "DESCRIPTION:" + icsText(t.text), "BEGIN:VALARM", "ACTION:DISPLAY", "DESCRIPTION:" + icsText(t.titel), "TRIGGER:" + (t.ganztags ? "PT9H" : "PT0M"), "END:VALARM", "END:VEVENT");
+    });
+    zeilen.push("END:VCALENDAR");
+    var a = document.createElement("a");
+    a.href = URL.createObjectURL(new Blob([zeilen.map(falten).join("\r\n") + "\r\n"], { type: "text/calendar;charset=utf-8" }));
+    a.download = name + ".ics";
+    document.body.appendChild(a);
+    a.click();
+    setTimeout(function () { URL.revokeObjectURL(a.href); a.remove(); }, 2000);
+  }
+  function googleLink(t) {
+    var p = new URLSearchParams({ action: "TEMPLATE", text: t.titel, details: t.text, dates: zeitraum(t) });
+    if (t.anzahl > 1) p.set("recur", "RRULE:FREQ=DAILY;COUNT=" + t.anzahl);
+    return "https://calendar.google.com/calendar/render?" + p.toString();
+  }
+  var ERINNERUNG = {
+    "ns-taeglich": { titel: "OMNI9: dein Teelöffel", text: "Zeit für deinen Teelöffel OMNI9. Alles zur Einnahme: ", anker: "#ns-einnahme", einleitung: "Wir erinnern dich jeden Tag an deinen Teelöffel.", zeiten: [["Wann nimmst du OMNI9?", "08:00"]], tage: [14, 30] },
+    "ib-akut": { titel: "Immun Booster: 1 Teelöffel", text: "Zeit für deinen Teelöffel Immun Booster. Alles zur Akutphase: ", anker: "#ib-einnahme", einleitung: "Wir erinnern dich morgens, mittags und abends an deinen Teelöffel.", zeiten: [["Morgens", "08:00"], ["Mittags", "13:00"], ["Abends", "19:00"]], tage: [5, 7, 10] },
+    "ib-vorbeugend": { titel: "Immun Booster: 1 Teelöffel", text: "Zeit für deinen Teelöffel Immun Booster. Alles zur Einnahme: ", anker: "#ib-einnahme", einleitung: "Wir erinnern dich jeden Tag an deinen Teelöffel.", zeiten: [["Wann nimmst du den Booster?", "08:00"]], tage: [14, 30] }
+  };
+  var kalDialog = document.getElementById("kalender-dialog");
+  function kalenderOeffnen(art) {
+    var text = kalDialog.querySelector("[data-kal-text]"), felder = kalDialog.querySelector("[data-kal-felder]"), knoepfe = kalDialog.querySelector("[data-kal-knoepfe]");
+    var termine, namen = [null];
+    felder.replaceChildren();
+    if (art === "ns-nachbestellen") {
+      var datum = plusTage(new Date(), nsRest(nsTag) - 7);
+      text.textContent = "Am " + datumText(datum) + " erinnern wir dich ans Nachbestellen. Dann sind noch etwa 7 Portionen im Glas, und dein neues Glas kommt rechtzeitig.";
+      termine = function () { return [{ titel: "OMNI9 nachbestellen", text: "Dein Glas OMNI9 ist bald leer. Bestell heute nach, dann ist das neue rechtzeitig da: " + hubAdresse("#ns-nachkauf"), start: datum, ganztags: true, anzahl: 1 }]; };
+    } else {
+      var e = ERINNERUNG[art], gewaehlt = e.tage[0];
+      text.textContent = e.einleitung;
+      var eingaben = e.zeiten.map(function (z) {
+        var feld = element("label", "kal-feld"), eingabe = element("input");
+        eingabe.type = "time";
+        eingabe.value = z[1];
+        feld.append(element("span", null, z[0]), eingabe);
+        felder.appendChild(feld);
+        return eingabe;
+      });
+      var dauer = element("div", "kal-dauer");
+      dauer.setAttribute("role", "radiogroup");
+      dauer.setAttribute("aria-label", "Wie lange?");
+      e.tage.forEach(function (n) {
+        var b = knopfMit(n + " Tage", null, function () { gewaehlt = n; markieren(); });
+        b.setAttribute("role", "radio");
+        b.dataset.tage = n;
+        dauer.appendChild(b);
+      });
+      var markieren = function () { dauer.querySelectorAll("button").forEach(function (b) { b.setAttribute("aria-checked", +b.dataset.tage === gewaehlt ? "true" : "false"); }); };
+      markieren();
+      var dauerFeld = element("div", "kal-feld");
+      dauerFeld.append(element("span", null, "Wie lange?"), dauer);
+      felder.appendChild(dauerFeld);
+      if (art === "ib-akut") namen = ["Morgens", "Mittags", "Abends"];
+      termine = function () { return eingaben.map(function (eingabe) { return { titel: e.titel, text: e.text + hubAdresse(e.anker), start: naechsterTermin(eingabe.value), ganztags: false, anzahl: gewaehlt }; }); };
+    }
+    var ics = knopfMit(istAndroid ? "Anderen Kalender nutzen" : "In den Kalender eintragen", istAndroid ? "knopf hell" : "knopf gold", function () { kalenderDatei(termine(), art); kalDialog.close(); });
+    var google = element("div", "kal-google");
+    if (namen.length > 1) google.appendChild(element("p", null, "Mit Google Kalender, einzeln eintragen:"));
+    namen.forEach(function (name, i) {
+      google.appendChild(knopfMit(name || "Mit Google Kalender", istAndroid ? "knopf gold" : "knopf hell", function () { window.open(googleLink(termine()[i]), "_blank", "noopener"); }));
+    });
+    knoepfe.replaceChildren.apply(knoepfe, istAndroid ? [google, ics] : [ics, google]);
+    kalDialog.showModal();
+  }
+  kalDialog.addEventListener("click", function (e) { if (e.target === kalDialog) kalDialog.close(); });
+  document.addEventListener("click", function (e) {
+    var b = e.target.closest("[data-erinnerung]");
+    if (b) kalenderOeffnen(b.dataset.erinnerung);
+  });
+
+  /* Booster-Einnahme: Akutphase oder vorbeugend, mit unterschiedlicher Menge */
+  var TP_MODUS = {
+    akut: { titel: "3 Teelöffel am Tag", text: "Morgens, mittags und abends je 1 Teelöffel (ca. 10 g). Pur vom Löffel oder in warmem Tee unter 40 °C.", erinnerung: "Erinnere mich 3-mal am Tag" },
+    vorbeugend: { titel: "1 Teelöffel am Tag", text: "Einmal am Tag, zum Beispiel morgens. Pur vom Löffel oder in warmem Tee unter 40 °C.", erinnerung: "Erinnere mich jeden Tag" }
+  };
+  document.querySelectorAll("[data-tagesplan]").forEach(function (plan) {
+    function setzen(modus) {
+      var m = TP_MODUS[modus], akut = modus === "akut";
+      plan.querySelectorAll("[data-modus]").forEach(function (b) { b.setAttribute("aria-checked", b.dataset.modus === modus ? "true" : "false"); });
+      plan.querySelector("[data-tp-titel]").textContent = m.titel;
+      plan.querySelector("[data-tp-text]").textContent = m.text;
+      plan.querySelector("[data-tp-erinnerung-text]").textContent = m.erinnerung;
+      plan.querySelector(".tp-erinnerung").dataset.erinnerung = "ib-" + modus;
+      plan.querySelectorAll("[data-akut-zeit]").forEach(function (li) {
+        li.className = akut ? "an" : "aus";
+        li.querySelector(".tp-loeffel use").setAttribute("href", akut ? "#loeffel-honig" : "#loeffel-leer");
+        li.querySelector("b").textContent = akut ? "1 Teelöffel" : "Nichts mehr nötig";
+      });
+      plan.querySelectorAll("[data-tp-modus]").forEach(function (d) { d.hidden = d.dataset.tpModus !== modus; });
+    }
+    plan.querySelectorAll("[data-modus]").forEach(function (b) { b.addEventListener("click", function () { setzen(b.dataset.modus); }); });
+    plan.querySelectorAll("[data-modus-wechsel]").forEach(function (b) { b.addEventListener("click", function () { setzen(b.dataset.modusWechsel); }); });
+  });
+
+  /* Spar-Rechner: Preise pro Monat aus dem Vergleich auf omni9.de, OMNI9 mit automatischer Lieferung 69 € pro Glas */
+  var EINZELMITTEL = [["Probiotika", 58], ["Curcumin + Piperin", 55], ["Präbiotika", 22], ["Omega-3", 29], ["Vitamin D3 + K2", 25], ["Zink, Magnesium", 35], ["Vitamin C, B1 bis B12", 59], ["Coenzym Q10", 39], ["Antioxidantien", 29], ["Polyphenole", 39], ["Adaptogene", 29], ["Neuro- und Fokus-Komplex", 65]];
+  var OMNI9_MONAT = 69;
+  var sparWahl = document.querySelector("[data-sparen-wahl]"), sparErgebnis = document.querySelector("[data-sparen-ergebnis]");
+  function euro(n) { return n.toLocaleString("de-DE") + "\u00a0€"; }
+  function sparBalken(name, betrag, hoechster, klasse) {
+    var zeile = element("div", "sparen-balken " + klasse), spur = element("span", "sparen-spur"), fuellung = element("i");
+    fuellung.style.width = (betrag / hoechster * 100).toFixed(1) + "%";
+    spur.appendChild(fuellung);
+    zeile.append(element("span", "sparen-name", name), spur, element("b", null, euro(betrag)));
+    return zeile;
+  }
+  function sparenZeigen() {
+    var summe = 0;
+    sparWahl.querySelectorAll("[aria-pressed=true]").forEach(function (b) { summe += +b.dataset.preis; });
+    if (!summe) { sparErgebnis.replaceChildren(element("p", "sparen-leer", "Tipp an, was du genommen hast. Dann siehst du hier, was du mit OMNI9 im Monat sparst.")); return; }
+    var hoechster = Math.max(summe, OMNI9_MONAT), differenz = summe - OMNI9_MONAT, fazit = element("p", "sparen-fazit");
+    if (differenz > 0) fazit.append(element("b", null, "Du sparst " + euro(differenz) + " im Monat."), " Das sind " + euro(differenz * 12) + " im Jahr.");
+    else fazit.append(element("b", null, differenz ? "OMNI9 kostet hier " + euro(-differenz) + " mehr im Monat." : "Gleicher Preis."), " Dafür versorgt es alle 9 Regenerations-Achsen auf einmal.");
+    sparErgebnis.replaceChildren(sparBalken("Bisher", summe, hoechster, "bisher"), sparBalken("Mit OMNI9", OMNI9_MONAT, hoechster, "omni9"), fazit, element("p", "sparen-basis", "Mit OMNI9: 69 € pro Glas mit automatischer Lieferung, ein Glas reicht 30 Tage."));
+  }
+  if (sparWahl) {
+    EINZELMITTEL.forEach(function (m) {
+      var b = knopfMit("", "sparen-chip", function () { b.setAttribute("aria-pressed", b.getAttribute("aria-pressed") === "true" ? "false" : "true"); sparenZeigen(); });
+      b.setAttribute("aria-pressed", "false");
+      b.dataset.preis = m[1];
+      b.append(element("span", null, m[0]), element("small", null, m[1] + " €"));
+      sparWahl.appendChild(b);
+    });
+    sparenZeigen();
   }
   fortschritt(NS_FORTSCHRITT);
   fortschritt(IB_FORTSCHRITT);
