@@ -306,77 +306,60 @@ a.hilfe-zeile:hover { background: var(--honig); }
 .zahlen b { display: block; font-size: 24px; line-height: 1.1; font-weight: 700; color: var(--gold); }
 .zahlen span { display: block; margin-top: 4px; font-size: 12px; line-height: 1.3; color: rgba(255, 255, 255, .82); }
 
-/* Dein Stand: Glas, Tag, Häkchen, Nachkauf und Ziel. Gespeichert nur auf dem Gerät */
-.stand { padding: 24px 26px 18px; border-radius: 18px; background: #fff; border: 1px solid #ecdcb6; box-shadow: 0 1px 2px rgba(28, 32, 41, .03), 0 24px 46px -34px rgba(28, 32, 41, .5); }
-.stand h2 { font-size: 20px; }
-.stand-start { display: grid; grid-template-columns: minmax(0, 1fr) auto; gap: 16px 32px; align-items: end; }
-.stand-start .text-link { margin-top: 8px; }
-.datum-form { display: flex; flex-wrap: wrap; align-items: flex-end; gap: 10px; }
-.datum-chips { display: flex; flex-wrap: wrap; gap: 6px; }
-.datum-chips button { height: 42px; padding: 0 14px; border: 1px solid #e6dcc6; border-radius: 10px; background: #fff; font-size: 14px; font-weight: 600; cursor: pointer; }
-.datum-chips button:hover { border-color: var(--gold); }
-.datum-chips button[aria-pressed="true"] { background: var(--nacht); border-color: var(--nacht); color: #fff; }
-.datum-feld { display: grid; gap: 4px; font-size: 12.5px; font-weight: 600; color: #6e5a3a; }
-.datum-feld input { height: 42px; padding: 0 10px; border: 1.5px solid #e6dcc6; border-radius: 10px; background: #fff; font: inherit; font-size: 15px; color: var(--text); }
-.datum-feld input:focus { outline: 0; border-color: var(--gold); }
-.datum-form .knopf { margin-top: 0; min-height: 42px; padding: 0 22px; }
-.datum-form .text-link { height: 42px; }
-.stand-laeuft { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1.1fr); gap: 22px 36px; align-items: center; }
-.stand-glas { display: grid; grid-template-columns: 104px minmax(0, 1fr); gap: 20px; align-items: center; }
+/* Fortschritt: Regler „Seit wie vielen Tagen?“, Glas und Fortschritt im Körper. Gespeichert wird nichts */
+.fortschritt { padding: 24px 26px 20px; border-radius: 18px; background: #fff; border: 1px solid #ecdcb6; box-shadow: 0 1px 2px rgba(28, 32, 41, .03), 0 24px 46px -34px rgba(28, 32, 41, .5); }
+.fortschritt h2 { font-size: 20px; }
+.fs-oben { display: grid; grid-template-columns: minmax(0, 1fr) auto; gap: 14px 32px; align-items: center; }
+.fs-gruss { margin-bottom: 2px; font-size: 14px; font-weight: 600; color: var(--gold-dunkel); }
+.fs-anzeige { display: grid; grid-template-columns: 56px 200px; gap: 14px; align-items: center; }
 [data-glas] { display: block; }
 .honigglas { display: block; width: 100%; height: auto; }
-.honig { transition: transform .8s cubic-bezier(.2, .8, .2, 1); }
-.stand-gruss { font-size: 14px; font-weight: 600; color: var(--gold-dunkel); }
-.stand-tag { margin-top: 2px; font-size: 17px; font-weight: 600; color: #45413b; }
-.stand-tag b { font-size: 46px; line-height: 1.05; font-weight: 700; letter-spacing: -.03em; color: var(--text); font-variant-numeric: tabular-nums; }
-.stand-tag.wort b { font-size: 30px; }
-.stand-rest { margin-top: 6px; font-size: 14px; color: var(--muted); }
-.stand-glas .text-link { display: inline-block; margin-top: 6px; }
-.heute-knopf { display: grid; grid-template-columns: 36px minmax(0, 1fr); gap: 12px; align-items: center; width: 100%; padding: 12px 14px; border: 1.5px solid #e2cf9f; border-radius: 14px; background: var(--creme); text-align: left; cursor: pointer; transition: background .2s, border-color .2s, color .2s; }
-.heute-knopf:hover, .dosis-knopf:hover { border-color: var(--gold); }
-.haken-kreis { width: 36px; height: 36px; border-radius: 50%; border: 2px solid var(--gold); background: #fff; display: flex; align-items: center; justify-content: center; color: transparent; transition: background .2s, color .2s; }
-.haken-kreis svg { width: 18px; height: 18px; }
-.heute-knopf[aria-pressed="true"], .dosis-knopf[aria-pressed="true"] { background: var(--nacht); border-color: var(--nacht); color: #fff; }
-.heute-knopf[aria-pressed="true"] .haken-kreis, .dosis-knopf[aria-pressed="true"] .haken-kreis { background: var(--gold); border-color: var(--gold); color: var(--nacht); }
-.heute-knopf b { display: block; font-size: 15px; }
-.heute-knopf small { display: block; font-size: 12.5px; color: var(--muted); }
-.heute-knopf[aria-pressed="true"] small { color: rgba(255, 255, 255, .72); }
-.dosen { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 8px; }
-.dosen.eins { grid-template-columns: minmax(0, 1fr); }
-.dosis-knopf { display: flex; flex-direction: column; align-items: center; gap: 6px; padding: 10px 6px; border: 1.5px solid #e2cf9f; border-radius: 14px; background: var(--creme); font-size: 13.5px; font-weight: 600; cursor: pointer; transition: background .2s, border-color .2s, color .2s; }
-.dosis-knopf .haken-kreis { width: 30px; height: 30px; }
-.tage-raster { list-style: none; display: grid; grid-template-columns: repeat(10, minmax(0, 1fr)); gap: 5px; margin-top: 12px; }
-.tage-raster.vierzehn { grid-template-columns: repeat(7, minmax(0, 1fr)); }
-.tage-raster li { display: flex; flex-direction: column; align-items: center; justify-content: center; aspect-ratio: 1; border-radius: 8px; border: 1px solid #efe8da; background: #fbfaf6; font-size: 11px; font-weight: 600; color: #b9ae96; font-variant-numeric: tabular-nums; }
-.tage-raster li.ja { background: var(--gold); border-color: var(--gold); color: var(--nacht); }
-.tage-raster li.teil { background: #fbf1da; border-color: #ecd8a8; color: var(--gold-dunkel); }
-.tage-raster li.geschaetzt { background: var(--honig); border-color: #ecdcb6; color: #9a8762; }
-.tage-raster li.nein { background: #fff; border-style: dashed; border-color: #e0d5bf; }
-.tage-raster li.heute { box-shadow: 0 0 0 2px var(--nacht); color: var(--text); }
-.pips { display: flex; gap: 2px; margin-top: 2px; }
-.pips i { width: 4px; height: 4px; border-radius: 50%; background: #e2d6bd; }
-.pips i.an { background: var(--nacht); }
-.serie { margin-top: 10px; font-size: 13.5px; color: #45413b; }
-.serie b { color: var(--gold-dunkel); }
-.stand-nachkauf { grid-column: 1 / -1; display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 12px 24px; padding-top: 18px; border-top: 1px solid var(--line); }
-.stand-nachkauf p { max-width: 520px; font-size: 14.5px; color: #45413b; }
-.stand-nachkauf b { color: var(--text); }
-.stand-knoepfe { display: flex; flex-wrap: wrap; align-items: center; gap: 8px 12px; }
-.stand-knoepfe .knopf { margin-top: 0; min-height: 42px; padding: 8px 16px; font-size: 14px; }
-.knopf svg { flex: none; width: 16px; height: 16px; }
-.check30 { grid-column: 1 / -1; padding: 16px 18px; border-radius: 14px; background: var(--creme); border: 1px solid #ecdcc0; }
-.check30 h3 { font-size: 16px; }
-.check30 p { margin-top: 4px; font-size: 14px; color: #45413b; }
-.check30-wahl { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 12px; }
-.check30-wahl button { height: 40px; padding: 0 18px; border: 1px solid #e2cf9f; border-radius: 10px; background: #fff; font-size: 14px; font-weight: 600; cursor: pointer; }
-.check30-wahl button:hover { background: var(--honig); }
-.check30 .stand-knoepfe { margin-top: 12px; }
-.modus-wahl { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 10px; }
-.modus-karte { display: grid; grid-template-columns: 40px minmax(0, 1fr); gap: 2px 12px; align-items: center; padding: 14px; border: 1.5px solid #ece3d0; border-radius: 14px; background: #fff; text-align: left; cursor: pointer; transition: border-color .15s, background .15s; }
-.modus-karte:hover { border-color: var(--gold); background: var(--creme); }
-.modus-karte .q-ikon { grid-row: 1 / span 2; }
-.modus-karte b { font-size: 15px; }
-.modus-karte small { font-size: 13px; color: var(--muted); }
+.honig { transition: transform .4s cubic-bezier(.2, .8, .2, 1); }
+.fs-anzeige b { display: block; font-size: 42px; line-height: 1; font-weight: 700; letter-spacing: -.03em; font-variant-numeric: tabular-nums; }
+.fs-anzeige span { display: block; margin-top: 6px; font-size: 13.5px; color: var(--muted); }
+.fs-schiene { --daumen: 30px; position: relative; margin-top: 14px; padding-bottom: 20px; }
+.fs-regler { -webkit-appearance: none; appearance: none; display: block; width: 100%; height: 44px; margin: 0; background: none; cursor: pointer; touch-action: pan-y; }
+.fs-regler:focus-visible { outline: none; }
+.fs-regler::-webkit-slider-runnable-track { height: 8px; border-radius: 999px; background: linear-gradient(90deg, var(--gold) 0 calc(var(--daumen) / 2 + (100% - var(--daumen)) * var(--anteil, 0)), #efe6d3 0); }
+.fs-regler::-webkit-slider-thumb { -webkit-appearance: none; width: var(--daumen); height: var(--daumen); margin-top: calc(4px - var(--daumen) / 2); border-radius: 50%; background: #fff; border: 3px solid var(--gold); box-shadow: 0 6px 14px -6px rgba(28, 32, 41, .5); }
+.fs-regler:focus-visible::-webkit-slider-thumb { box-shadow: 0 0 0 5px rgba(201, 154, 69, .3), 0 6px 14px -6px rgba(28, 32, 41, .5); }
+.fs-regler::-moz-range-track { height: 8px; border-radius: 999px; background: #efe6d3; }
+.fs-regler::-moz-range-progress { height: 8px; border-radius: 999px; background: var(--gold); }
+.fs-regler::-moz-range-thumb { box-sizing: border-box; width: var(--daumen); height: var(--daumen); border-radius: 50%; background: #fff; border: 3px solid var(--gold); box-shadow: 0 6px 14px -6px rgba(28, 32, 41, .5); }
+.fs-regler:focus-visible::-moz-range-thumb { box-shadow: 0 0 0 5px rgba(201, 154, 69, .3); }
+.fs-skala { position: absolute; left: 0; right: 0; bottom: 0; height: 18px; font-size: 12px; font-weight: 600; color: #9a907f; font-variant-numeric: tabular-nums; }
+.fs-skala span { position: absolute; top: 0; left: calc(var(--daumen) / 2 + (100% - var(--daumen)) * var(--pos)); transform: translateX(-50%); }
+.fs-koerper { margin-top: 18px; padding-top: 20px; border-top: 1px solid var(--line); }
+.fs-koerper h3 { font-size: 16px; }
+.fs-stufen { list-style: none; position: relative; display: grid; grid-template-columns: repeat(5, minmax(0, 1fr)); margin-top: 16px; }
+.fs-stufen::before, .fs-stufen::after { content: ""; position: absolute; top: 19px; left: 10%; height: 2px; border-radius: 2px; }
+.fs-stufen::before { right: 10%; background: #ece1c8; }
+.fs-stufen::after { width: calc(80% * var(--stufe, 0)); background: var(--gold); transition: width .4s ease-out; }
+.fs-stufen li { position: relative; z-index: 1; display: flex; flex-direction: column; align-items: center; gap: 8px; text-align: center; }
+.fs-punkt { display: flex; align-items: center; justify-content: center; width: 40px; height: 40px; border-radius: 50%; background: #fff; border: 1.5px solid #e6d8b8; color: #b5a888; transition: background .3s, border-color .3s, color .3s, box-shadow .3s; }
+.fs-punkt svg { width: 20px; height: 20px; }
+.fs-name { font-size: 13px; font-weight: 600; line-height: 1.2; color: #9a907f; hyphens: auto; }
+.fs-stufen .erreicht .fs-punkt { background: var(--honig); border-color: var(--gold); color: var(--gold-dunkel); }
+.fs-stufen .erreicht .fs-name { color: #45413b; }
+.fs-stufen .jetzt .fs-punkt { background: var(--gold); border-color: var(--gold); color: var(--nacht); box-shadow: 0 0 0 6px rgba(201, 154, 69, .18); }
+.fs-stufen .jetzt .fs-name { color: var(--text); }
+.fs-phase { display: grid; grid-template-columns: minmax(0, 1.3fr) minmax(0, 1fr); gap: 16px 28px; align-items: start; margin-top: 22px; }
+.fs-phase.neu { animation: phaseRein .35s ease-out; }
+@keyframes phaseRein { from { opacity: 0; transform: translateY(6px); } }
+.fs-zeit { font-size: 13px; font-weight: 600; color: var(--gold-dunkel); }
+.fs-text h4 { margin-top: 2px; font-size: 19px; line-height: 1.3; font-weight: 650; letter-spacing: -.01em; }
+.fs-text h4 + p { margin-top: 6px; font-size: 14.5px; line-height: 1.6; color: #45413b; }
+.fs-tipp { margin-top: 12px; padding: 12px 14px; border-radius: 12px; background: var(--creme); border: 1px solid #ecdcc0; font-size: 14px; line-height: 1.5; color: #45413b; }
+.fs-tipp b { color: var(--gold-dunkel); }
+.fs-warnung { margin-top: 10px; font-size: 13px; color: var(--muted); }
+.fs-text .text-link { display: inline-block; margin-top: 10px; }
+.fs-stimme { display: flex; flex-direction: column; margin: 0; padding: 16px; border-radius: 14px; background: var(--hell); }
+.fs-stimme blockquote { font-size: 14px; line-height: 1.5; color: #3f3b35; }
+.fs-stimme .stimme-zeit + blockquote { margin-top: 10px; }
+.fs-hinweis { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 12px 20px; margin-top: 18px; padding: 14px 16px; border-radius: 14px; background: var(--nacht); }
+.fs-hinweis p { flex: 1 1 320px; font-size: 14.5px; color: rgba(255, 255, 255, .82); }
+.fs-hinweis b { color: #fff; }
+.fs-hinweis .knopf { flex: none; margin-top: 0; min-height: 42px; padding: 8px 18px; background: var(--gold); color: var(--nacht); font-size: 14px; }
 .q-ikon { width: 40px; height: 40px; border-radius: 12px; background: var(--honig); color: var(--gold-dunkel); display: flex; align-items: center; justify-content: center; }
 .q-ikon svg { width: 22px; height: 22px; }
 .ziel-zeile { display: grid; grid-template-columns: 48px minmax(0, 1fr) auto; gap: 12px 16px; align-items: center; margin-top: 20px; padding-top: 18px; border-top: 1px solid var(--line); }
@@ -387,13 +370,11 @@ a.hilfe-zeile:hover { background: var(--honig); }
 .ziel-zeile p b { color: var(--gold-dunkel); }
 .ziel-aktion { display: flex; flex-wrap: wrap; align-items: center; justify-content: flex-end; gap: 8px 16px; }
 .ziel-aktion .knopf { margin-top: 0; min-height: 42px; padding: 8px 18px; font-size: 14px; }
-.ziel-achsen { grid-column: 2 / -1; display: flex; flex-wrap: wrap; gap: 6px; }
 .achse-chip { padding: 5px 11px; border: 1px solid #e2cf9f; border-radius: 999px; background: var(--creme); font-size: 12.5px; font-weight: 600; color: #5b4a2c; cursor: pointer; }
 .achse-chip:hover { background: var(--honig); }
-.stand-fuss { display: flex; flex-wrap: wrap; align-items: center; gap: 6px 18px; margin-top: 16px; font-size: 12.5px; color: var(--muted); }
-.stand-fuss span { margin-left: auto; }
+.fs-fuss { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 6px 18px; margin-top: 14px; font-size: 12.5px; color: var(--muted); }
 button.text-link { padding: 0; border: 0; background: none; font-size: 14px; cursor: pointer; }
-.stand-fuss button.text-link { font-size: 13px; }
+.fs-fuss button.text-link { font-size: 13px; }
 
 /* Inhalt: Assistent für tiefere Fragen */
 .frag-box { display: grid; grid-template-columns: 48px minmax(0, 1fr); gap: 14px 16px; align-items: center; padding: 22px 24px; border-radius: 18px; background: var(--nacht); color: #fff; }
@@ -412,7 +393,6 @@ button.text-link { padding: 0; border: 0; background: none; font-size: 14px; cur
 .achse-frag { display: inline-flex; align-items: center; gap: 8px; margin-top: 18px; padding: 8px 14px; border: 1px solid #e2cf9f; border-radius: 999px; background: #fff; font-size: 13.5px; font-weight: 600; color: #5b4a2c; cursor: pointer; }
 .achse-frag:hover { background: var(--honig); }
 .achse-frag svg { width: 16px; height: 16px; }
-.achsen-liste button.fuer-ziel::after { content: ""; display: inline-block; width: 7px; height: 7px; margin-left: 8px; border-radius: 50%; background: var(--gold); vertical-align: 1px; }
 
 /* 30 Tage: Wenn es hakt, So ging es anderen */
 .hakt-raster { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); column-gap: 32px; margin-top: 12px; }
@@ -446,10 +426,14 @@ button.text-link { padding: 0; border: 0; background: none; font-size: 14px; cur
 .quiz-ergebnis { padding: 16px 22px 4px; animation: quizrein .28s ease-out; }
 .plan-achsen { display: flex; flex-wrap: wrap; align-items: center; gap: 6px; }
 .plan-achsen p { margin-right: 4px; font-size: 14px; color: #45413b; }
-.plan-tipps { list-style: none; display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 10px; margin-top: 16px; }
-.plan-tipps li { padding: 14px; border-radius: 14px; background: var(--hell); }
-.plan-tipps b { display: block; font-size: 13px; color: var(--gold-dunkel); }
-.plan-tipps span { display: block; margin-top: 4px; font-size: 14px; line-height: 1.45; color: #3f3b35; }
+.plan-tipps { list-style: none; display: grid; gap: 10px; margin-top: 16px; }
+.plan-tipps > li { display: grid; grid-template-columns: 40px minmax(0, 1fr); gap: 14px; padding: 16px; border-radius: 14px; background: var(--hell); }
+.plan-tipps .q-ikon { background: #fff; }
+.plan-art { font-size: 12.5px; font-weight: 600; color: var(--gold-dunkel); }
+.plan-tipps h3 { margin-top: 1px; font-size: 16px; line-height: 1.35; }
+.plan-tipps h3 + p { margin-top: 4px; font-size: 14px; line-height: 1.5; color: #3f3b35; }
+.plan-schritte { margin-top: 10px; gap: 7px; }
+.plan-schritte li { color: #3f3b35; }
 .plan-extra { margin-top: 12px; }
 .quiz-fuss { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 10px; padding: 14px 22px 22px; }
 .quiz-fuss:empty { display: none; }
@@ -584,19 +568,21 @@ body.chat-offen .chat-fenster { display: flex; }
   .achse-panel { padding: 18px 16px; }
   .zutaten.lang { grid-template-columns: minmax(0, 1fr); }
   .weiter a { width: 100%; justify-content: center; }
-  .stand { padding: 20px 16px 16px; }
-  .stand-start, .stand-laeuft { grid-template-columns: minmax(0, 1fr); }
-  .stand-glas { grid-template-columns: 74px minmax(0, 1fr); gap: 16px; }
-  .stand-tag b { font-size: 40px; }
-  .datum-form { display: grid; grid-template-columns: minmax(0, 1fr); }
-  .datum-form .knopf { width: 100%; }
-  .modus-wahl { grid-template-columns: minmax(0, 1fr); }
-  .stand-nachkauf .stand-knoepfe { width: 100%; }
-  .stand-nachkauf .knopf { flex: 1 1 auto; padding: 8px 12px; white-space: nowrap; }
+  .fortschritt { padding: 20px 16px 16px; }
+  .fs-oben { grid-template-columns: minmax(0, 1fr); }
+  .fs-anzeige { grid-template-columns: 46px minmax(0, 1fr); }
+  .fs-anzeige b { font-size: 36px; }
+  .fs-stufen::before, .fs-stufen::after { top: 17px; }
+  .fs-punkt { width: 36px; height: 36px; }
+  .fs-punkt svg { width: 18px; height: 18px; }
+  .fs-name { font-size: 11px; }
+  .fs-phase { grid-template-columns: minmax(0, 1fr); }
+  .fs-hinweis .knopf { width: 100%; }
   .ziel-zeile { grid-template-columns: 44px minmax(0, 1fr); }
   .ziel-ikon { width: 44px; height: 44px; }
-  .ziel-aktion, .ziel-achsen { grid-column: 1 / -1; justify-content: flex-start; }
-  .stand-fuss span { width: 100%; margin-left: 0; }
+  .ziel-aktion { grid-column: 1 / -1; justify-content: flex-start; }
+  .plan-tipps > li { grid-template-columns: 36px minmax(0, 1fr); gap: 12px; padding: 14px; }
+  .plan-tipps .q-ikon { width: 36px; height: 36px; }
   .frag-box { padding: 18px 16px; }
   .frag-feld { font-size: 14px; }
   .hakt-raster, .stimmen { grid-template-columns: minmax(0, 1fr); }
@@ -605,7 +591,6 @@ body.chat-offen .chat-fenster { display: flex; }
   .quiz-antworten { gap: 8px; padding: 16px 16px 4px; }
   .quiz-antwort { grid-template-columns: minmax(0, 1fr); justify-items: start; gap: 8px; min-height: 0; padding: 12px; font-size: 14.5px; }
   .quiz-ergebnis { padding: 14px 16px 4px; }
-  .plan-tipps { grid-template-columns: minmax(0, 1fr); }
   .quiz-fuss { padding: 12px 16px calc(18px + env(safe-area-inset-bottom)); }
   .app-inhalt { padding: 12px 16px calc(20px + env(safe-area-inset-bottom)); }
 }
@@ -613,7 +598,8 @@ body.chat-offen .chat-fenster { display: flex; }
   html { scroll-behavior: auto; }
   .ansicht:target, .ansicht:has(:target), .seite:target .ansicht.erste { animation: none; }
   .tippt i { animation: none; opacity: .6; }
-  .honig, .heute-knopf, .dosis-knopf, .haken-kreis { transition: none; }
+  .honig, .fs-punkt, .fs-stufen::after { transition: none; }
+  .fs-phase.neu { animation: none; }
   .quiz-antworten, .quiz-ergebnis { animation: none; }
   summary svg { transition: none; }
 }
@@ -676,6 +662,7 @@ body.chat-offen .chat-fenster { display: flex; }
   <symbol id="z-familie" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M4 11l8-6.5 8 6.5"/><path d="M6 9.5V20h12V9.5"/><path d="M10 20v-5h4v5"/></g></symbol>
   <symbol id="z-sport" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"><path d="M6.5 7.5v9M17.5 7.5v9M3.5 10v4M20.5 10v4M6.5 12h11"/></g></symbol>
   <symbol id="z-kita" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-width="1.7" stroke-linejoin="round"><rect x="4" y="12" width="7" height="7" rx="1.5"/><rect x="13" y="12" width="7" height="7" rx="1.5"/><path d="M12 4l3.5 6h-7z"/></g></symbol>
+  <symbol id="z-hals" viewBox="0 0 24 24"><path d="M12 3.5c3 4 6 7.3 6 10.5a6 6 0 0 1-12 0c0-3.2 3-6.5 6-10.5z" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linejoin="round"/></symbol>
 </svg>
 
 <div class="rahmen">
@@ -773,45 +760,31 @@ body.chat-offen .chat-fenster { display: flex; }
             <div class="fakten"><span>Bio-zertifiziert</span><span>Made in Germany</span></div>
           </div>
         </header>
-        <section class="stand" id="ns-stand" aria-labelledby="ns-stand-titel">
-          <div class="stand-start" data-teil="start">
+        <section class="fortschritt" id="ns-fortschritt" aria-labelledby="ns-fortschritt-titel">
+          <div class="fs-oben">
             <div>
-              <h2 id="ns-stand-titel" data-start-titel>Wann hast du angefangen?</h2>
-              <p class="block-text">Dann siehst du jeden Tag, wo du stehst und wann dein Glas leer ist.</p>
+              <p class="fs-gruss" data-gruss hidden></p>
+              <h2 id="ns-fortschritt-titel">Seit wie vielen Tagen nimmst du OMNI9?</h2>
+              <p class="block-text">Schieb den Regler auf deinen Tag. Dann siehst du, was gerade in deinem Körper passiert.</p>
             </div>
-            <form class="datum-form" data-datum-form>
-              <div class="datum-chips" role="group" aria-label="Schnell wählen">
-                <button type="button" data-zurueck="0" aria-pressed="true">Heute</button>
-                <button type="button" data-zurueck="1" aria-pressed="false">Gestern</button>
-                <button type="button" data-zurueck="7" aria-pressed="false">Vor einer Woche</button>
-              </div>
-              <label class="datum-feld">Startdatum<input type="date" name="start" required></label>
-              <button class="knopf gold" type="submit">Speichern</button>
-              <button class="text-link" type="button" data-datum-abbrechen hidden>Abbrechen</button>
-            </form>
+            <div class="fs-anzeige"><span class="fs-glas" data-glas></span><p><b data-tag-zahl></b><span data-tag-unter></span></p></div>
           </div>
-          <div class="stand-laeuft" data-teil="laeuft" hidden>
-            <div class="stand-glas">
-              <span data-glas></span>
-              <div>
-                <p class="stand-gruss" data-gruss></p>
-                <p class="stand-tag" data-tag></p>
-                <p class="stand-rest" data-rest></p>
-              </div>
-            </div>
-            <div>
-              <button class="heute-knopf" type="button" data-heute aria-pressed="false"><span class="haken-kreis"><svg><use href="#i-haken"/></svg></span><span><b>Heute genommen</b><small data-heute-text>Tippen, wenn du deinen Löffel hattest</small></span></button>
-              <ol class="tage-raster" data-raster></ol>
-              <p class="serie" data-serie></p>
-            </div>
-            <div class="stand-nachkauf">
-              <p data-bestellen></p>
-              <div class="stand-knoepfe"><button class="knopf hell" type="button" data-kalender><svg><use href="#kalender"/></svg>In den Kalender</button><a class="knopf" href="#ns-nachkauf">Zum Nachkauf</a></div>
-            </div>
-            <div class="check30" data-check30 hidden></div>
+          <div class="fs-schiene">
+            <input class="fs-regler" type="range" min="0" max="41" step="1" value="0" aria-labelledby="ns-fortschritt-titel" data-regler>
+            <div class="fs-skala" data-skala aria-hidden="true"></div>
           </div>
-          <div class="ziel-zeile" data-ziel></div>
-          <p class="stand-fuss"><button class="text-link" type="button" data-datum-aendern hidden>Startdatum ändern</button><button class="text-link" type="button" data-neues-glas hidden>Neues Glas angefangen</button><button class="text-link" type="button" data-app>Als App aufs Handy</button><span>Deine Einträge bleiben auf diesem Gerät.</span></p>
+          <div class="fs-koerper">
+            <h3>Dein Fortschritt im Körper</h3>
+            <ol class="fs-stufen" data-stufen></ol>
+            <div class="fs-phase" data-phase></div>
+            <div class="fs-hinweis" data-hinweis hidden></div>
+          </div>
+          <div class="ziel-zeile">
+            <span class="ziel-ikon"><svg><use href="#z-fokus"/></svg></span>
+            <div><h3>Was ist dein Ziel?</h3><p>3 kurze Fragen, dann bekommst du ausführliche Tipps, die zu dir passen.</p></div>
+            <div class="ziel-aktion"><button class="knopf gold" type="button" data-quiz="ns">Ziel finden</button></div>
+          </div>
+          <p class="fs-fuss"><span>Die Zeiten sind eine Orientierung aus echten Bewertungen. Jeder Körper ist anders.</span><button class="text-link" type="button" data-app>Als App aufs Handy</button></p>
         </section>
         <section class="vorteile">
           <h2>Deine Vorteile mit OMNI9</h2>
@@ -891,10 +864,10 @@ body.chat-offen .chat-fenster { display: flex; }
           <h2>Wenn es hakt</h2>
           <p class="block-text">So kommst du wieder rein, wenn es mal nicht rund läuft.</p>
           <div class="hakt-raster">
-            <details><summary>Ich vergesse es<svg><use href="#plus"/></svg></summary><p>Nimm deinen Löffel immer zur gleichen Zeit, zum Beispiel morgens, und stell das Glas sichtbar hin. Hak im Überblick jeden Tag ab, dann siehst du deine Serie wachsen.<br><a class="text-link" href="#ns-stand">Zum Abhaken</a></p></details>
+            <details><summary>Ich vergesse es<svg><use href="#plus"/></svg></summary><p>Nimm deinen Löffel immer zur gleichen Zeit, zum Beispiel morgens, und stell das Glas sichtbar hin, etwa neben die Kaffeemaschine. Am leichtesten klappt es, wenn du ihn mit etwas verknüpfst, das du sowieso jeden Tag machst.</p></details>
             <details><summary>Mein Bauch rumort<svg><use href="#plus"/></svg></summary><p>Ist dein Darm empfindlich, nimm die ersten Tage weniger und steigere dann langsam auf einen Teelöffel. So pendelt sich dein System sauber ein.</p></details>
             <details><summary>Der Geschmack ist ungewohnt<svg><use href="#plus"/></svg></summary><p>Das schreiben einige in den Bewertungen, und auch, dass man sich schnell daran gewöhnt. Ein Tipp aus einer Bewertung: den Löffel langsam im Mund zergehen lassen.</p></details>
-            <details><summary>Ich merke noch nichts<svg><use href="#plus"/></svg></summary><p>Das ist individuell. In den ersten Tagen merken manche noch nichts, wichtig ist, dass du jeden Tag dranbleibst. Einige schreiben nach 2 bis 3 Wochen von mehr Energie.</p></details>
+            <details><summary>Ich merke noch nichts<svg><use href="#plus"/></svg></summary><p>Das ist individuell. In den ersten Tagen merken manche noch nichts, wichtig ist, dass du jeden Tag dranbleibst. Einige schreiben nach 2 bis 3 Wochen von mehr Energie.<br><a class="text-link" href="#ns-fortschritt">Sieh nach, was an deinem Tag passiert</a></p></details>
           </div>
         </section>
         <section class="block">
@@ -1206,36 +1179,31 @@ body.chat-offen .chat-fenster { display: flex; }
             <div class="fakten"><span>34 Mikronährstoffe</span><span>Made in Germany</span></div>
           </div>
         </header>
-        <section class="stand" id="ib-stand" aria-labelledby="ib-stand-titel">
-          <div class="stand-start" data-teil="start">
+        <section class="fortschritt" id="ib-fortschritt" aria-labelledby="ib-fortschritt-titel">
+          <div class="fs-oben">
             <div>
-              <h2 id="ib-stand-titel" data-start-titel>Wofür nimmst du den Booster gerade?</h2>
-              <p class="block-text">Dann siehst du deinen Plan und kannst jede Portion abhaken.</p>
-              <button class="text-link" type="button" data-quiz="ib">Nicht sicher? Dein Plan in 2 Fragen</button>
+              <p class="fs-gruss" data-gruss hidden></p>
+              <h2 id="ib-fortschritt-titel">Seit wie vielen Tagen nimmst du den Booster?</h2>
+              <p class="block-text">Schieb den Regler auf den Tag deiner Akutphase. Dann siehst du, worauf es jetzt ankommt.</p>
             </div>
-            <div class="modus-wahl">
-              <button type="button" class="modus-karte" data-modus="akut"><span class="q-ikon"><svg><use href="#t-thermo"/></svg></span><b>Ich merke erste Anzeichen</b><small>3-mal am Tag, 5 bis 10 Tage</small></button>
-              <button type="button" class="modus-karte" data-modus="vorbeugend"><span class="q-ikon"><svg><use href="#t-schild"/></svg></span><b>Ich will vorbeugen</b><small>1 Teelöffel am Tag</small></button>
-            </div>
+            <div class="fs-anzeige"><span class="fs-glas" data-glas></span><p><b data-tag-zahl></b><span data-tag-unter></span></p></div>
           </div>
-          <div class="stand-laeuft" data-teil="laeuft" hidden>
-            <div class="stand-glas">
-              <span data-glas></span>
-              <div>
-                <p class="stand-gruss" data-gruss></p>
-                <p class="stand-tag" data-tag></p>
-                <p class="stand-rest" data-rest></p>
-                <a class="text-link" href="#ib-nachkauf" data-nachschub hidden>Nachschub bestellen</a>
-              </div>
-            </div>
-            <div>
-              <div class="dosen" data-dosen></div>
-              <ol class="tage-raster" data-raster></ol>
-              <p class="serie" data-serie></p>
-            </div>
+          <div class="fs-schiene">
+            <input class="fs-regler" type="range" min="0" max="10" step="1" value="0" aria-labelledby="ib-fortschritt-titel" data-regler>
+            <div class="fs-skala" data-skala aria-hidden="true"></div>
           </div>
-          <div class="ziel-zeile" data-ziel></div>
-          <p class="stand-fuss"><button class="text-link" type="button" data-modus-ende hidden>Akutphase beenden</button><button class="text-link" type="button" data-modus-akut hidden>Erste Anzeichen? Akutphase starten</button><button class="text-link" type="button" data-app>Als App aufs Handy</button><span>Deine Einträge bleiben auf diesem Gerät.</span></p>
+          <div class="fs-koerper">
+            <h3>Dein Fortschritt im Körper</h3>
+            <ol class="fs-stufen" data-stufen></ol>
+            <div class="fs-phase" data-phase></div>
+            <div class="fs-hinweis" data-hinweis hidden></div>
+          </div>
+          <div class="ziel-zeile">
+            <span class="ziel-ikon"><svg><use href="#t-schild"/></svg></span>
+            <div><h3>Passende Tipps in 2 Fragen</h3><p>Vorbeugen oder schon erste Anzeichen? Sag uns, wo du viel Kontakt hast.</p></div>
+            <div class="ziel-aktion"><button class="knopf gold" type="button" data-quiz="ib">Tipps holen</button></div>
+          </div>
+          <p class="fs-fuss"><span>Die Zeiten sind eine Orientierung. Wird es nicht besser, sprich mit Arzt oder Apotheke.</span><button class="text-link" type="button" data-app>Als App aufs Handy</button></p>
         </section>
         <section class="vorteile">
           <h2>Deine Vorteile mit dem Immun Booster</h2>
@@ -1515,7 +1483,7 @@ body.chat-offen .chat-fenster { display: flex; }
     <button class="dialog-zu" type="button" data-dialog-zu aria-label="Schließen"><svg><use href="#i-x"/></svg></button>
   </div>
   <div class="app-inhalt">
-    <p>Dann bist du mit einem Tippen bei deinem Stand und deinen Häkchen, ganz ohne App Store.</p>
+    <p>Dann ist der Hub mit einem Tippen da, ganz ohne App Store.</p>
     <ol class="app-schritte" id="app-schritte"></ol>
     <button class="knopf gold" type="button" id="app-installieren" hidden>Jetzt installieren</button>
   </div>
@@ -2002,28 +1970,8 @@ body.chat-offen .chat-fenster { display: flex; }
 
   document.querySelectorAll("[data-bewertung-link]").forEach(function (a) { a.href = BEWERTUNG[a.dataset.bewertungLink]; });
 
-  /* ---------- Persönlicher Bereich: Glas, Häkchen, Ziel und Plan. Alles bleibt im Browser des Kunden ---------- */
-  var SPEICHER = "omni9-hub";
-  var daten = {};
-  /* ?neu=1 setzt den Stand zurück, zum Beispiel vor einer Vorführung */
-  try { if (params.get("neu") === "1") localStorage.removeItem(SPEICHER); daten = JSON.parse(localStorage.getItem(SPEICHER)) || {}; } catch (e) { daten = {}; }
-  daten.ns = daten.ns || {};
-  daten.ns.genommen = daten.ns.genommen || [];
-  daten.ib = daten.ib || {};
-  daten.ib.dosen = daten.ib.dosen || {};
-  daten.ziel = daten.ziel || {};
-  function sichern() {
-    try { localStorage.setItem(SPEICHER, JSON.stringify(daten)); } catch (e) { /* privater Modus: der Stand gilt bis zum Neuladen */ }
-  }
-  function zweistellig(n) { return (n < 10 ? "0" : "") + n; }
-  function heute() { var d = new Date(); return d.getFullYear() + "-" + zweistellig(d.getMonth() + 1) + "-" + zweistellig(d.getDate()); }
-  function utc(s) { var p = s.split("-"); return Date.UTC(+p[0], +p[1] - 1, +p[2]); }
-  function tageZwischen(a, b) { return Math.round((utc(b) - utc(a)) / 864e5); }
-  function plusTage(s, n) { var d = new Date(utc(s) + n * 864e5); return d.getUTCFullYear() + "-" + zweistellig(d.getUTCMonth() + 1) + "-" + zweistellig(d.getUTCDate()); }
-  var WOCHENTAGE = ["Sonntag", "Montag", "Dienstag", "Mittwoch", "Donnerstag", "Freitag", "Samstag"];
-  var MONATE = ["Januar", "Februar", "März", "April", "Mai", "Juni", "Juli", "August", "September", "Oktober", "November", "Dezember"];
-  function datumText(s) { var d = new Date(utc(s)); return WOCHENTAGE[d.getUTCDay()] + ", " + d.getUTCDate() + ". " + MONATE[d.getUTCMonth()]; }
-  var DATUM = /^\d{4}-\d{2}-\d{2}$/;
+  /* ---------- Fortschritt und Ziel-Quiz: Regler und Fragen, gespeichert wird nichts ---------- */
+  var bewegungAus = matchMedia("(prefers-reduced-motion: reduce)").matches;
   function element(tag, klasse, text) { var e = document.createElement(tag); if (klasse) e.className = klasse; if (text != null) e.textContent = text; return e; }
   function knopfMit(text, klasse, aktion) { var b = element("button", klasse, text); b.type = "button"; b.addEventListener("click", aktion); return b; }
   function linkMit(text, klasse, adresse, neuesFenster) { var a = element("a", klasse, text); a.href = adresse; if (neuesFenster) { a.target = "_blank"; a.rel = "noopener"; } return a; }
@@ -2034,17 +1982,21 @@ body.chat-offen .chat-fenster { display: flex; }
     return s;
   }
 
-  /* Persönlicher Link aus der Mail: ?name=Lena&start=2026-11-02. Zum Vorführen: ?tag=12&demo=1 */
-  if (params.get("name")) daten.name = params.get("name").replace(/[^\p{L}\p{M} .'-]/gu, "").trim().slice(0, 24);
-  var startWert = params.get("start"), tagWert = parseInt(params.get("tag"), 10);
-  if (startWert && DATUM.test(startWert) && startWert <= heute()) daten.ns.start = startWert;
-  else if (tagWert >= 1 && tagWert <= 90) daten.ns.start = plusTage(heute(), 1 - tagWert);
-  if (params.get("demo") === "1" && daten.ns.start) {
-    for (var demoTag = daten.ns.start, demoNr = 1; demoTag < heute(); demoTag = plusTage(demoTag, 1), demoNr++) {
-      if (demoNr !== 5 && daten.ns.genommen.indexOf(demoTag) < 0) daten.ns.genommen.push(demoTag);
+  function sterne(n) {
+    var s = element("span", "mini-sterne");
+    s.setAttribute("role", "img");
+    s.setAttribute("aria-label", n + " von 5 Sternen");
+    for (var i = 0; i < 5; i++) {
+      var stern = ikon("stern");
+      if (i >= n) stern.setAttribute("class", "aus");
+      s.appendChild(stern);
     }
+    return s;
   }
-  sichern();
+
+  /* Link aus einer Mail: ?name=Lena&tag=12 stellt Gruß und Tag ein */
+  var linkName = (params.get("name") || "").replace(/[^\p{L}\p{M} .'-]/gu, "").trim().slice(0, 24);
+  var linkTag = parseInt(params.get("tag"), 10);
 
   /* Das Honigglas: der Füllstand zeigt, wie viele Portionen noch drin sind */
   var glasNr = 0;
@@ -2066,304 +2018,236 @@ body.chat-offen .chat-fenster { display: flex; }
     honig.style.transform = "translateY(" + Math.round((1 - anteil) * 88) + "px)";
   }
 
-  /* Erinnerung als Kalenderdatei: ohne Server, auf iPhone, Android und am Computer */
-  function icsText(s) { return s.replace(/\\/g, "\\\\").replace(/;/g, "\\;").replace(/,/g, "\\,").replace(/\n/g, "\\n"); }
-  function falten(z) { var teile = []; while (z.length > 73) { teile.push(z.slice(0, 73)); z = " " + z.slice(73); } teile.push(z); return teile.join("\r\n"); }
-  function kalenderDatei(datum, titel, text, adresse) {
-    var tag = datum.replace(/-/g, ""), danach = plusTage(datum, 1).replace(/-/g, "");
-    var zeilen = ["BEGIN:VCALENDAR", "VERSION:2.0", "PRODID:-//OMNI9//Produkt-Hub//DE", "CALSCALE:GREGORIAN", "METHOD:PUBLISH", "BEGIN:VEVENT",
-      "UID:" + tag + "-nachbestellen@omni9-produkt-hub", "DTSTAMP:" + new Date().toISOString().replace(/[-:]/g, "").replace(/\.\d+/, ""),
-      "DTSTART;VALUE=DATE:" + tag, "DTEND;VALUE=DATE:" + danach, "SUMMARY:" + icsText(titel), "DESCRIPTION:" + icsText(text + "\n" + adresse), "URL:" + adresse,
-      "BEGIN:VALARM", "ACTION:DISPLAY", "DESCRIPTION:" + icsText(titel), "TRIGGER:PT9H", "END:VALARM", "END:VEVENT", "END:VCALENDAR"];
-    var datei = new Blob([zeilen.map(falten).join("\r\n") + "\r\n"], { type: "text/calendar;charset=utf-8" });
-    var a = document.createElement("a");
-    a.href = URL.createObjectURL(datei);
-    a.download = "omni9-nachbestellen.ics";
-    document.body.appendChild(a);
-    a.click();
-    setTimeout(function () { URL.revokeObjectURL(a.href); a.remove(); }, 2000);
-  }
-  function hubAdresse(anker) { return location.href.split("#")[0].split("?")[0] + anker; }
-
-  /* Nutrition-System: Starttag, Tag X von 30, Restportionen, Häkchen, Nachbestell-Tag */
-  var nsBox = document.getElementById("ns-stand");
-  var nsHonig = glasEinsetzen(nsBox.querySelector("[data-glas]"));
-  var nsForm = nsBox.querySelector("[data-datum-form]");
-  var nsDatum = nsForm.querySelector("input[type=date]");
-  var nsDatumOffen = false;
-  function nsStand() {
-    var s = daten.ns.start;
-    if (!s || !DATUM.test(s)) return null;
-    var h = heute();
-    var tag = Math.max(1, tageZwischen(s, h) + 1);
-    var genommen = daten.ns.genommen.filter(function (x) { return x >= s && x <= h; }).sort();
-    var heuteDrin = genommen.indexOf(h) > -1;
-    /* Vor dem ersten Häkchen zählt jeder Tag als genommen, danach nur die Häkchen */
-    var vorher = genommen.length ? tageZwischen(s, genommen[0]) : tag - 1;
-    var rest = Math.max(0, 30 - vorher - genommen.length);
-    var leer = rest > 0 ? plusTage(h, heuteDrin ? rest : rest - 1) : h;
-    var serie = 0;
-    for (var t = heuteDrin ? h : plusTage(h, -1); t >= s && genommen.indexOf(t) > -1; t = plusTage(t, -1)) serie++;
-    return { start: s, tag: tag, genommen: genommen, heuteDrin: heuteDrin, ersterHaken: genommen[0] || null, rest: rest, leer: leer, bestellen: plusTage(leer, -7), serie: serie };
-  }
-  function chipsMarkieren() {
-    nsForm.querySelectorAll("[data-zurueck]").forEach(function (b) {
-      b.setAttribute("aria-pressed", nsDatum.value === plusTage(heute(), -b.dataset.zurueck) ? "true" : "false");
+  /* Fortschritt im Körper: Phasen nach der Kettenreaktion auf omni9.de, die Zeiten sind eine Orientierung aus echten Bewertungen */
+  var WARNUNG = "Geht es dir nach ein paar Tagen nicht besser oder schlechter, sprich bitte mit Arzt oder Apotheke.";
+  var NS_PHASEN = [
+    { bis: 3, stufe: 0, zeit: "Tag 1 bis 3", titel: "Die Nährstoffe kommen an",
+      koerper: "Alle 16 Zutaten stecken in einer bioaktiven Honigmatrix. Ihre Enzyme und Polyphenole sorgen dafür, dass die Nährstoffe nicht einfach durchgespült werden, sondern in deinem Körper ankommen, auch in einem belasteten Darm.",
+      tipp: "Empfindlicher Darm? Nimm die ersten Tage etwas weniger als einen Teelöffel und steigere dann. Ist der Geschmack ungewohnt, lass den Löffel langsam im Mund zergehen.",
+      stimme: { zeit: "Nach ein paar Tagen", text: "…nehme es erst paar Tage aber es hilft schon ein bisal", name: "Claudia B., verifizierter Kauf", sterne: 5 } },
+    { bis: 7, stufe: 1, zeit: "Tag 4 bis 7", titel: "Dein Darm als Fundament",
+      koerper: "Hier beginnt die Kettenreaktion. Akazienfaser nährt hilfreiche Darmbakterien, die Sporenkultur Bacillus coagulans unterstützt das Darmmilieu. Das Ziel: Die Darmbarriere dichtet ab, mit weniger Immun-Alarm, weniger Entzündung und weniger Reizung.",
+      tipp: "Noch nichts zu merken ist jetzt normal. Wichtig ist, dass du jeden Tag dranbleibst, am besten immer zur gleichen Zeit.",
+      stimme: { zeit: "Nach 5 Tagen", text: "Ich nehme es erst seit fünf Tagen. Ich kann es noch nicht beurteilen.", name: "Ralf V., verifizierter Kauf", sterne: 4 } },
+    { bis: 14, stufe: 2, zeit: "Tag 8 bis 14", titel: "Mehr Ruhe im System",
+      koerper: "Sinkt die stille Entzündung, fällt der Dauerstress im Körper: weniger Kompensation, mehr Ruhe. Ashwagandha unterstützt die Regulation deiner Stressachse, die aktiven B-Vitamine versorgen dein Nervensystem. So wird Schlaf wieder Reparatur statt Notprogramm.",
+      tipp: "Achte diese Woche darauf, wie du einschläfst und wie erholt du aufwachst. Leg eine Stunde vor dem Schlafen das Handy weg.",
+      stimme: { zeit: "In Woche 2", text: "Ich bin nun in der zweiten Woche der Einnahme und meine, dass mein Körper jetzt schon mehr in den Ruhemodus geschaltet hat. Ich bin ausgeglichener und kann nachts besser schlafen.", name: "Marc W., verifizierter Kauf", sterne: 5 } },
+    { bis: 21, stufe: 3, zeit: "Tag 15 bis 21", titel: "Energie für den ganzen Tag",
+      koerper: "Am Ende der Kette steht deine Zellenergie: keine Energie-Crashs mehr, sondern stabile Kraft über den Tag. NADH unterstützt in deinen Mitochondrien die Prozesse, durch die Energie entsteht. Die aktiven B-Vitamine liefern wichtige Cofaktoren.",
+      tipp: "Achte auf deinen Nachmittag: Kommt das Tief später oder schwächer? Geh nach dem Mittagessen 10 Minuten raus ans Tageslicht.",
+      stimme: { zeit: "Nach 2,5 Wochen", text: "Habe Omni 9 zum ersten Mal ausprobiert und merke nach 2.5 Wochen schon deutlich mehr Energie. Der Geschmack ist gewöhnungsbedürftig, aber es wird zum Ritual und kostet keine große Überwindung.", name: "Ruth E., verifizierter Kauf", sterne: 5 } },
+    { bis: 30, stufe: 3, zeit: "Tag 22 bis 30", titel: "Dein erstes Glas wird leer",
+      koerper: "Regelmäßigkeit ist die Voraussetzung dafür, dass Regeneration überhaupt passieren kann. OMNI9 ist auf Stabilität ausgelegt, nicht auf kurze Peaks. Darum zählt jetzt vor allem eins: ohne Pause weitermachen.",
+      tipp: "Bestell etwa eine Woche vorher nach, dann ist dein neues Glas rechtzeitig da. Mit automatischer Lieferung passiert das von allein.",
+      stimme: { zeit: "Glas 1 fast leer", text: "Erstes Glas fast leer ist gut man muß sich an den Geschmack gewöhnen aber es geht mir besser", name: "Claudia B., verifizierter Kauf", sterne: 5 } },
+    { bis: 60, stufe: 4, zeit: "Glas 2", titel: "Alle Achsen greifen ineinander",
+      koerper: "Die 9 Regenerations-Achsen greifen ineinander wie Zahnräder. Wenn alle wieder ineinandergreifen, löst das eine Kettenreaktion aus, die mit einzelnen Supplements kaum erreichbar ist. Dein Körper schaltet von Alarm auf Regeneration.",
+      tipp: "Vergleich mit deinem Start: Wie sind dein Schlaf, deine Energie am Nachmittag und dein Bauch nach dem Essen? Schreib dir drei Stichworte auf.",
+      stimme: { text: "Ich fühle mich seit dem fitter in Verbindung mit Bioactive Nutrition System....habe auch am Nachmittag noch genug Energie und schlafe seitdem besser.", name: "Heike D., verifizierter Kauf", sterne: 5 } },
+    { bis: 90, stufe: 4, zeit: "Glas 3", titel: "Zeit für deine Bilanz",
+      koerper: "Du nimmst OMNI9 jetzt seit rund zwei Monaten. Es ist auf Regeneration und Stabilität ausgelegt, nicht auf kurze Peaks. Jetzt lohnt sich der Blick zurück: Was ist anders als am Anfang?",
+      tipp: "Schau auf deine Stichworte vom Start. Magst du anderen von deiner Erfahrung erzählen? Deine Bewertung hilft beim Start.",
+      link: ["Bewertung schreiben", BEWERTUNG.ns],
+      stimme: { text: "zum ersten mal seit langem fühle ich mich wie ich selbst", name: "Franzi H., verifizierter Kauf", sterne: 5 } }
+  ];
+  var IB_PHASEN = [
+    { bis: 1, stufe: 0, zeit: "Tag 1", titel: "Sofort starten",
+      koerper: "Bei den ersten Anzeichen zählt das Zeitfenster, in dem dein Körper Unterstützung am besten verwerten kann. Vitamin C und Zink tragen zu einer normalen Funktion des Immunsystems bei. Dazu kommen Propolis und Holunder für die klassische Abwehr-Phase.",
+      tipp: "Morgens, mittags und abends je 1 Teelöffel (ca. 10 g), pur vom Löffel oder in warmem Tee unter 40 °C.",
+      stimme: { zeit: "Bei den ersten Anzeichen", text: "Dann kam ein Tag, wo ich morgens schon so ein Druckgefühl hatte und dachte ‘oh nein’. Booster genommen, abends nochmal. Man spürt wie es dem Hals direkt gut tut, wie so eine Art sanftes kribbeln.", name: "Christian B., auf omni9.de" } },
+    { bis: 3, stufe: 1, zeit: "Tag 2 bis 3", titel: "Hals und Schleimhäute",
+      koerper: "Für deine Schleimhäute stecken Holunder, Honig, Zimt und Propolis im Booster. Sie unterstützen dort, wo die Welle oft zuerst startet: bei Kratzen, Räuspern oder einem trockenen Hals. Alle drei Komplexe stecken in jedem Löffel.",
+      tipp: "Bleib bei 3 Löffeln am Tag, auch wenn es schon besser wird. Magst du es warm, rühr ihn in Tee unter 40 °C.",
+      stimme: { zeit: "Nach kurzer Zeit", text: "Und ich schwöre, man merkt’s direkt im Hals. Dieses kratzige Gefühl war bei mir nach kurzer Zeit deutlich ruhiger.", name: "Steffen S., auf omni9.de" } },
+    { bis: 5, stufe: 2, zeit: "Tag 4 bis 5", titel: "Die Reaktion ausbalancieren", warnung: true,
+      koerper: "Druck, schwere Glieder, das System läuft heiß: Dafür stecken Kurkuma, Ingwer und Piperin im Booster. Sie helfen deinem Körper, die Reaktion zu balancieren, statt dass es dich komplett zerlegt. Piperin verstärkt die Wirkung von Kurkuma um ein Vielfaches.",
+      tipp: "Halte durch: Die Kur dauert 5 bis 10 Tage. Gönn dir Ruhe und schlaf genug.",
+      stimme: { text: "Diesmal hab ich sofort reagiert. Es war viel milder. Und ja, ich war trotzdem müde, aber nicht dieses ‘ich bin zerstört’-Level.", name: "Manuela H., auf omni9.de" } },
+    { bis: 10, stufe: 3, zeit: "Tag 6 bis 10", titel: "Zurück zu Kräften", warnung: true,
+      koerper: "Der Booster setzt parallel an Abwehr, Schleimhäuten, Entzündungsdruck, oxidativem Stress und Energie an, damit dein Körper schneller wieder auf Stabilität kommt. Viele merken vor allem, dass sich die Erschöpfung nach der Erkältung schneller beruhigt.",
+      tipp: "Nach 5 bis 10 Tagen kannst du die Kur beenden. Bei Bedarf wiederholst du sie.",
+      stimme: { text: "Diesmal mit dem Booster: nicht weggezaubert, aber ich hab’s besser ausgehalten und war schneller wieder arbeitsfähig.", name: "Jenni D., auf omni9.de" } },
+    { bis: 11, stufe: 4, zeit: "Nach der Akutphase", titel: "Vorbeugen für die Erkältungszeit",
+      koerper: "In der Erkältungszeit kannst du den Booster vorbeugend nehmen, besonders in Phasen mit viel Kontakt wie Kita, Büro oder Reisen. Dann reicht 1 Teelöffel am Tag.",
+      tipp: "Stell den Booster griffbereit in den Küchenschrank. Merkst du wieder erste Anzeichen, startest du sofort mit 3 Löffeln am Tag.",
+      stimme: { text: "Bei uns geht gefühlt alle zwei Wochen was rum. Seitdem ich den Immun Booster da habe, starte ich sofort, wenn ich merke, da kommt was.", name: "Elke W., Kita-Mama, auf omni9.de" } }
+  ];
+  function nsRest(tag) { return 29 - (tag - 1) % 30; }
+  function ibRest(tag) { return Math.max(0, 30 - 3 * tag); }
+  var NS_TAGE = [];
+  for (var t = 1; t <= 30; t++) NS_TAGE.push(t);
+  for (t = 35; t <= 90; t += 5) NS_TAGE.push(t);
+  var NS_FORTSCHRITT = {
+    id: "ns-fortschritt", tage: NS_TAGE, phasen: NS_PHASEN, marken: [1, 7, 14, 21, 30, 60, 90],
+    stufen: [["Ankommen", "i-loeffel-linie"], ["Darm", "z-darm"], ["Ruhe", "z-schlaf"], ["Energie", "z-energie"], ["Stabilität", "t-keim"]],
+    tagText: function (tag) { return "Tag " + tag; },
+    unter: function (tag) { var rest = nsRest(tag), glas = Math.ceil(tag / 30); return rest ? "Glas " + glas + ", noch ca. " + rest + (rest === 1 ? " Portion" : " Portionen") : "Glas " + glas + " ist leer"; },
+    fuellung: function (tag) { return nsRest(tag) / 30; },
+    hinweis: function (tag) {
+      var rest = nsRest(tag);
+      if (rest > 7) return null;
+      return rest ? { titel: "Dein Glas ist bald leer.", text: "Bestell jetzt nach, dann ist das neue da, bevor das alte leer ist. Automatisch geliefert kostet es 69\u00a0€ statt 89\u00a0€.", link: ["Zum Nachkauf", "#ns-nachkauf"] }
+        : { titel: "Zeit für ein neues Glas.", text: "Mit automatischer Lieferung kommt es künftig von allein, für 69\u00a0€ statt 89\u00a0€.", link: ["Zum Nachkauf", "#ns-nachkauf"] };
+    },
+    zeitleiste: ["#ns-30 .zeitleiste", function (tag) { return tag > 30 ? 4 : tag <= 3 ? 0 : tag <= 14 ? 1 : nsRest(tag) <= 7 ? 3 : 2; }]
+  };
+  var IB_FORTSCHRITT = {
+    id: "ib-fortschritt", tage: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11], phasen: IB_PHASEN, marken: [1, 3, 5, 7, 10, [11, "10+"]],
+    stufen: [["Abwehr", "t-thermo"], ["Hals", "z-hals"], ["Balance", "t-flamme"], ["Erholung", "t-schild"], ["Vorbeugen", "t-flocke"]],
+    tagText: function (tag) { return tag > 10 ? "Danach" : "Tag " + tag; },
+    unter: function (tag) { var rest = ibRest(tag); return tag > 10 ? "Akutphase vorbei" : rest ? "Akutphase, noch ca. " + rest + " Portionen" : "Akutphase, Glas leer"; },
+    fuellung: function (tag) { return ibRest(tag) / 30; },
+    hinweis: function (tag) {
+      return ibRest(tag) > 9 ? null : { titel: "Nachschub für die nächste Erkältungszeit.", text: "Ein Glas reicht für eine Akutphase von bis zu 10 Tagen. Automatisch geliefert kostet es 49,90\u00a0€ statt 59,90\u00a0€.", link: ["Zum Nachkauf", "#ib-nachkauf"] };
+    },
+    zeitleiste: ["#ib-plan .zeitleiste", function (tag) { return tag === 1 ? 0 : tag <= 10 ? 1 : 2; }]
+  };
+  function fortschritt(cfg) {
+    var box = document.getElementById(cfg.id);
+    var regler = box.querySelector("[data-regler]"), skala = box.querySelector("[data-skala]");
+    var honig = glasEinsetzen(box.querySelector("[data-glas]"));
+    var zahl = box.querySelector("[data-tag-zahl]"), unter = box.querySelector("[data-tag-unter]");
+    var stufenListe = box.querySelector("[data-stufen]"), phaseBox = box.querySelector("[data-phase]"), hinweisBox = box.querySelector("[data-hinweis]");
+    var zeitleiste = document.querySelector(cfg.zeitleiste[0]);
+    var max = cfg.tage.length - 1, aktuell = null;
+    regler.max = max;
+    cfg.marken.forEach(function (m) {
+      var tag = Array.isArray(m) ? m[0] : m;
+      var marke = element("span", null, Array.isArray(m) ? m[1] : String(m));
+      marke.style.setProperty("--pos", cfg.tage.indexOf(tag) / max);
+      skala.appendChild(marke);
     });
-  }
-  var STATUS_TEXT = { ja: "genommen", offen: "heute", spaeter: "kommt noch", nein: "nicht abgehakt", geschaetzt: "vor dem ersten Häkchen", teil: "teilweise" };
-  function nsZeigen() {
-    var st = nsStand(), h = heute(), formular = !st || nsDatumOffen;
-    nsBox.querySelector("[data-teil=start]").hidden = !formular;
-    nsBox.querySelector("[data-teil=laeuft]").hidden = formular;
-    nsBox.querySelector("[data-start-titel]").textContent = daten.name ? "Hallo " + daten.name + ", wann hast du angefangen?" : "Wann hast du angefangen?";
-    nsForm.querySelector("[data-datum-abbrechen]").hidden = !st;
-    nsBox.querySelector("[data-datum-aendern]").hidden = formular;
-    nsBox.querySelector("[data-neues-glas]").hidden = formular;
-    if (formular) {
-      nsDatum.max = h;
-      nsDatum.value = st ? st.start : h;
-      chipsMarkieren();
-      return;
+    cfg.stufen.forEach(function (s) {
+      var li = element("li"), punkt = element("span", "fs-punkt");
+      punkt.appendChild(ikon(s[1]));
+      li.append(punkt, element("span", "fs-name", s[0]));
+      stufenListe.appendChild(li);
+    });
+    if (linkName) {
+      var gruss = box.querySelector("[data-gruss]");
+      gruss.textContent = "Hallo " + linkName;
+      gruss.hidden = false;
     }
-    nsBox.querySelector("[data-gruss]").textContent = daten.name ? "Hallo " + daten.name : "Dein Stand";
-    nsBox.querySelector("[data-tag]").innerHTML = st.tag <= 30 ? "Tag <b>" + st.tag + "</b> von 30" : "<b>Tag " + st.tag + "</b>";
-    nsBox.querySelector("[data-rest]").textContent = st.rest > 0 ? "Noch ca. " + st.rest + (st.rest === 1 ? " Portion" : " Portionen") + " im Glas, leer etwa am " + datumText(st.leer) + "." : "Dein Glas ist wahrscheinlich leer.";
-    glasFuellen(nsHonig, st.rest / 30);
-    nsBox.querySelector("[data-heute]").setAttribute("aria-pressed", st.heuteDrin ? "true" : "false");
-    nsBox.querySelector("[data-heute-text]").textContent = st.heuteDrin ? "Abgehakt. Noch mal tippen macht es rückgängig." : "Tippen, wenn du deinen Löffel hattest";
-    var raster = nsBox.querySelector("[data-raster]");
-    raster.innerHTML = "";
-    for (var i = 0; i < 30; i++) {
-      var d = plusTage(st.start, i);
-      var status = st.genommen.indexOf(d) > -1 ? "ja" : d > h ? "spaeter" : d === h ? "offen" : st.ersterHaken && d >= st.ersterHaken ? "nein" : "geschaetzt";
-      var li = element("li", status + (d === h ? " heute" : ""), String(i + 1));
-      li.title = "Tag " + (i + 1) + ", " + datumText(d) + ": " + STATUS_TEXT[status];
-      raster.appendChild(li);
+    function phaseZeigen(p) {
+      var text = element("div", "fs-text"), tipp = element("p", "fs-tipp");
+      tipp.append(element("b", null, "Dein Tipp: "), p.tipp);
+      text.append(element("p", "fs-zeit", p.zeit), element("h4", null, p.titel), element("p", null, p.koerper), tipp);
+      if (p.warnung) text.appendChild(element("p", "fs-warnung", WARNUNG));
+      if (p.link) text.appendChild(linkMit(p.link[0], "text-link", p.link[1], true));
+      phaseBox.replaceChildren(text);
+      if (!p.stimme) return;
+      var fig = element("figure", "fs-stimme"), name = element("figcaption", "stimme-name");
+      if (p.stimme.zeit) fig.appendChild(element("span", "stimme-zeit", p.stimme.zeit));
+      fig.appendChild(element("blockquote", null, "„" + p.stimme.text + "“"));
+      if (p.stimme.sterne) name.appendChild(sterne(p.stimme.sterne));
+      name.appendChild(document.createTextNode(p.stimme.name));
+      fig.appendChild(name);
+      phaseBox.appendChild(fig);
     }
-    raster.setAttribute("aria-label", "Deine 30 Tage, " + st.genommen.length + " abgehakt");
-    nsBox.querySelector("[data-serie]").innerHTML = st.serie > 1 ? "<b>" + st.serie + " Tage</b> am Stück abgehakt." : st.serie === 1 ? "<b>1 Tag</b> abgehakt. Morgen geht es weiter." : "Hak jeden Tag ab, dann wächst deine Serie.";
-    nsBox.querySelector("[data-kalender]").hidden = st.rest === 0 || st.bestellen <= h;
-    nsBox.querySelector("[data-bestellen]").innerHTML = st.rest === 0 ? "<b>Zeit für ein neues Glas.</b> Mit automatischer Lieferung kommt es künftig von allein." : st.bestellen <= h ? "<b>Jetzt nachbestellen,</b> dann ist dein neues Glas da, bevor das alte leer ist." : "<b>Nachbestellen bis " + datumText(st.bestellen) + ".</b> Dann ist dein neues Glas rechtzeitig da.";
-    check30Zeigen(st);
-  }
-  /* Check nach einem Glas: gut führt zur Bewertung, nicht gut zum Service */
-  function check30Zeigen(st) {
-    var box = nsBox.querySelector("[data-check30]");
-    box.hidden = !st || (st.tag < 28 && st.rest > 3);
-    if (box.hidden) return;
-    box.innerHTML = "";
-    box.appendChild(element("h3", null, "Wie geht es dir nach einem Glas?"));
-    var wert = daten.ns.check30;
-    if (!wert) {
-      box.appendChild(element("p", null, "Deine ehrliche Antwort hilft uns, dich besser zu begleiten."));
-      var wahl = element("div", "check30-wahl");
-      [["gut", "Gut"], ["mittel", "Geht so"], ["schlecht", "Nicht gut"]].forEach(function (o) {
-        wahl.appendChild(knopfMit(o[1], null, function () { daten.ns.check30 = o[0]; sichern(); check30Zeigen(nsStand()); }));
+    function zeigen(persoenlich) {
+      var tag = cfg.tage[+regler.value], phase = cfg.phasen.filter(function (p) { return tag <= p.bis; })[0];
+      regler.style.setProperty("--anteil", +regler.value / max);
+      regler.setAttribute("aria-valuetext", cfg.tagText(tag) + ": " + phase.titel);
+      zahl.textContent = cfg.tagText(tag);
+      unter.textContent = cfg.unter(tag);
+      glasFuellen(honig, cfg.fuellung(tag));
+      stufenListe.style.setProperty("--stufe", phase.stufe / (cfg.stufen.length - 1));
+      Array.prototype.forEach.call(stufenListe.children, function (li, i) {
+        li.className = i < phase.stufe ? "erreicht" : i === phase.stufe ? "jetzt" : "";
+        if (i === phase.stufe) li.setAttribute("aria-current", "step"); else li.removeAttribute("aria-current");
       });
-      box.appendChild(wahl);
-      return;
-    }
-    var knoepfe = element("div", "stand-knoepfe");
-    if (wert === "gut") {
-      box.appendChild(element("p", null, "Schön, das freut uns sehr! Magst du anderen von deiner Erfahrung erzählen?"));
-      knoepfe.append(linkMit("Bewertung schreiben", "knopf gold", BEWERTUNG.ns, true), linkMit("Zum Nachkauf", "knopf hell", "#ns-nachkauf"));
-    } else if (wert === "mittel") {
-      box.appendChild(element("p", null, "Danke für deine ehrliche Rückmeldung. Das ist bei jedem individuell. Schau dir an, was hilft, wenn es hakt, oder frag den Assistenten."));
-      knoepfe.append(linkMit("Wenn es hakt", "knopf hell", "#ns-hakt"), knopfMit("Assistent fragen", "knopf hell", oeffnen));
-    } else {
-      box.appendChild(element("p", null, "Danke, dass du es uns sagst. Schreib uns, dann helfen wir dir persönlich weiter."));
-      knoepfe.appendChild(linkMit("E-Mail an den Service", "knopf gold", "mailto:service@omni9.de?subject=" + encodeURIComponent("Rückmeldung nach dem ersten Glas")));
-    }
-    knoepfe.appendChild(knopfMit("Antwort ändern", "text-link", function () { daten.ns.check30 = null; sichern(); check30Zeigen(nsStand()); }));
-    box.appendChild(knoepfe);
-  }
-  nsForm.querySelectorAll("[data-zurueck]").forEach(function (b) {
-    b.addEventListener("click", function () { nsDatum.value = plusTage(heute(), -b.dataset.zurueck); chipsMarkieren(); });
-  });
-  nsDatum.addEventListener("input", chipsMarkieren);
-  nsForm.addEventListener("submit", function (e) {
-    e.preventDefault();
-    if (!DATUM.test(nsDatum.value) || nsDatum.value > heute()) return;
-    if (daten.ns.start !== nsDatum.value) daten.ns.check30 = null;
-    daten.ns.start = nsDatum.value;
-    nsDatumOffen = false;
-    sichern();
-    allesZeigen();
-  });
-  nsForm.querySelector("[data-datum-abbrechen]").addEventListener("click", function () { nsDatumOffen = false; nsZeigen(); });
-  nsBox.querySelector("[data-datum-aendern]").addEventListener("click", function () { nsDatumOffen = true; nsZeigen(); nsDatum.focus(); });
-  nsBox.querySelector("[data-neues-glas]").addEventListener("click", function () { daten.ns.start = heute(); daten.ns.check30 = null; sichern(); allesZeigen(); });
-  nsBox.querySelector("[data-heute]").addEventListener("click", function () {
-    var h = heute(), i = daten.ns.genommen.indexOf(h);
-    if (i > -1) daten.ns.genommen.splice(i, 1); else daten.ns.genommen.push(h);
-    sichern();
-    allesZeigen();
-  });
-  nsBox.querySelector("[data-kalender]").addEventListener("click", function () {
-    var st = nsStand();
-    if (st) kalenderDatei(st.bestellen, "OMNI9 nachbestellen", "Dein Glas OMNI9 ist bald leer. Bestell heute nach, dann ist das neue Glas rechtzeitig da.", hubAdresse("#ns-nachkauf"));
-  });
-
-  /* Immun Booster: Akutphase mit 3 Häkchen am Tag oder vorbeugend mit einem */
-  var ibBox = document.getElementById("ib-stand");
-  var ibHonig = glasEinsetzen(ibBox.querySelector("[data-glas]"));
-  var DOSEN = [["m", "Morgens"], ["t", "Mittags"], ["a", "Abends"]];
-  function ibStand() {
-    if (!daten.ib.modus) return null;
-    var h = heute(), s = daten.ib.start && DATUM.test(daten.ib.start) ? daten.ib.start : h;
-    var gesamt = 0;
-    Object.keys(daten.ib.dosen).forEach(function (k) { gesamt += daten.ib.dosen[k].length; });
-    var heuteListe = daten.ib.dosen[h] || [];
-    var serie = 0;
-    for (var t = heuteListe.length ? h : plusTage(h, -1); (daten.ib.dosen[t] || []).length; t = plusTage(t, -1)) serie++;
-    return { modus: daten.ib.modus, start: s, tag: Math.max(1, tageZwischen(s, h) + 1), heute: heuteListe, rest: Math.max(0, 30 - gesamt), serie: serie };
-  }
-  function dosisUmschalten(code) {
-    var h = heute(), dosen = (daten.ib.dosen[h] || []).slice(), i = dosen.indexOf(code);
-    if (i > -1) dosen.splice(i, 1); else dosen.push(code);
-    if (dosen.length) daten.ib.dosen[h] = dosen; else delete daten.ib.dosen[h];
-    sichern();
-    allesZeigen();
-  }
-  function hakenKnopf(klasse, gedrueckt, aktion) {
-    var b = knopfMit("", klasse, aktion);
-    b.setAttribute("aria-pressed", gedrueckt ? "true" : "false");
-    var kreis = element("span", "haken-kreis");
-    kreis.appendChild(ikon("i-haken"));
-    b.appendChild(kreis);
-    return b;
-  }
-  function ibZeigen() {
-    var st = ibStand(), h = heute();
-    ibBox.querySelector("[data-teil=start]").hidden = !!st;
-    ibBox.querySelector("[data-teil=laeuft]").hidden = !st;
-    ibBox.querySelector("[data-start-titel]").textContent = daten.name ? "Hallo " + daten.name + ", wofür nimmst du den Booster gerade?" : "Wofür nimmst du den Booster gerade?";
-    ibBox.querySelector("[data-modus-ende]").hidden = !st || st.modus !== "akut";
-    ibBox.querySelector("[data-modus-akut]").hidden = !st || st.modus !== "vorbeugend";
-    if (!st) return;
-    var akut = st.modus === "akut";
-    ibBox.querySelector("[data-gruss]").textContent = daten.name ? "Hallo " + daten.name : akut ? "Deine Akutphase" : "Vorbeugend in der Erkältungszeit";
-    var tagZeile = ibBox.querySelector("[data-tag]");
-    tagZeile.className = "stand-tag" + (akut ? "" : " wort");
-    tagZeile.innerHTML = akut ? "Tag <b>" + st.tag + "</b> deiner Akutphase" : "<b>1 Teelöffel</b> am Tag";
-    var hinweis = !akut ? "Merkst du erste Anzeichen, starte die Akutphase." : st.tag <= 4 ? "Bleib 5 bis 10 Tage dran, morgens, mittags und abends." : st.tag <= 10 ? "Nach 5 bis 10 Tagen kannst du die Akutphase beenden." : "Fühlst du dich weiter krank, sprich bitte mit Arzt oder Apotheke.";
-    ibBox.querySelector("[data-rest]").textContent = "Noch ca. " + st.rest + (st.rest === 1 ? " Portion" : " Portionen") + " im Glas. " + hinweis;
-    ibBox.querySelector("[data-nachschub]").hidden = st.rest > 5;
-    glasFuellen(ibHonig, st.rest / 30);
-    var dosen = ibBox.querySelector("[data-dosen]");
-    dosen.innerHTML = "";
-    dosen.className = "dosen" + (akut ? "" : " eins");
-    if (akut) {
-      DOSEN.forEach(function (d) {
-        var b = hakenKnopf("dosis-knopf", st.heute.indexOf(d[0]) > -1, function () { dosisUmschalten(d[0]); });
-        b.appendChild(document.createTextNode(d[1]));
-        dosen.appendChild(b);
-      });
-    } else {
-      var an = st.heute.length > 0;
-      var k = hakenKnopf("heute-knopf", an, function () { dosisUmschalten("t"); });
-      var texte = element("span");
-      texte.append(element("b", null, "Heute genommen"), element("small", null, an ? "Abgehakt. Noch mal tippen macht es rückgängig." : "Tippen, wenn du deinen Löffel hattest"));
-      k.appendChild(texte);
-      dosen.appendChild(k);
-    }
-    var raster = ibBox.querySelector("[data-raster]");
-    raster.innerHTML = "";
-    raster.className = "tage-raster" + (akut ? "" : " vierzehn");
-    var anzahl = akut ? 10 : 14, erster = akut ? (st.tag > 10 ? plusTage(h, -9) : st.start) : plusTage(h, -13);
-    for (var i = 0; i < anzahl; i++) {
-      var d = plusTage(erster, i), n = (daten.ib.dosen[d] || []).length, nr = tageZwischen(st.start, d) + 1;
-      var status = d > h ? "spaeter" : akut ? (n >= 3 ? "ja" : n ? "teil" : d === h ? "offen" : "nein") : (n ? "ja" : d === h ? "offen" : "nein");
-      var li = element("li", status + (d === h ? " heute" : ""), akut ? String(nr) : String(+d.slice(8)));
-      li.title = (akut ? "Tag " + nr : datumText(d)) + ": " + (d > h ? "kommt noch" : akut ? n + " von 3" : STATUS_TEXT[status]);
-      if (akut) {
-        var pips = element("span", "pips");
-        for (var j = 0; j < 3; j++) pips.appendChild(element("i", j < n ? "an" : null));
-        li.appendChild(pips);
+      if (phase !== aktuell) {
+        aktuell = phase;
+        phaseZeigen(phase);
+        if (persoenlich && !bewegungAus) { phaseBox.classList.remove("neu"); void phaseBox.offsetWidth; phaseBox.classList.add("neu"); }
       }
-      raster.appendChild(li);
+      var h = cfg.hinweis(tag);
+      hinweisBox.hidden = !h;
+      if (h) {
+        var satz = element("p");
+        satz.append(element("b", null, h.titel), " " + h.text);
+        hinweisBox.replaceChildren(satz, linkMit(h.link[0], "knopf", h.link[1]));
+      }
+      if (persoenlich) stufenSetzen(zeitleiste, cfg.zeitleiste[1](tag), true);
     }
-    raster.setAttribute("aria-label", akut ? "Deine Akutphase Tag für Tag" : "Deine letzten 14 Tage");
-    ibBox.querySelector("[data-serie]").innerHTML = akut ? "Heute <b>" + st.heute.length + " von 3</b> abgehakt." : st.serie > 1 ? "<b>" + st.serie + " Tage</b> am Stück abgehakt." : st.serie === 1 ? "<b>1 Tag</b> abgehakt." : "Hak jeden Tag ab, dann wächst deine Serie.";
+    regler.addEventListener("input", function () { zeigen(true); });
+    if (linkTag >= 1) {
+      var naechster = 0;
+      cfg.tage.forEach(function (t, i) { if (Math.abs(t - linkTag) < Math.abs(cfg.tage[naechster] - linkTag)) naechster = i; });
+      regler.value = naechster;
+    }
+    zeigen(linkTag >= 1);
   }
-  function modusSetzen(m) { daten.ib.modus = m; daten.ib.start = m ? heute() : null; sichern(); allesZeigen(); }
-  ibBox.querySelectorAll("[data-modus]").forEach(function (b) { b.addEventListener("click", function () { modusSetzen(b.dataset.modus); }); });
-  ibBox.querySelector("[data-modus-ende]").addEventListener("click", function () { modusSetzen(null); });
-  ibBox.querySelector("[data-modus-akut]").addEventListener("click", function () { modusSetzen("akut"); });
 
-  /* Ziel-Quiz: die Antworten ergeben einen Plan mit Tipps. Produkttipps nur aus omni9.de, Alltagstipps allgemein */
+  /* Ziel-Quiz: die Antworten ergeben einen Plan mit ausführlichen Tipps. Gespeichert wird nichts.
+     Produkttipps nur aus omni9.de, Alltagstipps allgemein (von OMNI9 freigeben lassen). */
   var ZIELE = {
     energie: { name: "Mehr Energie", icon: "z-energie", achsen: [3, 2, 4],
-      produkt: "Für deine Energie arbeiten in OMNI9 NADH, aktive B-Vitamine und Pterostilben zusammen. Nimm deinen Löffel am besten morgens, als festen Start in den Tag.",
-      fortschritt: "Achte darauf, wie du dich am Nachmittag fühlst. In den Bewertungen schreiben einige nach 2 bis 3 Wochen von mehr Energie. Bei jedem ist es anders." },
+      produkt: { titel: "Energie aus deinen Zellen", text: "Für deine Energie arbeiten in OMNI9 vor allem aktives NADH und die aktiven B-Vitamine B6, B9 und B12. NADH unterstützt in deinen Mitochondrien die Prozesse, durch die Energie entsteht. Gedacht ist das als stabile Kraft über den Tag, nicht als kurzer Push wie bei Kaffee.", schritte: ["Nimm deinen Teelöffel morgens, als festen Start in den Tag.", "Gib dir Zeit: Erst wenn dein Darm stabiler ist, kommen die Nährstoffe richtig an."] },
+      fortschritt: { titel: "Schau auf Morgen und Nachmittag", text: "Achte darauf, wie du morgens aufstehst und ob das Tief am Nachmittag später oder schwächer kommt. In den Bewertungen schreiben einige nach 2 bis 3 Wochen von mehr Energie, zum Beispiel morgens beim Aufstehen. Bei jedem ist es anders.", schritte: ["Notier dir eine Woche lang um 15 Uhr deine Energie von 1 bis 5.", "Vergleich die Zahlen nach drei Wochen."] } },
     schlaf: { name: "Besser schlafen", icon: "z-schlaf", achsen: [4, 5, 1],
-      produkt: "Für Ruhe und Schlaf sind vor allem Ashwagandha und die aktiven B-Vitamine drin. Wichtiger als die Uhrzeit ist, dass du OMNI9 jeden Tag nimmst.",
-      fortschritt: "Achte darauf, wie erholt du morgens aufwachst. Gib dir ein paar Wochen, bei jedem ist es anders." },
+      produkt: { titel: "Ruhe für dein Nervensystem", text: "Für Ruhe und Schlaf sind vor allem Ashwagandha und die aktiven B-Vitamine drin. Ashwagandha unterstützt die Regulation deiner Stressachse, die B-Vitamine versorgen dein Nervensystem. So kann Schlaf wieder Reparatur werden statt Notprogramm.", schritte: ["Wichtiger als die Uhrzeit ist, dass du OMNI9 jeden Tag nimmst.", "Such dir einen festen Moment, dann vergisst du ihn nicht."] },
+      fortschritt: { titel: "Schau auf deine Nächte", text: "Achte darauf, wie schnell du einschläfst und wie erholt du aufwachst. Ein Kunde schreibt in Woche 2, er sei ausgeglichener und könne nachts besser schlafen. Gib dir ein paar Wochen, bei jedem ist es anders.", schritte: ["Gib dir jeden Morgen eine Note von 1 bis 5: Wie erholt bin ich?", "Schau nach zwei Wochen, ob sich etwas verändert hat."] } },
     darm: { name: "Ruhiger Bauch", icon: "z-darm", achsen: [2, 9, 6],
-      produkt: "Akazienfaser und Sporen-Probiotika bilden das Darm-Fundament von OMNI9. Ist dein Bauch empfindlich, starte mit weniger und steigere dann auf einen Teelöffel.",
-      fortschritt: "Achte darauf, wie sich dein Bauch nach dem Essen anfühlt. Gib dir ein paar Wochen, bei jedem ist es anders." },
+      produkt: { titel: "Das Fundament für deinen Bauch", text: "Das Darm-Fundament von OMNI9 sind Bio-Akazienfaser, die hilfreiche Darmbakterien nährt, und die Sporenkultur Bacillus coagulans, die das Darmmilieu unterstützt. Dazu kommen Oligosaccharide aus dem Buchweizenhonig. Wird der Darm stabiler, kann er Nährstoffe besser aufnehmen.", schritte: ["Ist dein Bauch empfindlich, starte die ersten Tage mit weniger als einem Teelöffel.", "Steigere dann langsam auf einen Teelöffel pro Tag."] },
+      fortschritt: { titel: "Schau auf die Zeit nach dem Essen", text: "Achte darauf, wie sich dein Bauch nach dem Essen anfühlt, vor allem abends. Eine Kundin schreibt, ihr Blähbauch am Abend sei deutlich weniger geworden. Gib dir ein paar Wochen, bei jedem ist es anders.", schritte: ["Notier dir eine Woche lang, nach welchem Essen es rumort.", "Vergleich nach drei Wochen."] } },
     fokus: { name: "Klarer Kopf", icon: "z-fokus", achsen: [5, 3, 7],
-      produkt: "Lion’s Mane, Ginkgo, DHA aus Algenöl und NADH arbeiten in OMNI9 für deinen Kopf. Wichtig ist, dass du jeden Tag dranbleibst.",
-      fortschritt: "Achte darauf, wie lange du dich am Stück konzentrieren kannst. Gib dir ein paar Wochen, bei jedem ist es anders." },
+      produkt: { titel: "Versorgung für deinen Kopf", text: "Für deinen Kopf arbeiten in OMNI9 Lion’s Mane, Ginkgo, DHA aus Algenöl und NADH zusammen. Lion’s Mane unterstützt die Nervenregeneration, Ginkgo die Versorgung des Gehirns, DHA ist ein Baustein der Nervenzellen, und NADH liefert Zellenergie.", schritte: ["Nimm deinen Löffel vor dem Arbeiten, zum Beispiel zum Frühstück.", "Bleib jeden Tag dran, auch am Wochenende."] },
+      fortschritt: { titel: "Schau auf deine Konzentration", text: "Achte darauf, wie lange du dich am Stück konzentrieren kannst und ob du Sätze seltener zweimal liest. Ein Kunde schreibt, er fühle sich klarer und nicht mehr so matschig im Kopf. Gib dir ein paar Wochen, bei jedem ist es anders.", schritte: ["Merk dir, wie lange du heute ohne Ablenkung arbeiten konntest.", "Vergleich nach drei Wochen."] } },
     stress: { name: "Weniger Stress", icon: "z-stress", achsen: [4, 1, 5],
-      produkt: "Ashwagandha hilft deinem Nervensystem, Stress besser zu regulieren. Mach deinen Löffel zu einem kurzen, ruhigen Moment am Tag.",
-      fortschritt: "Achte darauf, wie schnell du abends abschalten kannst. Gib dir ein paar Wochen, bei jedem ist es anders." },
+      produkt: { titel: "Raus aus dem Daueralarm", text: "Bleibt dein Stresssystem dauerhaft aktiv, kann dein Körper nicht sauber zwischen Anspannung und Erholung wechseln. Ashwagandha unterstützt die Regulation deiner Stressachse, die aktiven B-Vitamine versorgen dein Nervensystem.", schritte: ["Mach deinen Löffel zu einem ruhigen Moment: hinsetzen und langsam im Mund zergehen lassen.", "Nimm ihn jeden Tag, auch an ruhigen Tagen."] },
+      fortschritt: { titel: "Schau auf deine Abende", text: "Achte darauf, wie schnell du abends abschalten kannst und wie oft du gereizt reagierst. Ein Kunde schreibt in Woche 2, er sei ausgeglichener. Gib dir ein paar Wochen, bei jedem ist es anders.", schritte: ["Notier dir abends kurz: Wie angespannt war ich heute, von 1 bis 5?", "Vergleich nach drei Wochen."] } },
     abwehr: { name: "Starke Abwehr", icon: "t-schild", achsen: [6, 2], booster: true,
-      produkt: "Vitamin C aus Acerola, Zink und Vitamin D3 versorgen deine Abwehr jeden Tag. Kommt doch ein Infekt, nimm für ein paar Tage zusätzlich den Immun Booster.",
-      fortschritt: "Achte darauf, wie du durch die nächste Erkältungszeit kommst. Bei jedem ist es anders." }
+      produkt: { titel: "Deine tägliche Basis für die Abwehr", text: "Für deine Abwehr stecken in OMNI9 Vitamin C aus Acerola, Vitamin D3 aus Flechte und Zink aus Guavenblatt. Ein großer Teil deiner Immunregulation beginnt im Darm und an den Schleimhäuten, deshalb gehören Bacillus coagulans und Akazienfaser dazu.", schritte: ["Nimm OMNI9 jeden Tag, auch wenn es dir gut geht.", "Kommt doch ein Infekt, nimm 5 bis 10 Tage zusätzlich den Immun Booster."] },
+      fortschritt: { titel: "Schau auf die Erkältungszeit", text: "Achte darauf, wie du durch die nächste Erkältungszeit kommst und wie schnell du dich nach Belastungen wieder fängst. Bei jedem ist es anders.", schritte: ["Stell den Immun Booster schon jetzt in den Küchenschrank, dann hast du ihn beim ersten Halskratzen griffbereit."] } }
   };
   var ZEITEN = {
-    morgens: { name: "Morgens", icon: "z-morgen", titel: "Für deinen Morgen", tipp: "Stell dein Glas neben die Kaffeemaschine oder die Zahnbürste. Dann wird der Löffel zum ersten Schritt in den Tag." },
-    nachmittag: { name: "Im Nachmittagstief", icon: "z-mittag", titel: "Für deinen Nachmittag", tipp: "Geh nach dem Mittagessen 10 Minuten raus ans Tageslicht und trink ein großes Glas Wasser." },
-    abends: { name: "Abends", icon: "z-abend", titel: "Für deinen Abend", tipp: "Leg eine Stunde vor dem Schlafen das Handy weg und schreib kurz auf, was morgen ansteht. Dann kann dein Kopf leichter abschalten." },
-    essen: { name: "Nach dem Essen", icon: "z-essen", titel: "Rund ums Essen", tipp: "Iss in Ruhe, kau gründlich und probier kleinere Portionen." }
+    morgens: { name: "Morgens", icon: "z-morgen", art: "Für deinen Morgen", titel: "Ein Start ohne Nachdenken", text: "Wenn der Morgen schwerfällt, hilft eine feste Reihenfolge, über die du nicht nachdenken musst.", schritte: ["Stell dein Glas neben die Kaffeemaschine oder die Zahnbürste.", "Erst ein großes Glas Wasser, dann dein Löffel, dann der Kaffee.", "Geh in der ersten Stunde ein paar Minuten ans Tageslicht, zum Beispiel ans offene Fenster."] },
+    nachmittag: { name: "Im Nachmittagstief", icon: "z-mittag", art: "Für deinen Nachmittag", titel: "Dem Tief zuvorkommen", text: "Das Tief nach dem Mittag wird oft von einem schweren Essen und zu wenig Bewegung verstärkt.", schritte: ["Geh nach dem Mittagessen 10 Minuten raus ans Tageslicht.", "Trink ein großes Glas Wasser, bevor du zum nächsten Kaffee greifst.", "Iss mittags lieber etwas leichter."] },
+    abends: { name: "Abends", icon: "z-abend", art: "Für deinen Abend", titel: "Ein klarer Schluss für den Tag", text: "Damit dein Kopf abschalten kann, braucht er ein Signal: Der Tag ist vorbei.", schritte: ["Leg eine Stunde vor dem Schlafen das Handy weg.", "Schreib kurz auf, was morgen ansteht. Dann musst du es nicht im Kopf behalten.", "Halt das Schlafzimmer kühl und dunkel."] },
+    essen: { name: "Nach dem Essen", icon: "z-essen", art: "Rund ums Essen", titel: "Ruhe beim Essen", text: "Ein ruhiger Bauch fängt oft schon beim Essen an.", schritte: ["Iss in Ruhe und kau gründlich.", "Probier kleinere Portionen.", "Mach nach dem Essen einen kurzen Spaziergang."] }
   };
   var ALLTAG = {
-    bildschirm: { name: "Viel Bildschirm", icon: "z-bildschirm", tipp: "Steh alle 60 bis 90 Minuten kurz auf, beweg dich und schau ein paar Sekunden in die Ferne." },
-    unterwegs: { name: "Viel unterwegs", icon: "z-unterwegs", tipp: "Nimm deinen Löffel, bevor du losgehst. Kein Abwiegen, kein Anrühren, dann musst du unterwegs an nichts denken." },
-    familie: { name: "Familie, wenig Zeit", icon: "z-familie", tipp: "Verknüpf deinen Löffel mit etwas, das du sowieso jeden Tag machst, zum Beispiel mit dem ersten Kaffee." },
-    sport: { name: "Viel Sport", icon: "z-sport", tipp: "Plan bewusst Pausen ein. Regeneration passiert in den Pausen, nicht im Training." }
+    bildschirm: { name: "Viel Bildschirm", icon: "z-bildschirm", art: "Für deinen Alltag", titel: "Pausen für Augen und Körper", text: "Langes Sitzen vor dem Bildschirm macht müde, auch ohne körperliche Arbeit.", schritte: ["Steh alle 60 bis 90 Minuten kurz auf und beweg dich.", "Schau zwischendurch ein paar Sekunden in die Ferne.", "Stell dir eine Flasche Wasser sichtbar auf den Schreibtisch."] },
+    unterwegs: { name: "Viel unterwegs", icon: "z-unterwegs", art: "Für deinen Alltag", titel: "Eine Routine, die überall klappt", text: "Wenn jeder Tag anders aussieht, muss die Routine ganz einfach sein.", schritte: ["Nimm deinen Löffel, bevor du das Haus verlässt.", "Kein Abwiegen, kein Anrühren: Ein Löffel reicht.", "Pack dir für lange Tage Wasser und einen Snack ein."] },
+    familie: { name: "Familie, wenig Zeit", icon: "z-familie", art: "Für deinen Alltag", titel: "Ein fester Anker im Trubel", text: "Wenn wenig Zeit für dich bleibt, verknüpf OMNI9 mit etwas, das du sowieso jeden Tag machst.", schritte: ["Nimm deinen Löffel zum ersten Kaffee oder beim Frühstückmachen.", "Stell das Glas so hin, dass du es siehst, Kinder aber nicht drankommen.", "Plan dir jeden Tag 10 Minuten nur für dich ein."] },
+    sport: { name: "Viel Sport", icon: "z-sport", art: "Für deinen Alltag", titel: "Regeneration einplanen", text: "Fortschritt im Training entsteht in den Pausen, nicht im Training selbst.", schritte: ["Plan bewusst Ruhetage ein.", "Achte auf genug Schlaf, gerade nach harten Einheiten.", "Nimm deinen Löffel auch an trainingsfreien Tagen."] }
   };
   var IB_MODUS = {
-    akut: { name: "Ich merke erste Anzeichen", icon: "t-thermo" },
-    vorbeugend: { name: "Ich will vorbeugen", icon: "t-schild" }
+    akut: { name: "Ich merke erste Anzeichen", icon: "t-thermo", art: "So nimmst du ihn jetzt", titel: "Sofort starten, 5 bis 10 Tage", text: "Starte am besten bei den ersten Anzeichen wie Halskratzen, Frösteln oder Gliederschwere. Dann nutzt du das Zeitfenster, in dem dein Körper Unterstützung am besten verwerten kann.", schritte: ["Morgens, mittags und abends je 1 Teelöffel (ca. 10 g).", "5 bis 10 Tage lang, bei Bedarf wiederholen.", "Pur vom Löffel oder in warmem Tee unter 40 °C."] },
+    vorbeugend: { name: "Ich will vorbeugen", icon: "t-schild", art: "So nimmst du ihn vorbeugend", titel: "1 Teelöffel am Tag", text: "In der Erkältungszeit kannst du den Booster vorbeugend nehmen, besonders in Phasen mit viel Kontakt.", schritte: ["1 Teelöffel am Tag, pur oder in warmem Tee unter 40 °C.", "Merkst du erste Anzeichen, wechsle in die Akutphase: morgens, mittags und abends je 1 Teelöffel.", "Du nimmst schon OMNI9? Der Booster kommt einfach dazu."] }
   };
   var IB_KONTAKT = {
-    kita: { name: "Kita oder Schule", icon: "z-kita", tipp: "Mit Kita- oder Schulkindern geht oft etwas rum. Stell den Booster griffbereit in den Küchenschrank, dann kannst du beim ersten Halskratzen sofort starten." },
-    buero: { name: "Büro", icon: "z-bildschirm", tipp: "Im Büro mit vielen Kolleginnen und Kollegen: Starte beim ersten Kratzen im Hals sofort, nicht erst, wenn es richtig losgeht." },
-    reisen: { name: "Reisen und Bahn", icon: "z-unterwegs", tipp: "Viel unterwegs? Pack den Booster für längere Reisen ein, dann kannst du auch unterwegs sofort starten." },
-    wenig: { name: "Eher wenig Kontakt", icon: "z-familie", tipp: "Auch mit wenig Kontakt gilt: Bei den ersten Anzeichen sofort starten. So nutzt du das Zeitfenster, in dem dein Körper Unterstützung am besten verwerten kann." }
+    kita: { name: "Kita oder Schule", icon: "z-kita", art: "Für deinen Alltag", titel: "Mit Kita- oder Schulkindern", text: "Bei Kindern in Kita oder Schule geht oft etwas rum. Eine Kita-Mama schreibt auf omni9.de, dass sie seitdem sofort startet, wenn sie merkt, da kommt was.", schritte: ["Stell den Booster griffbereit in den Küchenschrank.", "Wascht euch nach dem Abholen gleich die Hände.", "Starte beim ersten Halskratzen, nicht erst, wenn es richtig losgeht."] },
+    buero: { name: "Büro", icon: "z-bildschirm", art: "Für deinen Alltag", titel: "Im Büro", text: "Wo viele Menschen zusammenkommen, geht schnell etwas rum.", schritte: ["Lüfte regelmäßig, zum Beispiel jede Stunde ein paar Minuten.", "Nimm deine eigene Tasse und wasch dir öfter die Hände.", "Starte beim ersten Kratzen im Hals sofort."] },
+    reisen: { name: "Reisen und Bahn", icon: "z-unterwegs", art: "Für deinen Alltag", titel: "Auf Reisen", text: "Unterwegs bist du vielen Menschen nah und schläfst oft schlechter.", schritte: ["Nimm den Booster auf längere Reisen mit.", "Trink unterwegs genug, gerade in Bahn und Flugzeug.", "Plan nach der Reise einen ruhigen Abend ein."] },
+    wenig: { name: "Eher wenig Kontakt", icon: "z-familie", art: "Für deinen Alltag", titel: "Mit wenig Kontakt", text: "Auch mit wenig Kontakt kann dich ein Infekt erwischen. Dann zählt der Start.", schritte: ["Bewahr den Booster dort auf, wo du ihn schnell findest.", "Starte bei den ersten Anzeichen sofort.", "Gönn dir dann Ruhe und schlaf genug."] }
+  };
+  var IB_EXTRA = {
+    akut: { art: "Was dir zusätzlich hilft", icon: "z-abend", titel: "Ruhe für deinen Körper", text: "In der Akutphase braucht dein Körper vor allem Ruhe.", schritte: ["Schlaf genug und schalt einen Gang zurück.", "Trink viel, zum Beispiel warmen Tee. Den Booster nur in Tee unter 40 °C rühren.", "Viele nehmen OMNI9 weiter und den Booster für ein paar Tage dazu."] },
+    vorbeugend: { art: "Für die Erkältungszeit", icon: "t-flocke", titel: "Gut vorbereitet", text: "Vorbeugen heißt vor allem: Dein Körper bekommt, was er braucht, und du bist vorbereitet.", schritte: ["Schlaf ausreichend, gerade in stressigen Wochen.", "Geh jeden Tag raus, auch bei grauem Wetter.", "Halt immer ein Glas Booster als Vorrat bereit."] }
   };
   var QUIZ = {
     ns: [{ id: "ziel", frage: "Was soll sich als Erstes ändern?", quelle: ZIELE }, { id: "zeit", frage: "Wann bremst es dich am meisten aus?", quelle: ZEITEN }, { id: "alltag", frage: "Wie sieht dein Alltag aus?", quelle: ALLTAG }],
     ib: [{ id: "modus", frage: "Wofür nimmst du den Booster gerade?", quelle: IB_MODUS }, { id: "kontakt", frage: "Wo hast du gerade viel Kontakt?", quelle: IB_KONTAKT }]
   };
   var ACHSEN_NAMEN = { 1: "Entzündung", 2: "Darm", 3: "Zellenergie", 4: "Stress", 5: "Gehirn und Fokus", 6: "Immunsystem", 7: "Herz und Gefäße", 8: "Leber", 9: "Bioverfügbarkeit" };
-  function planGueltig(produkt, a) {
-    if (!a) return false;
-    return produkt === "ns" ? !!(ZIELE[a.ziel] && ZEITEN[a.zeit] && ALLTAG[a.alltag]) : !!(IB_MODUS[a.modus] && IB_KONTAKT[a.kontakt]);
-  }
+  function tipp(art, icon, q) { return { art: art, icon: icon, titel: q.titel, text: q.text, schritte: q.schritte || [] }; }
   function planTipps(produkt, a) {
-    if (produkt === "ns") return [
-      { titel: "Mit OMNI9", text: ZIELE[a.ziel].produkt },
-      { titel: ZEITEN[a.zeit].titel, text: ZEITEN[a.zeit].tipp },
-      { titel: "Für deinen Alltag", text: ALLTAG[a.alltag].tipp },
-      { titel: "Woran du Fortschritt merkst", text: ZIELE[a.ziel].fortschritt }
-    ];
-    var akut = a.modus === "akut";
-    return [
-      { titel: "So nimmst du ihn", text: akut ? "1 Teelöffel (ca. 10 g) morgens, mittags und abends, 5 bis 10 Tage lang. Starte am besten sofort." : "In der Erkältungszeit 1 Teelöffel am Tag, besonders in Phasen mit viel Kontakt." },
-      { titel: "Für deinen Alltag", text: IB_KONTAKT[a.kontakt].tipp },
-      { titel: akut ? "So geht es leichter" : "Wenn es doch losgeht", text: akut ? "Pur vom Löffel oder in warmem Tee unter 40 °C." : "Merkst du erste Anzeichen, wechsle in die Akutphase: 3-mal am Tag 1 Teelöffel." },
-      { titel: "Gut zu wissen", text: "Bei einer Allergie gegen Bienenprodukte bitte verzichten. Bei Schwangerschaft, Stillzeit oder Medikamenten vorher mit Arzt oder Apotheke sprechen." }
-    ];
+    if (produkt === "ns") {
+      var z = ZIELE[a.ziel], zeit = ZEITEN[a.zeit], alltag = ALLTAG[a.alltag];
+      return [tipp("Mit OMNI9", "i-loeffel-linie", z.produkt), tipp(zeit.art, zeit.icon, zeit), tipp(alltag.art, alltag.icon, alltag), tipp("Woran du Fortschritt merkst", z.icon, z.fortschritt)];
+    }
+    var m = IB_MODUS[a.modus], k = IB_KONTAKT[a.kontakt], extra = IB_EXTRA[a.modus];
+    return [tipp(m.art, m.icon, m), tipp(k.art, k.icon, k), tipp(extra.art, extra.icon, extra),
+      tipp("Gut zu wissen", "i-hilfe", { titel: "Sicher anwenden", text: "Bei einer Allergie gegen Bienenprodukte bitte verzichten. Bei Schwangerschaft, Stillzeit, chronischen Erkrankungen oder wenn du Medikamente nimmst, sprich vorher kurz mit Arzt oder Apotheke.", schritte: a.modus === "akut" ? [WARNUNG] : [] })];
   }
   var quiz = document.getElementById("quiz");
   var quizHonig = glasEinsetzen(quiz.querySelector("[data-glas]"));
   var quizZustand = { produkt: "ns", schritt: 0, antworten: {} };
-  function quizOeffnen(produkt, antworten, modusVorgabe) {
-    quizZustand = { produkt: produkt, schritt: antworten ? QUIZ[produkt].length : modusVorgabe ? 1 : 0, antworten: antworten ? Object.assign({}, antworten) : modusVorgabe ? { modus: modusVorgabe } : {} };
+  function quizOeffnen(produkt) {
+    quizZustand = { produkt: produkt, schritt: 0, antworten: {} };
     if (!quiz.open) quiz.showModal();
     quizRendern();
   }
@@ -2374,6 +2258,7 @@ body.chat-offen .chat-fenster { display: flex; }
     glasFuellen(quizHonig, quizZustand.schritt / n);
     koerper.innerHTML = "";
     fuss.innerHTML = "";
+    quiz.scrollTop = 0;
     if (quizZustand.schritt >= n) { quizErgebnis(koerper, fuss, schritt, titel); return; }
     var f = fragenListe[quizZustand.schritt];
     schritt.textContent = "Frage " + (quizZustand.schritt + 1) + " von " + n;
@@ -2401,7 +2286,7 @@ body.chat-offen .chat-fenster { display: flex; }
       var achsen = element("div", "plan-achsen");
       achsen.appendChild(element("p", null, "Diese Achsen arbeiten für dein Ziel:"));
       ZIELE[a.ziel].achsen.forEach(function (nr) {
-        achsen.appendChild(knopfMit(ACHSEN_NAMEN[nr], "achse-chip", function () { planSpeichern(); quiz.close(); achseOeffnen(nr); }));
+        achsen.appendChild(knopfMit(ACHSEN_NAMEN[nr], "achse-chip", function () { quiz.close(); achseOeffnen(nr); }));
       });
       box.appendChild(achsen);
     } else {
@@ -2409,97 +2294,44 @@ body.chat-offen .chat-fenster { display: flex; }
     }
     var tipps = element("ul", "plan-tipps");
     planTipps(p, a).forEach(function (t) {
-      var li = element("li");
-      li.append(element("b", null, t.titel), element("span", null, t.text));
+      var li = element("li"), bild = element("span", "q-ikon"), inhalt = element("div");
+      bild.appendChild(ikon(t.icon));
+      inhalt.append(element("p", "plan-art", t.art), element("h3", null, t.titel), element("p", null, t.text));
+      if (t.schritte.length) {
+        var schritte = element("ul", "haken-liste plan-schritte");
+        t.schritte.forEach(function (s) {
+          var zeile = element("li");
+          zeile.append(ikon("haken"), element("span", null, s));
+          schritte.appendChild(zeile);
+        });
+        inhalt.appendChild(schritte);
+      }
+      li.append(bild, inhalt);
       tipps.appendChild(li);
     });
     box.appendChild(tipps);
     if (p === "ns" && ZIELE[a.ziel].booster) {
       var extra = element("p", "plan-extra");
       var zumBooster = linkMit("Immun Booster ansehen", "text-link", "#immun-booster");
-      zumBooster.addEventListener("click", function () { planSpeichern(); quiz.close(); });
+      zumBooster.addEventListener("click", function () { quiz.close(); });
       extra.appendChild(zumBooster);
       box.appendChild(extra);
     }
     koerper.appendChild(box);
-    var speichern = knopfMit("Plan speichern", "knopf gold", function () { planSpeichern(); quiz.close(); });
-    fuss.append(knopfMit("Nochmal von vorn", "text-link", function () { quizZustand.schritt = 0; quizZustand.antworten = {}; quizRendern(); }), speichern);
-    speichern.focus({ preventScroll: true });
-  }
-  function planSpeichern() {
-    var p = quizZustand.produkt, a = quizZustand.antworten;
-    if (!planGueltig(p, a)) return;
-    daten.ziel[p] = Object.assign({}, a);
-    if (p === "ib" && daten.ib.modus !== a.modus) { daten.ib.modus = a.modus; daten.ib.start = heute(); }
-    sichern();
-    allesZeigen();
-    if (p === "ns") achseVorwaehlen();
+    var fertig = knopfMit("Fertig", "knopf gold", function () { quiz.close(); });
+    fuss.append(knopfMit("Nochmal von vorn", "text-link", function () { quizZustand.schritt = 0; quizZustand.antworten = {}; quizRendern(); }), fertig);
+    fertig.focus({ preventScroll: true });
   }
   quiz.addEventListener("click", function (e) { if (e.target === quiz) quiz.close(); });
-
-  /* Ziel-Zeile im Überblick: Quiz starten oder Plan mit Tipp des Tages zeigen */
-  var bewegungAus = matchMedia("(prefers-reduced-motion: reduce)").matches;
-  function tagesZahl() { var st = nsStand(), h = heute(); return st ? st.tag : tageZwischen(h.slice(0, 4) + "-01-01", h) + 1; }
-  function zielZeileNS() {
-    var box = nsBox.querySelector("[data-ziel]"), a = daten.ziel.ns;
-    var bild = element("span", "ziel-ikon"), text = element("div"), aktion = element("div", "ziel-aktion");
-    box.innerHTML = "";
-    if (!planGueltig("ns", a)) {
-      bild.appendChild(ikon("z-fokus"));
-      text.append(element("h3", null, "Was ist dein Ziel?"), element("p", null, "3 kurze Fragen, dann bekommst du deinen Plan mit Tipps für jeden Tag."));
-      aktion.appendChild(knopfMit("Ziel finden", "knopf gold", function () { quizOeffnen("ns"); }));
-      box.append(bild, text, aktion);
-      return;
-    }
-    var info = ZIELE[a.ziel], tipps = planTipps("ns", a), tipp = tipps[(tagesZahl() - 1) % tipps.length];
-    var zeile = element("p");
-    zeile.append(element("b", null, "Tipp des Tages: "), tipp.text);
-    bild.appendChild(ikon(info.icon));
-    text.append(element("h3", null, "Dein Ziel: " + info.name), zeile);
-    aktion.append(knopfMit("Ganzen Plan ansehen", "text-link", function () { quizOeffnen("ns", a); }), knopfMit("Ziel ändern", "text-link", function () { quizOeffnen("ns"); }));
-    var achsen = element("div", "ziel-achsen");
-    info.achsen.forEach(function (nr) { achsen.appendChild(knopfMit(ACHSEN_NAMEN[nr], "achse-chip", function () { achseOeffnen(nr); })); });
-    box.append(bild, text, aktion, achsen);
-  }
-  function zielZeileIB() {
-    var box = ibBox.querySelector("[data-ziel]"), a = daten.ziel.ib;
-    var bild = element("span", "ziel-ikon"), text = element("div"), aktion = element("div", "ziel-aktion");
-    box.innerHTML = "";
-    box.hidden = !daten.ib.modus;
-    if (box.hidden) return;
-    if (!planGueltig("ib", a)) {
-      bild.appendChild(ikon("t-schild"));
-      text.append(element("h3", null, "Passende Tipps in 2 Fragen"), element("p", null, "Sag uns, wo du gerade viel Kontakt hast. Dann bekommst du deinen Plan."));
-      aktion.appendChild(knopfMit("Plan erstellen", "knopf gold", function () { quizOeffnen("ib", null, daten.ib.modus); }));
-      box.append(bild, text, aktion);
-      return;
-    }
-    var zeile = element("p");
-    zeile.append(element("b", null, "Dein Tipp: "), IB_KONTAKT[a.kontakt].tipp);
-    bild.appendChild(ikon(IB_KONTAKT[a.kontakt].icon));
-    text.append(element("h3", null, daten.ib.modus === "akut" ? "Dein Akut-Plan" : "Dein Plan zum Vorbeugen"), zeile);
-    aktion.append(knopfMit("Ganzen Plan ansehen", "text-link", function () { quizOeffnen("ib", Object.assign({}, a, { modus: daten.ib.modus })); }), knopfMit("Plan ändern", "text-link", function () { quizOeffnen("ib"); }));
-    box.append(bild, text, aktion);
-  }
   document.querySelectorAll("[data-quiz]").forEach(function (b) { b.addEventListener("click", function () { quizOeffnen(b.dataset.quiz); }); });
 
-  /* Achse aus Ziel oder Plan öffnen; die Achsen des Ziels sind im Kapitel Inhalt markiert */
+  /* Achse aus dem Plan öffnen */
   function achseOeffnen(nr) {
     var tab = document.getElementById("ns-achse-" + nr + "-tab");
     if (!tab) return;
     if (location.hash !== "#ns-inhalt") location.hash = "#ns-inhalt";
     tab.click();
     setTimeout(function () { tab.closest(".block").scrollIntoView({ behavior: bewegungAus ? "auto" : "smooth", block: "start" }); }, 150);
-  }
-  function achseVorwaehlen() {
-    var a = daten.ziel.ns;
-    document.querySelectorAll("#ns-inhalt .achsen-liste [role=tab]").forEach(function (t) { t.classList.remove("fuer-ziel"); t.removeAttribute("title"); });
-    if (!planGueltig("ns", a)) return;
-    ZIELE[a.ziel].achsen.forEach(function (nr) {
-      var t = document.getElementById("ns-achse-" + nr + "-tab");
-      if (t) { t.classList.add("fuer-ziel"); t.title = "Wichtig für dein Ziel"; }
-    });
-    document.getElementById("ns-achse-" + ZIELE[a.ziel].achsen[0] + "-tab").click();
   }
 
   /* Produkt wechseln: gleiches Kapitel beim anderen Produkt */
@@ -2623,14 +2455,8 @@ body.chat-offen .chat-fenster { display: flex; }
   });
   document.querySelectorAll("[data-dialog-zu]").forEach(function (b) { b.addEventListener("click", function () { b.closest("dialog").close(); }); });
   appDialog.addEventListener("click", function (e) { if (e.target === appDialog) appDialog.close(); });
-  /* Als App gestartet: gleich beim zuletzt geöffneten Produkt weitermachen */
-  window.addEventListener("hashchange", function () {
-    var z = ziel(), s = z && (z.classList.contains("seite") ? z : z.closest(".seite"));
-    if (s && s.id !== "start" && daten.zuletzt !== s.id) { daten.zuletzt = s.id; sichern(); }
-  });
-  if (alsApp && !location.hash && daten.zuletzt && document.getElementById(daten.zuletzt)) location.replace("#" + daten.zuletzt);
 
-  /* Zeitleisten: der aktuelle Schritt kommt aus dem persönlichen Stand */
+  /* Zeitleisten in „30 Tage“ und „Akutphase“: der Regler markiert den aktuellen Schritt */
   function stufenSetzen(liste, nr, persoenlich) {
     if (!liste) return;
     liste.classList.toggle("persoenlich", persoenlich);
@@ -2640,20 +2466,8 @@ body.chat-offen .chat-fenster { display: flex; }
       if (i === nr) li.setAttribute("aria-current", "step"); else li.removeAttribute("aria-current");
     });
   }
-  function zeitleisteMarkieren() {
-    var st = nsStand(), ib = ibStand();
-    stufenSetzen(document.querySelector("#ns-30 .zeitleiste"), !st ? 0 : st.rest <= 7 ? 3 : st.tag <= 3 ? 0 : st.tag <= 14 ? 1 : 2, !!st);
-    stufenSetzen(document.querySelector("#ib-plan .zeitleiste"), !ib ? 0 : ib.rest <= 5 ? 3 : ib.modus === "akut" ? 1 : 2, !!ib);
-  }
-  function allesZeigen() {
-    nsZeigen();
-    ibZeigen();
-    zielZeileNS();
-    zielZeileIB();
-    zeitleisteMarkieren();
-  }
-  allesZeigen();
-  achseVorwaehlen();
+  fortschritt(NS_FORTSCHRITT);
+  fortschritt(IB_FORTSCHRITT);
 
   navMarkieren();
   if (params.get("chat") === "demo") {
