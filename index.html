@@ -42,30 +42,21 @@ h3 { font-size: 15px; font-weight: 600; }
 body:has(.seite:target:not(#start)) #start, body:has(.seite:not(#start) :target) #start { display: none; }
 .start, .hauptbereich { background: radial-gradient(55% 360px at 0 0, rgba(238, 208, 148, .34), rgba(238, 208, 148, 0)), radial-gradient(45% 340px at 100% 100%, rgba(242, 208, 186, .28), rgba(242, 208, 186, 0)), #fff; }
 
-/* Startseite: nur das Eingabefeld, Vorschläge beim Tippen */
+/* Startseite: beide Produkte zur Auswahl */
 .start { grid-template-rows: auto 1fr auto; }
 .start-logo { display: block; height: 22px; width: auto; margin: 34px 0 0 40px; }
 .start-mitte { align-self: center; width: 100%; max-width: 720px; margin: 0 auto; padding: 0 24px 56px; text-align: center; }
 .hub-bild { display: block; width: 236px; height: auto; margin: 0 auto; }
 .start h1 { margin-top: 10px; font-size: 38px; }
 .hub-unter { max-width: 520px; margin: 12px auto 0; font-size: 17px; color: #45413b; text-wrap: balance; }
-.such-box { position: relative; max-width: 640px; margin: 30px auto 0; text-align: left; }
-.hub-suche { display: flex; align-items: center; gap: 12px; height: 56px; padding: 0 18px; background: #fff; border-radius: 14px; box-shadow: 0 0 0 1px #ece6db, 0 18px 40px -26px rgba(28, 32, 41, .4); cursor: text; }
-.hub-suche:focus-within { box-shadow: 0 0 0 1.5px var(--gold), 0 18px 40px -26px rgba(28, 32, 41, .4); }
-.hub-suche svg { flex: none; width: 19px; height: 19px; color: var(--gold-dunkel); }
-.hub-suche input { flex: 1; min-width: 0; height: 100%; border: 0; outline: 0; background: transparent; font: inherit; font-size: 16px; color: var(--text); }
-.hub-suche input::placeholder { color: #9a958b; }
-.vorschlaege { position: absolute; left: 0; right: 0; top: calc(100% + 8px); z-index: 10; padding: 6px; background: #fff; border-radius: 14px; box-shadow: 0 0 0 1px #ece6db, 0 24px 50px -24px rgba(28, 32, 41, .45); }
-.vorschlaege[hidden] { display: none; }
-.vorschlag { display: grid; grid-template-columns: 44px minmax(0, 1fr) 16px; gap: 12px; align-items: center; padding: 8px 10px; border-radius: 10px; }
-.vorschlag:hover { background: var(--hell); }
-.vorschlag[aria-selected="true"] { background: var(--honig); }
-.vorschlag img { width: 44px; height: 44px; border-radius: 10px; object-fit: cover; object-position: center 30%; }
-.vorschlag b { display: block; font-size: 15px; font-weight: 600; line-height: 1.3; }
-.vorschlag mark { background: none; color: var(--gold-dunkel); }
-.vorschlag small { display: block; margin-top: 1px; font-size: 13px; color: var(--muted); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
-.vorschlag svg { width: 16px; height: 16px; color: #a29c91; }
-.vorschlag-hinweis { padding: 8px 10px 6px; font-size: 13px; color: var(--muted); }
+.produkt-wahl { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 14px; max-width: 640px; margin: 30px auto 0; text-align: left; }
+.wahl { display: grid; grid-template-columns: 64px minmax(0, 1fr) 18px; gap: 14px; align-items: center; padding: 14px 16px; background: #fff; border-radius: 16px; box-shadow: 0 0 0 1px #ece6db, 0 18px 40px -26px rgba(28, 32, 41, .4); }
+.wahl:hover { box-shadow: 0 0 0 1.5px var(--gold), 0 18px 40px -26px rgba(28, 32, 41, .4); }
+.wahl img { width: 64px; height: 64px; border-radius: 12px; object-fit: cover; object-position: center 30%; }
+.wahl b { display: block; font-size: 16px; font-weight: 600; line-height: 1.3; }
+.wahl small { display: block; margin-top: 3px; font-size: 13px; line-height: 1.4; color: var(--muted); }
+.wahl svg { width: 18px; height: 18px; color: var(--gold-dunkel); }
+.wahl-hinweis { max-width: 640px; margin: 16px auto 0; font-size: 13px; color: var(--muted); }
 .start-recht { display: flex; flex-wrap: wrap; justify-content: center; gap: 4px 16px; padding: 0 20px 24px; font-size: 12px; color: #8d887f; }
 
 /* Produktseite: links die Kapitel, rechts immer nur ein Kapitel */
@@ -89,8 +80,6 @@ button.mein-produkt:hover, button.mein-produkt[aria-expanded="true"] { backgroun
 .produkt-menue b { display: block; font-size: 14px; font-weight: 600; line-height: 1.3; }
 .produkt-menue small { display: block; font-size: 12.5px; color: var(--muted); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
 .produkt-menue svg { width: 16px; height: 16px; color: var(--gold-dunkel); }
-.produkt-menue .menue-suche { margin-top: 4px; border-top: 1px solid var(--line); border-radius: 0 0 10px 10px; }
-.menue-lupe { width: 40px; height: 40px; border-radius: 10px; background: var(--hell); display: flex; align-items: center; justify-content: center; }
 .nav { display: grid; gap: 6px; margin-top: 16px; }
 .nav-punkt { display: flex; align-items: center; gap: 13px; height: 46px; padding: 0 14px; border-radius: 12px; font-size: 15px; color: #45413b; }
 .nav-punkt svg { flex: none; width: 22px; height: 22px; color: #6f6a62; }
@@ -577,12 +566,10 @@ body.chat-offen .chat-fenster { display: flex; }
   .rahmen { width: auto; max-width: none; min-height: 100vh; margin: 0; border-radius: 0; box-shadow: none; overflow: visible; }
   .start-logo { height: 20px; margin: 20px 0 0 20px; }
   .start-mitte { align-self: start; padding: 26px 18px 40px; }
-  .start-mitte:focus-within .hub-bild { display: none; }
   .hub-bild { width: 210px; }
   .start h1 { font-size: 28px; }
   .hub-unter { font-size: 15.5px; }
-  .such-box { margin-top: 24px; }
-  .hub-suche { height: 52px; }
+  .produkt-wahl { grid-template-columns: minmax(0, 1fr); margin-top: 24px; }
   .produkt { grid-template-columns: minmax(0, 1fr); }
   .seitenleiste { display: none; }
   .hauptbereich { background: radial-gradient(100% 320px at 0 0, rgba(238, 208, 148, .3), rgba(238, 208, 148, 0)), #fff; }
@@ -689,7 +676,6 @@ body.chat-offen .chat-fenster { display: flex; }
 </head>
 <body>
 <svg width="0" height="0" style="position:absolute" aria-hidden="true">
-  <symbol id="lupe" viewBox="0 0 20 20"><circle cx="8.5" cy="8.5" r="6" fill="none" stroke="currentColor" stroke-width="2"/><path d="M13 13l5 5" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></symbol>
   <symbol id="pfeil" viewBox="0 0 20 20"><path d="M7.5 4.5L13 10l-5.5 5.5" fill="none" stroke="#1c2029" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></symbol>
   <symbol id="zurueck" viewBox="0 0 16 16"><path d="M10 3L5 8l5 5" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></symbol>
   <symbol id="haken" viewBox="0 0 20 20"><circle cx="10" cy="10" r="10" fill="#faf6ee"/><circle cx="10" cy="10" r="9.25" fill="none" stroke="#e2c88f" stroke-width="1.5"/><path d="M6 10.3l2.6 2.6L14 7.4" fill="none" stroke="#8a6219" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></symbol>
@@ -753,7 +739,7 @@ body.chat-offen .chat-fenster { display: flex; }
 
 <div class="rahmen">
 
-<!-- Start: leer, nur das Eingabefeld -->
+<!-- Start: beide Produkte zur Auswahl -->
 <section class="seite start" id="start">
   <img class="start-logo" src="bilder/omni9-logo.svg" alt="OMNI9">
   <div class="start-mitte">
@@ -798,17 +784,18 @@ body.chat-offen .chat-fenster { display: flex; }
       <circle cx="186" cy="22" r="1.8" fill="#c99a45"/>
     </svg>
     <h1>Welches Produkt hast du gekauft?</h1>
-    <p class="hub-unter">Gib den Namen auf deinem Glas ein. Dann bekommst du alles für deinen Start.</p>
-    <div class="such-box">
-      <label class="hub-suche"><svg><use href="#lupe"/></svg><input id="suche" type="search" autocomplete="off" placeholder="Zum Beispiel Nutrition-System" aria-label="Produkt eingeben" role="combobox" aria-autocomplete="list" aria-expanded="false" aria-controls="vorschlaege"></label>
-      <div class="vorschlaege" id="vorschlaege" role="listbox" aria-label="Vorschläge" hidden></div>
+    <p class="hub-unter">Wähl dein Produkt. Dann bekommst du alles für deinen Start.</p>
+    <div class="produkt-wahl">
+      <a class="wahl" href="#nutrition-system"><img src="bilder/ns-glas.jpg" alt=""><span><b>Bioaktives Nutrition-System</b><small>Deine tägliche Basis, 1 Teelöffel pro Tag</small></span><svg aria-hidden="true"><use href="#i-weiter"/></svg></a>
+      <a class="wahl" href="#immun-booster"><img src="bilder/ib-glas.jpg" alt=""><span><b>Immun Booster</b><small>Akut-Unterstützung, wenn ein Infekt kommt</small></span><svg aria-hidden="true"><use href="#i-weiter"/></svg></a>
     </div>
+    <p class="wahl-hinweis">Set gekauft? Darin stecken beide Produkte. Starte am besten mit dem Nutrition-System.</p>
   </div>
   <p class="start-recht"><a href="https://omni9.de/policies/legal-notice" target="_blank" rel="noopener">Impressum</a><a href="https://omni9.de/policies/privacy-policy" target="_blank" rel="noopener">Datenschutz</a><a href="https://omni9.de/policies/refund-policy" target="_blank" rel="noopener">Widerrufsrecht</a><a href="https://omni9.de/policies/terms-of-service" target="_blank" rel="noopener">AGB</a></p>
 </section>
 
 <!-- Produkt: Nutrition-System -->
-<section class="seite produkt" id="nutrition-system" data-name="Bioaktives Nutrition-System" data-kurz="Deine tägliche Basis, 1 Teelöffel pro Tag" data-suche="omni9 omni 9 nutrition system bioaktiv bioactive basis täglich honig buchweizen set 3er 5er">
+<section class="seite produkt" id="nutrition-system" data-name="Bioaktives Nutrition-System" data-kurz="Deine tägliche Basis, 1 Teelöffel pro Tag">
   <aside class="seitenleiste">
     <div class="logo-zeile"><img src="bilder/omni9-logo.svg" alt="OMNI9"></div>
     <button class="mein-produkt" type="button" title="Produkt wechseln" data-produktwahl aria-haspopup="menu" aria-expanded="false" aria-controls="produkt-menue"><img src="bilder/ns-glas.jpg" alt=""><span><small>Dein Produkt</small><b>Nutrition-System</b></span><svg><use href="#i-runter"/></svg></button>
@@ -1258,7 +1245,7 @@ body.chat-offen .chat-fenster { display: flex; }
 </section>
 
 <!-- Produkt: Immun Booster -->
-<section class="seite produkt" id="immun-booster" data-name="Immun Booster" data-kurz="Akut-Unterstützung, wenn ein Infekt kommt" data-suche="omni9 omni 9 immun booster immunbooster bioactive abwehr infekt erkältung akut propolis honig set 3er 5er">
+<section class="seite produkt" id="immun-booster" data-name="Immun Booster" data-kurz="Akut-Unterstützung, wenn ein Infekt kommt">
   <aside class="seitenleiste">
     <div class="logo-zeile"><img src="bilder/omni9-logo.svg" alt="OMNI9"></div>
     <button class="mein-produkt" type="button" title="Produkt wechseln" data-produktwahl aria-haspopup="menu" aria-expanded="false" aria-controls="produkt-menue"><img src="bilder/ib-glas.jpg" alt=""><span><small>Dein Produkt</small><b>Immun Booster</b></span><svg><use href="#i-runter"/></svg></button>
@@ -1642,99 +1629,8 @@ body.chat-offen .chat-fenster { display: flex; }
 <script>
 (function () {
   var PRODUKTE = Array.prototype.map.call(document.querySelectorAll(".seite.produkt"), function (s) {
-    return { id: s.id, name: s.dataset.name, kurz: s.dataset.kurz, bild: s.querySelector(".p-bild img").getAttribute("src"), woerter: norm(s.dataset.name + " " + s.dataset.suche).split(" ") };
+    return { id: s.id, name: s.dataset.name, kurz: s.dataset.kurz, bild: s.querySelector(".p-bild img").getAttribute("src") };
   });
-  var feld = document.getElementById("suche");
-  var liste = document.getElementById("vorschlaege");
-  var gewaehlt = -1;
-
-  /* Vorschläge beim Tippen: jedes Wort muss zum Produkt passen, Wortanfänge zählen mehr */
-  function finden(roh) {
-    var teile = norm(roh).split(" ").filter(Boolean);
-    return PRODUKTE.map(function (p) {
-      var punkte = 0;
-      var passt = teile.length > 0 && teile.every(function (t) {
-        var best = 0;
-        p.woerter.forEach(function (w) {
-          if (w.indexOf(t) === 0) best = 3;
-          else if (!best && t.length > 2 && w.indexOf(t) > -1) best = 1;
-        });
-        punkte += best;
-        return best > 0;
-      });
-      if (norm(p.name).indexOf(teile.join(" ")) === 0) punkte += 2;
-      return passt ? { p: p, punkte: punkte } : null;
-    }).filter(Boolean).sort(function (a, b) { return b.punkte - a.punkte; }).map(function (t) { return t.p; });
-  }
-  function vorschlag(p, i, roh) {
-    var a = document.createElement("a");
-    a.className = "vorschlag";
-    a.id = "vorschlag-" + i;
-    a.href = "#" + p.id;
-    a.setAttribute("role", "option");
-    var bild = document.createElement("img");
-    bild.src = p.bild;
-    bild.alt = "";
-    var name = document.createElement("b");
-    var pos = roh ? p.name.toLowerCase().indexOf(roh.toLowerCase()) : -1;
-    if (pos > -1) {
-      var mark = document.createElement("mark");
-      mark.textContent = p.name.slice(pos, pos + roh.length);
-      name.append(p.name.slice(0, pos), mark, p.name.slice(pos + roh.length));
-    } else name.textContent = p.name;
-    var kurz = document.createElement("small");
-    kurz.textContent = p.kurz;
-    var text = document.createElement("span");
-    text.append(name, kurz);
-    a.append(bild, text);
-    a.insertAdjacentHTML("beforeend", '<svg aria-hidden="true"><use href="#i-weiter"/></svg>');
-    return a;
-  }
-  function hinweis(text) {
-    var p = document.createElement("p");
-    p.className = "vorschlag-hinweis";
-    p.textContent = text;
-    return p;
-  }
-  function listeZu() {
-    liste.hidden = true;
-    feld.setAttribute("aria-expanded", "false");
-    feld.removeAttribute("aria-activedescendant");
-  }
-  function markieren() {
-    liste.querySelectorAll(".vorschlag").forEach(function (o, i) { o.setAttribute("aria-selected", i === gewaehlt ? "true" : "false"); });
-    if (gewaehlt > -1) feld.setAttribute("aria-activedescendant", "vorschlag-" + gewaehlt);
-    else feld.removeAttribute("aria-activedescendant");
-  }
-  function vorschlagen() {
-    var roh = feld.value.trim();
-    liste.innerHTML = "";
-    if (!roh) { listeZu(); return; }
-    var treffer = finden(roh);
-    if (!treffer.length) liste.appendChild(hinweis("Kein Produkt zu „" + roh + "“ gefunden. Diese Produkte gibt es:"));
-    (treffer.length ? treffer : PRODUKTE).forEach(function (p, i) { liste.appendChild(vorschlag(p, i, treffer.length ? roh : "")); });
-    if (/(^| )(set|sets|3er|5er|kombi|bundle)( |$)/.test(norm(roh))) liste.appendChild(hinweis("Set gekauft? Darin stecken beide Produkte. Starte am besten mit dem Nutrition-System."));
-    gewaehlt = treffer.length ? 0 : -1;
-    markieren();
-    liste.hidden = false;
-    feld.setAttribute("aria-expanded", "true");
-  }
-  feld.addEventListener("input", vorschlagen);
-  feld.addEventListener("focus", vorschlagen);
-  feld.addEventListener("keydown", function (e) {
-    var optionen = liste.querySelectorAll(".vorschlag");
-    var n = optionen.length;
-    if ((e.key === "ArrowDown" || e.key === "ArrowUp") && n && !liste.hidden) {
-      e.preventDefault();
-      var runter = e.key === "ArrowDown";
-      gewaehlt = gewaehlt < 0 ? (runter ? 0 : n - 1) : (gewaehlt + (runter ? 1 : n - 1)) % n;
-      markieren();
-    } else if (e.key === "Enter") {
-      e.preventDefault();
-      if (gewaehlt > -1 && optionen[gewaehlt]) location.hash = optionen[gewaehlt].getAttribute("href");
-    } else if (e.key === "Escape") listeZu();
-  });
-  document.addEventListener("click", function (e) { if (!e.target.closest(".such-box")) listeZu(); });
 
   /* Kapitel: Ziel aus der Adresse, die Produktseite allein zeigt den Überblick */
   function ziel() {
@@ -1752,13 +1648,10 @@ body.chat-offen .chat-fenster { display: flex; }
   }
   window.addEventListener("hashchange", function () {
     var z = ziel();
-    if (!z || z.id === "start") { feld.value = ""; vorschlagen(); }
     if (!z || z.classList.contains("seite") || z.classList.contains("ansicht")) window.scrollTo({ top: 0, behavior: "instant" });
     navMarkieren();
   });
   var params = new URLSearchParams(location.search);
-  if (params.get("q")) { feld.value = params.get("q"); vorschlagen(); }
-  else if (!location.hash && matchMedia("(min-width: 1000px) and (pointer: fine)").matches) feld.focus();
 
   /* Chat: Antworten nur aus den Produktinfos und Richtlinien von omni9.de.
      p = Produkt (alle, ns, ib), k = Stichwörter, w = schwache Stichwörter, l = Links [Text, Ziel]. */
@@ -2526,13 +2419,6 @@ body.chat-offen .chat-fenster { display: flex; }
       a.addEventListener("click", menueZu);
       menue.appendChild(a);
     });
-    var suche = linkMit("", "menue-suche", "#start");
-    suche.setAttribute("role", "menuitem");
-    var lupe = element("span", "menue-lupe");
-    lupe.appendChild(ikon("lupe"));
-    suche.append(lupe, element("b", null, "Anderes Produkt suchen"));
-    suche.addEventListener("click", menueZu);
-    menue.appendChild(suche);
   }
   function menueAuf(knopf) {
     menueBauen(knopf);
