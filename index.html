@@ -148,6 +148,14 @@ button.mein-produkt:hover, button.mein-produkt[aria-expanded="true"] { backgroun
 .vorrat-ikon svg { width: 24px; height: 24px; }
 .vorrat p:not(.oberzeile) { margin-top: 4px; font-size: 14.5px; color: #45413b; }
 .vorrat .text-link { display: inline-block; margin-top: 6px; }
+/* Dein Stand: Erinnerungen in den Kalender, gespeichert wird nichts */
+.erinnern { display: grid; grid-template-columns: 48px minmax(0, 1fr) auto; gap: 14px 18px; align-items: center; padding: 18px 22px; border-radius: 18px; background: linear-gradient(160deg, #fffaf0 0%, #f6ecd6 100%); border: 1px solid #ecdcb6; }
+.erinnern-ikon { width: 48px; height: 48px; border-radius: 14px; background: var(--gold); display: flex; align-items: center; justify-content: center; color: var(--nacht); }
+.erinnern-ikon svg { width: 24px; height: 24px; }
+.erinnern p { margin-top: 2px; font-size: 14.5px; color: #45413b; }
+.erinnern-knoepfe { display: flex; flex-wrap: wrap; gap: 10px; }
+.erinnern .knopf { margin-top: 0; min-height: 44px; padding: 8px 16px; font-size: 14px; }
+.erinnern .knopf svg { flex: none; width: 18px; height: 18px; }
 
 .video { position: relative; display: block; width: 100%; aspect-ratio: 16 / 9; padding: 0; border: 0; border-radius: 12px; overflow: hidden; color: #fff; background: var(--nacht-2); text-align: left; cursor: pointer; }
 .video img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; }
@@ -568,6 +576,8 @@ body.chat-offen .chat-fenster { display: flex; }
   .bild-links { grid-template-columns: 1fr 1fr; }
   .bild-link img { aspect-ratio: 1; }
   .stimmen { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .erinnern { grid-template-columns: 48px minmax(0, 1fr); }
+  .erinnern-knoepfe { grid-column: 2 / -1; }
 }
 /* Handy: Kopfzeile mit Produkt, Kapitel unten als Leiste */
 @media (max-width: 999px) {
@@ -614,6 +624,9 @@ body.chat-offen .chat-fenster { display: flex; }
   .vorrat { grid-template-columns: 40px minmax(0, 1fr); gap: 12px; align-items: start; }
   .vorrat-ikon { width: 40px; height: 40px; border-radius: 12px; }
   .vorrat .knopf { grid-column: 1 / -1; }
+  .erinnern { grid-template-columns: 40px minmax(0, 1fr); gap: 12px 14px; padding: 16px; align-items: start; }
+  .erinnern-ikon { width: 40px; height: 40px; border-radius: 12px; }
+  .erinnern-knoepfe { grid-column: 1 / -1; display: grid; gap: 8px; }
   .optionen, .sets { grid-template-columns: minmax(0, 1fr); gap: 14px; }
   .option { padding: 24px 18px 20px; }
   .dazu-karte { grid-template-columns: 56px minmax(0, 1fr); gap: 14px; }
@@ -844,6 +857,14 @@ body.chat-offen .chat-fenster { display: flex; }
             <p class="unter">Alles für deinen Alltag mit OMNI9: so nimmst du es, so kommst du deinem Ziel näher, so bestellst du rechtzeitig nach.</p>
           </div>
         </header>
+        <section class="erinnern" aria-labelledby="ns-erinnern-titel">
+          <span class="erinnern-ikon"><svg><use href="#i-kalender-linie"/></svg></span>
+          <div><h2 id="ns-erinnern-titel">Lass dich erinnern</h2><p>Dein Kalender erinnert dich jeden Tag an deinen Teelöffel und rechtzeitig ans Nachbestellen. Der Hub speichert dabei nichts.</p></div>
+          <div class="erinnern-knoepfe">
+            <button class="knopf gold" type="button" data-erinnerung="ns-taeglich"><svg><use href="#i-kalender-linie"/></svg><span>Erinnere mich jeden Tag</span></button>
+            <button class="knopf hell" type="button" data-erinnerung="ns-nachbestellen"><svg><use href="#i-kalender-linie"/></svg><span>Erinnere mich ans Nachbestellen</span></button>
+          </div>
+        </section>
         <section class="saeulen" aria-label="Deine drei Säulen">
           <a class="saeule-karte" href="#ns-einnahme"><span class="saeule-name"><b>1</b>Produkt verstehen</span><b class="saeule-wert">1 Teelöffel am Tag</b><span class="saeule-text">Am besten immer zur gleichen Zeit. So nimmst du es, was drin ist und Antworten auf deine Fragen.</span><span class="saeule-link">Zur Einnahme<svg><use href="#i-weiter"/></svg></span></a>
           <a class="saeule-karte" href="#ns-tipps"><span class="saeule-name"><b>2</b>Näher an dein Ziel</span><b class="saeule-wert" data-ziel-wert="ns">Was soll sich als Erstes ändern?</b><span class="saeule-text" data-ziel-text="ns">3 kurze Fragen, dann bekommst du deinen Plan mit Tipps für deinen Alltag.</span><span class="saeule-link">Zu deinem Ziel<svg><use href="#i-weiter"/></svg></span></a>
@@ -1284,6 +1305,14 @@ body.chat-offen .chat-fenster { display: flex; }
             <p class="unter">Alles für deine Akutphase: so nimmst du ihn, so kommst du gut durch, so hast du rechtzeitig Nachschub.</p>
           </div>
         </header>
+        <section class="erinnern" aria-labelledby="ib-erinnern-titel">
+          <span class="erinnern-ikon"><svg><use href="#i-kalender-linie"/></svg></span>
+          <div><h2 id="ib-erinnern-titel">Lass dich erinnern</h2><p>In der Akutphase erinnert dich dein Kalender morgens, mittags und abends an deinen Teelöffel. Zum Vorbeugen reicht einmal am Tag. Der Hub speichert dabei nichts.</p></div>
+          <div class="erinnern-knoepfe">
+            <button class="knopf gold" type="button" data-erinnerung="ib-akut"><svg><use href="#i-kalender-linie"/></svg><span>Erinnere mich 3-mal am Tag</span></button>
+            <button class="knopf hell" type="button" data-erinnerung="ib-vorbeugend"><svg><use href="#i-kalender-linie"/></svg><span>Vorbeugend: 1-mal am Tag</span></button>
+          </div>
+        </section>
         <section class="saeulen" aria-label="Deine drei Säulen">
           <a class="saeule-karte" href="#ib-einnahme"><span class="saeule-name"><b>1</b>Produkt verstehen</span><b class="saeule-wert">3 Teelöffel am Tag</b><span class="saeule-text">In der Akutphase 5 bis 10 Tage lang. So nimmst du ihn, was drin ist und Antworten auf deine Fragen.</span><span class="saeule-link">Zur Einnahme<svg><use href="#i-weiter"/></svg></span></a>
           <a class="saeule-karte" href="#ib-tipps"><span class="saeule-name"><b>2</b>Näher an dein Ziel</span><b class="saeule-wert" data-ziel-wert="ib">Akutphase oder vorbeugen?</b><span class="saeule-text" data-ziel-text="ib">2 kurze Fragen, dann bekommst du Tipps, die zu deinem Alltag passen.</span><span class="saeule-link">Zu deinem Ziel<svg><use href="#i-weiter"/></svg></span></a>
