@@ -126,6 +126,9 @@ button.mein-produkt:hover, button.mein-produkt[aria-expanded="true"] { backgroun
 .p-bild img { display: block; width: 100%; height: 100%; object-fit: cover; object-position: center top; }
 .p-held h1 { margin-top: 2px; font-size: 32px; }
 .p-held .unter { margin-top: 6px; font-size: 16.5px; color: #45413b; }
+.versand-link { display: inline-flex; align-items: center; gap: 7px; margin-top: 10px; font-size: 14px; font-weight: 600; color: var(--gold-dunkel); }
+.versand-link svg { flex: none; width: 20px; height: 20px; }
+.versand-link:hover { text-decoration: underline; }
 .fakten { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 12px; }
 .fakten span { padding: 5px 12px; border-radius: 999px; background: #fff; box-shadow: inset 0 0 0 1px #ebe1cb; font-size: 12.5px; font-weight: 500; color: #4d4436; }
 .saeulen { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 14px; }
@@ -702,6 +705,7 @@ body.chat-offen .chat-fenster { display: flex; }
   <symbol id="haken" viewBox="0 0 20 20"><circle cx="10" cy="10" r="10" fill="#faf6ee"/><circle cx="10" cy="10" r="9.25" fill="none" stroke="#e2c88f" stroke-width="1.5"/><path d="M6 10.3l2.6 2.6L14 7.4" fill="none" stroke="#8a6219" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></symbol>
   <symbol id="plus" viewBox="0 0 18 18"><path d="M9 3v12M3 9h12" stroke="#1c2029" stroke-width="2" stroke-linecap="round"/></symbol>
   <symbol id="paket" viewBox="0 0 24 24"><path d="M12 2.8l8.2 4.4v9.6L12 21.2l-8.2-4.4V7.2z" fill="none" stroke="#8a6219" stroke-width="1.6" stroke-linejoin="round"/><path d="M3.8 7.2L12 11.6l8.2-4.4M12 11.6v9.6M7.9 5l8.2 4.4" fill="none" stroke="#8a6219" stroke-width="1.6" stroke-linejoin="round"/></symbol>
+  <symbol id="lieferwagen" viewBox="0 0 24 24"><g fill="none" stroke="#8a6219" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M2.8 6.5h10.7v9H2.8z"/><path d="M13.5 9.5h4.1l3.6 3.6v2.4h-7.7"/><circle cx="7.2" cy="17.6" r="1.8"/><circle cx="17.2" cy="17.6" r="1.8"/></g></symbol>
   <symbol id="kalender" viewBox="0 0 24 24"><rect x="3.5" y="5" width="17" height="15.5" rx="3" fill="none" stroke="#8a6219" stroke-width="1.6"/><path d="M3.5 10h17M8 3v4M16 3v4" stroke="#8a6219" stroke-width="1.6" stroke-linecap="round"/><path d="M8.5 14.5l2.2 2.2 4.8-4.6" fill="none" stroke="#8a6219" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></symbol>
   <symbol id="mail" viewBox="0 0 24 24"><rect x="3" y="5.5" width="18" height="13" rx="3" fill="none" stroke="#8a6219" stroke-width="1.6"/><path d="M4 7.5l8 6 8-6" fill="none" stroke="#8a6219" stroke-width="1.6" stroke-linejoin="round"/></symbol>
   <symbol id="schild" viewBox="0 0 24 24"><path d="M12 2.5l8 3v6.2c0 5-3.4 8.8-8 10.8-4.6-2-8-5.8-8-10.8V5.5z" fill="#faf6ee" stroke="#c99a45" stroke-width="1.5"/><path d="M8.3 12.2l2.6 2.6 4.8-5" fill="none" stroke="#8a6219" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></symbol>
@@ -855,6 +859,7 @@ body.chat-offen .chat-fenster { display: flex; }
             <p class="oberzeile">Dein Produkt</p>
             <h1>Bioaktives Nutrition-System</h1>
             <p class="unter">Alles für deinen Alltag mit OMNI9: so nimmst du es, so kommst du deinem Ziel näher, so bestellst du rechtzeitig nach.</p>
+            <a class="versand-link" href="https://omni9.de/account" target="_blank" rel="noopener"><svg><use href="#lieferwagen"/></svg>Wo ist mein Paket? Versandstatus ansehen</a>
           </div>
         </header>
         <section class="erinnern" aria-labelledby="ns-erinnern-titel">
@@ -1240,6 +1245,7 @@ body.chat-offen .chat-fenster { display: flex; }
             <div class="hilfe-liste">
               <a class="hilfe-zeile" href="https://omni9.de/policies/refund-policy" target="_blank" rel="noopener"><span class="ikon"><svg><use href="#schild"/></svg></span><div><b>90 Tage Geld-zurück-Garantie</b><span>Bei 90 Tagen Einnahme und mindestens 3 Gläsern. Gilt nicht für automatische Lieferungen.</span></div><svg><use href="#i-extern"/></svg></a>
               <a class="hilfe-zeile" href="https://omni9.de/policies/shipping-policy" target="_blank" rel="noopener"><span class="ikon"><svg><use href="#paket"/></svg></span><div><b>Versand mit DHL</b><span>3,90&nbsp;€, 2–7 Tage, nach Deutschland, Österreich und in die Schweiz</span></div><svg><use href="#i-extern"/></svg></a>
+              <a class="hilfe-zeile" href="https://omni9.de/account" target="_blank" rel="noopener"><span class="ikon"><svg><use href="#lieferwagen"/></svg></span><div><b>Wo ist mein Paket?</b><span>Den Versandstatus siehst du im Kundenkonto unter „Bestellungen“</span></div><svg><use href="#i-extern"/></svg></a>
               <a class="hilfe-zeile" href="https://omni9.de/policies/refund-policy" target="_blank" rel="noopener"><span class="ikon"><svg><use href="#ruecksendung"/></svg></span><div><b>Widerruf und Rückgabe</b><span>14 Tage, solange die Versiegelung unversehrt ist</span></div><svg><use href="#i-extern"/></svg></a>
               <a class="hilfe-zeile" href="mailto:service@omni9.de?subject=Frage%20zu%20OMNI9"><span class="ikon"><svg><use href="#mail"/></svg></span><div><b>service@omni9.de</b><span>Schreib uns, wir helfen dir gern weiter</span></div><svg><use href="#i-weiter"/></svg></a>
               <a class="hilfe-zeile" href="https://omni9.de/account" target="_blank" rel="noopener"><span class="ikon"><svg><use href="#kalender"/></svg></span><div><b>Automatische Lieferung verwalten</b><span>Nach der 2. Lieferung im Kundenkonto pausieren oder kündigen</span></div><svg><use href="#i-extern"/></svg></a>
@@ -1303,6 +1309,7 @@ body.chat-offen .chat-fenster { display: flex; }
             <p class="oberzeile">Dein Produkt</p>
             <h1>Immun Booster</h1>
             <p class="unter">Alles für deine Akutphase: so nimmst du ihn, so kommst du gut durch, so hast du rechtzeitig Nachschub.</p>
+            <a class="versand-link" href="https://omni9.de/account" target="_blank" rel="noopener"><svg><use href="#lieferwagen"/></svg>Wo ist mein Paket? Versandstatus ansehen</a>
           </div>
         </header>
         <section class="erinnern" aria-labelledby="ib-erinnern-titel">
@@ -1575,6 +1582,7 @@ body.chat-offen .chat-fenster { display: flex; }
             <h2>Hilfe und Kontakt</h2>
             <div class="hilfe-liste">
               <a class="hilfe-zeile" href="https://omni9.de/policies/shipping-policy" target="_blank" rel="noopener"><span class="ikon"><svg><use href="#paket"/></svg></span><div><b>Versand mit DHL</b><span>3,90&nbsp;€, 2–7 Tage, nach Deutschland, Österreich und in die Schweiz</span></div><svg><use href="#i-extern"/></svg></a>
+              <a class="hilfe-zeile" href="https://omni9.de/account" target="_blank" rel="noopener"><span class="ikon"><svg><use href="#lieferwagen"/></svg></span><div><b>Wo ist mein Paket?</b><span>Den Versandstatus siehst du im Kundenkonto unter „Bestellungen“</span></div><svg><use href="#i-extern"/></svg></a>
               <a class="hilfe-zeile" href="https://omni9.de/policies/refund-policy" target="_blank" rel="noopener"><span class="ikon"><svg><use href="#ruecksendung"/></svg></span><div><b>Widerruf und Rückgabe</b><span>14 Tage, solange die Versiegelung unversehrt ist</span></div><svg><use href="#i-extern"/></svg></a>
               <a class="hilfe-zeile" href="mailto:service@omni9.de?subject=Frage%20zum%20Immun%20Booster"><span class="ikon"><svg><use href="#mail"/></svg></span><div><b>service@omni9.de</b><span>Schreib uns, wir helfen dir gern weiter</span></div><svg><use href="#i-weiter"/></svg></a>
               <a class="hilfe-zeile" href="https://omni9.de/account" target="_blank" rel="noopener"><span class="ikon"><svg><use href="#kalender"/></svg></span><div><b>Automatische Lieferung verwalten</b><span>Nach der 2. Lieferung im Kundenkonto pausieren oder kündigen</span></div><svg><use href="#i-extern"/></svg></a>
@@ -1699,6 +1707,7 @@ body.chat-offen .chat-fenster { display: flex; }
     nsInhalt: ["Achsen und Zutaten ansehen", "#ns-inhalt"],
     ibInhalt: ["Alle Zutaten ansehen", "#ib-inhalt"],
     versand: ["Versand-Infos", "https://omni9.de/policies/shipping-policy"],
+    status: ["Versandstatus ansehen", "https://omni9.de/account"],
     widerruf: ["Widerruf und Garantie", "https://omni9.de/policies/refund-policy"],
     konto: ["Zum Kundenkonto", "https://omni9.de/account"],
     mail: ["E-Mail schreiben", "mailto:service@omni9.de?subject=Frage%20zu%20OMNI9"]
@@ -1707,7 +1716,7 @@ body.chat-offen .chat-fenster { display: flex; }
     { p: "alle", k: [" hallo ", " hi ", " hey ", "guten morgen", "guten tag", "guten abend", "servus", " moin "], a: "Hallo! Frag mich alles zum Nutrition-System und zum Immun Booster: Einnahme, Zutaten, Versand oder Nachkauf." },
     { p: "alle", k: ["welches produkt", "passt zu mir", "unterschied", "was ist besser", "welches brauche", "welches soll", "welches nehme"], a: "Das Nutrition-System ist deine tägliche Basis für alle 9 Regenerations-Achsen: 1 Teelöffel pro Tag. Der Immun Booster ist deine Akut-Unterstützung, wenn ein Infekt kommt. Viele nutzen beides zusammen.", l: [L.ns, L.ib] },
     { p: "alle", k: ["booster dazu", "den booster", "mit dem booster", "booster zusaetzlich", "booster zusammen", "beide zusammen", "beides", "zusammen nehmen", "gleichzeitig", "mit omni9", "zu omni9", "omni9 dazu", "dazu nehmen"], a: "Ja, das passt gut zusammen: Das Nutrition-System ist die tägliche Basis, der Immun Booster die Akut-Unterstützung. Viele nehmen OMNI9 weiter und den Booster für ein paar Tage zusätzlich, wenn ein Infekt kommt." },
-    { p: "alle", k: ["versand", "versandkosten", "kostet der versand", "versand kostet", "lieferzeit", "paket", "dhl", "wann kommt", "sendung", "lieferdauer", "verschick", "porto", "liefert ihr", "lieferland", "oesterreich", "schweiz", "ausland"], a: "Wir versenden mit DHL nach Deutschland, Österreich und in die Schweiz. Die Lieferung dauert 2 bis 7 Tage, der Versand kostet 3,90 € pro Bestellung. Dauert es länger, schreib uns mit deiner Bestellnummer an service@omni9.de.", l: [L.versand, L.mail] },
+    { p: "alle", k: ["versand", "versandkosten", "kostet der versand", "versand kostet", "lieferzeit", "paket", "dhl", "wann kommt", "sendung", "lieferdauer", "verschick", "porto", "liefert ihr", "lieferland", "oesterreich", "schweiz", "ausland", "tracking", "verfolg", "wo bleibt", "bestellstatus", "lieferstatus", "nicht angekommen", "wo ist meine bestellung"], a: "Wir versenden mit DHL nach Deutschland, Österreich und in die Schweiz. Die Lieferung dauert 2 bis 7 Tage, der Versand kostet 3,90 € pro Bestellung. Wo dein Paket gerade ist, siehst du in deinem Kundenkonto unter „Bestellungen“. Dauert es länger, schreib uns mit deiner Bestellnummer an service@omni9.de.", l: [L.status, L.versand, L.mail] },
     { p: "alle", k: ["was kostet", "wie viel kostet", "wieviel kostet", "kostet ein glas", "preis", "kosten"], a: "Ein Glas Nutrition-System kostet 89 €, mit automatischer Lieferung 69 €. Der Immun Booster kostet 59,90 €, automatisch geliefert 49,90 €. Dazu kommen 3,90 € Versand pro Bestellung.", l: [L.nsKauf, L.ibKauf] },
     { p: "alle", k: ["bezahl", "zahlung", "zahlart", "klarna", "paypal", "kreditkarte", "apple pay", "google pay", "auf rechnung", "sofortueberweisung"], a: "An der Kasse siehst du alle Zahlungsarten, die dir zur Verfügung stehen, zum Beispiel Kreditkarte, Klarna, Apple Pay oder Google Pay." },
     { p: "alle", k: ["abo", "abonnement", "automatisch", "automatische lieferung", "regelmaessig", "nachbestell", "nachschub", "nachkauf", "nachkaufen", "liefern lassen", "sparen", "guenstiger", "rabatt"], a: "Beide Produkte kannst du automatisch liefern lassen: das Nutrition-System für 69 € statt 89 € (alle 2, 4 oder 6 Wochen), den Immun Booster für 49,90 € statt 59,90 € (alle 4, 8, 12 oder 16 Wochen). Nach mindestens 2 Lieferungen kannst du jederzeit kündigen oder pausieren.", l: [L.nsKauf, L.ibKauf] },
