@@ -17,6 +17,8 @@
 <meta name="apple-mobile-web-app-title" content="OMNI9">
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="mobile-web-app-capable" content="yes">
+<!-- DHL Sendungsverfolgung (developer.dhl.com, „Shipment Tracking – Unified“): Schlüssel eintragen, dann zeigt der Hub den Versandstatus direkt an. Leer öffnet „Bei DHL verfolgen“ die DHL-Seite. -->
+<meta name="dhl-api-key" content="">
 <style>
 @font-face { font-family: "Inter"; src: url("schriften/inter-latin.woff2") format("woff2"); font-weight: 100 900; font-display: block; }
 :root {
@@ -126,7 +128,7 @@ button.mein-produkt:hover, button.mein-produkt[aria-expanded="true"] { backgroun
 .p-bild img { display: block; width: 100%; height: 100%; object-fit: cover; object-position: center top; }
 .p-held h1 { margin-top: 2px; font-size: 32px; }
 .p-held .unter { margin-top: 6px; font-size: 16.5px; color: #45413b; }
-.versand-link { display: inline-flex; align-items: center; gap: 7px; margin-top: 10px; font-size: 14px; font-weight: 600; color: var(--gold-dunkel); }
+.versand-link { display: inline-flex; align-items: center; gap: 7px; margin-top: 10px; padding: 0; border: 0; background: none; font: inherit; font-size: 14px; font-weight: 600; color: var(--gold-dunkel); text-align: left; cursor: pointer; }
 .versand-link svg { flex: none; width: 20px; height: 20px; }
 .versand-link:hover { text-decoration: underline; }
 .fakten { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 12px; }
@@ -501,6 +503,33 @@ button.text-link { padding: 0; border: 0; background: none; font-size: 14px; cur
 .kal-google .knopf { flex: 1 1 110px; }
 .kal-google p { flex-basis: 100%; font-size: 13px; font-weight: 600; color: #6e5a3a; }
 .kal-hinweis { margin-top: 14px; font-size: 12.5px; color: var(--muted); }
+/* Wo ist mein Paket? Zwei Wege, der Status kommt direkt von DHL */
+.paket-wege { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1.35fr); gap: 12px; margin-top: 14px; }
+.paket-weg { display: flex; flex-direction: column; gap: 8px; padding: 16px; border-radius: 14px; background: var(--hell); }
+.paket-weg h3 { font-size: 16px; }
+.paket-weg > p:not(.oberzeile) { font-size: 14px; color: #45413b; }
+.paket-weg .knopf { margin-top: auto; }
+.paket-weg .kal-feld { margin-top: 4px; }
+.paket-eingabe { display: flex; gap: 6px; }
+.paket-eingabe input { flex: 1; min-width: 0; }
+.paket-einfuegen { flex: none; height: 44px; padding: 0 12px; border: 1.5px solid #e6dcc6; border-radius: 10px; background: #fff; font-size: 13.5px; font-weight: 600; color: var(--text); cursor: pointer; }
+.paket-einfuegen:hover { border-color: var(--gold); }
+.paket-fehler { font-size: 13.5px; color: #8a3b26; }
+.paket-ergebnis { margin-top: 14px; padding: 18px; border-radius: 14px; background: #fffaf0; border: 1px solid #ecdcb6; }
+.paket-status { display: inline-block; padding: 3px 10px; border-radius: 999px; background: var(--nacht); color: #fff; font-size: 12.5px; font-weight: 600; }
+.paket-status.zugestellt { background: #2f6b3a; }
+.paket-status.problem { background: #a3412c; }
+.paket-kopf b { display: block; margin-top: 8px; font-size: 16px; line-height: 1.35; }
+.paket-kopf small { display: block; margin-top: 3px; font-size: 13px; color: var(--muted); }
+.paket-stufen { list-style: none; display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 6px; margin-top: 16px; }
+.paket-stufen li { padding-top: 8px; border-top: 4px solid #eadfc8; font-size: 12.5px; font-weight: 600; color: #9a8f7c; }
+.paket-stufen li.an { border-color: var(--gold); color: var(--text); }
+.paket-eta { margin-top: 12px; font-size: 14px; font-weight: 600; }
+.paket-verlauf { margin-top: 12px; font-size: 13.5px; }
+.paket-verlauf summary { cursor: pointer; font-weight: 600; color: var(--gold-dunkel); }
+.paket-verlauf ol { list-style: none; display: grid; gap: 10px; margin-top: 10px; padding-left: 12px; border-left: 2px solid #eadfc8; }
+.paket-verlauf small { display: block; color: var(--muted); }
+.paket-aktionen { display: flex; flex-wrap: wrap; gap: 8px 18px; margin-top: 14px; }
 .app-inhalt { padding: 14px 22px 22px; }
 .app-inhalt > p { font-size: 15px; color: #45413b; }
 .app-schritte { display: grid; gap: 8px; margin: 14px 0 0 20px; font-size: 14.5px; }
@@ -676,6 +705,8 @@ body.chat-offen .chat-fenster { display: flex; }
   .sparen-raster { grid-template-columns: minmax(0, 1fr); }
   .kal-inhalt { padding: 12px 16px calc(20px + env(safe-area-inset-bottom)); }
   .kal-felder { grid-template-columns: repeat(auto-fill, minmax(96px, 1fr)); }
+  .paket-wege { grid-template-columns: minmax(0, 1fr); }
+  .paket-stufen li { font-size: 11.5px; }
   .frag-box { padding: 18px 16px; }
   .frag-feld { font-size: 14px; }
   .hakt-raster, .stimmen { grid-template-columns: minmax(0, 1fr); }
@@ -859,7 +890,7 @@ body.chat-offen .chat-fenster { display: flex; }
             <p class="oberzeile">Dein Produkt</p>
             <h1>Bioaktives Nutrition-System</h1>
             <p class="unter">Alles für deinen Alltag mit OMNI9: so nimmst du es, so kommst du deinem Ziel näher, so bestellst du rechtzeitig nach.</p>
-            <a class="versand-link" href="https://omni9.de/account" target="_blank" rel="noopener"><svg><use href="#lieferwagen"/></svg>Wo ist mein Paket? Versandstatus ansehen</a>
+            <button class="versand-link" type="button" data-paket><svg><use href="#lieferwagen"/></svg>Wo ist mein Paket? Versandstatus ansehen</button>
           </div>
         </header>
         <section class="erinnern" aria-labelledby="ns-erinnern-titel">
@@ -1247,7 +1278,7 @@ body.chat-offen .chat-fenster { display: flex; }
             <div class="hilfe-liste">
               <a class="hilfe-zeile" href="https://omni9.de/policies/refund-policy" target="_blank" rel="noopener"><span class="ikon"><svg><use href="#schild"/></svg></span><div><b>90 Tage Geld-zurück-Garantie</b><span>Bei 90 Tagen Einnahme und mindestens 3 Gläsern. Gilt nicht für automatische Lieferungen.</span></div><svg><use href="#i-extern"/></svg></a>
               <a class="hilfe-zeile" href="https://omni9.de/policies/shipping-policy" target="_blank" rel="noopener"><span class="ikon"><svg><use href="#paket"/></svg></span><div><b>Versand mit DHL</b><span>3,90&nbsp;€, 2–7 Tage, nach Deutschland, Österreich und in die Schweiz</span></div><svg><use href="#i-extern"/></svg></a>
-              <a class="hilfe-zeile" href="https://omni9.de/account" target="_blank" rel="noopener"><span class="ikon"><svg><use href="#lieferwagen"/></svg></span><div><b>Wo ist mein Paket?</b><span>Den Versandstatus siehst du im Kundenkonto unter „Bestellungen“</span></div><svg><use href="#i-extern"/></svg></a>
+              <button class="hilfe-zeile" type="button" data-paket><span class="ikon"><svg><use href="#lieferwagen"/></svg></span><div><b>Wo ist mein Paket?</b><span>Im Kundenkonto oder mit deiner Sendungsnummer</span></div><svg><use href="#i-weiter"/></svg></button>
               <a class="hilfe-zeile" href="https://omni9.de/policies/refund-policy" target="_blank" rel="noopener"><span class="ikon"><svg><use href="#ruecksendung"/></svg></span><div><b>Widerruf und Rückgabe</b><span>14 Tage, solange die Versiegelung unversehrt ist</span></div><svg><use href="#i-extern"/></svg></a>
               <a class="hilfe-zeile" href="mailto:service@omni9.de?subject=Frage%20zu%20OMNI9"><span class="ikon"><svg><use href="#mail"/></svg></span><div><b>service@omni9.de</b><span>Schreib uns, wir helfen dir gern weiter</span></div><svg><use href="#i-weiter"/></svg></a>
               <a class="hilfe-zeile" href="https://omni9.de/account" target="_blank" rel="noopener"><span class="ikon"><svg><use href="#kalender"/></svg></span><div><b>Automatische Lieferung verwalten</b><span>Nach der 2. Lieferung im Kundenkonto pausieren oder kündigen</span></div><svg><use href="#i-extern"/></svg></a>
@@ -1311,7 +1342,7 @@ body.chat-offen .chat-fenster { display: flex; }
             <p class="oberzeile">Dein Produkt</p>
             <h1>Immun Booster</h1>
             <p class="unter">Alles für deine Akutphase: so nimmst du ihn, so kommst du gut durch, so hast du rechtzeitig Nachschub.</p>
-            <a class="versand-link" href="https://omni9.de/account" target="_blank" rel="noopener"><svg><use href="#lieferwagen"/></svg>Wo ist mein Paket? Versandstatus ansehen</a>
+            <button class="versand-link" type="button" data-paket><svg><use href="#lieferwagen"/></svg>Wo ist mein Paket? Versandstatus ansehen</button>
           </div>
         </header>
         <section class="erinnern" aria-labelledby="ib-erinnern-titel">
@@ -1584,7 +1615,7 @@ body.chat-offen .chat-fenster { display: flex; }
             <h2>Hilfe und Kontakt</h2>
             <div class="hilfe-liste">
               <a class="hilfe-zeile" href="https://omni9.de/policies/shipping-policy" target="_blank" rel="noopener"><span class="ikon"><svg><use href="#paket"/></svg></span><div><b>Versand mit DHL</b><span>3,90&nbsp;€, 2–7 Tage, nach Deutschland, Österreich und in die Schweiz</span></div><svg><use href="#i-extern"/></svg></a>
-              <a class="hilfe-zeile" href="https://omni9.de/account" target="_blank" rel="noopener"><span class="ikon"><svg><use href="#lieferwagen"/></svg></span><div><b>Wo ist mein Paket?</b><span>Den Versandstatus siehst du im Kundenkonto unter „Bestellungen“</span></div><svg><use href="#i-extern"/></svg></a>
+              <button class="hilfe-zeile" type="button" data-paket><span class="ikon"><svg><use href="#lieferwagen"/></svg></span><div><b>Wo ist mein Paket?</b><span>Im Kundenkonto oder mit deiner Sendungsnummer</span></div><svg><use href="#i-weiter"/></svg></button>
               <a class="hilfe-zeile" href="https://omni9.de/policies/refund-policy" target="_blank" rel="noopener"><span class="ikon"><svg><use href="#ruecksendung"/></svg></span><div><b>Widerruf und Rückgabe</b><span>14 Tage, solange die Versiegelung unversehrt ist</span></div><svg><use href="#i-extern"/></svg></a>
               <a class="hilfe-zeile" href="mailto:service@omni9.de?subject=Frage%20zum%20Immun%20Booster"><span class="ikon"><svg><use href="#mail"/></svg></span><div><b>service@omni9.de</b><span>Schreib uns, wir helfen dir gern weiter</span></div><svg><use href="#i-weiter"/></svg></a>
               <a class="hilfe-zeile" href="https://omni9.de/account" target="_blank" rel="noopener"><span class="ikon"><svg><use href="#kalender"/></svg></span><div><b>Automatische Lieferung verwalten</b><span>Nach der 2. Lieferung im Kundenkonto pausieren oder kündigen</span></div><svg><use href="#i-extern"/></svg></a>
@@ -1635,6 +1666,35 @@ body.chat-offen .chat-fenster { display: flex; }
     <div class="kal-felder" data-kal-felder></div>
     <div class="kal-knoepfe" data-kal-knoepfe></div>
     <p class="kal-hinweis">Der Hub speichert nichts. Der Termin landet nur in deinem Kalender, dort kannst du ihn jederzeit löschen.</p>
+  </div>
+</dialog>
+
+<dialog class="dialog-hell" id="paket-dialog" aria-labelledby="paket-titel">
+  <div class="quiz-kopf">
+    <span class="kal-symbol"><svg><use href="#lieferwagen"/></svg></span>
+    <div><h2 id="paket-titel">Wo ist mein Paket?</h2></div>
+    <button class="dialog-zu" type="button" data-dialog-zu aria-label="Schließen"><svg><use href="#i-x"/></svg></button>
+  </div>
+  <div class="kal-inhalt">
+    <p>Zwei Wege zu deinem Versandstatus. Einer reicht.</p>
+    <div class="paket-wege">
+      <section class="paket-weg">
+        <p class="oberzeile">Weg 1</p>
+        <h3>Im Kundenkonto</h3>
+        <p>Melde dich mit deiner E-Mail an. Unter „Bestellungen“ siehst du jede Sendung.</p>
+        <a class="knopf hell" href="https://omni9.de/account" target="_blank" rel="noopener">Zum Kundenkonto</a>
+      </section>
+      <form class="paket-weg" data-paket-form novalidate>
+        <p class="oberzeile">Weg 2</p>
+        <h3>Mit deiner Sendungsnummer</h3>
+        <p>Sie steht in der Versandmail von uns oder von DHL. Du kannst auch den ganzen Link einfügen.</p>
+        <div class="kal-feld"><label for="paket-nummer">Sendungsnummer</label><span class="paket-eingabe"><input id="paket-nummer" name="sendung" autocomplete="off" autocapitalize="characters" spellcheck="false" enterkeyhint="search" placeholder="z. B. 00340434…" data-paket-nummer><button class="paket-einfuegen" type="button" data-paket-einfuegen>Einfügen</button></span></div>
+        <button class="knopf gold" type="submit" data-paket-los>Sendung verfolgen</button>
+        <p class="paket-fehler" data-paket-fehler role="status" hidden></p>
+      </form>
+    </div>
+    <div class="paket-ergebnis" data-paket-ergebnis aria-live="polite" hidden></div>
+    <p class="kal-hinweis">Deine Sendungsnummer geht nur an DHL. Der Hub speichert nichts.</p>
   </div>
 </dialog>
 
@@ -1709,7 +1769,8 @@ body.chat-offen .chat-fenster { display: flex; }
     nsInhalt: ["Achsen und Zutaten ansehen", "#ns-inhalt"],
     ibInhalt: ["Alle Zutaten ansehen", "#ib-inhalt"],
     versand: ["Versand-Infos", "https://omni9.de/policies/shipping-policy"],
-    status: ["Versandstatus ansehen", "https://omni9.de/account"],
+    sendung: ["Sendung verfolgen", "#paket"],
+    status: ["Im Kundenkonto ansehen", "https://omni9.de/account"],
     widerruf: ["Widerruf und Garantie", "https://omni9.de/policies/refund-policy"],
     konto: ["Zum Kundenkonto", "https://omni9.de/account"],
     mail: ["E-Mail schreiben", "mailto:service@omni9.de?subject=Frage%20zu%20OMNI9"]
@@ -1718,7 +1779,7 @@ body.chat-offen .chat-fenster { display: flex; }
     { p: "alle", k: [" hallo ", " hi ", " hey ", "guten morgen", "guten tag", "guten abend", "servus", " moin "], a: "Hallo! Frag mich alles zum Nutrition-System und zum Immun Booster: Einnahme, Zutaten, Versand oder Nachkauf." },
     { p: "alle", k: ["welches produkt", "passt zu mir", "unterschied", "was ist besser", "welches brauche", "welches soll", "welches nehme"], a: "Das Nutrition-System ist deine tägliche Basis für alle 9 Regenerations-Achsen: 1 Teelöffel pro Tag. Der Immun Booster ist deine Akut-Unterstützung, wenn ein Infekt kommt. Viele nutzen beides zusammen.", l: [L.ns, L.ib] },
     { p: "alle", k: ["booster dazu", "den booster", "mit dem booster", "booster zusaetzlich", "booster zusammen", "beide zusammen", "beides", "zusammen nehmen", "gleichzeitig", "mit omni9", "zu omni9", "omni9 dazu", "dazu nehmen"], a: "Ja, das passt gut zusammen: Das Nutrition-System ist die tägliche Basis, der Immun Booster die Akut-Unterstützung. Viele nehmen OMNI9 weiter und den Booster für ein paar Tage zusätzlich, wenn ein Infekt kommt." },
-    { p: "alle", k: ["versand", "versandkosten", "kostet der versand", "versand kostet", "lieferzeit", "paket", "dhl", "wann kommt", "sendung", "lieferdauer", "verschick", "porto", "liefert ihr", "lieferland", "oesterreich", "schweiz", "ausland", "tracking", "verfolg", "wo bleibt", "bestellstatus", "lieferstatus", "nicht angekommen", "wo ist meine bestellung"], a: "Wir versenden mit DHL nach Deutschland, Österreich und in die Schweiz. Die Lieferung dauert 2 bis 7 Tage, der Versand kostet 3,90 € pro Bestellung. Wo dein Paket gerade ist, siehst du in deinem Kundenkonto unter „Bestellungen“. Dauert es länger, schreib uns mit deiner Bestellnummer an service@omni9.de.", l: [L.status, L.versand, L.mail] },
+    { p: "alle", k: ["versand", "versandkosten", "kostet der versand", "versand kostet", "lieferzeit", "paket", "dhl", "wann kommt", "sendung", "lieferdauer", "verschick", "porto", "liefert ihr", "lieferland", "oesterreich", "schweiz", "ausland", "tracking", "verfolg", "wo bleibt", "bestellstatus", "lieferstatus", "nicht angekommen", "wo ist meine bestellung"], a: "Wir versenden mit DHL nach Deutschland, Österreich und in die Schweiz. Die Lieferung dauert 2 bis 7 Tage, der Versand kostet 3,90 € pro Bestellung. Wo dein Paket gerade ist, siehst du in deinem Kundenkonto unter „Bestellungen“ oder hier im Hub mit deiner Sendungsnummer. Dauert es länger, schreib uns mit deiner Bestellnummer an service@omni9.de.", l: [L.sendung, L.status, L.versand, L.mail] },
     { p: "alle", k: ["was kostet", "wie viel kostet", "wieviel kostet", "kostet ein glas", "preis", "kosten"], a: "Ein Glas Nutrition-System kostet 89 €, mit automatischer Lieferung 69 €. Der Immun Booster kostet 59,90 €, automatisch geliefert 49,90 €. Dazu kommen 3,90 € Versand pro Bestellung.", l: [L.nsKauf, L.ibKauf] },
     { p: "alle", k: ["bezahl", "zahlung", "zahlart", "klarna", "paypal", "kreditkarte", "apple pay", "google pay", "auf rechnung", "sofortueberweisung"], a: "An der Kasse siehst du alle Zahlungsarten, die dir zur Verfügung stehen, zum Beispiel Kreditkarte, Klarna, Apple Pay oder Google Pay." },
     { p: "alle", k: ["abo", "abonnement", "automatisch", "automatische lieferung", "regelmaessig", "nachbestell", "nachschub", "nachkauf", "nachkaufen", "liefern lassen", "sparen", "guenstiger", "rabatt"], a: "Beide Produkte kannst du automatisch liefern lassen: das Nutrition-System für 69 € statt 89 € (alle 2, 4 oder 6 Wochen), den Immun Booster für 49,90 € statt 59,90 € (alle 4, 8, 12 oder 16 Wochen). Nach mindestens 2 Lieferungen kannst du jederzeit kündigen oder pausieren.", l: [L.nsKauf, L.ibKauf] },
@@ -2683,6 +2744,143 @@ body.chat-offen .chat-fenster { display: flex; }
     var b = e.target.closest("[data-erinnerung]");
     if (b) kalenderOeffnen(b.dataset.erinnerung);
   });
+
+  /* Wo ist mein Paket? Weg 1: Kundenkonto. Weg 2: Sendungsnummer, der Status kommt direkt von DHL
+     (Shipment Tracking Unified, Schlüssel im meta-Tag dhl-api-key). Ohne Schlüssel öffnet der Knopf die DHL-Seite.
+     ?sendung=…&plz=… aus der Versandmail füllt die Nummer vor. Gespeichert wird nichts. */
+  var paketDialog = document.getElementById("paket-dialog");
+  var paketForm = paketDialog.querySelector("[data-paket-form]");
+  var paketFeld = paketDialog.querySelector("[data-paket-nummer]");
+  var paketFehler = paketDialog.querySelector("[data-paket-fehler]");
+  var paketErgebnis = paketDialog.querySelector("[data-paket-ergebnis]");
+  var paketLos = paketDialog.querySelector("[data-paket-los]");
+  var paketEinfuegen = paketDialog.querySelector("[data-paket-einfuegen]");
+  var paketPlz = /^\d{5}$/.test(params.get("plz") || "") ? params.get("plz") : "";
+  var paketLaeuft = false;
+  var PAKET_STUFEN = ["Angekündigt", "Unterwegs", "In Zustellung", "Zugestellt"];
+  function dhlSchluessel() { var m = document.querySelector('meta[name="dhl-api-key"]'); return m ? m.content.trim() : ""; }
+  function dhlSeite(nr) { return "https://www.dhl.de/de/privatkunden/dhl-sendungsverfolgung.html?piececode=" + encodeURIComponent(nr); }
+  function paketLosText() { return dhlSchluessel() ? "Sendung verfolgen" : "Bei DHL verfolgen"; }
+  /* Findet die Nummer auch in einem eingefügten DHL-Link oder in einem ganzen Satz aus der Mail */
+  function sendungsnummer(text) {
+    var t = String(text || "").toUpperCase();
+    var link = t.match(/(?:PIECECODE|IDC|TRACKINGNUMBER|TRACKING-NUMBER)=([A-Z0-9]{8,39})/);
+    if (link) return link[1];
+    var ganz = t.match(/JJD\d{10,30}|\b[A-Z]{2}\d{9}[A-Z]{2}\b|\d{10,39}/);
+    if (ganz) return ganz[0];
+    var gruppen = t.match(/\d{4}(?: \d{4}){2,8}(?: \d{1,4})?/);
+    return gruppen ? gruppen[0].replace(/ /g, "") : "";
+  }
+  /* Bei DHL Paket steht im Feld status oft nur ein Kürzel, der Text kommt aus description oder remark */
+  function paketText(e) { return e.description || e.remark || (e.status && e.status.length > 4 ? e.status : ""); }
+  function paketZeit(e) {
+    var d = e.timestamp ? new Date(e.timestamp) : null;
+    var ort = e.location && e.location.address && e.location.address.addressLocality;
+    return [d && !isNaN(d) ? datumText(d) + ", " + zwei(d.getHours()) + ":" + zwei(d.getMinutes()) + " Uhr" : "", ort || ""].filter(Boolean).join(" · ");
+  }
+  function paketStufe(st) {
+    if (st.statusCode === "delivered") return 3;
+    if (st.statusCode === "pre-transit") return 0;
+    if (st.statusCode !== "transit") return -1;
+    return /zustellfahrzeug|in zustellung|out for delivery/i.test(paketText(st)) ? 2 : 1;
+  }
+  function paketMeldung(text, nr) {
+    paketFehler.replaceChildren(document.createTextNode(text + " "));
+    if (nr) paketFehler.append(linkMit("Bei DHL ansehen", "text-link", dhlSeite(nr), true));
+    paketFehler.hidden = false;
+  }
+  function paketZeigen(nr, s) {
+    var st = s.status || {}, stufe = paketStufe(st);
+    var kopf = element("div", "paket-kopf");
+    kopf.append(element("span", "paket-status" + (st.statusCode === "delivered" ? " zugestellt" : st.statusCode === "failure" ? " problem" : ""), st.statusCode === "failure" ? "Problem bei der Zustellung" : stufe >= 0 ? PAKET_STUFEN[stufe] : "Status unbekannt"));
+    kopf.append(element("b", null, paketText(st) || "DHL meldet noch keinen Schritt."));
+    if (paketZeit(st)) kopf.append(element("small", null, paketZeit(st)));
+    var stufen = element("ol", "paket-stufen");
+    PAKET_STUFEN.forEach(function (name, i) { stufen.append(element("li", i <= stufe ? "an" : null, name)); });
+    paketErgebnis.replaceChildren(kopf, stufen);
+    var eta = s.estimatedTimeOfDelivery ? new Date(s.estimatedTimeOfDelivery) : null;
+    if (eta && !isNaN(eta) && stufe < 3) paketErgebnis.append(element("p", "paket-eta", "Voraussichtlich da: " + datumText(eta)));
+    var schritte = (s.events || []).filter(paketText);
+    if (schritte.length > 1) {
+      var verlauf = element("details", "paket-verlauf"), liste = element("ol");
+      verlauf.append(element("summary", null, "Alle Schritte (" + schritte.length + ")"));
+      schritte.forEach(function (e) { var li = element("li", null, paketText(e)); if (paketZeit(e)) li.append(element("small", null, paketZeit(e))); liste.append(li); });
+      verlauf.append(liste);
+      paketErgebnis.append(verlauf);
+    }
+    var aktionen = element("div", "paket-aktionen");
+    aktionen.append(linkMit("Bei DHL ansehen", "text-link", /^https:\/\/([a-z0-9-]+\.)*dhl\.(de|com)\//.test(s.serviceUrl || "") ? s.serviceUrl : dhlSeite(nr), true), knopfMit("Andere Nummer", "text-link", function () { paketErgebnis.hidden = true; paketFeld.value = ""; paketFeld.focus(); }));
+    paketErgebnis.append(aktionen);
+    paketErgebnis.hidden = false;
+    paketErgebnis.scrollIntoView({ block: "nearest", behavior: bewegungAus ? "auto" : "smooth" });
+  }
+  function paketAbfragen(nr) {
+    var schluessel = dhlSchluessel();
+    paketFehler.hidden = true;
+    if (!schluessel) { window.open(dhlSeite(nr), "_blank", "noopener"); return; }
+    if (paketLaeuft) return;
+    paketLaeuft = true;
+    paketLos.disabled = true;
+    paketLos.textContent = "Frage DHL …";
+    fetch("https://api-eu.dhl.com/track/shipments?trackingNumber=" + encodeURIComponent(nr) + "&language=de" + (paketPlz ? "&recipientPostalCode=" + paketPlz : ""), { headers: { "DHL-API-Key": schluessel, Accept: "application/json" } })
+      .then(function (r) {
+        if (r.status === 404) throw new Error("unbekannt");
+        if (r.status === 429) throw new Error("zu-viele");
+        if (!r.ok) throw new Error("fehler");
+        return r.json();
+      })
+      .then(function (d) {
+        var liste = (d && d.shipments) || [];
+        var s = liste.filter(function (x) { return x.service === "parcel-de"; })[0] || liste[0];
+        if (!s) throw new Error("unbekannt");
+        paketZeigen(nr, s);
+      })
+      .catch(function (e) {
+        paketErgebnis.hidden = true;
+        paketMeldung(e.message === "unbekannt" ? "Diese Nummer kennt DHL noch nicht. Neue Sendungen erscheinen oft erst ein paar Stunden nach der Versandmail." : e.message === "zu-viele" ? "Gerade kommen zu viele Abfragen an. Versuch es in ein paar Sekunden noch mal." : "Die Abfrage hat gerade nicht geklappt.", nr);
+      })
+      .then(function () { paketLaeuft = false; paketLos.disabled = false; paketLos.textContent = paketLosText(); });
+  }
+  function paketOeffnen(nr) {
+    paketFehler.hidden = true;
+    paketLos.textContent = paketLosText();
+    if (nr) paketFeld.value = nr;
+    if (!paketDialog.open) paketDialog.showModal();
+    if (nr && dhlSchluessel()) paketAbfragen(nr);
+  }
+  paketForm.addEventListener("submit", function (e) {
+    e.preventDefault();
+    var nr = sendungsnummer(paketFeld.value);
+    if (!nr) { paketErgebnis.hidden = true; paketMeldung("Das sieht nicht nach einer Sendungsnummer aus. Sie hat meist 12 bis 20 Ziffern und steht in deiner Versandmail."); paketFeld.focus(); return; }
+    paketFeld.value = nr;
+    paketAbfragen(nr);
+  });
+  /* Einfügen: aus dem Feld oder mit einem Tippen aus der Zwischenablage, mit Schlüssel startet die Abfrage sofort */
+  paketFeld.addEventListener("paste", function (e) {
+    var nr = sendungsnummer(e.clipboardData && e.clipboardData.getData("text"));
+    if (!nr) return;
+    e.preventDefault();
+    paketFeld.value = nr;
+    if (dhlSchluessel()) paketAbfragen(nr);
+  });
+  paketEinfuegen.hidden = !(navigator.clipboard && navigator.clipboard.readText);
+  paketEinfuegen.addEventListener("click", function () {
+    navigator.clipboard.readText().then(function (t) {
+      var nr = sendungsnummer(t);
+      if (!nr) { paketMeldung("In der Zwischenablage ist keine Sendungsnummer. Kopier sie aus deiner Versandmail."); return; }
+      paketFeld.value = nr;
+      paketFehler.hidden = true;
+      if (dhlSchluessel()) paketAbfragen(nr);
+    }).catch(function () { paketFeld.focus(); });
+  });
+  document.addEventListener("click", function (e) {
+    if (!e.target.closest('[data-paket], a[href="#paket"]')) return;
+    e.preventDefault();
+    paketOeffnen();
+  });
+  paketDialog.addEventListener("click", function (e) { if (e.target === paketDialog) paketDialog.close(); });
+  var linkSendung = sendungsnummer(params.get("sendung"));
+  if (linkSendung) paketOeffnen(linkSendung);
 
   /* Booster-Einnahme: Akutphase oder vorbeugend, mit unterschiedlicher Menge */
   var TP_MODUS = {
