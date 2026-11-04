@@ -19,6 +19,8 @@
 <meta name="mobile-web-app-capable" content="yes">
 <!-- DHL Sendungsverfolgung (developer.dhl.com, „Shipment Tracking – Unified“): Schlüssel eintragen, dann zeigt der Hub den Versandstatus direkt an. Leer öffnet „Bei DHL verfolgen“ die DHL-Seite. -->
 <meta name="dhl-api-key" content="">
+<!-- Chat mit ChatGPT: Adresse des Hub-Chat-Servers (Ordner hub-chat). Leer antwortet der Assistent mit festen Antworten. Der OpenAI-Schlüssel liegt nur auf dem Server. -->
+<meta name="hub-chat-api" content="">
 <style>
 @font-face { font-family: "Inter"; src: url("schriften/inter-latin.woff2") format("woff2"); font-weight: 100 900; font-display: block; }
 :root {
@@ -1862,6 +1864,16 @@ body.chat-offen .chat-fenster { display: flex; }
     ib: { thema: "Fragen zu allen OMNI9-Produkten", gruss: "Hallo! Ich bin der OMNI9 Assistent. Frag mich alles zum Immun Booster, zum Nutrition-System, zu Versand oder Nachkauf.", vorschlaege: ["Wie dosiere ich den Booster?", "Darf ich ihn in Tee nehmen?", "Was macht Propolis?", "Wie lange reicht ein Glas?", "Kann ich ihn vorbeugend nehmen?"], demo: ["Darf ich ihn in Tee nehmen?", "Was macht Propolis?"] }
   };
   var KEINE_ANTWORT = "Dazu habe ich in unseren Produktinfos keine sichere Antwort. Unser Team hilft dir gern weiter: Schick deine Frage mit einem Klick per E-Mail.";
+  /* Chat mit ChatGPT: Adresse des Hub-Chat-Servers im meta-Tag hub-chat-api, leer = feste Antworten.
+     Die Link-IDs kommen vom Server, der Hub kennt Text und Ziel dazu. */
+  var CHAT_API = (document.querySelector('meta[name="hub-chat-api"]') || {}).content || "";
+  var CHAT_LINKS = {
+    "ns": L.ns, "ib": L.ib,
+    "ns-einnahme": ["So nimmst du OMNI9", "#ns-einnahme"], "ns-inhalt": L.nsInhalt, "ns-30": ["Deine ersten 30 Tage", "#ns-30"], "ns-tipps": ["Dein Ziel, deine Tipps", "#ns-tipps"], "ns-nachkauf": L.nsKauf, "ns-fragen": ["Fragen und Hilfe", "#ns-fragen"],
+    "ib-einnahme": ["So nimmst du den Booster", "#ib-einnahme"], "ib-inhalt": L.ibInhalt, "ib-plan": ["Deine Akutphase", "#ib-plan"], "ib-tipps": ["Dein Ziel, deine Tipps", "#ib-tipps"], "ib-nachkauf": L.ibKauf, "ib-fragen": ["Fragen und Hilfe", "#ib-fragen"],
+    "versand": L.versand, "widerruf": L.widerruf, "konto": L.konto, "sendung": L.sendung
+  };
+  var chatVerlauf = [];
 
   function norm(s) {
     return s.toLowerCase().replace(/ä/g, "ae").replace(/ö/g, "oe").replace(/ü/g, "ue").replace(/ß/g, "ss").replace(/[^a-z0-9% ]+/g, " ").replace(/\s+/g, " ").trim();
@@ -1942,14 +1954,9 @@ body.chat-offen .chat-fenster { display: flex; }
     verlauf.appendChild(d);
     verlauf.scrollTop = verlauf.scrollHeight;
   }
-  function starten(ctx) {
-    aktiv = ctx;
-    verlauf.innerHTML = "";
-    thema.textContent = THEMEN[ctx].thema;
-    nachricht(THEMEN[ctx].gruss, "bot");
-    menschLink.href = supportMail("");
+  function vorschlaegeSetzen(liste) {
     vorschlaege.innerHTML = "";
-    THEMEN[ctx].vorschlaege.forEach(function (v) {
+    liste.forEach(function (v) {
       var b = document.createElement("button");
       b.type = "button";
       b.textContent = v;
@@ -1957,20 +1964,53 @@ body.chat-offen .chat-fenster { display: flex; }
       vorschlaege.appendChild(b);
     });
   }
-  function fragen(text, sofort) {
-    text = text.trim();
-    if (!text) return;
-    nachricht(text, "ich");
-    var r = antwort(text, aktiv);
-    var links = r.s ? [["Frage an den Support senden", supportMail(text, true), "support-knopf"]].concat(r.l) : r.l;
-    menschLink.href = supportMail(text);
-    if (sofort) { nachricht(r.a, "bot", links); return; }
+  function starten(ctx) {
+    aktiv = ctx;
+    chatVerlauf = [];
+    verlauf.innerHTML = "";
+    thema.textContent = THEMEN[ctx].thema;
+    nachricht(THEMEN[ctx].gruss, "bot");
+    menschLink.href = supportMail("");
+    vorschlaegeSetzen(THEMEN[ctx].vorschlaege);
+  }
+  function tippt() {
     var t = document.createElement("div");
     t.className = "nachricht bot";
     t.innerHTML = '<span class="tippt"><i></i><i></i><i></i></span>';
     verlauf.appendChild(t);
     verlauf.scrollTop = verlauf.scrollHeight;
+    return t;
+  }
+  /* Feste Antworten aus WISSEN: ohne Chat-Server, in der Demo und wenn der Server nicht antwortet */
+  function regelAntwort(text, sofort) {
+    var r = antwort(text, aktiv);
+    var links = r.s ? [["Frage an den Support senden", supportMail(text, true), "support-knopf"]].concat(r.l) : r.l;
+    if (sofort) { nachricht(r.a, "bot", links); return; }
+    var t = tippt();
     setTimeout(function () { t.remove(); nachricht(r.a, "bot", links); }, 650);
+  }
+  /* Mit Chat-Server (meta hub-chat-api) formuliert ChatGPT die Antwort, nur aus dem Wissen des Shops.
+     Service-Fragen bekommen immer den Weg zum Team. Gespeichert wird im Hub nichts. */
+  function fragen(text, sofort) {
+    text = text.trim();
+    if (!text) return;
+    nachricht(text, "ich");
+    menschLink.href = supportMail(text);
+    if (sofort || !CHAT_API) { regelAntwort(text, sofort); return; }
+    var t = tippt();
+    var ab = new AbortController(), uhr = setTimeout(function () { ab.abort(); }, 20000);
+    fetch(CHAT_API, { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify({ produkt: aktiv, frage: text, verlauf: chatVerlauf.slice(-6) }), signal: ab.signal })
+      .then(function (r) { if (!r.ok) throw new Error("Status " + r.status); return r.json(); })
+      .then(function (d) {
+        if (!d || !d.antwort) throw new Error("leer");
+        t.remove();
+        var links = (d.links || []).map(function (id) { return id === "support" ? ["Frage an den Support senden", supportMail(text, true), "support-knopf"] : CHAT_LINKS[id]; }).filter(Boolean);
+        nachricht(d.antwort, "bot", links);
+        chatVerlauf.push({ rolle: "kunde", text: text }, { rolle: "assistent", text: d.antwort });
+        if (d.weiter && d.weiter.length) vorschlaegeSetzen(d.weiter);
+      })
+      .catch(function () { t.remove(); regelAntwort(text, true); })
+      .then(function () { clearTimeout(uhr); });
   }
   function oeffnen() {
     var ctx = kontext();
