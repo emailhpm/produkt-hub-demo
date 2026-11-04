@@ -61,7 +61,7 @@ body:has(.seite:target:not(#start)) #start, body:has(.seite:not(#start) :target)
 
 /* Produktseite: links die Kapitel, rechts immer nur ein Kapitel */
 .produkt { grid-template-columns: 264px minmax(0, 1fr); }
-.seitenleiste { position: sticky; top: 20px; align-self: start; height: calc(100vh - 40px); display: flex; flex-direction: column; padding: 26px 22px 20px; border-right: 1px solid #f0ece5; }
+.seitenleiste { position: sticky; top: 20px; align-self: start; height: calc(100vh - 40px); display: flex; flex-direction: column; padding: 26px 22px 20px; border-right: 1px solid #f0ece5; overflow-y: auto; scrollbar-width: thin; }
 .logo-zeile { padding: 8px 10px 22px; border-bottom: 1px solid #efeae2; }
 .logo-zeile img { display: block; height: 22px; width: auto; }
 .mein-produkt { display: grid; grid-template-columns: 46px minmax(0, 1fr); gap: 12px; align-items: center; margin-top: 20px; padding: 10px; border-radius: 14px; background: var(--hell); }
@@ -80,12 +80,13 @@ button.mein-produkt:hover, button.mein-produkt[aria-expanded="true"] { backgroun
 .produkt-menue b { display: block; font-size: 14px; font-weight: 600; line-height: 1.3; }
 .produkt-menue small { display: block; font-size: 12.5px; color: var(--muted); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
 .produkt-menue svg { width: 16px; height: 16px; color: var(--gold-dunkel); }
-.nav { display: grid; gap: 6px; margin-top: 16px; }
-.nav-punkt { display: flex; align-items: center; gap: 13px; height: 46px; padding: 0 14px; border-radius: 12px; font-size: 15px; color: #45413b; }
+.nav { display: grid; gap: 2px; margin: 14px 0 36px; }
+.nav-punkt { display: flex; align-items: center; gap: 13px; height: 42px; padding: 0 14px; border-radius: 12px; font-size: 15px; color: #45413b; }
 .nav-punkt svg { flex: none; width: 22px; height: 22px; color: #6f6a62; }
 .nav-punkt:hover { background: var(--hell); }
 .nav-punkt.an { background: var(--honig); color: var(--text); font-weight: 600; }
 .nav-punkt.an svg { color: var(--gold-dunkel); }
+.nav-saeule { margin: 12px 0 2px; padding: 0 14px; font-size: 11.5px; font-weight: 600; letter-spacing: .08em; text-transform: uppercase; color: #9a8f7c; }
 .leiste-karte { position: relative; margin-top: auto; padding: 40px 18px 18px; border-radius: 16px; background: var(--hell); text-align: center; }
 .gluehen { position: absolute; top: -28px; left: 50%; width: 64px; height: 64px; margin-left: -32px; border-radius: 50%; background: radial-gradient(circle, rgba(236, 194, 106, .55) 0, rgba(236, 194, 106, .2) 42%, rgba(236, 194, 106, 0) 70%); display: flex; align-items: center; justify-content: center; }
 .gluehen svg { width: 22px; height: 22px; }
@@ -102,7 +103,7 @@ button.mein-produkt:hover, button.mein-produkt[aria-expanded="true"] { backgroun
 .assistent-knopf { display: inline-flex; align-items: center; gap: 10px; height: 42px; margin-left: auto; padding: 0 16px 0 6px; border: 0; border-radius: 999px; background: #fff; box-shadow: 0 0 0 1px #ece6db, 0 10px 24px -18px rgba(28, 32, 41, .45); font-size: 14px; font-weight: 600; cursor: pointer; }
 .app { display: block; max-width: 1140px; padding: 14px 48px 56px; }
 
-/* Kapitel: immer nur eins sichtbar, ohne Ziel der Überblick */
+/* Kapitel: immer nur eins sichtbar, ohne Ziel „Dein Stand“ */
 .ansicht { display: none; }
 .ansicht:target, .ansicht:has(:target), .seite:target .ansicht.erste { display: block; animation: einblenden .25s ease-out; }
 .seite, .ansicht { scroll-margin-top: 100vh; }
@@ -118,7 +119,7 @@ button.mein-produkt:hover, button.mein-produkt[aria-expanded="true"] { backgroun
 .weiter svg { width: 16px; height: 16px; }
 .block { padding: 24px 26px; background: #fff; border: 1px solid #f0ebe2; border-radius: 16px; box-shadow: 0 1px 2px rgba(28, 32, 41, .03), 0 16px 34px -28px rgba(28, 32, 41, .4); }
 
-/* Überblick: Produkt, Vorteile, Fahrplan */
+/* Dein Stand: Produkt, die drei Säulen und der Regler */
 .p-held { display: grid; grid-template-columns: 112px minmax(0, 1fr); gap: 26px; align-items: center; }
 .p-bild { width: 112px; height: 128px; border-radius: 24px; overflow: hidden; background: #3d3c4a; box-shadow: 0 22px 40px -22px rgba(28, 32, 41, .75); }
 #immun-booster .p-bild { background: #3c4b62; }
@@ -127,15 +128,26 @@ button.mein-produkt:hover, button.mein-produkt[aria-expanded="true"] { backgroun
 .p-held .unter { margin-top: 6px; font-size: 16.5px; color: #45413b; }
 .fakten { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 12px; }
 .fakten span { padding: 5px 12px; border-radius: 999px; background: #fff; box-shadow: inset 0 0 0 1px #ebe1cb; font-size: 12.5px; font-weight: 500; color: #4d4436; }
-.fahrplan { list-style: none; display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 28px; margin-top: 18px; }
-.fahrplan li { position: relative; }
-.fahrplan li:not(:last-child)::after { content: ""; position: absolute; top: 17px; left: 46px; right: -18px; height: 2px; background: #ecdcc0; }
-.nr { position: relative; z-index: 1; display: flex; align-items: center; justify-content: center; width: 36px; height: 36px; border-radius: 50%; background: #fff; border: 2px solid var(--gold); font-size: 15px; font-weight: 700; color: var(--gold-dunkel); }
-.fahrplan li:first-child .nr { background: var(--gold); color: var(--nacht); }
-.fahrplan b { display: block; margin-top: 14px; font-size: 15px; font-weight: 600; }
-.fahrplan p { margin-top: 4px; font-size: 14px; color: var(--muted); }
-.fahrplan a { display: inline-flex; align-items: center; justify-self: start; gap: 4px; margin-top: 10px; font-size: 14px; font-weight: 600; color: var(--gold-dunkel); }
-.fahrplan a svg { width: 14px; height: 14px; }
+.saeulen { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 14px; }
+.saeule-karte { display: flex; flex-direction: column; padding: 20px 22px; border-radius: 16px; background: #fff; border: 1px solid #f0ebe2; box-shadow: 0 1px 2px rgba(28, 32, 41, .03), 0 16px 34px -28px rgba(28, 32, 41, .4); }
+.saeule-karte:hover { border-color: #e2c88f; }
+.saeule-wert { display: block; margin-top: 14px; font-size: 17px; font-weight: 650; line-height: 1.3; }
+.saeule-text { display: block; margin-top: 4px; font-size: 14px; line-height: 1.45; color: var(--muted); }
+.saeule-link { display: inline-flex; align-items: center; gap: 4px; margin-top: auto; padding-top: 14px; font-size: 14px; font-weight: 600; color: var(--gold-dunkel); }
+.saeule-link svg { width: 14px; height: 14px; }
+/* Säulen-Leiste oben in jedem Kapitel */
+.saeule-nav { display: flex; flex-wrap: wrap; align-items: center; gap: 8px; }
+.saeule-name { display: inline-flex; align-items: center; gap: 8px; margin-right: 6px; font-size: 13px; font-weight: 600; color: var(--gold-dunkel); }
+.saeule-name b { display: inline-flex; align-items: center; justify-content: center; width: 22px; height: 22px; border-radius: 50%; background: var(--gold); color: var(--nacht); font-size: 12px; font-weight: 700; }
+.saeule-nav a { padding: 6px 12px; border-radius: 999px; background: #fff; box-shadow: inset 0 0 0 1px #ebe1cb; font-size: 13px; font-weight: 500; color: #4d4436; }
+.saeule-nav a:hover { box-shadow: inset 0 0 0 1.5px var(--gold); }
+.saeule-nav a.an { background: var(--honig); box-shadow: inset 0 0 0 1.5px var(--gold); color: var(--text); font-weight: 600; }
+/* Dein Vorrat im Nachkauf */
+.vorrat { display: grid; grid-template-columns: 48px minmax(0, 1fr) auto; gap: 16px; align-items: center; }
+.vorrat-ikon { width: 48px; height: 48px; border-radius: 14px; background: var(--honig); display: flex; align-items: center; justify-content: center; color: var(--gold-dunkel); }
+.vorrat-ikon svg { width: 24px; height: 24px; }
+.vorrat p:not(.oberzeile) { margin-top: 4px; font-size: 14.5px; color: #45413b; }
+.vorrat .text-link { display: inline-block; margin-top: 6px; }
 
 .video { position: relative; display: block; width: 100%; aspect-ratio: 16 / 9; padding: 0; border: 0; border-radius: 12px; overflow: hidden; color: #fff; background: var(--nacht-2); text-align: left; cursor: pointer; }
 .video img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; }
@@ -331,19 +343,6 @@ button.hilfe-zeile { width: 100%; border: 0; font: inherit; color: inherit; text
 .bewertung-antwort .text-link { display: inline-block; margin-top: 6px; }
 .hinweis-box { display: grid; grid-template-columns: 22px 1fr; gap: 10px; padding: 12px 14px; border-radius: 12px; background: #fff7e8; border: 1px solid #f1dcb0; font-size: 13.5px; color: #5b4a2c; }
 .hinweis-box svg { width: 22px; height: 22px; }
-
-/* Vorteile */
-.vorteile { padding: 24px 26px 26px; border-radius: 18px; background: linear-gradient(150deg, #fffaf0 0%, #f6ecd6 100%); border: 1px solid #ecdcb6; }
-.vorteil-raster { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 12px; margin-top: 16px; }
-.vorteil { padding: 16px; border-radius: 14px; background: #fff; border: 1px solid #efe1c2; }
-.vorteil-ikon { width: 40px; height: 40px; border-radius: 12px; background: var(--nacht); display: flex; align-items: center; justify-content: center; }
-.vorteil-ikon svg { width: 22px; height: 22px; }
-.vorteil b { display: block; margin-top: 12px; font-size: 15px; font-weight: 650; }
-.vorteil > span:last-child { display: block; margin-top: 2px; font-size: 13px; line-height: 1.4; color: var(--muted); }
-.zahlen { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 12px; margin-top: 12px; }
-.zahlen div { padding: 14px 8px; border-radius: 14px; background: var(--nacht); color: #fff; text-align: center; }
-.zahlen b { display: block; font-size: 24px; line-height: 1.1; font-weight: 700; color: var(--gold); }
-.zahlen span { display: block; margin-top: 4px; font-size: 12px; line-height: 1.3; color: rgba(255, 255, 255, .82); }
 
 /* Fortschritt: Regler „Seit wie vielen Tagen?“, Glas und Fortschritt im Körper. Gespeichert wird nichts */
 .fortschritt { padding: 24px 26px 20px; border-radius: 18px; background: #fff; border: 1px solid #ecdcb6; box-shadow: 0 1px 2px rgba(28, 32, 41, .03), 0 24px 46px -34px rgba(28, 32, 41, .5); }
@@ -552,9 +551,19 @@ body.chat-offen .chat-fenster { display: flex; }
 .platzhalter .knopf { margin-top: 0; }
 .start-recht a:hover, .leiste-recht a:hover { text-decoration: underline; }
 
+/* Niedrige Fenster: Seitenleiste enger, Hilfe-Karte kompakt */
+@media (min-width: 1000px) and (max-height: 940px) {
+  .logo-zeile { padding-bottom: 16px; }
+  .mein-produkt { margin-top: 14px; }
+  .nav { margin-bottom: 16px; }
+  .nav-punkt { height: 40px; }
+  .gluehen, .leiste-karte p { display: none; }
+  .leiste-karte { padding: 14px 16px 16px; }
+  .leiste-karte button { margin-top: 10px; }
+}
+
 /* Schmalere Bildschirme */
 @media (max-width: 1179px) {
-  .vorteil-raster { grid-template-columns: repeat(2, minmax(0, 1fr)); }
   .zwei-spalten, .zwei-spalten.breit, .einnahme-raster { grid-template-columns: minmax(0, 1fr); }
   .bild-links { grid-template-columns: 1fr 1fr; }
   .bild-link img { aspect-ratio: 1; }
@@ -584,8 +593,8 @@ body.chat-offen .chat-fenster { display: flex; }
   .top-produkt .runter { flex: none; width: 14px; height: 14px; color: #8d887f; }
   .assistent-knopf { flex: none; height: 40px; padding: 0 12px 0 5px; font-size: 13.5px; }
   .app { padding: 18px 16px 104px; }
-  .tabbar { position: fixed; left: 0; right: 0; bottom: 0; z-index: 20; display: grid; grid-template-columns: repeat(7, minmax(0, 1fr)); padding: 6px 2px calc(6px + env(safe-area-inset-bottom)); background: rgba(255, 255, 255, .95); -webkit-backdrop-filter: blur(14px); backdrop-filter: blur(14px); border-top: 1px solid #ece6db; }
-  .tab { display: flex; flex-direction: column; align-items: center; gap: 2px; padding: 2px 0; font-size: 10px; font-weight: 500; color: #6f6a62; }
+  .tabbar { position: fixed; left: 0; right: 0; bottom: 0; z-index: 20; display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); padding: 6px 2px calc(6px + env(safe-area-inset-bottom)); background: rgba(255, 255, 255, .95); -webkit-backdrop-filter: blur(14px); backdrop-filter: blur(14px); border-top: 1px solid #ece6db; }
+  .tab { display: flex; flex-direction: column; align-items: center; gap: 2px; padding: 2px 0; font-size: 11px; font-weight: 500; color: #6f6a62; }
   .tab svg { width: 40px; height: 30px; padding: 4px 9px; border-radius: 999px; }
   .tab.an { color: var(--text); font-weight: 600; }
   .tab.an svg { background: var(--honig); color: var(--gold-dunkel); }
@@ -597,15 +606,14 @@ body.chat-offen .chat-fenster { display: flex; }
   .p-held h1 { font-size: 23px; }
   .p-held .unter { font-size: 14.5px; }
   .block { padding: 20px 18px; }
-  .vorteile { padding: 22px 18px 18px; }
-  .vorteil-raster { gap: 10px; }
-  .vorteil { padding: 14px; }
-  .fahrplan { grid-template-columns: minmax(0, 1fr); gap: 20px; }
-  .fahrplan li { display: grid; grid-template-columns: 36px minmax(0, 1fr); column-gap: 14px; align-items: start; }
-  .fahrplan li > :not(.nr) { grid-column: 2; }
-  .fahrplan .nr { grid-row: 1 / span 3; }
-  .fahrplan b { margin-top: 7px; }
-  .fahrplan li:not(:last-child)::after { top: 44px; right: auto; bottom: -14px; left: 17px; width: 2px; height: auto; }
+  .saeulen { grid-template-columns: minmax(0, 1fr); gap: 10px; }
+  .saeule-karte { padding: 16px 18px; }
+  .saeule-wert { margin-top: 10px; font-size: 16px; }
+  .saeule-nav { gap: 10px 6px; }
+  .saeule-nav .saeule-name { flex-basis: 100%; }
+  .vorrat { grid-template-columns: 40px minmax(0, 1fr); gap: 12px; align-items: start; }
+  .vorrat-ikon { width: 40px; height: 40px; border-radius: 12px; }
+  .vorrat .knopf { grid-column: 1 / -1; }
   .optionen, .sets { grid-template-columns: minmax(0, 1fr); gap: 14px; }
   .option { padding: 24px 18px 20px; }
   .dazu-karte { grid-template-columns: 56px minmax(0, 1fr); gap: 14px; }
@@ -784,7 +792,7 @@ body.chat-offen .chat-fenster { display: flex; }
       <circle cx="186" cy="22" r="1.8" fill="#c99a45"/>
     </svg>
     <h1>Welches Produkt hast du gekauft?</h1>
-    <p class="hub-unter">Wähl dein Produkt. Dann bekommst du alles für deinen Start.</p>
+    <p class="hub-unter">Wähl dein Produkt. Dann siehst du, wie du es nimmst, wie du deinem Ziel näherkommst und wann du nachbestellst.</p>
     <div class="produkt-wahl">
       <a class="wahl" href="#nutrition-system"><img src="bilder/ns-glas.jpg" alt=""><span><b>Bioaktives Nutrition-System</b><small>Deine tägliche Basis, 1 Teelöffel pro Tag</small></span><svg aria-hidden="true"><use href="#i-weiter"/></svg></a>
       <a class="wahl" href="#immun-booster"><img src="bilder/ib-glas.jpg" alt=""><span><b>Immun Booster</b><small>Akut-Unterstützung, wenn ein Infekt kommt</small></span><svg aria-hidden="true"><use href="#i-weiter"/></svg></a>
@@ -800,13 +808,16 @@ body.chat-offen .chat-fenster { display: flex; }
     <div class="logo-zeile"><img src="bilder/omni9-logo.svg" alt="OMNI9"></div>
     <button class="mein-produkt" type="button" title="Produkt wechseln" data-produktwahl aria-haspopup="menu" aria-expanded="false" aria-controls="produkt-menue"><img src="bilder/ns-glas.jpg" alt=""><span><small>Dein Produkt</small><b>Nutrition-System</b></span><svg><use href="#i-runter"/></svg></button>
     <nav class="nav" aria-label="Kapitel">
-      <a class="nav-punkt" href="#ns-ueberblick" data-ansicht="ns-ueberblick"><svg><use href="#i-raster"/></svg>Überblick</a>
+      <a class="nav-punkt" href="#ns-ueberblick" data-ansicht="ns-ueberblick"><svg><use href="#i-raster"/></svg>Dein Stand</a>
+      <p class="nav-saeule">1 · Produkt verstehen</p>
       <a class="nav-punkt" href="#ns-einnahme" data-ansicht="ns-einnahme"><svg><use href="#i-loeffel-linie"/></svg>Einnahme</a>
-      <a class="nav-punkt" href="#ns-30" data-ansicht="ns-30"><svg><use href="#i-kalender-linie"/></svg>30 Tage</a>
-      <a class="nav-punkt" href="#ns-tipps" data-ansicht="ns-tipps"><svg><use href="#z-fokus"/></svg>Ziel und Tipps</a>
-      <a class="nav-punkt" href="#ns-inhalt" data-ansicht="ns-inhalt"><svg><use href="#i-glas"/></svg>Inhalt</a>
-      <a class="nav-punkt" href="#ns-nachkauf" data-ansicht="ns-nachkauf"><svg><use href="#i-nachkauf"/></svg>Nachkauf</a>
+      <a class="nav-punkt" href="#ns-inhalt" data-ansicht="ns-inhalt"><svg><use href="#i-glas"/></svg>Was drin ist</a>
       <a class="nav-punkt" href="#ns-fragen" data-ansicht="ns-fragen"><svg><use href="#i-hilfe"/></svg>Fragen</a>
+      <p class="nav-saeule">2 · Näher an dein Ziel</p>
+      <a class="nav-punkt" href="#ns-tipps" data-ansicht="ns-tipps"><svg><use href="#z-fokus"/></svg>Dein Ziel</a>
+      <a class="nav-punkt" href="#ns-30" data-ansicht="ns-30"><svg><use href="#i-kalender-linie"/></svg>Die ersten 30 Tage</a>
+      <p class="nav-saeule">3 · Nachbestellen</p>
+      <a class="nav-punkt" href="#ns-nachkauf" data-ansicht="ns-nachkauf"><svg><use href="#i-nachkauf"/></svg>Nachkauf</a>
     </nav>
     <div class="leiste-karte">
       <span class="gluehen"><svg><use href="#i-tropfen"/></svg></span>
@@ -824,16 +835,20 @@ body.chat-offen .chat-fenster { display: flex; }
     </header>
     <main class="app">
 
-      <section class="ansicht erste" id="ns-ueberblick">
+      <section class="ansicht erste" id="ns-ueberblick" data-saeule="ns-stand">
         <header class="p-held">
           <div class="p-bild"><img src="bilder/ns-glas.jpg" alt="OMNI9 Nutrition-System"></div>
           <div>
             <p class="oberzeile">Dein Produkt</p>
             <h1>Bioaktives Nutrition-System</h1>
-            <p class="unter">Deine tägliche Basis für alle 9 Regenerations-Achsen.</p>
-            <div class="fakten"><span>Bio-zertifiziert</span><span>Made in Germany</span></div>
+            <p class="unter">Alles für deinen Alltag mit OMNI9: so nimmst du es, so kommst du deinem Ziel näher, so bestellst du rechtzeitig nach.</p>
           </div>
         </header>
+        <section class="saeulen" aria-label="Deine drei Säulen">
+          <a class="saeule-karte" href="#ns-einnahme"><span class="saeule-name"><b>1</b>Produkt verstehen</span><b class="saeule-wert">1 Teelöffel am Tag</b><span class="saeule-text">Am besten immer zur gleichen Zeit. So nimmst du es, was drin ist und Antworten auf deine Fragen.</span><span class="saeule-link">Zur Einnahme<svg><use href="#i-weiter"/></svg></span></a>
+          <a class="saeule-karte" href="#ns-tipps"><span class="saeule-name"><b>2</b>Näher an dein Ziel</span><b class="saeule-wert" data-ziel-wert="ns">Was soll sich als Erstes ändern?</b><span class="saeule-text" data-ziel-text="ns">3 kurze Fragen, dann bekommst du deinen Plan mit Tipps für deinen Alltag.</span><span class="saeule-link">Zu deinem Ziel<svg><use href="#i-weiter"/></svg></span></a>
+          <a class="saeule-karte" href="#ns-nachkauf"><span class="saeule-name"><b>3</b>Nachbestellen</span><b class="saeule-wert" data-vorrat-wert="ns">Ein Glas reicht 30 Tage</b><span class="saeule-text" data-vorrat-text="ns">Schieb unten den Regler auf deinen Tag. Dann siehst du, wann du nachbestellen solltest.</span><span class="saeule-link">Zum Nachbestellen<svg><use href="#i-weiter"/></svg></span></a>
+        </section>
         <section class="fortschritt" id="ns-fortschritt" aria-labelledby="ns-fortschritt-titel">
           <div class="fs-oben">
             <div>
@@ -855,31 +870,10 @@ body.chat-offen .chat-fenster { display: flex; }
           </div>
           <p class="fs-fuss"><span>Die Zeitangaben dienen als Orientierung und stammen aus echten Bewertungen. Jeder Körper ist anders.</span></p>
         </section>
-        <section class="vorteile">
-          <h2>Deine Vorteile mit OMNI9</h2>
-          <div class="vorteil-raster">
-            <div class="vorteil"><span class="vorteil-ikon"><svg><use href="#i-darm"/></svg></span><b>Gesunder Darm</b><span>Ein ruhigerer Bauch, ohne Blähbauch und Völlegefühl</span></div>
-            <div class="vorteil"><span class="vorteil-ikon"><svg><use href="#i-energie"/></svg></span><b>Mehr Energie</b><span>Stabil über den Tag, ohne Mittags-Crash</span></div>
-            <div class="vorteil"><span class="vorteil-ikon"><svg><use href="#i-schlaf"/></svg></span><b>Guter Schlaf</b><span>Abends zur Ruhe kommen, erholter aufwachen</span></div>
-            <div class="vorteil"><span class="vorteil-ikon"><svg><use href="#i-fokus"/></svg></span><b>Mehr Fokus</b><span>Ein klarer Kopf statt Konzentrationslöchern</span></div>
-          </div>
-          <div class="zahlen">
-            <div><b>16+</b><span>Supplements in einem Löffel</span></div>
-            <div><b>9</b><span>Regenerations-Achsen</span></div>
-            <div><b>90</b><span>Tage Geld-zurück-Garantie</span></div>
-          </div>
-        </section>
-        <section class="block">
-          <h2>So geht es für dich weiter</h2>
-          <ol class="fahrplan">
-            <li><span class="nr">1</span><b>Heute</b><p>Start-Video ansehen und den ersten Teelöffel nehmen.</p><a href="#ns-einnahme">Zur Einnahme<svg><use href="#i-weiter"/></svg></a></li>
-            <li><span class="nr">2</span><b>Tag 1 bis 30</b><p>Jeden Tag einen Teelöffel, am besten immer zur gleichen Zeit.</p><a href="#ns-30">Zum 30-Tage-Plan<svg><use href="#i-weiter"/></svg></a></li>
-            <li><span class="nr">3</span><b>Bevor das Glas leer ist</b><p>Ein Glas reicht 30 Tage. Mit automatischer Lieferung kostet es 69&nbsp;€ statt 89&nbsp;€.</p><a href="#ns-nachkauf">Zum Nachkauf<svg><use href="#i-weiter"/></svg></a></li>
-          </ol>
-        </section>
       </section>
 
-      <section class="ansicht" id="ns-einnahme">
+      <section class="ansicht" id="ns-einnahme" data-saeule="ns-verstehen">
+        <nav class="saeule-nav" aria-label="Produkt verstehen"><span class="saeule-name"><b>1</b>Produkt verstehen</span><a href="#ns-einnahme" data-ansicht="ns-einnahme">Einnahme</a><a href="#ns-inhalt" data-ansicht="ns-inhalt">Was drin ist</a><a href="#ns-fragen" data-ansicht="ns-fragen">Fragen</a></nav>
         <header class="ansicht-kopf"><h1>So nimmst du OMNI9</h1><p>Ein Löffel. Jeden Tag. Ohne Aufwand.</p></header>
         <section class="tagesplan" aria-labelledby="ns-tagesplan-titel">
           <div class="tp-kopf">
@@ -914,10 +908,11 @@ body.chat-offen .chat-fenster { display: flex; }
             </ul>
           </div>
         </div>
-        <div class="weiter"><a href="#ns-30">Weiter: Deine ersten 30 Tage<svg><use href="#i-weiter"/></svg></a></div>
+        <div class="weiter"><a href="#ns-inhalt">Weiter: Was in deinem Glas steckt<svg><use href="#i-weiter"/></svg></a></div>
       </section>
 
-      <section class="ansicht" id="ns-30">
+      <section class="ansicht" id="ns-30" data-saeule="ns-ziel">
+        <nav class="saeule-nav" aria-label="Näher an dein Ziel"><span class="saeule-name"><b>2</b>Näher an dein Ziel</span><a href="#ns-tipps" data-ansicht="ns-tipps">Dein Ziel</a><a href="#ns-30" data-ansicht="ns-30">Die ersten 30 Tage</a></nav>
         <header class="ansicht-kopf"><h1>Deine ersten 30 Tage</h1><p>So wird OMNI9 zu deiner Routine.</p></header>
         <div class="zwei-spalten">
           <div class="block">
@@ -965,21 +960,23 @@ body.chat-offen .chat-fenster { display: flex; }
           </ol>
           <a class="text-link" data-bewertung-link="ns" target="_blank" rel="noopener">Alle Bewertungen auf omni9.de</a>
         </section>
-        <div class="weiter"><a href="#ns-tipps">Weiter: Dein Ziel, deine Tipps<svg><use href="#i-weiter"/></svg></a></div>
+        <div class="weiter"><a href="#ns-nachkauf">Weiter zu 3: Nachbestellen<svg><use href="#i-weiter"/></svg></a></div>
       </section>
 
-      <section class="ansicht" id="ns-tipps">
+      <section class="ansicht" id="ns-tipps" data-saeule="ns-ziel">
+        <nav class="saeule-nav" aria-label="Näher an dein Ziel"><span class="saeule-name"><b>2</b>Näher an dein Ziel</span><a href="#ns-tipps" data-ansicht="ns-tipps">Dein Ziel</a><a href="#ns-30" data-ansicht="ns-30">Die ersten 30 Tage</a></nav>
         <header class="ansicht-kopf"><h1>Dein Ziel, deine Tipps</h1><p>3 kurze Fragen zu deinem Ziel und deinem Alltag. Dann bekommst du ausführliche Tipps, die zu dir passen.</p></header>
         <div class="quiz-box" data-quiz-box="ns">
           <div class="quiz-kopf"><span class="quiz-glas" data-glas></span><div><p class="quiz-schritt" data-q-schritt></p><h2 data-q-titel></h2></div></div>
           <div data-q-koerper></div>
           <div class="quiz-fuss" data-q-fuss></div>
         </div>
-        <div class="weiter"><a href="#ns-inhalt">Weiter: Was in OMNI9 steckt<svg><use href="#i-weiter"/></svg></a></div>
+        <div class="weiter"><a href="#ns-30">Weiter: Deine ersten 30 Tage<svg><use href="#i-weiter"/></svg></a></div>
       </section>
 
-      <section class="ansicht" id="ns-inhalt">
-        <header class="ansicht-kopf"><h1>Was in OMNI9 steckt</h1><p>16 Zutaten mit 51 Mikronährstoff- und Wirkstoff-Komponenten, verbunden in einer bioaktiven Honigmatrix. Zusammen versorgen sie alle 9 Regenerations-Achsen deines Körpers.</p></header>
+      <section class="ansicht" id="ns-inhalt" data-saeule="ns-verstehen">
+        <nav class="saeule-nav" aria-label="Produkt verstehen"><span class="saeule-name"><b>1</b>Produkt verstehen</span><a href="#ns-einnahme" data-ansicht="ns-einnahme">Einnahme</a><a href="#ns-inhalt" data-ansicht="ns-inhalt">Was drin ist</a><a href="#ns-fragen" data-ansicht="ns-fragen">Fragen</a></nav>
+        <header class="ansicht-kopf"><h1>Was in deinem Glas steckt</h1><p>Damit du weißt, was du jeden Tag nimmst und wofür: 16 Zutaten in einer bioaktiven Honigmatrix, sortiert nach den 9 Regenerations-Achsen deines Körpers.</p></header>
         <section class="frag-box" aria-labelledby="ns-frag-titel">
           <span class="blase"><svg><use href="#i-chat"/></svg></span>
           <div><h2 id="ns-frag-titel">Tiefer einsteigen? Frag den Assistenten</h2><p>Er kennt jede Zutat und jede Achse und antwortet sofort.</p></div>
@@ -1000,7 +997,7 @@ body.chat-offen .chat-fenster { display: flex; }
             <span class="dauer">3:06</span>
           </button>
           <div class="block">
-            <h2>Zusammenspiel statt Supplement-Chaos</h2>
+            <h2>Warum die Zutaten zusammen wirken</h2>
             <p class="block-text">Einzelstoffe wirken oft kaum, weil der passende Partner fehlt. OMNI9 kombiniert deshalb Paare, die sich gegenseitig verstärken.</p>
             <ul class="synergie">
               <li><b>Curcumin + Piperin</b><span>Piperin verstärkt die Wirkung von Curcumin um ein Vielfaches.</span></li>
@@ -1028,7 +1025,7 @@ body.chat-offen .chat-fenster { display: flex; }
               <h3>Entzündungs- &amp; Schmerz-Achse</h3>
               <p class="unterzeile">Stille Entzündungen regulieren</p>
               <dl>
-                <div><dt>Typischer Alltag</dt><dd>Morgens steif, diffuse Beschwerden, ein schwerer Körper, Nebel im Kopf. Das Gefühl, ständig unter Strom zu stehen.</dd></div>
+                <div><dt>Wann sie wichtig ist</dt><dd>Morgens steif, diffuse Beschwerden, ein schwerer Körper, Nebel im Kopf. Das Gefühl, ständig unter Strom zu stehen.</dd></div>
                 <div><dt>Darin steckt</dt><dd class="komplexe"><span>Bio-Curcumin + Bio-Piperin</span><span>Omega-3 aus Bio-Algenöl</span><span>Bio-Phycocyanin</span><span>Bio-Granatapfel</span><span>Pterostilben</span></dd></div>
                 <div><dt>Warum das hilft</dt><dd>Stille Entzündungen wirken wie ein Schwelbrand im Gewebe und halten deinen Körper im Daueralarm. Curcumin und Omega-3 setzen an unterschiedlichen Stellen an. Piperin verbessert die Verfügbarkeit von Curcumin. Phycocyanin, Granatapfel und Pterostilben verstärken den Zellschutz.</dd></div>
               </dl>
@@ -1037,7 +1034,7 @@ body.chat-offen .chat-fenster { display: flex; }
               <h3>Darm- &amp; Mikrobiom-Achse</h3>
               <p class="unterzeile">Darm beruhigen, Nährstoffaufnahme verbessern</p>
               <dl>
-                <div><dt>Typischer Alltag</dt><dd>Blähbauch, ein schwerer Magen, Müdigkeit nach dem Essen. Supplements bringen kaum einen spürbaren Unterschied.</dd></div>
+                <div><dt>Wann sie wichtig ist</dt><dd>Blähbauch, ein schwerer Magen, Müdigkeit nach dem Essen. Supplements bringen kaum einen spürbaren Unterschied.</dd></div>
                 <div><dt>Darin steckt</dt><dd class="komplexe"><span>Bacillus coagulans</span><span>Bio-Akazienfaser</span><span>Honig-Oligosaccharide aus Bio-Buchweizenhonig</span></dd></div>
                 <div><dt>Warum das hilft</dt><dd>Ein gereizter Darm ist wie ausgelaugter Boden: Nur ein Teil der Nährstoffe kommt wirklich an. Akazienfaser nährt hilfreiche Darmbakterien. Die Sporenkultur Bacillus coagulans unterstützt das Darmmilieu. Wird der Darm stabiler, nimmt er Nährstoffe wieder besser auf.</dd></div>
               </dl>
@@ -1046,7 +1043,7 @@ body.chat-offen .chat-fenster { display: flex; }
               <h3>Zellenergie- &amp; Mitochondrien-Achse</h3>
               <p class="unterzeile">Tagesenergie ohne Crash</p>
               <dl>
-                <div><dt>Typischer Alltag</dt><dd>Trotz Schlaf nicht erholt, ein halber Akku am Morgen, das Nachmittagsloch. Nach kleinen Belastungen völlig leer.</dd></div>
+                <div><dt>Wann sie wichtig ist</dt><dd>Trotz Schlaf nicht erholt, ein halber Akku am Morgen, das Nachmittagsloch. Nach kleinen Belastungen völlig leer.</dd></div>
                 <div><dt>Darin steckt</dt><dd class="komplexe"><span>Aktives NADH</span><span>Pterostilben</span><span>Vitamin B6 als P5P</span><span>Vitamin B9 als 5-MTHF</span><span>Vitamin B12 als Methylcobalamin</span><span>Omega-3 und Antioxidantien</span></dd></div>
                 <div><dt>Warum das hilft</dt><dd>Deine Mitochondrien liefern die Energie für Gehirn, Muskeln und Nerven. NADH unterstützt die Prozesse, durch die dort ATP entsteht. Die aktiven B-Vitamine liefern wichtige Cofaktoren. So entsteht Energie nicht als kurzer Schub, sondern als stabile Kraft über den Tag.</dd></div>
               </dl>
@@ -1055,7 +1052,7 @@ body.chat-offen .chat-fenster { display: flex; }
               <h3>Stress- &amp; Cortisol-Achse</h3>
               <p class="unterzeile">Vom Daueralarm zurück in die Regeneration</p>
               <dl>
-                <div><dt>Typischer Alltag</dt><dd>Müde, aber innerlich unruhig. Schnell gereizt. Der Kopf schaltet nicht ab, und der Schlaf erholt nicht.</dd></div>
+                <div><dt>Wann sie wichtig ist</dt><dd>Müde, aber innerlich unruhig. Schnell gereizt. Der Kopf schaltet nicht ab, und der Schlaf erholt nicht.</dd></div>
                 <div><dt>Darin steckt</dt><dd class="komplexe"><span>Bio-Ashwagandha</span><span>Aktive B-Vitamine</span><span>Vitamin D3 aus Bio-Flechte</span><span>Vitamin K2 aus Bio-Natto</span><span>Omega-3</span><span>Zink aus Bio-Guavenblatt</span><span>Bio-Acerola und Bio-Granatapfel</span></dd></div>
                 <div><dt>Warum das hilft</dt><dd>Bleibt dein Stresssystem dauerhaft aktiv, kann dein Körper nicht gut zwischen Anspannung und Erholung wechseln. Ashwagandha unterstützt die Regulation der Stressachse. Die aktiven B-Vitamine versorgen dein Nervensystem. So kann Schlaf wieder zu echter Regeneration werden.</dd></div>
               </dl>
@@ -1064,7 +1061,7 @@ body.chat-offen .chat-fenster { display: flex; }
               <h3>Neuro- &amp; Fokus-Achse</h3>
               <p class="unterzeile">Klarer Kopf, weniger Nebel</p>
               <dl>
-                <div><dt>Typischer Alltag</dt><dd>Du liest Sätze zweimal, Wörter fallen dir nicht ein, die Konzentration lässt schnell nach.</dd></div>
+                <div><dt>Wann sie wichtig ist</dt><dd>Du liest Sätze zweimal, Wörter fallen dir nicht ein, die Konzentration lässt schnell nach.</dd></div>
                 <div><dt>Darin steckt</dt><dd class="komplexe"><span>Bio-Lion’s-Mane</span><span>Aktive B-Vitamine</span><span>Aktives NADH</span><span>Bio-Ginkgo-Biloba</span><span>Bio-Acerola und Bio-Granatapfel</span></dd></div>
                 <div><dt>Warum das hilft</dt><dd>Dein Gehirn braucht gleichzeitig Energie, Durchblutung und stabile Nervenverbindungen. Lion’s Mane unterstützt die Nervenregeneration, Ginkgo die Versorgung des Gehirns. DHA ist ein wichtiger Baustein der Nervenzellen. NADH liefert dazu Zellenergie.</dd></div>
               </dl>
@@ -1073,7 +1070,7 @@ body.chat-offen .chat-fenster { display: flex; }
               <h3>Immun- &amp; Schleimhaut-Achse</h3>
               <p class="unterzeile">Immunabwehr stabilisieren</p>
               <dl>
-                <div><dt>Typischer Alltag</dt><dd>Du fühlst dich schnell angeschlagen, Stress wirft dich aus der Bahn, und nach Belastungen brauchst du lange, um dich zu erholen.</dd></div>
+                <div><dt>Wann sie wichtig ist</dt><dd>Du fühlst dich schnell angeschlagen, Stress wirft dich aus der Bahn, und nach Belastungen brauchst du lange, um dich zu erholen.</dd></div>
                 <div><dt>Darin steckt</dt><dd class="komplexe"><span>Vitamin C aus Bio-Acerola</span><span>Vitamin D3 aus Bio-Flechte</span><span>Zink aus Bio-Guavenblatt</span><span>Polyphenole aus Bio-Granatapfel</span><span>Sporen-Probiotika</span><span>Präbiotika aus Bio-Akazienfaser</span></dd></div>
                 <div><dt>Warum das hilft</dt><dd>Ein großer Teil deiner Immunregulation beginnt im Darm und an den Schleimhäuten. Bacillus coagulans und Akazienfaser stabilisieren die Grundlage im Darm. Vitamin C, D3 und Zink versorgen zentrale Bereiche deiner Abwehr.</dd></div>
               </dl>
@@ -1082,7 +1079,7 @@ body.chat-offen .chat-fenster { display: flex; }
               <h3>Herz-, Gefäß- &amp; Gewebe-Achse</h3>
               <p class="unterzeile">Infrastruktur von innen</p>
               <dl>
-                <div><dt>Typischer Alltag</dt><dd>Wenig Belastbarkeit, kalte Hände und Füße, der Kreislauf fühlt sich blockiert an.</dd></div>
+                <div><dt>Wann sie wichtig ist</dt><dd>Wenig Belastbarkeit, kalte Hände und Füße, der Kreislauf fühlt sich blockiert an.</dd></div>
                 <div><dt>Darin steckt</dt><dd class="komplexe"><span>Omega-3 (DHA/EPA)</span><span>Vitamin K2 MK-7</span><span>Zink</span><span>Bio-Granatapfel</span><span>Pterostilben</span><span>Vitamin C</span><span>Bio-Ginkgo-Biloba</span></dd></div>
                 <div><dt>Warum das hilft</dt><dd>Gefäße und Zellmembranen sind das Transportsystem deines Körpers. Omega-3 unterstützt flexible Zellmembranen, Ginkgo die Mikrozirkulation, Vitamin C Kollagen und Gefäßstruktur. So kommen Sauerstoff und Nährstoffe dort an, wo sie gebraucht werden.</dd></div>
               </dl>
@@ -1091,7 +1088,7 @@ body.chat-offen .chat-fenster { display: flex; }
               <h3>Entgiftungs- &amp; Leber-Achse</h3>
               <p class="unterzeile">Die Müllabfuhr deines Körpers entlasten</p>
               <dl>
-                <div><dt>Typischer Alltag</dt><dd>Innerlich belastet, träge, schlechte Regeneration nach Stress oder schwerem Essen.</dd></div>
+                <div><dt>Wann sie wichtig ist</dt><dd>Innerlich belastet, träge, schlechte Regeneration nach Stress oder schwerem Essen.</dd></div>
                 <div><dt>Darin steckt</dt><dd class="komplexe"><span>Bio-Spirulina</span><span>Bio-Phycocyanin</span><span>Bio-Granatapfel</span><span>Bio-Curcumin</span><span>Bio-Piperin</span><span>Pterostilben</span><span>Vitamin C aus Bio-Acerola</span></dd></div>
                 <div><dt>Warum das hilft</dt><dd>Leber und Zellen haben eigene Reinigungs- und Recyclingsysteme, die bei Dauerstress nicht mehr hinterherkommen. Spirulina liefert Aminosäuren und Pflanzenstoffe. Phycocyanin, Curcumin, Granatapfel und Vitamin C fangen freie Radikale ab.</dd></div>
               </dl>
@@ -1100,7 +1097,7 @@ body.chat-offen .chat-fenster { display: flex; }
               <h3>Bioverfügbarkeits-Achse</h3>
               <p class="unterzeile">Damit Nährstoffe da ankommen, wo sie sollen</p>
               <dl>
-                <div><dt>Typischer Alltag</dt><dd>Du hast schon Vitamine, Pulver und Kapseln genommen, aber kaum einen Unterschied gespürt.</dd></div>
+                <div><dt>Wann sie wichtig ist</dt><dd>Du hast schon Vitamine, Pulver und Kapseln genommen, aber kaum einen Unterschied gespürt.</dd></div>
                 <div><dt>Darin steckt</dt><dd class="komplexe"><span>Enzymaktive Honigmatrix</span><span>Bio-Akazienfaser</span><span>Bacillus coagulans</span><span>Bio-Piperin</span><span>Mikroverkapseltes NADH</span><span>Vitamin D3 + K2</span><span>Vitamin C + Zink</span></dd></div>
                 <div><dt>Warum das hilft</dt><dd>Die bioaktive Honigmatrix wirkt als natürliches Transportsystem und steigert die Aufnahme der Nährstoffe im Darm um bis zu 600 %. Akazienfaser und Bacillus coagulans unterstützen die Bedingungen für die Aufnahme, Piperin die Verfügbarkeit von Curcumin. NADH ist durch Mikroverkapselung geschützt.</dd></div>
               </dl>
@@ -1140,11 +1137,13 @@ body.chat-offen .chat-fenster { display: flex; }
             </div>
           </section>
         </div>
-        <div class="weiter"><a href="#ns-nachkauf">Weiter: Nachkauf<svg><use href="#i-weiter"/></svg></a></div>
+        <div class="weiter"><a href="#ns-fragen">Weiter: Fragen und Hilfe<svg><use href="#i-weiter"/></svg></a></div>
       </section>
 
-      <section class="ansicht" id="ns-nachkauf">
+      <section class="ansicht" id="ns-nachkauf" data-saeule="ns-nachkauf">
+        <p class="saeule-nav"><span class="saeule-name"><b>3</b>Nachbestellen</span></p>
         <header class="ansicht-kopf"><h1>Rechtzeitig nachbestellen</h1><p>Ein Glas hat 30 Portionen und reicht bei einem Teelöffel pro Tag einen Monat. Bestell rechtzeitig nach, damit deine Routine nicht abreißt.</p></header>
+        <section class="block vorrat"><span class="vorrat-ikon"><svg><use href="#i-nachkauf"/></svg></span><div><p class="oberzeile">Dein Vorrat</p><h2 data-vorrat-wert="ns">Ein Glas reicht 30 Tage</h2><p data-vorrat-text="ns">Stell bei „Dein Stand“ ein, seit wie vielen Tagen du OMNI9 nimmst. Dann siehst du hier, wann dein Glas leer ist und bis wann du nachbestellen solltest.</p><a class="text-link" href="#ns-fortschritt">Zu deinem Tag</a></div><button class="knopf hell tp-erinnerung" type="button" data-erinnerung="ns-nachbestellen"><svg><use href="#i-kalender-linie"/></svg><span>Erinnere mich ans Nachbestellen</span></button></section>
         <div class="optionen">
           <section class="option">
             <h2>Einmal nachbestellen</h2>
@@ -1196,10 +1195,11 @@ body.chat-offen .chat-fenster { display: flex; }
           <div><h2>Passt dazu: Immun Booster</h2><p>Deine Akut-Unterstützung, wenn ein Infekt kommt. Viele nehmen ihn für ein paar Tage zusätzlich zu OMNI9.</p></div>
           <div class="dazu-knoepfe"><a class="knopf hell" data-kauf="ns-dazu-booster" href="https://omni9.de/cart/56549866013020:1" target="_blank" rel="noopener">Bestellen für 59,90&nbsp;€</a><a class="text-link" href="#immun-booster">Mehr erfahren</a></div>
         </section>
-        <div class="weiter"><a href="#ns-fragen">Weiter: Fragen und Hilfe<svg><use href="#i-weiter"/></svg></a></div>
+        <div class="weiter"><a href="#ns-ueberblick">Zu deinem Stand<svg><use href="#i-weiter"/></svg></a></div>
       </section>
 
-      <section class="ansicht" id="ns-fragen">
+      <section class="ansicht" id="ns-fragen" data-saeule="ns-verstehen">
+        <nav class="saeule-nav" aria-label="Produkt verstehen"><span class="saeule-name"><b>1</b>Produkt verstehen</span><a href="#ns-einnahme" data-ansicht="ns-einnahme">Einnahme</a><a href="#ns-inhalt" data-ansicht="ns-inhalt">Was drin ist</a><a href="#ns-fragen" data-ansicht="ns-fragen">Fragen</a></nav>
         <header class="ansicht-kopf"><h1>Fragen und Hilfe</h1><p>Die häufigsten Fragen nach dem Kauf und alle Wege zu uns.</p></header>
         <div class="zwei-spalten breit">
           <div class="block">
@@ -1208,8 +1208,8 @@ body.chat-offen .chat-fenster { display: flex; }
             <details><summary>Was, wenn ich einen empfindlichen Darm habe?<svg><use href="#plus"/></svg></summary><p>Genau dafür enthält OMNI9 das Darm-Fundament. Starte die ersten Tage mit weniger und steigere dann auf die Standardmenge. So stellt sich dein System gut darauf ein.</p></details>
             <details><summary>Kann ich OMNI9 mit meinen Supplements kombinieren?<svg><use href="#plus"/></svg></summary><p>Ja. OMNI9 ist aber dafür gedacht, dass du nicht 8 bis 16 Mittel parallel brauchst. Viele nutzen OMNI9 als Basis, die den Rest ersetzt oder stark reduziert.</p></details>
             <details><summary>Treibt der Honig meinen Blutzucker hoch?<svg><use href="#plus"/></svg></summary><p>OMNI9 ist als kleines tägliches Ritual gedacht, nicht als Snack. Als Teil deines Alltags geht es dabei nicht um mehr Zucker, sondern um die Unterstützung deines Systems.</p></details>
-            <details><summary>Für wen ist OMNI9 gemacht?<svg><use href="#plus"/></svg></summary><p>Für Menschen, die funktionieren müssen, aber merken: Der Bauch ist unruhig, der Kopf benebelt, die Energie bricht weg, und der Schlaf erholt nicht. Und die keine Lust mehr auf Supplement-Chaos haben.</p></details>
-            <details><summary>Für wen ist OMNI9 nicht das Richtige?<svg><use href="#plus"/></svg></summary><p>Wenn du nur einen kurzen Kick suchst. OMNI9 ist auf Regeneration und Stabilität ausgelegt, nicht auf kurze Leistungsspitzen.</p></details>
+            <details><summary>Wann merke ich etwas?<svg><use href="#plus"/></svg></summary><p>Das ist bei jedem anders. In den ersten Tagen merken manche noch nichts. Wichtig ist, dass du jeden Tag dranbleibst. Einige schreiben nach 2 bis 3 Wochen von mehr Energie. <a class="text-link" href="#ns-fortschritt">Sieh nach, was an deinem Tag passiert</a></p></details>
+            <details><summary>Wann sollte ich nachbestellen?<svg><use href="#plus"/></svg></summary><p>Ein Glas hat 30 Portionen und reicht bei einem Teelöffel pro Tag einen Monat. Die Lieferung mit DHL dauert 2 bis 7 Tage. Bestell also etwa eine Woche, bevor das Glas leer ist. <a class="text-link" href="#ns-nachkauf">Zum Nachbestellen</a></p></details>
             <details><summary>Allergien oder Unverträglichkeiten?<svg><use href="#plus"/></svg></summary><p>Bist du sehr empfindlich oder hast du bekannte Allergien, prüf bitte die Zutatenliste und kläre es im Zweifel ärztlich ab.</p></details>
             <details><summary>Schwangerschaft, Stillzeit oder Vorerkrankungen?<svg><use href="#plus"/></svg></summary><p>Bitte kläre die Einnahme vorab ärztlich ab.</p></details>
             <button class="chat-cta" type="button" data-chat><span class="blase"><svg><use href="#i-chat"/></svg></span><span><b>Deine Frage ist nicht dabei?</b><small>Der OMNI9 Assistent antwortet sofort, auch zu Nährstoffen, Versand und Nachkauf</small></span></button>
@@ -1229,17 +1229,15 @@ body.chat-offen .chat-fenster { display: flex; }
             <div class="bewertung-antwort" hidden></div>
           </div>
         </div>
+        <div class="weiter"><a href="#ns-tipps">Weiter zu 2: Dein Ziel<svg><use href="#i-weiter"/></svg></a></div>
       </section>
 
     </main>
-    <nav class="tabbar" aria-label="Kapitel">
-      <a class="tab" href="#ns-ueberblick" data-ansicht="ns-ueberblick"><svg><use href="#i-raster"/></svg>Überblick</a>
-      <a class="tab" href="#ns-einnahme" data-ansicht="ns-einnahme"><svg><use href="#i-loeffel-linie"/></svg>Einnahme</a>
-      <a class="tab" href="#ns-30" data-ansicht="ns-30"><svg><use href="#i-kalender-linie"/></svg>30 Tage</a>
-      <a class="tab" href="#ns-tipps" data-ansicht="ns-tipps"><svg><use href="#z-fokus"/></svg>Tipps</a>
-      <a class="tab" href="#ns-inhalt" data-ansicht="ns-inhalt"><svg><use href="#i-glas"/></svg>Inhalt</a>
-      <a class="tab" href="#ns-nachkauf" data-ansicht="ns-nachkauf"><svg><use href="#i-nachkauf"/></svg>Nachkauf</a>
-      <a class="tab" href="#ns-fragen" data-ansicht="ns-fragen"><svg><use href="#i-hilfe"/></svg>Fragen</a>
+    <nav class="tabbar" aria-label="Säulen">
+      <a class="tab" href="#ns-ueberblick" data-saeule-tab="ns-stand"><svg><use href="#i-raster"/></svg>Dein Stand</a>
+      <a class="tab" href="#ns-einnahme" data-saeule-tab="ns-verstehen"><svg><use href="#i-loeffel-linie"/></svg>Verstehen</a>
+      <a class="tab" href="#ns-tipps" data-saeule-tab="ns-ziel"><svg><use href="#z-fokus"/></svg>Dein Ziel</a>
+      <a class="tab" href="#ns-nachkauf" data-saeule-tab="ns-nachkauf"><svg><use href="#i-nachkauf"/></svg>Nachbestellen</a>
     </nav>
   </div>
 </section>
@@ -1250,13 +1248,16 @@ body.chat-offen .chat-fenster { display: flex; }
     <div class="logo-zeile"><img src="bilder/omni9-logo.svg" alt="OMNI9"></div>
     <button class="mein-produkt" type="button" title="Produkt wechseln" data-produktwahl aria-haspopup="menu" aria-expanded="false" aria-controls="produkt-menue"><img src="bilder/ib-glas.jpg" alt=""><span><small>Dein Produkt</small><b>Immun Booster</b></span><svg><use href="#i-runter"/></svg></button>
     <nav class="nav" aria-label="Kapitel">
-      <a class="nav-punkt" href="#ib-ueberblick" data-ansicht="ib-ueberblick"><svg><use href="#i-raster"/></svg>Überblick</a>
+      <a class="nav-punkt" href="#ib-ueberblick" data-ansicht="ib-ueberblick"><svg><use href="#i-raster"/></svg>Dein Stand</a>
+      <p class="nav-saeule">1 · Produkt verstehen</p>
       <a class="nav-punkt" href="#ib-einnahme" data-ansicht="ib-einnahme"><svg><use href="#i-loeffel-linie"/></svg>Einnahme</a>
-      <a class="nav-punkt" href="#ib-plan" data-ansicht="ib-plan"><svg><use href="#i-kalender-linie"/></svg>Akutphase</a>
-      <a class="nav-punkt" href="#ib-tipps" data-ansicht="ib-tipps"><svg><use href="#z-fokus"/></svg>Tipps</a>
-      <a class="nav-punkt" href="#ib-inhalt" data-ansicht="ib-inhalt"><svg><use href="#i-glas"/></svg>Inhalt</a>
-      <a class="nav-punkt" href="#ib-nachkauf" data-ansicht="ib-nachkauf"><svg><use href="#i-nachkauf"/></svg>Nachkauf</a>
+      <a class="nav-punkt" href="#ib-inhalt" data-ansicht="ib-inhalt"><svg><use href="#i-glas"/></svg>Was drin ist</a>
       <a class="nav-punkt" href="#ib-fragen" data-ansicht="ib-fragen"><svg><use href="#i-hilfe"/></svg>Fragen</a>
+      <p class="nav-saeule">2 · Näher an dein Ziel</p>
+      <a class="nav-punkt" href="#ib-tipps" data-ansicht="ib-tipps"><svg><use href="#z-fokus"/></svg>Dein Ziel</a>
+      <a class="nav-punkt" href="#ib-plan" data-ansicht="ib-plan"><svg><use href="#i-kalender-linie"/></svg>Akutphase</a>
+      <p class="nav-saeule">3 · Nachbestellen</p>
+      <a class="nav-punkt" href="#ib-nachkauf" data-ansicht="ib-nachkauf"><svg><use href="#i-nachkauf"/></svg>Nachkauf</a>
     </nav>
     <div class="leiste-karte">
       <span class="gluehen"><svg><use href="#i-tropfen"/></svg></span>
@@ -1274,16 +1275,20 @@ body.chat-offen .chat-fenster { display: flex; }
     </header>
     <main class="app">
 
-      <section class="ansicht erste" id="ib-ueberblick">
+      <section class="ansicht erste" id="ib-ueberblick" data-saeule="ib-stand">
         <header class="p-held">
           <div class="p-bild"><img src="bilder/ib-glas.jpg" alt="OMNI9 Immun Booster"></div>
           <div>
             <p class="oberzeile">Dein Produkt</p>
             <h1>Immun Booster</h1>
-            <p class="unter">Deine Akut-Unterstützung, wenn ein Infekt kommt.</p>
-            <div class="fakten"><span>34 Mikronährstoffe</span><span>Made in Germany</span></div>
+            <p class="unter">Alles für deine Akutphase: so nimmst du ihn, so kommst du gut durch, so hast du rechtzeitig Nachschub.</p>
           </div>
         </header>
+        <section class="saeulen" aria-label="Deine drei Säulen">
+          <a class="saeule-karte" href="#ib-einnahme"><span class="saeule-name"><b>1</b>Produkt verstehen</span><b class="saeule-wert">3 Teelöffel am Tag</b><span class="saeule-text">In der Akutphase 5 bis 10 Tage lang. So nimmst du ihn, was drin ist und Antworten auf deine Fragen.</span><span class="saeule-link">Zur Einnahme<svg><use href="#i-weiter"/></svg></span></a>
+          <a class="saeule-karte" href="#ib-tipps"><span class="saeule-name"><b>2</b>Näher an dein Ziel</span><b class="saeule-wert" data-ziel-wert="ib">Akutphase oder vorbeugen?</b><span class="saeule-text" data-ziel-text="ib">2 kurze Fragen, dann bekommst du Tipps, die zu deinem Alltag passen.</span><span class="saeule-link">Zu deinem Ziel<svg><use href="#i-weiter"/></svg></span></a>
+          <a class="saeule-karte" href="#ib-nachkauf"><span class="saeule-name"><b>3</b>Nachbestellen</span><b class="saeule-wert" data-vorrat-wert="ib">Ein Glas reicht für eine Akutphase</b><span class="saeule-text" data-vorrat-text="ib">Bis zu 10 Tage mit 3 Teelöffeln am Tag. Bestell rechtzeitig nach, dann hast du ihn beim nächsten Mal griffbereit.</span><span class="saeule-link">Zum Nachbestellen<svg><use href="#i-weiter"/></svg></span></a>
+        </section>
         <section class="fortschritt" id="ib-fortschritt" aria-labelledby="ib-fortschritt-titel">
           <div class="fs-oben">
             <div>
@@ -1305,31 +1310,10 @@ body.chat-offen .chat-fenster { display: flex; }
           </div>
           <p class="fs-fuss"><span>Die Zeiten dienen zur Orientierung. Wird es nicht besser, sprich mit Arzt oder Apotheke.</span></p>
         </section>
-        <section class="vorteile">
-          <h2>Deine Vorteile mit dem Immun Booster</h2>
-          <div class="vorteil-raster">
-            <div class="vorteil"><span class="vorteil-ikon"><svg><use href="#i-schutz"/></svg></span><b>Sofort gegensteuern</b><span>Bei den ersten Anzeichen die richtigen Bausteine</span></div>
-            <div class="vorteil"><span class="vorteil-ikon"><svg><use href="#i-hals"/></svg></span><b>Hals beruhigen</b><span>Wenn es kratzt und dein System auf Alarm schaltet</span></div>
-            <div class="vorteil"><span class="vorteil-ikon"><svg><use href="#i-akku"/></svg></span><b>Schneller erholt</b><span>Weniger ausgelaugt nach Infekten</span></div>
-            <div class="vorteil"><span class="vorteil-ikon"><svg><use href="#i-loeffel"/></svg></span><b>Einfache Routine</b><span>Löffel nehmen, fertig. Auch im Bett</span></div>
-          </div>
-          <div class="zahlen">
-            <div><b>34</b><span>bioaktive Mikronährstoffe</span></div>
-            <div><b>3×</b><span>täglich in der Akutphase</span></div>
-            <div><b>12</b><span>Monate haltbar</span></div>
-          </div>
-        </section>
-        <section class="block">
-          <h2>So geht es für dich weiter</h2>
-          <ol class="fahrplan">
-            <li><span class="nr">1</span><b>Bei ersten Anzeichen</b><p>Sofort starten, zum Beispiel bei Halskratzen, Frösteln oder Gliederschwere.</p><a href="#ib-einnahme">Zur Einnahme<svg><use href="#i-weiter"/></svg></a></li>
-            <li><span class="nr">2</span><b>5 bis 10 Tage</b><p>Morgens, mittags und abends je 1 Teelöffel.</p><a href="#ib-plan">Zur Akutphase<svg><use href="#i-weiter"/></svg></a></li>
-            <li><span class="nr">3</span><b>Für die nächste Erkältungszeit</b><p>Vorbeugend 1 Teelöffel am Tag. Automatisch geliefert für 49,90&nbsp;€ statt 59,90&nbsp;€.</p><a href="#ib-nachkauf">Zum Nachkauf<svg><use href="#i-weiter"/></svg></a></li>
-          </ol>
-        </section>
       </section>
 
-      <section class="ansicht" id="ib-einnahme">
+      <section class="ansicht" id="ib-einnahme" data-saeule="ib-verstehen">
+        <nav class="saeule-nav" aria-label="Produkt verstehen"><span class="saeule-name"><b>1</b>Produkt verstehen</span><a href="#ib-einnahme" data-ansicht="ib-einnahme">Einnahme</a><a href="#ib-inhalt" data-ansicht="ib-inhalt">Was drin ist</a><a href="#ib-fragen" data-ansicht="ib-fragen">Fragen</a></nav>
         <header class="ansicht-kopf"><h1>So nimmst du den Booster</h1><p>Am besten so früh wie möglich: bei Halskratzen, Frösteln, Gliederschwere oder wenn du merkst, „da kommt was“.</p></header>
         <section class="tagesplan" aria-labelledby="ib-tagesplan-titel" data-tagesplan>
           <div class="tp-wahl" role="radiogroup" aria-label="Wofür nimmst du den Booster?">
@@ -1370,10 +1354,11 @@ body.chat-offen .chat-fenster { display: flex; }
             </ul>
           </div>
         </div>
-        <div class="weiter"><a href="#ib-plan">Weiter: Deine Akutphase<svg><use href="#i-weiter"/></svg></a></div>
+        <div class="weiter"><a href="#ib-inhalt">Weiter: Was in deinem Glas steckt<svg><use href="#i-weiter"/></svg></a></div>
       </section>
 
-      <section class="ansicht" id="ib-plan">
+      <section class="ansicht" id="ib-plan" data-saeule="ib-ziel">
+        <nav class="saeule-nav" aria-label="Näher an dein Ziel"><span class="saeule-name"><b>2</b>Näher an dein Ziel</span><a href="#ib-tipps" data-ansicht="ib-tipps">Dein Ziel</a><a href="#ib-plan" data-ansicht="ib-plan">Deine Akutphase</a></nav>
         <header class="ansicht-kopf"><h1>Deine Akutphase</h1><p>Von den ersten Anzeichen bis zur nächsten Erkältungszeit.</p></header>
         <div class="zwei-spalten">
           <div class="block">
@@ -1393,21 +1378,23 @@ body.chat-offen .chat-fenster { display: flex; }
             </div>
           </div>
         </div>
-        <div class="weiter"><a href="#ib-tipps">Weiter: Deine Tipps<svg><use href="#i-weiter"/></svg></a></div>
+        <div class="weiter"><a href="#ib-nachkauf">Weiter zu 3: Nachbestellen<svg><use href="#i-weiter"/></svg></a></div>
       </section>
 
-      <section class="ansicht" id="ib-tipps">
-        <header class="ansicht-kopf"><h1>Deine Tipps</h1><p>2 kurze Fragen: Willst du vorbeugen oder merkst du schon erste Anzeichen, und wo hast du viel Kontakt? Dann bekommst du Tipps, die zu deinem Alltag passen.</p></header>
+      <section class="ansicht" id="ib-tipps" data-saeule="ib-ziel">
+        <nav class="saeule-nav" aria-label="Näher an dein Ziel"><span class="saeule-name"><b>2</b>Näher an dein Ziel</span><a href="#ib-tipps" data-ansicht="ib-tipps">Dein Ziel</a><a href="#ib-plan" data-ansicht="ib-plan">Deine Akutphase</a></nav>
+        <header class="ansicht-kopf"><h1>Dein Ziel, deine Tipps</h1><p>2 kurze Fragen: Willst du vorbeugen oder merkst du schon erste Anzeichen, und wo hast du viel Kontakt? Dann bekommst du Tipps, die zu deinem Alltag passen.</p></header>
         <div class="quiz-box" data-quiz-box="ib">
           <div class="quiz-kopf"><span class="quiz-glas" data-glas></span><div><p class="quiz-schritt" data-q-schritt></p><h2 data-q-titel></h2></div></div>
           <div data-q-koerper></div>
           <div class="quiz-fuss" data-q-fuss></div>
         </div>
-        <div class="weiter"><a href="#ib-inhalt">Weiter: Was im Booster steckt<svg><use href="#i-weiter"/></svg></a></div>
+        <div class="weiter"><a href="#ib-plan">Weiter: Deine Akutphase<svg><use href="#i-weiter"/></svg></a></div>
       </section>
 
-      <section class="ansicht" id="ib-inhalt">
-        <header class="ansicht-kopf"><h1>Was im Booster steckt</h1><p>Eine Akut-Formel mit 34 Mikronährstoff-Komponenten in einer Honigmatrix. Sie setzt gleichzeitig an Abwehr, Schleimhäuten, Entzündungsdruck, oxidativem Stress und Energie an.</p></header>
+      <section class="ansicht" id="ib-inhalt" data-saeule="ib-verstehen">
+        <nav class="saeule-nav" aria-label="Produkt verstehen"><span class="saeule-name"><b>1</b>Produkt verstehen</span><a href="#ib-einnahme" data-ansicht="ib-einnahme">Einnahme</a><a href="#ib-inhalt" data-ansicht="ib-inhalt">Was drin ist</a><a href="#ib-fragen" data-ansicht="ib-fragen">Fragen</a></nav>
+        <header class="ansicht-kopf"><h1>Was in deinem Glas steckt</h1><p>Damit du weißt, was du in der Akutphase nimmst: 34 Mikronährstoff-Komponenten in einer Honigmatrix. Sie setzen an Abwehr, Schleimhäuten, Entzündungsdruck, oxidativem Stress und Energie an.</p></header>
         <section class="frag-box" aria-labelledby="ib-frag-titel">
           <span class="blase"><svg><use href="#i-chat"/></svg></span>
           <div><h2 id="ib-frag-titel">Tiefer einsteigen? Frag den Assistenten</h2><p>Er kennt jede Zutat und jeden Komplex und antwortet sofort.</p></div>
@@ -1485,11 +1472,13 @@ body.chat-offen .chat-fenster { display: flex; }
             </div>
           </section>
         </div>
-        <div class="weiter"><a href="#ib-nachkauf">Weiter: Nachkauf<svg><use href="#i-weiter"/></svg></a></div>
+        <div class="weiter"><a href="#ib-fragen">Weiter: Fragen und Hilfe<svg><use href="#i-weiter"/></svg></a></div>
       </section>
 
-      <section class="ansicht" id="ib-nachkauf">
+      <section class="ansicht" id="ib-nachkauf" data-saeule="ib-nachkauf">
+        <p class="saeule-nav"><span class="saeule-name"><b>3</b>Nachbestellen</span></p>
         <header class="ansicht-kopf"><h1>Nachschub für die Erkältungszeit</h1><p>Ein Glas hat ca. 30 Portionen. Das reicht für eine Akutphase von bis zu 10 Tagen mit 3 Teelöffeln am Tag. So hast du den Booster griffbereit, wenn es losgeht.</p></header>
+        <section class="block vorrat"><span class="vorrat-ikon"><svg><use href="#i-nachkauf"/></svg></span><div><p class="oberzeile">Dein Vorrat</p><h2 data-vorrat-wert="ib">Ein Glas reicht für eine Akutphase</h2><p data-vorrat-text="ib">Stell bei „Dein Stand“ ein, an welchem Tag deiner Akutphase du bist. Dann siehst du hier, wie lange dein Glas noch reicht.</p><a class="text-link" href="#ib-fortschritt">Zu deinem Tag</a></div></section>
         <div class="optionen">
           <section class="option">
             <h2>Einmal nachbestellen</h2>
@@ -1534,10 +1523,11 @@ body.chat-offen .chat-fenster { display: flex; }
           <div><h2>Die tägliche Basis: Nutrition-System</h2><p>1 Teelöffel pro Tag für alle 9 Regenerations-Achsen.</p></div>
           <div class="dazu-knoepfe"><a class="knopf hell" data-kauf="ib-dazu-ns" href="https://omni9.de/cart/56780244877660:1" target="_blank" rel="noopener">Bestellen für 89,00&nbsp;€</a><a class="text-link" href="#nutrition-system">Mehr erfahren</a></div>
         </section>
-        <div class="weiter"><a href="#ib-fragen">Weiter: Fragen und Hilfe<svg><use href="#i-weiter"/></svg></a></div>
+        <div class="weiter"><a href="#ib-ueberblick">Zu deinem Stand<svg><use href="#i-weiter"/></svg></a></div>
       </section>
 
-      <section class="ansicht" id="ib-fragen">
+      <section class="ansicht" id="ib-fragen" data-saeule="ib-verstehen">
+        <nav class="saeule-nav" aria-label="Produkt verstehen"><span class="saeule-name"><b>1</b>Produkt verstehen</span><a href="#ib-einnahme" data-ansicht="ib-einnahme">Einnahme</a><a href="#ib-inhalt" data-ansicht="ib-inhalt">Was drin ist</a><a href="#ib-fragen" data-ansicht="ib-fragen">Fragen</a></nav>
         <header class="ansicht-kopf"><h1>Fragen und Hilfe</h1><p>Wissenswertes zum Booster und alle Wege zu uns.</p></header>
         <div class="zwei-spalten breit">
           <div class="block">
@@ -1547,7 +1537,7 @@ body.chat-offen .chat-fenster { display: flex; }
             <details><summary>Kann ich ihn zusammen mit OMNI9 nehmen?<svg><use href="#plus"/></svg></summary><p>Ja. OMNI9 ist die tägliche Basis, der Immun Booster die Akut-Unterstützung. Viele nehmen OMNI9 weiter und den Booster für ein paar Tage zusätzlich.</p></details>
             <details><summary>Kann ich ihn auch vorbeugend nehmen?<svg><use href="#plus"/></svg></summary><p>Ja. In der Erkältungszeit kannst du ihn vorbeugend einmal täglich nehmen, besonders wenn du viel Kontakt mit anderen hast, zum Beispiel in der Kita, im Büro oder auf Reisen.</p></details>
             <details><summary>Darf ich ihn in Tee nehmen?<svg><use href="#plus"/></svg></summary><p>Ja, aber nur in warmem Tee unter 40 °C. So bleibt die Rohkostqualität erhalten. Alternativ einfach pur vom Löffel.</p></details>
-            <details><summary>Ist das nicht nur Honig?<svg><use href="#plus"/></svg></summary><p>Der Honig ist die Matrix: Er macht die Einnahme einfach und trägt die Wirkstoffe, also Vitamin C und Zink sowie Holunder, Propolis, Ingwer, Kurkuma und Piperin.</p></details>
+            <details><summary>Wofür ist der Honig da?<svg><use href="#plus"/></svg></summary><p>Der Honig ist die Matrix: Er macht die Einnahme einfach und trägt die Wirkstoffe, also Vitamin C und Zink sowie Holunder, Propolis, Ingwer, Kurkuma und Piperin.</p></details>
             <details><summary>Für wen ist er nicht geeignet?<svg><use href="#plus"/></svg></summary><p>Bei einer Allergie gegen Bienenprodukte bitte wegen Propolis und Honig darauf verzichten. Wenn du schwanger bist, stillst, chronisch erkrankt bist oder Medikamente nimmst, sprich vorher kurz mit deinem Arzt oder deiner Apotheke.</p></details>
             <details><summary>Wie lagere ich ihn?<svg><use href="#plus"/></svg></summary><p>Kühl (bis 22 °C), trocken und dunkel. Er ist mindestens 12 Monate haltbar.</p></details>
             <button class="chat-cta" type="button" data-chat><span class="blase"><svg><use href="#i-chat"/></svg></span><span><b>Noch eine Frage?</b><small>Der OMNI9 Assistent antwortet sofort, auch zu Zutaten, Versand und Nachkauf</small></span></button>
@@ -1566,17 +1556,15 @@ body.chat-offen .chat-fenster { display: flex; }
             <div class="bewertung-antwort" hidden></div>
           </div>
         </div>
+        <div class="weiter"><a href="#ib-tipps">Weiter zu 2: Dein Ziel<svg><use href="#i-weiter"/></svg></a></div>
       </section>
 
     </main>
-    <nav class="tabbar" aria-label="Kapitel">
-      <a class="tab" href="#ib-ueberblick" data-ansicht="ib-ueberblick"><svg><use href="#i-raster"/></svg>Überblick</a>
-      <a class="tab" href="#ib-einnahme" data-ansicht="ib-einnahme"><svg><use href="#i-loeffel-linie"/></svg>Einnahme</a>
-      <a class="tab" href="#ib-plan" data-ansicht="ib-plan"><svg><use href="#i-kalender-linie"/></svg>Akutphase</a>
-      <a class="tab" href="#ib-tipps" data-ansicht="ib-tipps"><svg><use href="#z-fokus"/></svg>Tipps</a>
-      <a class="tab" href="#ib-inhalt" data-ansicht="ib-inhalt"><svg><use href="#i-glas"/></svg>Inhalt</a>
-      <a class="tab" href="#ib-nachkauf" data-ansicht="ib-nachkauf"><svg><use href="#i-nachkauf"/></svg>Nachkauf</a>
-      <a class="tab" href="#ib-fragen" data-ansicht="ib-fragen"><svg><use href="#i-hilfe"/></svg>Fragen</a>
+    <nav class="tabbar" aria-label="Säulen">
+      <a class="tab" href="#ib-ueberblick" data-saeule-tab="ib-stand"><svg><use href="#i-raster"/></svg>Dein Stand</a>
+      <a class="tab" href="#ib-einnahme" data-saeule-tab="ib-verstehen"><svg><use href="#i-loeffel-linie"/></svg>Verstehen</a>
+      <a class="tab" href="#ib-tipps" data-saeule-tab="ib-ziel"><svg><use href="#z-fokus"/></svg>Dein Ziel</a>
+      <a class="tab" href="#ib-nachkauf" data-saeule-tab="ib-nachkauf"><svg><use href="#i-nachkauf"/></svg>Nachbestellen</a>
     </nav>
   </div>
 </section>
@@ -1632,15 +1620,17 @@ body.chat-offen .chat-fenster { display: flex; }
     return { id: s.id, name: s.dataset.name, kurz: s.dataset.kurz, bild: s.querySelector(".p-bild img").getAttribute("src") };
   });
 
-  /* Kapitel: Ziel aus der Adresse, die Produktseite allein zeigt den Überblick */
+  /* Kapitel: Ziel aus der Adresse, die Produktseite allein zeigt „Dein Stand“ */
   function ziel() {
     return location.hash ? document.getElementById(decodeURIComponent(location.hash.slice(1))) : null;
   }
   function navMarkieren() {
     var z = ziel();
     var kapitel = !z ? null : z.classList.contains("seite") ? z.querySelector(".ansicht.erste") : z.closest(".ansicht");
-    document.querySelectorAll("[data-ansicht]").forEach(function (n) {
-      var an = !!kapitel && n.dataset.ansicht === kapitel.id;
+    var saeule = kapitel ? kapitel.dataset.saeule : null;
+    /* Kapitel in Seitenleiste und Säulen-Leiste, unten am Handy die Säule */
+    document.querySelectorAll("[data-ansicht], [data-saeule-tab]").forEach(function (n) {
+      var an = !!kapitel && (n.dataset.ansicht ? n.dataset.ansicht === kapitel.id : n.dataset.saeuleTab === saeule);
       n.classList.toggle("an", an);
       if (an) n.setAttribute("aria-current", "page");
       else n.removeAttribute("aria-current");
@@ -2146,9 +2136,10 @@ body.chat-offen .chat-fenster { display: flex; }
       return rest ? { titel: "Dein Glas ist bald leer.", text: "Bestell jetzt nach, dann ist das neue da, bevor das alte leer ist. Mit automatischer Lieferung kostet es 69\u00a0€ statt 89\u00a0€.", link: ["Zum Nachkauf", "#ns-nachkauf"] }
         : { titel: "Zeit für ein neues Glas.", text: "Mit automatischer Lieferung kommt es künftig von allein, für 69\u00a0€ statt 89\u00a0€.", link: ["Zum Nachkauf", "#ns-nachkauf"] };
     },
-    beiTag: function (tag) {
+    beiTag: function (tag, persoenlich) {
       nsTag = tag;
-      document.querySelector("[data-erinnerung=ns-nachbestellen]").hidden = nsRest(tag) <= 7;
+      document.querySelectorAll("[data-erinnerung=ns-nachbestellen]").forEach(function (b) { b.hidden = nsRest(tag) <= 7; });
+      if (persoenlich) vorratZeigen("ns", tag);
     },
     zeitleiste: ["#ns-30 .zeitleiste", function (tag) { return tag > 30 ? 4 : tag <= 3 ? 0 : tag <= 14 ? 1 : nsRest(tag) <= 7 ? 3 : 2; }]
   };
@@ -2161,6 +2152,7 @@ body.chat-offen .chat-fenster { display: flex; }
     hinweis: function (tag) {
       return ibRest(tag) > 9 ? null : { titel: "Nachschub für die nächste Erkältungszeit.", text: "Ein Glas reicht für eine Akutphase von bis zu 10 Tagen. Mit automatischer Lieferung kostet es 49,90\u00a0€ statt 59,90\u00a0€.", link: ["Zum Nachkauf", "#ib-nachkauf"] };
     },
+    beiTag: function (tag, persoenlich) { if (persoenlich) vorratZeigen("ib", tag); },
     zeitleiste: ["#ib-plan .zeitleiste", function (tag) { return tag === 1 ? 0 : tag <= 10 ? 1 : 2; }]
   };
   function fortschritt(cfg) {
@@ -2229,7 +2221,7 @@ body.chat-offen .chat-fenster { display: flex; }
         satz.append(element("b", null, h.titel), " " + h.text);
         hinweisBox.replaceChildren(satz, linkMit(h.link[0], "knopf", h.link[1]));
       }
-      if (cfg.beiTag) cfg.beiTag(tag);
+      if (cfg.beiTag) cfg.beiTag(tag, persoenlich);
       if (persoenlich) stufenSetzen(zeitleiste, cfg.zeitleiste[1](tag), true);
     }
     regler.addEventListener("input", function () { zeigen(true); });
@@ -2354,6 +2346,7 @@ body.chat-offen .chat-fenster { display: flex; }
     } else {
       titel.textContent = a.modus === "akut" ? "Dein Akut-Plan" : "Dein Plan zum Vorbeugen";
     }
+    zielKarte(p, p === "ns" ? "Dein Ziel: " + ZIELE[a.ziel].name : titel.textContent, "Dein Plan mit Tipps für deinen Alltag steht bereit.");
     var tipps = element("ul", "plan-tipps");
     planTipps(p, a).forEach(function (t) {
       var li = element("li"), bild = element("span", "q-ikon"), inhalt = element("div");
@@ -2378,7 +2371,31 @@ body.chat-offen .chat-fenster { display: flex; }
       box.appendChild(extra);
     }
     koerper.appendChild(box);
-    fuss.appendChild(knopfMit("Nochmal von vorn", "text-link", function () { QUIZ_BOXEN[p].schritt = 0; QUIZ_BOXEN[p].antworten = {}; quizRendern(p, true); }));
+    fuss.appendChild(knopfMit("Nochmal von vorn", "text-link", function () { QUIZ_BOXEN[p].schritt = 0; QUIZ_BOXEN[p].antworten = {}; zielKarte(p); quizRendern(p, true); }));
+  }
+
+  /* Dein Stand: Die Karten der Säulen 2 und 3 zeigen dein Ziel und deinen Vorrat, sobald sie bekannt sind. Gespeichert wird nichts */
+  document.querySelectorAll("[data-ziel-wert], [data-ziel-text]").forEach(function (e) { e.dataset.standard = e.textContent; });
+  function zielKarte(p, wert, text) {
+    document.querySelectorAll('[data-ziel-wert="' + p + '"]').forEach(function (e) { e.textContent = wert || e.dataset.standard; });
+    document.querySelectorAll('[data-ziel-text="' + p + '"]').forEach(function (e) { e.textContent = text || e.dataset.standard; });
+  }
+  function vorratZeigen(p, tag) {
+    var heute = new Date(), wert, text;
+    if (p === "ns") {
+      var rest = nsRest(tag);
+      wert = rest ? "Noch ca. " + rest + (rest === 1 ? " Portion" : " Portionen") : "Dein Glas ist leer";
+      text = !rest ? "Zeit für ein neues Glas. Mit automatischer Lieferung kommt es künftig von allein."
+        : rest <= 7 ? "Bestell am besten heute nach. Die Lieferung dauert 2 bis 7 Tage."
+        : "Dein Glas ist etwa am " + datumText(plusTage(heute, rest)) + " leer. Bestell bis " + datumText(plusTage(heute, rest - 7)) + ", dann ist das neue rechtzeitig da.";
+    } else {
+      var reste = ibRest(tag), tage = Math.floor(reste / 3);
+      wert = tag > 10 ? "Akutphase vorbei" : reste ? "Noch ca. " + reste + " Portionen" : "Dein Glas ist leer";
+      text = tag > 10 || !reste ? "Bestell rechtzeitig nach. Dann hast du den Booster beim nächsten Mal sofort griffbereit."
+        : "Das reicht noch für etwa " + tage + (tage === 1 ? " Tag" : " Tage") + " mit 3 Teelöffeln am Tag.";
+    }
+    document.querySelectorAll('[data-vorrat-wert="' + p + '"]').forEach(function (e) { e.textContent = wert; });
+    document.querySelectorAll('[data-vorrat-text="' + p + '"]').forEach(function (e) { e.textContent = text; });
   }
 
   /* Achse aus dem Plan öffnen */
