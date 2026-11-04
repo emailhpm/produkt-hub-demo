@@ -116,9 +116,8 @@ button.mein-produkt:hover, button.mein-produkt[aria-expanded="true"] { backgroun
 /* Kapitelkopf: rechts steht in jedem Kapitel das Glas des Produkts */
 #nutrition-system { --glas: url("bilder/ns-produkt.webp"); }
 #immun-booster { --glas: url("bilder/ib-produkt.webp"); }
-.ansicht-kopf { display: grid; grid-template-columns: minmax(0, 1fr) auto; grid-template-rows: auto 1fr; column-gap: 28px; }
-.ansicht-kopf > * { grid-column: 1; }
-.ansicht-kopf::after { content: ""; grid-column: 2; grid-row: 1 / span 2; align-self: center; width: 84px; height: 108px; background: var(--glas) center bottom / contain no-repeat; filter: drop-shadow(0 12px 12px rgba(28, 32, 41, .22)); }
+.ansicht-kopf { display: flow-root; }
+.ansicht-kopf::before { content: ""; float: right; width: 84px; height: 108px; margin-left: 28px; background: var(--glas) center bottom / contain no-repeat; filter: drop-shadow(0 12px 12px rgba(28, 32, 41, .22)); }
 .ansicht-kopf p { margin-top: 6px; max-width: 640px; font-size: 16px; color: #45413b; }
 .zwei-spalten { display: grid; grid-template-columns: minmax(0, 1.2fr) minmax(0, 1fr); gap: 20px; align-items: start; }
 .zwei-spalten.breit { grid-template-columns: minmax(0, 1.55fr) minmax(0, 1fr); }
@@ -649,10 +648,9 @@ body.chat-offen .chat-fenster { display: flex; }
   .tab.an { color: var(--text); font-weight: 600; }
   .tab.an svg { background: var(--honig); color: var(--gold-dunkel); }
   .ansicht > * + * { margin-top: 18px; }
-  .ansicht-kopf { column-gap: 16px; }
-  .ansicht-kopf h1 { align-self: end; font-size: 25px; }
-  .ansicht-kopf p { grid-column: 1 / -1; font-size: 15px; }
-  .ansicht-kopf::after { grid-row: 1; width: 56px; height: 72px; }
+  .ansicht-kopf h1 { font-size: 25px; }
+  .ansicht-kopf p { font-size: 15px; }
+  .ansicht-kopf::before { width: 56px; height: 72px; margin-left: 14px; }
   .p-held { grid-template-columns: 84px minmax(0, 1fr); gap: 16px; }
   .p-bild { width: 84px; height: 112px; }
   .p-held h1 { font-size: 23px; }
