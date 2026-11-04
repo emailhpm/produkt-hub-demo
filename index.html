@@ -21,6 +21,8 @@
 <meta name="dhl-api-key" content="">
 <!-- Chat mit ChatGPT: Adresse des Hub-Chat-Servers (Cloudflare Worker, Ordner chat im Repo product-hubs). Leer antwortet der Assistent mit festen Antworten. Der OpenAI-Schlüssel liegt nur auf dem Server. -->
 <meta name="hub-chat-api" content="https://hub-chat.hub-chat.workers.dev/chat/omni9">
+<!-- Test-Anmeldung per E-Mail (Weg 2): Adresse der Anmeldung beim Hub-Server. Sichtbar nur mit ?login=demo, heute mit Beispielkunden statt echter Bestellungen. -->
+<meta name="hub-login-api" content="https://hub-chat.hub-chat.workers.dev/login/omni9">
 <style>
 @font-face { font-family: "Inter"; src: url("schriften/inter-latin.woff2") format("woff2"); font-weight: 100 900; font-display: block; }
 :root {
@@ -62,6 +64,42 @@ body:has(.seite:target:not(#start)) #start, body:has(.seite:not(#start) :target)
 .wahl svg { width: 18px; height: 18px; color: var(--gold-dunkel); }
 .wahl-hinweis { max-width: 640px; margin: 16px auto 0; font-size: 13px; color: var(--muted); }
 .start-recht { display: flex; flex-wrap: wrap; justify-content: center; gap: 4px 16px; padding: 0 20px 24px; font-size: 12px; color: #8d887f; }
+/* Test-Anmeldung per E-Mail (nur mit ?login=demo): Code anfordern, Code eingeben, dann ist alles eingestellt */
+.anmelden { max-width: 640px; margin: 24px auto 0; text-align: left; }
+.anmelden-oder { display: flex; align-items: center; gap: 14px; font-size: 13px; color: var(--muted); }
+.anmelden-oder::before, .anmelden-oder::after { content: ""; flex: 1; height: 1px; background: #e6dfd2; }
+.anmelden-box { margin-top: 16px; padding: 20px 22px 22px; background: #fff; border-radius: 16px; box-shadow: 0 0 0 1px #ece6db, 0 18px 40px -26px rgba(28, 32, 41, .4); }
+.anmelden-box h2 { font-size: 17px; }
+.anmelden-info { margin-top: 4px; font-size: 14px; color: #45413b; }
+.anmelden-form { display: grid; grid-template-columns: minmax(0, 1fr) auto; gap: 10px; align-items: end; margin-top: 14px; }
+.anmelden-form .knopf { min-height: 44px; margin-top: 0; padding: 10px 18px; }
+.anmelden-form .knopf:disabled { opacity: .6; cursor: default; }
+.anmelden-form .text-link { grid-column: 1 / -1; justify-self: start; padding: 0; border: 0; background: none; cursor: pointer; }
+.anmelden-fehler { margin-top: 10px; font-size: 13.5px; color: #8a3b26; }
+.anmelden-test { margin-top: 14px; padding: 12px 14px; border-radius: 12px; background: var(--honig); font-size: 13px; color: #5b4a2c; }
+.anmelden-beispiele { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 8px; }
+.anmelden-beispiele button { padding: 6px 11px; border-radius: 999px; border: 1px solid #e2cf9f; background: #fff; font-size: 12.5px; font-weight: 500; color: #5b4a2c; cursor: pointer; }
+.anmelden-beispiele button:hover { border-color: var(--gold); }
+.anmelden-code { margin-left: 2px; padding: 3px 10px; border: 1px solid #e2cf9f; border-radius: 8px; background: #fff; font-size: 15px; font-weight: 700; letter-spacing: .14em; color: var(--nacht); cursor: pointer; }
+.anmelden-fertig { display: flex; flex-wrap: wrap; justify-content: center; align-items: baseline; gap: 4px 14px; font-size: 13.5px; color: var(--muted); }
+.anmelden-fertig .text-link { padding: 0; border: 0; background: none; cursor: pointer; }
+/* Dein Stand nach der Anmeldung: Bestellungen und automatische Lieferung */
+.konto-kopf { display: flex; justify-content: space-between; align-items: baseline; gap: 12px; }
+.konto-kopf .text-link { padding: 0; border: 0; background: none; cursor: pointer; }
+.konto-mail { margin-top: 2px; font-size: 13px; color: var(--muted); }
+.konto-auto { display: grid; grid-template-columns: 40px minmax(0, 1fr) auto; gap: 12px; align-items: center; margin-top: 14px; padding: 14px 16px; border-radius: 14px; background: linear-gradient(160deg, #fffaf0 0%, #f6ecd6 100%); border: 1px solid #ecdcb6; }
+.konto-ikon { width: 40px; height: 40px; border-radius: 12px; background: var(--gold); display: flex; align-items: center; justify-content: center; color: var(--nacht); }
+.konto-ikon svg { width: 20px; height: 20px; }
+.konto-auto b { display: block; font-size: 14.5px; }
+.konto-auto p { margin-top: 2px; font-size: 13.5px; color: #45413b; }
+.konto-liste { list-style: none; display: grid; gap: 8px; margin-top: 12px; }
+.konto-liste li { display: grid; grid-template-columns: minmax(0, 1fr) auto; gap: 6px 14px; align-items: center; padding: 12px 14px; border-radius: 12px; background: var(--hell); }
+.konto-liste b { display: block; font-size: 14.5px; font-weight: 600; }
+.konto-liste small { display: block; margin-top: 1px; font-size: 13px; color: var(--muted); }
+.konto-status { font-size: 13px; font-weight: 600; }
+.konto-status.zugestellt { color: #3c6e47; }
+button.konto-status { justify-self: start; padding: 0; border: 0; background: none; color: var(--gold-dunkel); text-align: left; cursor: pointer; }
+button.konto-status:hover { text-decoration: underline; }
 
 /* Produktseite: links die Kapitel, rechts immer nur ein Kapitel */
 .produkt { grid-template-columns: 264px minmax(0, 1fr); }
@@ -672,6 +710,10 @@ body.chat-offen .chat-fenster { display: flex; }
   .dazu-karte { grid-template-columns: 56px minmax(0, 1fr); gap: 14px; }
   .dazu-karte img { width: 56px; height: 72px; }
   .dazu-knoepfe { grid-column: 1 / -1; align-items: stretch; text-align: center; }
+  .anmelden-form { grid-template-columns: minmax(0, 1fr); }
+  .konto-auto { grid-template-columns: 40px minmax(0, 1fr); }
+  .konto-auto .text-link { grid-column: 2; }
+  .konto-liste li { grid-template-columns: minmax(0, 1fr); }
   .achsen-wahl { grid-template-columns: minmax(0, 1fr); }
   .achsen-liste { display: flex; overflow-x: auto; gap: 6px; margin: 0 -18px; padding: 0 18px 2px; scrollbar-width: none; }
   .achsen-liste::-webkit-scrollbar { display: none; }
@@ -854,6 +896,31 @@ body.chat-offen .chat-fenster { display: flex; }
       <a class="wahl" href="#immun-booster"><img src="bilder/ib-produkt.webp" alt=""><span><b>Immun Booster</b><small>Akut-Unterstützung, wenn ein Infekt kommt</small></span><svg aria-hidden="true"><use href="#i-weiter"/></svg></a>
     </div>
     <p class="wahl-hinweis">Set gekauft? Darin stecken beide Produkte. Starte am besten mit dem Nutrition-System.</p>
+    <section class="anmelden" id="anmelden" aria-labelledby="anmelden-titel" hidden>
+      <p class="anmelden-oder">oder</p>
+      <div class="anmelden-box">
+        <h2 id="anmelden-titel">Mit deiner E-Mail anmelden</h2>
+        <p class="anmelden-info" data-anmelden-info>Wir holen deine Bestellungen. Dann ist alles schon für dich eingestellt: dein Tag, dein Vorrat und deine Lieferung.</p>
+        <form class="anmelden-form" data-anmelden-email novalidate>
+          <label class="kal-feld">E-Mail-Adresse<input type="email" name="email" autocomplete="email" inputmode="email" autocapitalize="off" spellcheck="false" enterkeyhint="send" placeholder="name@beispiel.de"></label>
+          <button class="knopf gold" type="submit">Code anfordern</button>
+        </form>
+        <form class="anmelden-form" data-anmelden-code novalidate hidden>
+          <label class="kal-feld">Code aus der E-Mail<input name="code" autocomplete="one-time-code" inputmode="numeric" maxlength="6" enterkeyhint="go" placeholder="6 Ziffern"></label>
+          <button class="knopf gold" type="submit">Anmelden</button>
+          <button class="text-link" type="button" data-anmelden-zurueck>Andere E-Mail-Adresse</button>
+        </form>
+        <p class="anmelden-fehler" data-anmelden-fehler role="status" hidden></p>
+        <div class="anmelden-test">
+          <div data-anmelden-beispiele>
+            <p><b>Testbetrieb mit Beispielkunden, keine echten Bestellungen.</b> Tipp eine Adresse an:</p>
+            <p class="anmelden-beispiele"><button type="button" data-beispiel="lena@example.com">lena@example.com</button><button type="button" data-beispiel="max@example.com">max@example.com</button><button type="button" data-beispiel="sarah@example.com">sarah@example.com</button><button type="button" data-beispiel="tom@example.com">tom@example.com</button></p>
+          </div>
+          <p data-anmelden-testcode hidden></p>
+        </div>
+      </div>
+      <p class="anmelden-fertig" data-anmelden-fertig hidden></p>
+    </section>
   </div>
   <p class="start-recht"><a href="https://omni9.de/policies/legal-notice" target="_blank" rel="noopener">Impressum</a><a href="https://omni9.de/policies/privacy-policy" target="_blank" rel="noopener">Datenschutz</a><a href="https://omni9.de/policies/refund-policy" target="_blank" rel="noopener">Widerrufsrecht</a><a href="https://omni9.de/policies/terms-of-service" target="_blank" rel="noopener">AGB</a></p>
 </section>
@@ -901,6 +968,7 @@ body.chat-offen .chat-fenster { display: flex; }
             <button class="versand-link" type="button" data-paket><svg><use href="#lieferwagen"/></svg>Wo ist mein Paket? Versandstatus ansehen</button>
           </div>
         </header>
+        <section class="block konto" data-konto aria-label="Deine Bestellungen" hidden></section>
         <section class="erinnern" aria-labelledby="ns-erinnern-titel">
           <span class="erinnern-ikon"><svg><use href="#i-kalender-linie"/></svg></span>
           <div><h2 id="ns-erinnern-titel">Lass dich erinnern</h2><p>Dein Kalender erinnert dich jeden Tag an deinen Teelöffel und rechtzeitig ans Nachbestellen. Der Hub speichert dabei nichts.</p></div>
@@ -1353,6 +1421,7 @@ body.chat-offen .chat-fenster { display: flex; }
             <button class="versand-link" type="button" data-paket><svg><use href="#lieferwagen"/></svg>Wo ist mein Paket? Versandstatus ansehen</button>
           </div>
         </header>
+        <section class="block konto" data-konto aria-label="Deine Bestellungen" hidden></section>
         <section class="erinnern" aria-labelledby="ib-erinnern-titel">
           <span class="erinnern-ikon"><svg><use href="#i-kalender-linie"/></svg></span>
           <div><h2 id="ib-erinnern-titel">Lass dich erinnern</h2><p>In der Akutphase erinnert dich dein Kalender morgens, mittags und abends an deinen Teelöffel. Zum Vorbeugen reicht einmal am Tag. Der Hub speichert dabei nichts.</p></div>
@@ -2189,6 +2258,9 @@ body.chat-offen .chat-fenster { display: flex; }
   /* Link aus einer Mail: ?name=Lena&tag=12 stellt Gruß und Tag ein */
   var linkName = (params.get("name") || "").replace(/[^\p{L}\p{M} .'-]/gu, "").trim().slice(0, 24);
   var linkTag = parseInt(params.get("tag"), 10);
+  function grussSetzen(name) {
+    document.querySelectorAll("[data-gruss]").forEach(function (g) { g.textContent = "Hallo " + name; g.hidden = false; });
+  }
 
   /* Das Honigglas: der Füllstand zeigt, wie viele Portionen noch drin sind */
   var glasNr = 0;
@@ -2267,6 +2339,10 @@ body.chat-offen .chat-fenster { display: flex; }
   ];
   function nsRest(tag) { return 29 - (tag - 1) % 30; }
   function ibRest(tag) { return Math.max(0, 30 - 3 * tag); }
+  /* Nach der Test-Anmeldung kennt der Hub die gelieferten Gläser und die automatische Lieferung.
+     Ohne Anmeldung zählt wie bisher das Glas, das gerade offen ist. */
+  var nsKonto = null;
+  function nsVorrat(tag) { return nsKonto ? Math.max(0, nsKonto.glaeser * 30 - tag) : nsRest(tag); }
   var NS_TAGE = [];
   for (var t = 1; t <= 30; t++) NS_TAGE.push(t);
   for (t = 35; t <= 90; t += 5) NS_TAGE.push(t);
@@ -2275,20 +2351,24 @@ body.chat-offen .chat-fenster { display: flex; }
     id: "ns-fortschritt", tage: NS_TAGE, phasen: NS_PHASEN, marken: [1, 7, 14, 21, 30, 60, 90],
     stufen: [["Ankommen", "i-loeffel-linie"], ["Darm", "z-darm"], ["Ruhe", "z-schlaf"], ["Energie", "z-energie"], ["Stabilität", "t-keim"]],
     tagText: function (tag) { return "Tag " + tag; },
-    unter: function (tag) { var rest = nsRest(tag), glas = Math.ceil(tag / 30); return rest ? "Glas " + glas + ", noch ca. " + rest + (rest === 1 ? " Portion" : " Portionen") : "Glas " + glas + " ist leer"; },
-    fuellung: function (tag) { return nsRest(tag) / 30; },
+    unter: function (tag) {
+      var rest = nsVorrat(tag), mehr = nsKonto && nsKonto.glaeser > 1, nr = Math.ceil(tag / 30);
+      var glas = "Glas " + (nsKonto ? Math.min(nr, nsKonto.glaeser) : nr) + (mehr ? " von " + nsKonto.glaeser : "");
+      return rest ? glas + (mehr ? ", insgesamt noch ca. " : ", noch ca. ") + rest + (rest === 1 ? " Portion" : " Portionen") : glas + " ist leer";
+    },
+    fuellung: function (tag) { return nsVorrat(tag) ? nsRest(tag) / 30 : 0; },
     hinweis: function (tag) {
-      var rest = nsRest(tag);
-      if (rest > 7) return null;
+      var rest = nsVorrat(tag);
+      if (rest > 7 || (nsKonto && nsKonto.automatisch)) return null;
       return rest ? { titel: "Dein Glas ist bald leer.", text: "Bestell jetzt nach, dann ist das neue da, bevor das alte leer ist. Mit automatischer Lieferung kostet es 69\u00a0€ statt 89\u00a0€.", link: ["Zum Nachkauf", "#ns-nachkauf"] }
         : { titel: "Zeit für ein neues Glas.", text: "Mit automatischer Lieferung kommt es künftig von allein, für 69\u00a0€ statt 89\u00a0€.", link: ["Zum Nachkauf", "#ns-nachkauf"] };
     },
     beiTag: function (tag, persoenlich) {
       nsTag = tag;
-      document.querySelectorAll("[data-erinnerung=ns-nachbestellen]").forEach(function (b) { b.hidden = nsRest(tag) <= 7; });
+      document.querySelectorAll("[data-erinnerung=ns-nachbestellen]").forEach(function (b) { b.hidden = !!(nsKonto && nsKonto.automatisch) || nsVorrat(tag) <= 7; });
       if (persoenlich) vorratZeigen("ns", tag);
     },
-    zeitleiste: ["#ns-30 .zeitleiste", function (tag) { return tag > 30 ? 4 : tag <= 3 ? 0 : tag <= 14 ? 1 : nsRest(tag) <= 7 ? 3 : 2; }]
+    zeitleiste: ["#ns-30 .zeitleiste", function (tag) { return tag > 30 ? 4 : tag <= 3 ? 0 : tag <= 14 ? 1 : nsVorrat(tag) <= 7 ? 3 : 2; }]
   };
   var IB_FORTSCHRITT = {
     id: "ib-fortschritt", tage: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11], phasen: IB_PHASEN, marken: [1, 3, 5, 7, 10, [11, "10+"]],
@@ -2323,11 +2403,6 @@ body.chat-offen .chat-fenster { display: flex; }
       li.append(punkt, element("span", "fs-name", s[0]));
       stufenListe.appendChild(li);
     });
-    if (linkName) {
-      var gruss = box.querySelector("[data-gruss]");
-      gruss.textContent = "Hallo " + linkName;
-      gruss.hidden = false;
-    }
     function phaseZeigen(p) {
       var text = element("div", "fs-text"), tipp = element("p", "fs-tipp");
       tipp.append(element("b", null, "Dein Tipp: "), p.tipp);
@@ -2371,13 +2446,16 @@ body.chat-offen .chat-fenster { display: flex; }
       if (cfg.beiTag) cfg.beiTag(tag, persoenlich);
       if (persoenlich) stufenSetzen(zeitleiste, cfg.zeitleiste[1](tag), true);
     }
-    regler.addEventListener("input", function () { zeigen(true); });
-    if (linkTag >= 1) {
-      var naechster = 0;
-      cfg.tage.forEach(function (t, i) { if (Math.abs(t - linkTag) < Math.abs(cfg.tage[naechster] - linkTag)) naechster = i; });
-      regler.value = naechster;
+    function tagIndex(tag) {
+      var n = 0;
+      cfg.tage.forEach(function (t, i) { if (Math.abs(t - tag) < Math.abs(cfg.tage[n] - tag)) n = i; });
+      return n;
     }
+    regler.addEventListener("input", function () { zeigen(true); });
+    if (linkTag >= 1) regler.value = tagIndex(linkTag);
     zeigen(linkTag >= 1);
+    /* Für die Test-Anmeldung: den Tag aus der Bestellung einstellen */
+    return { setzen: function (tag) { regler.value = tagIndex(tag); zeigen(true); } };
   }
 
   /* Ziel-Quiz: die Antworten ergeben einen Plan mit ausführlichen Tipps. Gespeichert wird nichts.
@@ -2530,17 +2608,25 @@ body.chat-offen .chat-fenster { display: flex; }
   function vorratZeigen(p, tag) {
     var heute = new Date(), wert, text;
     if (p === "ns") {
-      var rest = nsRest(tag);
-      wert = rest ? "Noch ca. " + rest + (rest === 1 ? " Portion" : " Portionen") : "Dein Glas ist leer";
-      text = !rest ? "Zeit für ein neues Glas. Mit automatischer Lieferung kommt es künftig von allein."
-        : rest <= 7 ? "Bestell am besten heute nach. Die Lieferung dauert 2 bis 7 Tage."
-        : "Dein Glas ist etwa am " + datumText(plusTage(heute, rest)) + " leer. Bestell bis " + datumText(plusTage(heute, rest - 7)) + ", dann ist das neue rechtzeitig da.";
+      var rest = nsVorrat(tag), auto = nsKonto && nsKonto.automatisch;
+      if (auto) {
+        wert = "Nächstes Glas am " + kurzDatum(auto.naechste);
+        text = "Kommt automatisch alle " + auto.wochen + " Wochen, du musst nichts tun. Bis dahin hast du noch ca. " + rest + (rest === 1 ? " Portion." : " Portionen.");
+      } else {
+        wert = rest ? "Noch ca. " + rest + (rest === 1 ? " Portion" : " Portionen") : "Dein Glas ist leer";
+        text = !rest ? "Zeit für ein neues Glas. Mit automatischer Lieferung kommt es künftig von allein."
+          : rest <= 7 ? "Bestell am besten heute nach. Die Lieferung dauert 2 bis 7 Tage."
+          : (nsKonto && nsKonto.glaeser > 1 ? "Dein Vorrat reicht bis etwa " + datumText(plusTage(heute, rest)) : "Dein Glas ist etwa am " + datumText(plusTage(heute, rest)) + " leer") + ". Bestell bis " + datumText(plusTage(heute, rest - 7)) + ", dann ist das neue rechtzeitig da.";
+      }
     } else {
       var reste = ibRest(tag), tage = Math.floor(reste / 3);
       wert = tag > 10 ? "Akutphase vorbei" : reste ? "Noch ca. " + reste + " Portionen" : "Dein Glas ist leer";
       text = tag > 10 || !reste ? "Bestell rechtzeitig nach. Dann hast du den Booster beim nächsten Mal sofort griffbereit."
         : "Das reicht noch für etwa " + tage + (tage === 1 ? " Tag" : " Tage") + " mit 3 Teelöffeln am Tag.";
     }
+    vorratSetzen(p, wert, text);
+  }
+  function vorratSetzen(p, wert, text) {
     document.querySelectorAll('[data-vorrat-wert="' + p + '"]').forEach(function (e) { e.textContent = wert; });
     document.querySelectorAll('[data-vorrat-text="' + p + '"]').forEach(function (e) { e.textContent = text; });
   }
@@ -2685,6 +2771,7 @@ body.chat-offen .chat-fenster { display: flex; }
   var WOCHENTAGE = ["Sonntag", "Montag", "Dienstag", "Mittwoch", "Donnerstag", "Freitag", "Samstag"];
   var MONATE = ["Januar", "Februar", "März", "April", "Mai", "Juni", "Juli", "August", "September", "Oktober", "November", "Dezember"];
   function datumText(d) { return WOCHENTAGE[d.getDay()] + ", " + d.getDate() + ". " + MONATE[d.getMonth()]; }
+  function kurzDatum(d) { return d.getDate() + ". " + MONATE[d.getMonth()]; }
   function zwei(n) { return (n < 10 ? "0" : "") + n; }
   function plusTage(d, n) { var x = new Date(d); x.setDate(x.getDate() + n); return x; }
   function icsTag(d) { return d.getFullYear() + zwei(d.getMonth() + 1) + zwei(d.getDate()); }
@@ -2745,7 +2832,7 @@ body.chat-offen .chat-fenster { display: flex; }
     var termine, namen = [null];
     felder.replaceChildren();
     if (art === "ns-nachbestellen") {
-      var datum = plusTage(new Date(), nsRest(nsTag) - 7);
+      var datum = plusTage(new Date(), nsVorrat(nsTag) - 7);
       text.textContent = "Am " + datumText(datum) + " erinnern wir dich ans Nachbestellen. Dann sind noch etwa 7 Portionen im Glas, und dein neues Glas kommt rechtzeitig.";
       termine = function () { return [{ titel: "OMNI9 nachbestellen", text: "Dein Glas OMNI9 ist bald leer. Bestell heute nach, dann ist das neue rechtzeitig da: " + hubAdresse("#ns-nachkauf"), start: datum, ganztags: true, anzahl: 1 }]; };
     } else {
@@ -2983,8 +3070,185 @@ body.chat-offen .chat-fenster { display: flex; }
     });
     sparenZeigen();
   }
-  fortschritt(NS_FORTSCHRITT);
-  fortschritt(IB_FORTSCHRITT);
+  var FS = { ns: fortschritt(NS_FORTSCHRITT), ib: fortschritt(IB_FORTSCHRITT) };
+  if (linkName) grussSetzen(linkName);
+
+  /* Test-Anmeldung per E-Mail (Weg 2), sichtbar nur mit ?login=demo. Der Hub-Server (meta hub-login-api)
+     schickt einen Code und gibt nach dem richtigen Code die Bestellungen zurück, heute von Beispielkunden.
+     Im Testbetrieb steht der Code hier statt in einer Mail. Gespeichert wird nichts: Neu laden heißt abgemeldet. */
+  var LOGIN_API = (document.querySelector('meta[name="hub-login-api"]') || {}).content || "";
+  var PRODUKT_SEITE = { ns: "nutrition-system", ib: "immun-booster" };
+  function abmelden() { location.href = location.pathname + "?login=demo"; }
+  function tagAus(iso) { var t = iso.split("-"); return new Date(+t[0], +t[1] - 1, +t[2]); }
+  function tageSeit(d) { var heute = new Date(); heute.setHours(0, 0, 0, 0); return Math.round((heute - d) / 864e5); }
+  if (LOGIN_API && params.get("login") === "demo") anmeldungZeigen();
+  function anmeldungZeigen() {
+    var box = document.getElementById("anmelden");
+    var formMail = box.querySelector("[data-anmelden-email]"), formCode = box.querySelector("[data-anmelden-code]");
+    var feldMail = formMail.elements.email, feldCode = formCode.elements.code;
+    var info = box.querySelector("[data-anmelden-info]"), fehler = box.querySelector("[data-anmelden-fehler]");
+    var beispiele = box.querySelector("[data-anmelden-beispiele]"), testCode = box.querySelector("[data-anmelden-testcode]");
+    var infoStart = info.textContent, email = "", token = "";
+    var FEHLER = {
+      email: "Bitte gib eine gültige E-Mail-Adresse ein.",
+      code: "Der Code stimmt nicht. Schau noch einmal in die E-Mail.",
+      abgelaufen: "Der Code ist abgelaufen. Fordere einen neuen an.",
+      "zu-viele": "Zu viele Versuche. Warte ein paar Minuten und probier es dann noch einmal."
+    };
+    var KAPUTT = "Die Anmeldung klappt gerade nicht. Wähl dein Produkt oben aus.";
+    box.hidden = false;
+    function fehlerZeigen(t) { fehler.textContent = t || ""; fehler.hidden = !t; }
+    function warten(form, an) {
+      var k = form.querySelector("[type=submit]");
+      if (!k.dataset.text) k.dataset.text = k.textContent;
+      k.disabled = an;
+      k.textContent = an ? "Einen Moment …" : k.dataset.text;
+    }
+    function senden(schritt, daten) {
+      return fetch(LOGIN_API + "/" + schritt, { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify(daten) })
+        .then(function (r) {
+          return r.json().catch(function () { return {}; }).then(function (d) { if (!r.ok) throw new Error(d.fehler || "status"); return d; });
+        });
+    }
+    function mailSchritt() {
+      formCode.hidden = true;
+      formMail.hidden = false;
+      info.textContent = infoStart;
+      testCode.hidden = true;
+      beispiele.hidden = false;
+      feldMail.focus();
+    }
+    beispiele.querySelectorAll("[data-beispiel]").forEach(function (b) {
+      b.addEventListener("click", function () { feldMail.value = b.dataset.beispiel; formMail.requestSubmit(); });
+    });
+    formMail.addEventListener("submit", function (e) {
+      e.preventDefault();
+      var wert = feldMail.value.trim();
+      if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(wert)) { fehlerZeigen(FEHLER.email); return; }
+      fehlerZeigen("");
+      warten(formMail, true);
+      senden("code", { email: wert }).then(function (d) {
+        email = wert;
+        token = d.token;
+        info.textContent = "Wir haben dir einen Code an " + email + " geschickt. Er gilt 10 Minuten.";
+        formMail.hidden = true;
+        formCode.hidden = false;
+        feldCode.value = "";
+        beispiele.hidden = true;
+        if (d.testCode) {
+          var knopf = knopfMit(d.testCode, "anmelden-code", function () { feldCode.value = d.testCode; feldCode.focus(); });
+          knopf.setAttribute("aria-label", "Code " + d.testCode.split("").join(" ") + " einsetzen");
+          testCode.replaceChildren(element("b", null, "Testbetrieb: "), "Statt per Mail kommt dein Code hier. Tipp ihn an: ", knopf);
+          testCode.hidden = false;
+        }
+        feldCode.focus();
+      }).catch(function (err) {
+        fehlerZeigen(FEHLER[err.message] || KAPUTT);
+      }).then(function () { warten(formMail, false); });
+    });
+    formCode.addEventListener("submit", function (e) {
+      e.preventDefault();
+      var code = feldCode.value.replace(/\D/g, "");
+      if (code.length !== 6) { fehlerZeigen("Der Code hat 6 Ziffern."); return; }
+      fehlerZeigen("");
+      warten(formCode, true);
+      senden("pruefen", { email: email, code: code, token: token }).then(angemeldet).catch(function (err) {
+        fehlerZeigen(FEHLER[err.message] || KAPUTT);
+      }).then(function () { warten(formCode, false); });
+    });
+    box.querySelector("[data-anmelden-zurueck]").addEventListener("click", function () { fehlerZeigen(""); mailSchritt(); });
+
+    /* Bestellungen je Produkt: gelieferte Gläser, Start mit der ersten Lieferung, automatische Lieferung */
+    function kontoAuswerten(d) {
+      var p = {};
+      ["ns", "ib"].forEach(function (id) { p[id] = { gekauft: false, glaeser: 0, start: null, automatisch: null, bestellungen: [] }; });
+      (d.bestellungen || []).slice().sort(function (a, b) { return a.bestellt < b.bestellt ? 1 : -1; }).forEach(function (b) {
+        var drin = {};
+        b.positionen.forEach(function (pos) {
+          Object.keys(pos.inhalt || {}).forEach(function (id) { drin[id] = (drin[id] || 0) + pos.inhalt[id] * (pos.menge || 1); });
+        });
+        Object.keys(drin).forEach(function (id) {
+          var x = p[id];
+          if (!x) return;
+          x.gekauft = true;
+          x.bestellungen.push(b);
+          if (!b.zugestellt) return;
+          x.glaeser += drin[id];
+          var z = tagAus(b.zugestellt);
+          if (!x.start || z < x.start) x.start = z;
+        });
+      });
+      (d.automatisch || []).forEach(function (a) { if (p[a.produkt]) p[a.produkt].automatisch = a; });
+      return p;
+    }
+    function kontoKarte(id, x) {
+      var karte = document.querySelector("#" + PRODUKT_SEITE[id] + " [data-konto]");
+      var kopf = element("div", "konto-kopf");
+      kopf.append(element("h2", null, "Deine Bestellungen"), knopfMit("Abmelden", "text-link", abmelden));
+      var teile = [kopf, element("p", "konto-mail", "Angemeldet mit " + email)];
+      if (x.automatisch) {
+        var auto = element("div", "konto-auto"), symbol = element("span", "konto-ikon"), text = element("div");
+        symbol.appendChild(ikon("i-kalender-linie"));
+        text.append(element("b", null, "Automatische Lieferung alle " + x.automatisch.wochen + " Wochen"), element("p", null, "Dein nächstes Glas geht am " + datumText(tagAus(x.automatisch.naechste)) + " raus. Du musst nichts tun."));
+        auto.append(symbol, text, linkMit("Verwalten", "text-link", "https://omni9.de/account", true));
+        teile.push(auto);
+      }
+      var liste = element("ul", "konto-liste");
+      x.bestellungen.forEach(function (b) {
+        var li = element("li"), was = element("div");
+        was.append(element("b", null, b.positionen.map(function (pos) { return (pos.menge > 1 ? pos.menge + " × " : "") + pos.titel; }).join(", ")),
+          element("small", null, "Bestellung " + b.nummer + " vom " + kurzDatum(tagAus(b.bestellt))));
+        li.append(was, b.zugestellt ? element("span", "konto-status zugestellt", "Zugestellt am " + kurzDatum(tagAus(b.zugestellt)))
+          : knopfMit("Unterwegs: Sendung verfolgen", "konto-status", function () { paketOeffnen(b.sendung); }));
+        liste.appendChild(li);
+      });
+      teile.push(liste);
+      karte.replaceChildren.apply(karte, teile);
+      karte.hidden = false;
+    }
+    function wahlText(id, x) {
+      if (!x.start) return "Unterwegs zu dir";
+      if (id === "ib") return x.glaeser === 1 ? "1 Glas griffbereit" : x.glaeser + " Gläser griffbereit";
+      return (x.automatisch ? "Automatische Lieferung" : x.glaeser === 1 ? "1 Glas" : x.glaeser + " Gläser") + ", du bist bei Tag " + (tageSeit(x.start) + 1);
+    }
+    function startPersoenlich(vorname, p) {
+      var start = document.getElementById("start");
+      start.querySelector("h1").textContent = vorname ? "Hallo " + vorname + ", schön, dass du da bist" : "Schön, dass du da bist";
+      start.querySelector(".hub-unter").textContent = "Das hast du bei OMNI9 gekauft. Wähl, womit du weitermachen willst.";
+      start.querySelectorAll(".wahl").forEach(function (a) {
+        var id = a.getAttribute("href") === "#immun-booster" ? "ib" : "ns";
+        a.hidden = !p[id].gekauft;
+        if (p[id].gekauft) a.querySelector("small").textContent = wahlText(id, p[id]);
+      });
+      start.querySelector(".wahl-hinweis").hidden = true;
+      box.querySelector(".anmelden-oder").hidden = true;
+      box.querySelector(".anmelden-box").hidden = true;
+      var fertig = box.querySelector("[data-anmelden-fertig]");
+      fertig.replaceChildren(element("span", null, "Angemeldet mit " + email), knopfMit("Abmelden", "text-link", abmelden));
+      fertig.hidden = false;
+    }
+    function angemeldet(d) {
+      var p = kontoAuswerten(d), gekauft = ["ns", "ib"].filter(function (id) { return p[id].gekauft; });
+      if (!gekauft.length) {
+        mailSchritt();
+        fehlerZeigen("Zu " + email + " haben wir keine Bestellung gefunden. Wähl dein Produkt oben aus.");
+        return;
+      }
+      if (d.vorname) grussSetzen(d.vorname);
+      if (p.ns.start) {
+        nsKonto = { glaeser: p.ns.glaeser, automatisch: p.ns.automatisch ? { wochen: p.ns.automatisch.wochen, naechste: tagAus(p.ns.automatisch.naechste) } : null };
+        FS.ns.setzen(tageSeit(p.ns.start) + 1);
+      } else if (p.ns.gekauft) vorratSetzen("ns", "Unterwegs zu dir", "Dein Glas kommt in den nächsten Tagen. Dann startest du mit Tag 1.");
+      if (p.ib.gekauft) {
+        if (p.ib.glaeser) vorratSetzen("ib", p.ib.glaeser === 1 ? "1 Glas griffbereit" : p.ib.glaeser + " Gläser griffbereit", "Ein Glas reicht für eine Akutphase von bis zu 10 Tagen mit 3 Teelöffeln am Tag.");
+        else vorratSetzen("ib", "Unterwegs zu dir", "Dein Booster kommt in den nächsten Tagen. Leg ihn dann griffbereit in den Küchenschrank.");
+      }
+      gekauft.forEach(function (id) { kontoKarte(id, p[id]); });
+      startPersoenlich(d.vorname, p);
+      if (gekauft.length === 1) location.hash = "#" + PRODUKT_SEITE[gekauft[0]];
+      else window.scrollTo({ top: 0, behavior: "instant" });
+    }
+  }
 
   navMarkieren();
   if (params.get("chat") === "demo") {
