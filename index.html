@@ -324,6 +324,15 @@ details p { padding: 0 0 16px; font-size: 14px; color: var(--muted); }
 .option-preis small { flex-basis: 100%; font-size: 13px; color: var(--muted); }
 .option .haken-liste { margin: 18px 0 22px; }
 .option .knopf { margin-top: auto; }
+/* Gläser zeigen, was kommt: einmal ein Glas, automatisch eine Kette im gewählten Rhythmus. Das Glas kommt aus --glas */
+.option-glaeser { position: relative; isolation: isolate; display: flex; align-items: flex-end; gap: 12px; width: max-content; max-width: 100%; margin-bottom: 16px; }
+.option-glaeser figure { display: grid; justify-items: center; gap: 6px; width: 96px; animation: glasrein .5s cubic-bezier(.2, .8, .2, 1) both; }
+.option-glaeser figure:nth-child(2) { animation-delay: .12s; }
+.option-glaeser figure:nth-child(3) { animation-delay: .24s; }
+.option-glas { display: block; width: 62px; height: 80px; background: var(--glas) center bottom / contain no-repeat; filter: drop-shadow(0 8px 8px rgba(51, 50, 64, .2)); }
+.option-glaeser figcaption { font-size: 12.5px; font-weight: 600; color: var(--gold-text); white-space: nowrap; }
+.option-glaeser.kette::before { content: ""; position: absolute; z-index: -1; left: 48px; right: 48px; top: 40px; border-top: 2px dashed var(--gold-hell); }
+@keyframes glasrein { from { opacity: 0; transform: translateY(12px); } }
 .rhythmus { display: flex; flex-wrap: wrap; gap: 8px; margin: 18px 0 0; padding: 0; border: 0; }
 .rhythmus legend { margin-bottom: 8px; padding: 0; font-size: 13px; font-weight: 600; color: var(--text-2); }
 .rhythmus label { position: relative; }
@@ -467,7 +476,7 @@ button.text-link { padding: 0; border: 0; background: none; font-size: 14px; cur
 .achse-frag:hover { background: var(--creme); }
 .achse-frag svg { width: 16px; height: 16px; }
 
-/* 30 Tage: Wenn es hakt, So ging es anderen */
+/* 30 Tage: Wenn es mal nicht rund läuft, So ging es anderen */
 .hakt-raster { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); column-gap: 32px; margin-top: 12px; }
 .hakt-raster > details:first-of-type { margin-top: 0; }
 .hakt-raster .text-link { display: inline-block; margin-top: 4px; }
@@ -511,32 +520,62 @@ button.text-link { padding: 0; border: 0; background: none; font-size: 14px; cur
 .quiz-freitext textarea:focus { outline: 2px solid var(--gold); outline-offset: 1px; border-color: var(--gold); }
 .quiz-zaehler { margin-top: 6px; font-size: 12.5px; color: var(--muted); text-align: right; }
 .quiz-hinweis { margin-top: 8px; font-size: 13px; line-height: 1.5; color: var(--muted); }
-.quiz-laden { display: grid; justify-items: center; gap: 6px; padding: 30px 22px 34px; text-align: center; }
-.quiz-laden b { font-size: 17px; }
-.quiz-laden p { font-size: 14px; color: var(--muted); }
+/* Ladeanimation beim Plan: Glas mit Honigwelle, Liste zum Abhaken, Balken */
+.quiz-box.laedt .quiz-kopf [data-glas] { visibility: hidden; }
+.plan-laden { display: grid; justify-items: center; gap: 16px; padding: 22px 22px 30px; }
+.plan-laden-glas { width: 84px; animation: glaswippt 2.4s ease-in-out infinite; transform-origin: 50% 90%; }
+@keyframes glaswippt { 0%, 100% { transform: rotate(-3deg); } 50% { transform: rotate(3deg); } }
+.honigglas.wellt .honig path { animation: honigwelle 1.3s linear infinite; }
+@keyframes honigwelle { to { transform: translateX(-32px); } }
+.plan-laden-liste { list-style: none; display: grid; gap: 4px; width: 100%; max-width: 440px; }
+.plan-laden-liste li { display: grid; grid-template-columns: 24px minmax(0, 1fr); gap: 12px; align-items: center; padding: 6px 0; font-size: 14.5px; color: var(--leise); transition: color .3s; }
+.plan-laden-zeichen { width: 22px; height: 22px; border: 2px solid var(--linie); border-radius: 50%; }
+.plan-laden-liste li.aktiv { color: var(--text); font-weight: 600; }
+.plan-laden-liste li.aktiv .plan-laden-zeichen { border-color: var(--gold); border-top-color: transparent; animation: ladedreht .8s linear infinite; }
+@keyframes ladedreht { to { transform: rotate(360deg); } }
+.plan-laden-liste li.fertig { color: var(--text-2); }
+.plan-laden-liste li.fertig .plan-laden-zeichen { border: 0; animation: hakenploppt .35s ease-out; }
+.plan-laden-zeichen svg { display: block; width: 22px; height: 22px; }
+@keyframes hakenploppt { 0% { transform: scale(.4); } 70% { transform: scale(1.15); } 100% { transform: scale(1); } }
+.plan-laden-balken { width: 100%; max-width: 440px; height: 6px; border-radius: 999px; background: var(--creme); overflow: hidden; }
+.plan-laden-balken i { display: block; width: 0; height: 100%; border-radius: inherit; background: linear-gradient(90deg, var(--gold) 0%, var(--gold-hell) 50%, var(--gold) 100%); background-size: 200% 100%; animation: balkenglanz 1.6s linear infinite; transition: width 16s cubic-bezier(.1, .6, .3, 1); }
+@keyframes balkenglanz { to { background-position: -200% 0; } }
+.plan-laden-hinweis { font-size: 13px; color: var(--muted); }
+/* Der Plan als Schritte: nummerierte Zeitleiste, Zusätze mit Goldlinie statt Kasten */
 .plan { display: grid; gap: 16px; padding: 16px 22px 4px; animation: quizrein .28s ease-out; }
 .plan-fazit { font-size: 15.5px; line-height: 1.6; color: var(--text-2); }
-.plan-start { display: grid; grid-template-columns: auto minmax(0, 1fr); gap: 18px; align-items: center; padding: 16px 18px; border-radius: 14px; background: var(--creme-hell); }
-.plan-wert { font-size: 30px; font-weight: 650; line-height: 1; white-space: nowrap; }
-.plan-wert small { display: block; margin-top: 6px; font-size: 12.5px; font-weight: 600; color: var(--gold-text); }
-.plan-start div p { font-size: 14.5px; color: var(--text-2); }
-.plan-start div p + p { margin-top: 4px; }
+.plan-ueberblick { display: flex; flex-wrap: wrap; gap: 8px; }
+.plan-chip { display: inline-flex; align-items: baseline; gap: 6px; padding: 7px 12px; border: 1px solid var(--gold-hell); border-radius: 999px; background: var(--creme-hell); font-size: 13.5px; font-weight: 600; color: var(--text); }
+.plan-chip small { font-size: 12.5px; font-weight: 500; color: var(--muted); }
+.plan-weg-titel { margin-top: 6px; font-size: 17px; }
+.plan-weg { list-style: none; }
+.plan-schritt { position: relative; display: grid; grid-template-columns: 40px minmax(0, 1fr); gap: 16px; padding-bottom: 24px; }
+.plan-schritt::before { content: ""; position: absolute; left: 19px; top: 44px; bottom: 4px; width: 2px; border-radius: 2px; background: var(--linie); }
+.plan-schritt:last-child { padding-bottom: 4px; }
+.plan-schritt:last-child::before { display: none; }
+.plan-nr { position: relative; z-index: 1; width: 40px; height: 40px; border: 2px solid var(--gold); border-radius: 50%; background: #fff; display: flex; align-items: center; justify-content: center; font-size: 16px; font-weight: 700; color: var(--gold-text); }
+.plan-schritt.jetzt .plan-nr { background: var(--gold); color: var(--nacht); }
+.plan-schritt-inhalt { min-width: 0; padding-top: 2px; }
+.plan-schritt-etikett { font-size: 12.5px; font-weight: 600; color: var(--gold-text); }
+.plan-schritt h3 { margin-top: 1px; font-size: 17px; line-height: 1.35; }
+.plan-schritt-text { margin-top: 6px; font-size: 14.5px; color: var(--text-2); }
+.plan-schritt .haken-liste { margin-top: 10px; }
+.plan-zusatz { margin-top: 14px; padding: 1px 0 1px 14px; border-left: 3px solid var(--gold-hell); font-size: 14.5px; }
+.plan-zusatz b { display: block; }
+.plan-zusatz > p:not(.plan-zusatz-art) { margin-top: 2px; color: var(--text-2); }
+.plan-zusatz-art { display: flex; align-items: center; gap: 8px; margin-bottom: 2px; font-size: 12px; font-weight: 600; letter-spacing: .02em; color: var(--gold-text); }
+.plan-kauf-glas { flex: none; width: 26px; height: 34px; background: var(--glas) center bottom / contain no-repeat; }
+.plan-warum { margin-top: 14px; }
+.plan-warum summary { padding: 12px 0; font-size: 14.5px; }
+.plan-warum .plan-liste { margin-top: 0; padding-bottom: 14px; }
+.plan-warum .plan-liste p { padding: 0; font-size: 14.5px; color: var(--text-2); }
 .plan-teil { padding-top: 16px; border-top: 1px solid var(--linie); }
 .plan-teil h3 { font-size: 16.5px; }
 .plan-teil > p { margin-top: 6px; font-size: 14.5px; color: var(--text-2); }
-.plan-teil > .plan-fakt { color: var(--text); font-weight: 600; }
-.plan-teil .haken-liste { margin-top: 10px; }
+.plan-fakt { margin-top: 6px; font-size: 14.5px; font-weight: 600; color: var(--text); }
 .plan-liste { list-style: none; display: grid; gap: 12px; margin-top: 12px; }
 .plan-liste p { margin-top: 2px; font-size: 14.5px; color: var(--text-2); }
-.plan-phasen { list-style: none; margin-top: 10px; }
-.plan-phasen > li { display: grid; grid-template-columns: 170px minmax(0, 1fr); gap: 14px; padding: 12px 0; border-top: 1px solid var(--linie); }
-.plan-phasen > li:first-child { border-top: 0; }
-.plan-etikett { font-size: 13px; font-weight: 600; color: var(--gold-text); }
-.plan-phasen ul { list-style: none; display: grid; gap: 4px; margin-top: 4px; font-size: 14.5px; color: var(--text-2); }
 .plan-knoepfe { display: flex; flex-wrap: wrap; align-items: center; gap: 10px 16px; margin-top: 12px; }
-.plan-kauf { padding: 18px; border-radius: 14px; background: var(--creme-hell); }
-.plan-kauf h3 { font-size: 16.5px; }
-.plan-kauf > p { margin-top: 6px; font-size: 14.5px; color: var(--text-2); }
 .plan-warnung { margin-top: 8px; font-size: 14px; color: #8a3b26; }
 .plan-quelle { font-size: 12.5px; color: var(--muted); }
 #plan-druck { display: none; }
@@ -727,6 +766,9 @@ body.chat-offen .chat-fenster { display: flex; }
   .erinnern-knoepfe { grid-column: 1 / -1; display: grid; gap: 8px; }
   .optionen, .sets { grid-template-columns: minmax(0, 1fr); gap: 14px; }
   .option { padding: 24px 18px 20px; }
+  .option-glaeser { gap: 8px; }
+  .option-glaeser figure { width: 88px; }
+  .option-glaeser.kette::before { left: 44px; right: 44px; }
   .dazu-karte { grid-template-columns: 56px minmax(0, 1fr); gap: 14px; }
   .dazu-karte img { width: 56px; height: 72px; }
   .dazu-knoepfe { grid-column: 1 / -1; align-items: stretch; text-align: center; }
@@ -748,8 +790,9 @@ body.chat-offen .chat-fenster { display: flex; }
   .fs-phase { grid-template-columns: minmax(0, 1fr); }
   .fs-hinweis .knopf { width: 100%; }
   .quiz-box .quiz-antworten { grid-template-columns: repeat(2, minmax(0, 1fr)); }
-  .plan-phasen > li { grid-template-columns: minmax(0, 1fr); gap: 2px; }
-  .plan-start { grid-template-columns: minmax(0, 1fr); gap: 10px; }
+  .plan-schritt { grid-template-columns: 34px minmax(0, 1fr); gap: 12px; }
+  .plan-schritt::before { left: 16px; top: 38px; }
+  .plan-nr { width: 34px; height: 34px; font-size: 15px; }
   .tagesplan { padding: 20px 16px 18px; }
   .tp-wahl { display: flex; }
   .tp-wahl button { flex: 1; justify-content: center; padding: 8px 10px; text-align: center; }
@@ -792,7 +835,8 @@ body.chat-offen .chat-fenster { display: flex; }
   .tippt i { animation: none; opacity: .6; }
   .honig, .fs-punkt, .fs-stufen::after, .tp-zeiten li, .sparen-spur i { transition: none; }
   .fs-phase.neu { animation: none; }
-  .quiz-antworten, .quiz-skala, .quiz-chips, .quiz-freitext, .plan { animation: none; }
+  .quiz-antworten, .quiz-skala, .quiz-chips, .quiz-freitext, .plan, .plan-laden-glas, .honigglas.wellt .honig path, .plan-laden-liste li.aktiv .plan-laden-zeichen, .plan-laden-liste li.fertig .plan-laden-zeichen, .plan-laden-balken i, .option-glaeser figure { animation: none; }
+  .plan-laden-balken i { transition: none; }
   summary svg { transition: none; }
 }
 /* Plan als PDF: Die Druckansicht zeigt nur den Plan im OMNI9-Look */
@@ -807,9 +851,10 @@ body.chat-offen .chat-fenster { display: flex; }
   #plan-druck h1 { margin: 16px 0 6px; font-size: 24px; }
   #plan-druck .plan { padding: 0; animation: none; }
   #plan-druck button, #plan-druck .plan-knoepfe { display: none !important; }
-  #plan-druck .plan-start, #plan-druck .plan-kauf, #plan-druck .plan-phasen > li, #plan-druck .plan-liste > li, #plan-druck .haken-liste { break-inside: avoid; }
-  #plan-druck h3 { break-after: avoid; }
-  #plan-druck .plan-start, #plan-druck .plan-kauf { -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+  #plan-druck .plan-zusatz, #plan-druck .plan-liste > li, #plan-druck .haken-liste li, #plan-druck .plan-chip { break-inside: avoid; }
+  #plan-druck h3, #plan-druck .plan-schritt-etikett { break-after: avoid; }
+  #plan-druck .plan-chip, #plan-druck .plan-nr, #plan-druck .plan-kauf-glas { -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+  #plan-druck summary svg { display: none; }
 }
 </style>
 </head>
@@ -940,7 +985,7 @@ body.chat-offen .chat-fenster { display: flex; }
     <button class="mein-produkt" type="button" title="Produkt wechseln" data-produktwahl aria-haspopup="menu" aria-expanded="false" aria-controls="produkt-menue"><img src="bilder/ns-produkt.webp" alt=""><span><small>Dein Produkt</small><b>Nutrition-System</b></span><svg><use href="#i-runter"/></svg></button>
     <nav class="nav" aria-label="Kapitel">
       <a class="nav-punkt" href="#ns-ueberblick" data-ansicht="ns-ueberblick"><svg><use href="#i-raster"/></svg>Dein Stand</a>
-      <p class="nav-saeule"><b>1</b>Produkt verstehen</p>
+      <p class="nav-saeule"><b>1</b>Nutrition-System verstehen</p>
       <a class="nav-punkt" href="#ns-einnahme" data-ansicht="ns-einnahme"><svg><use href="#i-loeffel-linie"/></svg>Einnahme</a>
       <a class="nav-punkt" href="#ns-inhalt" data-ansicht="ns-inhalt"><svg><use href="#i-glas"/></svg>Was drin ist</a>
       <a class="nav-punkt" href="#ns-fragen" data-ansicht="ns-fragen"><svg><use href="#i-hilfe"/></svg>Fragen</a>
@@ -986,7 +1031,7 @@ body.chat-offen .chat-fenster { display: flex; }
           </div>
         </section>
         <section class="saeulen" aria-label="Deine drei Säulen">
-          <a class="saeule-karte" href="#ns-einnahme"><span class="saeule-name"><b>1</b>Produkt verstehen</span><b class="saeule-wert">1 Teelöffel am Tag</b><span class="saeule-text">Am besten immer zur gleichen Zeit. So nimmst du es, was drin ist und Antworten auf deine Fragen.</span><span class="saeule-link">Zur Einnahme<svg><use href="#i-weiter"/></svg></span></a>
+          <a class="saeule-karte" href="#ns-einnahme"><span class="saeule-name"><b>1</b>Nutrition-System verstehen</span><b class="saeule-wert">1 Teelöffel am Tag</b><span class="saeule-text">Am besten immer zur gleichen Zeit. So nimmst du es, was drin ist und Antworten auf deine Fragen.</span><span class="saeule-link">Zur Einnahme<svg><use href="#i-weiter"/></svg></span></a>
           <a class="saeule-karte" href="#ns-tipps"><span class="saeule-name"><b>2</b>Näher an dein Ziel</span><b class="saeule-wert" data-ziel-wert="ns">Was soll sich als Erstes verbessern?</b><span class="saeule-text" data-ziel-text="ns">Ein paar kurze Fragen, dann bekommst du deinen persönlichen 30-Tage-Plan.</span><span class="saeule-link">Zu deinem Ziel<svg><use href="#i-weiter"/></svg></span></a>
           <a class="saeule-karte" href="#ns-nachkauf"><span class="saeule-name"><b>3</b>Nachbestellen</span><b class="saeule-wert" data-vorrat-wert="ns">Ein Glas reicht 30 Tage</b><span class="saeule-text" data-vorrat-text="ns">Schieb unten den Regler auf deinen Tag. Dann siehst du, wann du nachbestellen solltest.</span><span class="saeule-link">Zum Nachbestellen<svg><use href="#i-weiter"/></svg></span></a>
         </section>
@@ -1014,7 +1059,7 @@ body.chat-offen .chat-fenster { display: flex; }
       </section>
 
       <section class="ansicht" id="ns-einnahme" data-saeule="ns-verstehen">
-        <nav class="saeule-nav" aria-label="Produkt verstehen"><span class="saeule-name"><b>1</b>Produkt verstehen</span><a href="#ns-einnahme" data-ansicht="ns-einnahme">Einnahme</a><a href="#ns-inhalt" data-ansicht="ns-inhalt">Was drin ist</a><a href="#ns-fragen" data-ansicht="ns-fragen">Fragen</a></nav>
+        <nav class="saeule-nav" aria-label="Nutrition-System verstehen"><span class="saeule-name"><b>1</b>Nutrition-System verstehen</span><a href="#ns-einnahme" data-ansicht="ns-einnahme">Einnahme</a><a href="#ns-inhalt" data-ansicht="ns-inhalt">Was drin ist</a><a href="#ns-fragen" data-ansicht="ns-fragen">Fragen</a></nav>
         <header class="ansicht-kopf"><h1>So nimmst du OMNI9</h1><p>Ein Löffel. Jeden Tag. Ohne Aufwand.</p></header>
         <section class="tagesplan" aria-labelledby="ns-tagesplan-titel">
           <div class="tp-kopf">
@@ -1081,13 +1126,13 @@ body.chat-offen .chat-fenster { display: flex; }
           </div>
         </div>
         <section class="block" id="ns-hakt">
-          <h2>Wenn es hakt</h2>
-          <p class="block-text">So kommst du wieder rein, wenn es mal nicht rund läuft.</p>
+          <h2>Wenn es mal nicht rund läuft</h2>
+          <p class="block-text">Tipp auf deinen Fall. Dann siehst du, was dir hilft, dranzubleiben.</p>
           <div class="hakt-raster">
-            <details><summary>Ich vergesse es<svg><use href="#plus"/></svg></summary><p>Nimm deinen Löffel immer zur gleichen Zeit, zum Beispiel morgens. Stell das Glas sichtbar hin, etwa neben die Kaffeemaschine. Am leichtesten klappt es, wenn du die Einnahme mit etwas verknüpfst, das du sowieso jeden Tag machst.<br><button class="text-link" type="button" data-erinnerung="ns-taeglich">Erinnere mich jeden Tag</button></p></details>
-            <details><summary>Mein Bauch rumort<svg><use href="#plus"/></svg></summary><p>Ist dein Darm empfindlich, nimm die ersten Tage weniger und steigere dann langsam auf einen Teelöffel. So pendelt sich dein System gut ein.</p></details>
-            <details><summary>Der Geschmack ist ungewohnt<svg><use href="#plus"/></svg></summary><p>Das schreiben einige in den Bewertungen. Sie berichten auch, dass man sich schnell daran gewöhnt. Ein Tipp aus einer Bewertung: den Löffel langsam im Mund zergehen lassen.</p></details>
-            <details><summary>Ich merke noch nichts<svg><use href="#plus"/></svg></summary><p>Das ist bei jedem anders. In den ersten Tagen merken manche noch nichts. Wichtig ist, dass du jeden Tag dranbleibst. Einige schreiben nach 2 bis 3 Wochen von mehr Energie.<br><a class="text-link" href="#ns-fortschritt">Sieh nach, was an deinem Tag passiert</a></p></details>
+            <details><summary>Ich denke nicht jeden Tag an den Löffel<svg><use href="#plus"/></svg></summary><p>Nimm deinen Löffel immer zur gleichen Zeit und verknüpf ihn mit etwas, das du sowieso jeden Tag machst, zum Beispiel mit dem ersten Kaffee. Stell das Glas sichtbar hin, etwa neben die Kaffeemaschine.<br><button class="text-link" type="button" data-erinnerung="ns-taeglich">Erinnere mich jeden Tag</button></p></details>
+            <details><summary>Mein Bauch muss sich erst daran gewöhnen<svg><use href="#plus"/></svg></summary><p>Ist dein Darm empfindlich, nimm die ersten Tage etwas weniger als einen Teelöffel und steigere die Menge dann langsam. So kann sich dein Bauch in Ruhe an das Nutrition-System gewöhnen.</p></details>
+            <details><summary>Der Geschmack ist mir noch fremd<svg><use href="#plus"/></svg></summary><p>Die Basis ist Bio-Buchweizenhonig mit 16 Pflanzen- und Nährstoffzutaten. In den Bewertungen schreiben einige, dass der Geschmack anfangs ungewohnt ist und die Einnahme schnell zum Ritual wird. Ein Tipp aus einer Bewertung: den Löffel langsam im Mund zergehen lassen.</p></details>
+            <details><summary>Ich spüre noch keinen Unterschied<svg><use href="#plus"/></svg></summary><p>Das ist bei jedem anders. Das Nutrition-System ist auf Regeneration und Stabilität ausgelegt, nicht auf kurze Leistungsspitzen. Bleib jeden Tag dran: Einige schreiben nach 2 bis 3 Wochen von mehr Energie.<br><a class="text-link" href="#ns-fortschritt">Sieh nach, was an deinem Tag passiert</a></p></details>
           </div>
         </section>
         <section class="block">
@@ -1116,7 +1161,7 @@ body.chat-offen .chat-fenster { display: flex; }
       </section>
 
       <section class="ansicht" id="ns-inhalt" data-saeule="ns-verstehen">
-        <nav class="saeule-nav" aria-label="Produkt verstehen"><span class="saeule-name"><b>1</b>Produkt verstehen</span><a href="#ns-einnahme" data-ansicht="ns-einnahme">Einnahme</a><a href="#ns-inhalt" data-ansicht="ns-inhalt">Was drin ist</a><a href="#ns-fragen" data-ansicht="ns-fragen">Fragen</a></nav>
+        <nav class="saeule-nav" aria-label="Nutrition-System verstehen"><span class="saeule-name"><b>1</b>Nutrition-System verstehen</span><a href="#ns-einnahme" data-ansicht="ns-einnahme">Einnahme</a><a href="#ns-inhalt" data-ansicht="ns-inhalt">Was drin ist</a><a href="#ns-fragen" data-ansicht="ns-fragen">Fragen</a></nav>
         <header class="ansicht-kopf"><h1>Was in deinem Glas steckt</h1><p>Damit du weißt, was du jeden Tag nimmst und wofür: 16 Zutaten in einer bioaktiven Honigmatrix, sortiert nach den 9 Regenerations-Achsen deines Körpers.</p></header>
         <section class="frag-box" aria-labelledby="ns-frag-titel">
           <span class="blase"><svg><use href="#i-chat"/></svg></span>
@@ -1287,6 +1332,7 @@ body.chat-offen .chat-fenster { display: flex; }
         <section class="block vorrat"><span class="vorrat-ikon"><svg><use href="#i-nachkauf"/></svg></span><div><p class="oberzeile">Dein Vorrat</p><h2 data-vorrat-wert="ns">Ein Glas reicht 30 Tage</h2><p data-vorrat-text="ns">Stell bei „Dein Stand“ ein, seit wie vielen Tagen du OMNI9 nimmst. Dann siehst du hier, wann dein Glas leer ist und bis wann du nachbestellen solltest.</p><a class="text-link" href="#ns-fortschritt">Zu deinem Tag</a></div><button class="knopf hell tp-erinnerung" type="button" data-erinnerung="ns-nachbestellen"><svg><use href="#i-kalender-linie"/></svg><span>Erinnere mich ans Nachbestellen</span></button></section>
         <div class="optionen">
           <section class="option">
+            <div class="option-glaeser" aria-hidden="true"><figure><span class="option-glas"></span><figcaption>1 Glas</figcaption></figure></div>
             <h2>Einmal nachbestellen</h2>
             <p class="option-preis"><b>89,00&nbsp;€</b><small>pro Glas, zzgl. 3,90&nbsp;€ Versand</small></p>
             <ul class="haken-liste">
@@ -1298,13 +1344,14 @@ body.chat-offen .chat-fenster { display: flex; }
           </section>
           <section class="option empfohlen" data-auto="56780244877660">
             <span class="option-marke">20&nbsp;€ günstiger pro Glas</span>
+            <div class="option-glaeser kette" aria-hidden="true" data-lieferkette><figure><span class="option-glas"></span><figcaption>1. Glas</figcaption></figure><figure><span class="option-glas"></span><figcaption data-nach="1">nach 4 Wochen</figcaption></figure><figure><span class="option-glas"></span><figcaption data-nach="2">nach 8 Wochen</figcaption></figure></div>
             <h2>Automatisch liefern lassen</h2>
             <p class="option-preis"><b>69,00&nbsp;€</b><s>89,00&nbsp;€</s><small>pro Lieferung, zzgl. 3,90&nbsp;€ Versand</small></p>
             <fieldset class="rhythmus">
               <legend>Wie oft möchtest du ein Glas?</legend>
-              <label><input type="radio" name="ns-rhythmus" value="692319322460"><span>Alle 2 Wochen</span></label>
-              <label><input type="radio" name="ns-rhythmus" value="692303823196" checked><span>Alle 4 Wochen</span></label>
-              <label><input type="radio" name="ns-rhythmus" value="692318962012"><span>Alle 6 Wochen</span></label>
+              <label><input type="radio" name="ns-rhythmus" value="692319322460" data-wochen="2"><span>Alle 2 Wochen</span></label>
+              <label><input type="radio" name="ns-rhythmus" value="692303823196" data-wochen="4" checked><span>Alle 4 Wochen</span></label>
+              <label><input type="radio" name="ns-rhythmus" value="692318962012" data-wochen="6"><span>Alle 6 Wochen</span></label>
             </fieldset>
             <ul class="haken-liste">
               <li><svg><use href="#haken"/></svg><span>Kommt automatisch, ohne dass du daran denken musst</span></li>
@@ -1340,7 +1387,7 @@ body.chat-offen .chat-fenster { display: flex; }
       </section>
 
       <section class="ansicht" id="ns-fragen" data-saeule="ns-verstehen">
-        <nav class="saeule-nav" aria-label="Produkt verstehen"><span class="saeule-name"><b>1</b>Produkt verstehen</span><a href="#ns-einnahme" data-ansicht="ns-einnahme">Einnahme</a><a href="#ns-inhalt" data-ansicht="ns-inhalt">Was drin ist</a><a href="#ns-fragen" data-ansicht="ns-fragen">Fragen</a></nav>
+        <nav class="saeule-nav" aria-label="Nutrition-System verstehen"><span class="saeule-name"><b>1</b>Nutrition-System verstehen</span><a href="#ns-einnahme" data-ansicht="ns-einnahme">Einnahme</a><a href="#ns-inhalt" data-ansicht="ns-inhalt">Was drin ist</a><a href="#ns-fragen" data-ansicht="ns-fragen">Fragen</a></nav>
         <header class="ansicht-kopf"><h1>Fragen und Hilfe</h1><p>Die häufigsten Fragen nach dem Kauf und alle Wege zu uns.</p></header>
         <div class="zwei-spalten breit">
           <div class="block">
@@ -1393,7 +1440,7 @@ body.chat-offen .chat-fenster { display: flex; }
     <button class="mein-produkt" type="button" title="Produkt wechseln" data-produktwahl aria-haspopup="menu" aria-expanded="false" aria-controls="produkt-menue"><img src="bilder/ib-produkt.webp" alt=""><span><small>Dein Produkt</small><b>Immun Booster</b></span><svg><use href="#i-runter"/></svg></button>
     <nav class="nav" aria-label="Kapitel">
       <a class="nav-punkt" href="#ib-ueberblick" data-ansicht="ib-ueberblick"><svg><use href="#i-raster"/></svg>Dein Stand</a>
-      <p class="nav-saeule"><b>1</b>Produkt verstehen</p>
+      <p class="nav-saeule"><b>1</b>Immun Booster verstehen</p>
       <a class="nav-punkt" href="#ib-einnahme" data-ansicht="ib-einnahme"><svg><use href="#i-loeffel-linie"/></svg>Einnahme</a>
       <a class="nav-punkt" href="#ib-inhalt" data-ansicht="ib-inhalt"><svg><use href="#i-glas"/></svg>Was drin ist</a>
       <a class="nav-punkt" href="#ib-fragen" data-ansicht="ib-fragen"><svg><use href="#i-hilfe"/></svg>Fragen</a>
@@ -1439,7 +1486,7 @@ body.chat-offen .chat-fenster { display: flex; }
           </div>
         </section>
         <section class="saeulen" aria-label="Deine drei Säulen">
-          <a class="saeule-karte" href="#ib-einnahme"><span class="saeule-name"><b>1</b>Produkt verstehen</span><b class="saeule-wert">3 Teelöffel am Tag</b><span class="saeule-text">In der Akutphase 5 bis 10 Tage lang. So nimmst du ihn, was drin ist und Antworten auf deine Fragen.</span><span class="saeule-link">Zur Einnahme<svg><use href="#i-weiter"/></svg></span></a>
+          <a class="saeule-karte" href="#ib-einnahme"><span class="saeule-name"><b>1</b>Immun Booster verstehen</span><b class="saeule-wert">3 Teelöffel am Tag</b><span class="saeule-text">In der Akutphase 5 bis 10 Tage lang. So nimmst du ihn, was drin ist und Antworten auf deine Fragen.</span><span class="saeule-link">Zur Einnahme<svg><use href="#i-weiter"/></svg></span></a>
           <a class="saeule-karte" href="#ib-tipps"><span class="saeule-name"><b>2</b>Näher an dein Ziel</span><b class="saeule-wert" data-ziel-wert="ib">Akutphase oder vorbeugen?</b><span class="saeule-text" data-ziel-text="ib">Ein paar kurze Fragen, dann bekommst du deinen persönlichen Plan.</span><span class="saeule-link">Zu deinem Ziel<svg><use href="#i-weiter"/></svg></span></a>
           <a class="saeule-karte" href="#ib-nachkauf"><span class="saeule-name"><b>3</b>Nachbestellen</span><b class="saeule-wert" data-vorrat-wert="ib">Ein Glas reicht für eine Akutphase</b><span class="saeule-text" data-vorrat-text="ib">Bis zu 10 Tage mit 3 Teelöffeln am Tag. Bestell rechtzeitig nach, dann hast du ihn beim nächsten Mal griffbereit.</span><span class="saeule-link">Zum Nachbestellen<svg><use href="#i-weiter"/></svg></span></a>
         </section>
@@ -1467,7 +1514,7 @@ body.chat-offen .chat-fenster { display: flex; }
       </section>
 
       <section class="ansicht" id="ib-einnahme" data-saeule="ib-verstehen">
-        <nav class="saeule-nav" aria-label="Produkt verstehen"><span class="saeule-name"><b>1</b>Produkt verstehen</span><a href="#ib-einnahme" data-ansicht="ib-einnahme">Einnahme</a><a href="#ib-inhalt" data-ansicht="ib-inhalt">Was drin ist</a><a href="#ib-fragen" data-ansicht="ib-fragen">Fragen</a></nav>
+        <nav class="saeule-nav" aria-label="Immun Booster verstehen"><span class="saeule-name"><b>1</b>Immun Booster verstehen</span><a href="#ib-einnahme" data-ansicht="ib-einnahme">Einnahme</a><a href="#ib-inhalt" data-ansicht="ib-inhalt">Was drin ist</a><a href="#ib-fragen" data-ansicht="ib-fragen">Fragen</a></nav>
         <header class="ansicht-kopf"><h1>So nimmst du den Booster</h1><p>Am besten so früh wie möglich: bei Halskratzen, Frösteln, Gliederschwere oder wenn du merkst, „da kommt was“.</p></header>
         <section class="tagesplan" aria-labelledby="ib-tagesplan-titel" data-tagesplan>
           <div class="tp-wahl" role="radiogroup" aria-label="Wofür nimmst du den Booster?">
@@ -1547,7 +1594,7 @@ body.chat-offen .chat-fenster { display: flex; }
       </section>
 
       <section class="ansicht" id="ib-inhalt" data-saeule="ib-verstehen">
-        <nav class="saeule-nav" aria-label="Produkt verstehen"><span class="saeule-name"><b>1</b>Produkt verstehen</span><a href="#ib-einnahme" data-ansicht="ib-einnahme">Einnahme</a><a href="#ib-inhalt" data-ansicht="ib-inhalt">Was drin ist</a><a href="#ib-fragen" data-ansicht="ib-fragen">Fragen</a></nav>
+        <nav class="saeule-nav" aria-label="Immun Booster verstehen"><span class="saeule-name"><b>1</b>Immun Booster verstehen</span><a href="#ib-einnahme" data-ansicht="ib-einnahme">Einnahme</a><a href="#ib-inhalt" data-ansicht="ib-inhalt">Was drin ist</a><a href="#ib-fragen" data-ansicht="ib-fragen">Fragen</a></nav>
         <header class="ansicht-kopf"><h1>Was in deinem Glas steckt</h1><p>Damit du weißt, was du in der Akutphase nimmst: 34 Mikronährstoff-Komponenten in einer Honigmatrix. Sie setzen an Abwehr, Schleimhäuten, Entzündungsdruck, oxidativem Stress und Energie an.</p></header>
         <section class="frag-box" aria-labelledby="ib-frag-titel">
           <span class="blase"><svg><use href="#i-chat"/></svg></span>
@@ -1635,6 +1682,7 @@ body.chat-offen .chat-fenster { display: flex; }
         <section class="block vorrat"><span class="vorrat-ikon"><svg><use href="#i-nachkauf"/></svg></span><div><p class="oberzeile">Dein Vorrat</p><h2 data-vorrat-wert="ib">Ein Glas reicht für eine Akutphase</h2><p data-vorrat-text="ib">Stell bei „Dein Stand“ ein, an welchem Tag deiner Akutphase du bist. Dann siehst du hier, wie lange dein Glas noch reicht.</p><a class="text-link" href="#ib-fortschritt">Zu deinem Tag</a></div></section>
         <div class="optionen">
           <section class="option">
+            <div class="option-glaeser" aria-hidden="true"><figure><span class="option-glas"></span><figcaption>1 Glas</figcaption></figure></div>
             <h2>Einmal nachbestellen</h2>
             <p class="option-preis"><b>59,90&nbsp;€</b><small>pro Glas, zzgl. 3,90&nbsp;€ Versand</small></p>
             <ul class="haken-liste">
@@ -1646,14 +1694,15 @@ body.chat-offen .chat-fenster { display: flex; }
           </section>
           <section class="option empfohlen" data-auto="56549866013020">
             <span class="option-marke">10&nbsp;€ günstiger pro Glas</span>
+            <div class="option-glaeser kette" aria-hidden="true" data-lieferkette><figure><span class="option-glas"></span><figcaption>1. Glas</figcaption></figure><figure><span class="option-glas"></span><figcaption data-nach="1">nach 4 Wochen</figcaption></figure><figure><span class="option-glas"></span><figcaption data-nach="2">nach 8 Wochen</figcaption></figure></div>
             <h2>Automatisch liefern lassen</h2>
             <p class="option-preis"><b>49,90&nbsp;€</b><s>59,90&nbsp;€</s><small>pro Lieferung, zzgl. 3,90&nbsp;€ Versand</small></p>
             <fieldset class="rhythmus">
               <legend>Wie oft möchtest du ein Glas?</legend>
-              <label><input type="radio" name="ib-rhythmus" value="692321059164" checked><span>Alle 4 Wochen</span></label>
-              <label><input type="radio" name="ib-rhythmus" value="692321091932"><span>Alle 8 Wochen</span></label>
-              <label><input type="radio" name="ib-rhythmus" value="692321124700"><span>Alle 12 Wochen</span></label>
-              <label><input type="radio" name="ib-rhythmus" value="692321157468"><span>Alle 16 Wochen</span></label>
+              <label><input type="radio" name="ib-rhythmus" value="692321059164" data-wochen="4" checked><span>Alle 4 Wochen</span></label>
+              <label><input type="radio" name="ib-rhythmus" value="692321091932" data-wochen="8"><span>Alle 8 Wochen</span></label>
+              <label><input type="radio" name="ib-rhythmus" value="692321124700" data-wochen="12"><span>Alle 12 Wochen</span></label>
+              <label><input type="radio" name="ib-rhythmus" value="692321157468" data-wochen="16"><span>Alle 16 Wochen</span></label>
             </fieldset>
             <ul class="haken-liste">
               <li><svg><use href="#haken"/></svg><span>Immer ein Glas im Schrank, wenn es losgeht</span></li>
@@ -1681,7 +1730,7 @@ body.chat-offen .chat-fenster { display: flex; }
       </section>
 
       <section class="ansicht" id="ib-fragen" data-saeule="ib-verstehen">
-        <nav class="saeule-nav" aria-label="Produkt verstehen"><span class="saeule-name"><b>1</b>Produkt verstehen</span><a href="#ib-einnahme" data-ansicht="ib-einnahme">Einnahme</a><a href="#ib-inhalt" data-ansicht="ib-inhalt">Was drin ist</a><a href="#ib-fragen" data-ansicht="ib-fragen">Fragen</a></nav>
+        <nav class="saeule-nav" aria-label="Immun Booster verstehen"><span class="saeule-name"><b>1</b>Immun Booster verstehen</span><a href="#ib-einnahme" data-ansicht="ib-einnahme">Einnahme</a><a href="#ib-inhalt" data-ansicht="ib-inhalt">Was drin ist</a><a href="#ib-fragen" data-ansicht="ib-fragen">Fragen</a></nav>
         <header class="ansicht-kopf"><h1>Fragen und Hilfe</h1><p>Wissenswertes zum Booster und alle Wege zu uns.</p></header>
         <div class="zwei-spalten breit">
           <div class="block">
@@ -2113,10 +2162,15 @@ body.chat-offen .chat-fenster { display: flex; }
   /* Kauf-Links bekommen die Kennung. Automatische Lieferung: der gewählte Rhythmus geht als Lieferplan mit in die Kasse */
   document.querySelectorAll("a[data-kauf]").forEach(function (a) { a.href = mitKennung(a.href, a.dataset.kauf); });
   document.querySelectorAll("[data-auto]").forEach(function (box) {
-    var link = box.querySelector("[data-auto-link]");
+    var link = box.querySelector("[data-auto-link]"), kette = box.querySelector("[data-lieferkette]");
     box.querySelectorAll("input[type=radio]").forEach(function (r) {
       r.addEventListener("change", function () {
         link.href = mitKennung("https://omni9.de/cart/add?id=" + box.dataset.auto + "&quantity=1&selling_plan=" + r.value + "&return_to=/checkout", link.dataset.kauf);
+        /* Die Gläser zeigen den neuen Rhythmus und hüpfen kurz */
+        if (kette) kette.querySelectorAll("[data-nach]").forEach(function (c, i) {
+          c.textContent = "nach " + r.dataset.wochen * c.dataset.nach + " Wochen";
+          if (!bewegungAus) c.parentNode.animate([{ transform: "none" }, { transform: "translateY(-10px)" }, { transform: "none" }], { duration: 420, delay: i * 90, easing: "ease-out" });
+        });
       });
     });
   });
@@ -2823,78 +2877,127 @@ body.chat-offen .chat-fenster { display: flex; }
     return ul;
   }
   function kaufLink(selektor) { var a = document.querySelector(selektor); return a ? mitKennung(a.href, "plan") : null; }
-  /* Datum zum Nachbestellen fürs Nutrition-System: aus dem bekannten Tag, sonst aus „Seit wann“ */
+  /* Nachbestellen fürs Nutrition-System: aus dem bekannten Tag, sonst aus „Seit wann“. rest = Portionen im Glas, null = unbekannt */
+  function nachkaufRest(a) {
+    var tag = nsTagBekannt ? nsTag : NS_SEIT_TAG[a.seit];
+    return tag ? nsRest(tag) : null;
+  }
   function nachkaufSatz(a) {
-    var tag = nsTagBekannt ? nsTag : NS_SEIT_TAG[a.seit], heute = new Date();
-    if (!tag) return "Ein Glas reicht 30 Tage. Bestell etwa eine Woche vorher nach, dann ist dein neues Glas rechtzeitig da.";
-    var rest = nsRest(tag);
+    var rest = nachkaufRest(a), heute = new Date();
+    if (rest === null) return "Schau, wie viel noch in deinem Glas ist. Ein Glas reicht 30 Tage, bestell etwa eine Woche vorher nach.";
     if (rest <= 7) return "Bestell am besten heute nach. Die Lieferung dauert 2 bis 7 Tage.";
     return "Dein Glas ist etwa am " + datumText(plusTage(heute, rest)) + " leer. Bestell bis " + datumText(plusTage(heute, rest - 7)) + ", dann ist das neue rechtzeitig da.";
   }
+  /* In welchem Schritt nachbestellt wird: -1 = heute (oder Vorrat unbekannt), 0 bis 3 = Woche 1 bis 4 */
+  function nachkaufWoche(a) {
+    var rest = nachkaufRest(a);
+    return rest === null || rest <= 7 ? -1 : Math.min(3, Math.floor((rest - 7) / 7));
+  }
   function kaufTeil(p, a) {
-    var s = element("section", "plan-kauf"), knoepfe = element("div", "plan-knoepfe");
+    var s = element("div", "plan-zusatz plan-kauf"), knoepfe = element("div", "plan-knoepfe"), art = element("p", "plan-zusatz-art");
+    art.append(element("span", "plan-kauf-glas"), document.createTextNode(p === "ns" ? "Nutrition-System nachbestellen" : "Immun Booster nachbestellen"));
     if (p === "ns") {
-      s.append(element("h3", null, "Damit dein Plan nicht abreißt"), element("p", null, nachkaufSatz(a) + " Mit automatischer Lieferung kommt es von allein, für 69\u00a0€ statt 89\u00a0€."));
+      s.append(art, element("p", null, nachkaufSatz(a) + " Mit automatischer Lieferung kommt es von allein, für 69\u00a0€ statt 89\u00a0€."));
       knoepfe.append(linkMit("Automatisch liefern lassen", "knopf gold", kaufLink('[data-kauf="ns-automatisch"]'), true), linkMit("Einmal nachbestellen", "knopf hell", kaufLink('[data-kauf="ns-einmal"]'), true));
       if (a.ziel === "abwehr") knoepfe.append(linkMit("3er-Set mit Immun Booster gratis", "text-link", kaufLink('[data-kauf="ns-set3"]'), true), linkMit("Immun Booster ansehen", "text-link", "#immun-booster"));
       if (a.huerde === "viele_mittel") knoepfe.appendChild(linkMit("Was OMNI9 dir ersetzt", "text-link", "#ns-sparen"));
     } else {
-      s.append(element("h3", null, "Nachschub für die nächste Erkältungszeit"), element("p", null, "Ein Glas reicht für eine Akutphase von bis zu 10 Tagen. Automatisch geliefert kostet es 49,90\u00a0€ statt 59,90\u00a0€."));
+      s.append(art, element("p", null, "Ein Glas reicht für eine Akutphase von bis zu 10 Tagen. Halte eins bereit, dann kannst du beim nächsten Mal sofort starten. Automatisch geliefert kostet es 49,90\u00a0€ statt 59,90\u00a0€."));
       knoepfe.append(linkMit("Automatisch liefern lassen", "knopf gold", kaufLink('[data-kauf="ib-automatisch"]'), true), linkMit("Einmal nachbestellen", "knopf hell", kaufLink('[data-kauf="ib-einmal"]'), true));
       if (a.ns !== "taeglich") knoepfe.append(linkMit("Das Nutrition-System als tägliche Basis", "text-link", "#nutrition-system"), linkMit("3er-Set mit Immun Booster gratis", "text-link", kaufLink('[data-kauf="ib-set3"]'), true));
     }
     s.appendChild(knoepfe);
     return s;
   }
+  /* Auf einen Blick: die wichtigsten Eckdaten, als Chips über den Schritten und als Zeile in der Mail */
+  function ueberblickDaten(p, a) {
+    var heute = new Date(), chips = [];
+    if (p === "ns") {
+      var rest = nachkaufRest(a);
+      chips.push(["Start", a.startwert + " von 5"], ["Nochmal einschätzen", kurzDatum(plusTage(heute, 14)) + " und " + kurzDatum(plusTage(heute, 28))]);
+      if (rest !== null) chips.push(["Nachbestellen", rest <= 7 ? "heute" : "bis " + kurzDatum(plusTage(heute, rest - 7))]);
+    } else if (istAkut(a)) chips.push(["Einnahme", "3-mal am Tag 1 Teelöffel"], ["Dauer", "5 bis 10 Tage"]);
+    else chips.push(["Einnahme", "1 Teelöffel am Tag"], ["Bei Anzeichen", "3-mal am Tag"]);
+    return chips;
+  }
+  function planUeberblick(p, a) {
+    var leiste = element("div", "plan-ueberblick");
+    ueberblickDaten(p, a).forEach(function (c) { var chip = element("span", "plan-chip"); chip.append(element("small", null, c[0]), document.createTextNode(c[1])); leiste.appendChild(chip); });
+    return leiste;
+  }
+  function warumTeil(p, plan, a) {
+    var d = element("details", "plan-warum"), knoepfe = element("div", "plan-knoepfe");
+    var zusammen = element("summary", null, p === "ns" ? "Warum das hilft: was im Nutrition-System für dein Ziel arbeitet" : "Warum das hilft: was im Immun Booster für dich arbeitet");
+    zusammen.appendChild(ikon("plus"));
+    d.appendChild(zusammen);
+    d.appendChild(planListe(plan.wirkstoffe));
+    if (p === "ns") NS_ZIELE[a.ziel].achsen.forEach(function (nr) { knoepfe.appendChild(knopfMit(ACHSEN_NAMEN[nr], "achse-chip", function () { achseOeffnen(nr); })); });
+    else knoepfe.appendChild(linkMit("Alle Zutaten ansehen", "text-link", "#ib-inhalt"));
+    d.appendChild(knoepfe);
+    return d;
+  }
+  function erinnerungsKnopf(p, a) {
+    var akut = p === "ib" && istAkut(a), k = knopfMit(akut ? "Erinnere mich 3-mal am Tag" : "Erinnere mich jeden Tag", "knopf hell tp-erinnerung", function () {});
+    k.dataset.erinnerung = p === "ns" ? "ns-taeglich" : akut ? "ib-akut" : "ib-vorbeugend";
+    k.prepend(ikon("i-kalender-linie"));
+    return k;
+  }
+  /* Der Plan als Schritte in zeitlicher Reihenfolge. Die Gewohnheiten kommen einzeln in die Wochen,
+     Nachbestellen in die Woche, in die das Datum fällt. Genutzt für Ansicht, Mail und PDF */
+  function planSchritte(p, plan, a) {
+    var et = planEtiketten(p, a), heute = new Date(), ph = plan.phasen, tp = plan.tipps;
+    function tipp(art, t) { return t ? { art: art, titel: t.titel, text: t.text } : null; }
+    if (p === "ns") {
+      var woche = nachkaufWoche(a);
+      return [{ etikett: "Heute", titel: "Starte deine Routine mit dem Nutrition-System", text: plan.routine.text, punkte: plan.routine.schritte, erinnerung: true, warum: true, bestellen: woche === -1 }].concat(ph.map(function (x, i) {
+        return { etikett: et[i], titel: x.titel, punkte: x.schritte, tipp: i > 0 ? tipp("Neue Gewohnheit", tp[i - 1]) : null, bestellen: woche === i,
+          check: i === 2 ? { art: "Zwischenstand", text: "Schätz dich am " + datumText(plusTage(heute, 14)) + " neu ein: Wo stehst du jetzt von 1 bis 5? Dein Start war " + a.startwert + " von 5." }
+            : i === 3 ? { art: "Deine Bilanz", text: plan.fortschritt + " Schätz dich am " + datumText(plusTage(heute, 28)) + " neu ein. Dein Start war " + a.startwert + " von 5." } : null };
+      }));
+    }
+    var nachschub = { etikett: istAkut(a) ? "Nach der Akutphase" : "Bevor dein Glas leer ist", titel: "Nachschub sichern", bestellen: true };
+    if (istAkut(a)) {
+      return [{ etikett: "Heute", titel: "Starte jetzt mit dem Immun Booster", fakt: "Morgens, mittags und abends je 1 Teelöffel (ca. 10 g), 5 bis 10 Tage. Pur vom Löffel oder in warmem Tee unter 40 °C.", text: plan.routine.text, punkte: plan.routine.schritte, erinnerung: true, warum: true }]
+        .concat(ph.map(function (x, i) { return { etikett: et[i], titel: x.titel, punkte: x.schritte, tipp: tipp("Das hilft dir zusätzlich", tp[i]) }; }), [nachschub]);
+    }
+    return [
+      { etikett: "Ab heute", titel: ph[0].titel, fakt: "1 Teelöffel Immun Booster am Tag, pur oder in warmem Tee unter 40 °C. Merkst du erste Anzeichen, wechsle auf 3-mal am Tag.", text: plan.routine.text, punkte: plan.routine.schritte, erinnerung: true, warum: true, tipp: tipp("Für deinen Alltag", tp[0]) },
+      { etikett: et[1], titel: ph[1].titel, punkte: ph[1].schritte, tipp: tipp("Für deinen Alltag", tp[1]) },
+      { etikett: et[2], titel: ph[2].titel, punkte: ph[2].schritte, tipp: tipp("Für deinen Alltag", tp[2]) },
+      nachschub
+    ];
+  }
+  function schrittElement(nr, s, p, plan, a) {
+    var li = element("li", "plan-schritt" + (nr === 1 ? " jetzt" : "")), inhalt = element("div", "plan-schritt-inhalt");
+    li.appendChild(element("span", "plan-nr", String(nr)));
+    inhalt.append(element("p", "plan-schritt-etikett", s.etikett), element("h3", null, s.titel));
+    if (s.fakt) inhalt.appendChild(element("p", "plan-fakt", s.fakt));
+    if (s.text) inhalt.appendChild(element("p", "plan-schritt-text", s.text));
+    if (s.punkte && s.punkte.length) inhalt.appendChild(haken(s.punkte));
+    if (s.erinnerung) { var rk = element("div", "plan-knoepfe"); rk.appendChild(erinnerungsKnopf(p, a)); inhalt.appendChild(rk); }
+    if (s.tipp) { var t = element("div", "plan-zusatz"); t.append(element("p", "plan-zusatz-art", s.tipp.art), element("b", null, s.tipp.titel), element("p", null, s.tipp.text)); inhalt.appendChild(t); }
+    if (s.check) { var c = element("div", "plan-zusatz"); c.append(element("p", "plan-zusatz-art", s.check.art), element("p", null, s.check.text)); inhalt.appendChild(c); }
+    if (s.bestellen) inhalt.appendChild(kaufTeil(p, a));
+    if (s.warum) inhalt.appendChild(warumTeil(p, plan, a));
+    li.appendChild(inhalt);
+    return li;
+  }
   function planZeigen(p, plan, quelle) {
-    var q = QUIZ_BOXEN[p], a = q.antworten, box = q.box, etiketten = planEtiketten(p, a), heute = new Date();
+    var q = QUIZ_BOXEN[p], a = q.antworten, box = q.box;
     q.plan = plan;
     q.quelle = quelle;
+    box.classList.remove("laedt");
     var koerper = box.querySelector("[data-q-koerper]"), fuss = box.querySelector("[data-q-fuss]");
     box.querySelector("[data-q-schritt]").textContent = planArt(p, a);
     box.querySelector("[data-q-titel]").textContent = plan.titel;
     glasFuellen(q.honig, 1);
-    var v = element("div", "plan");
+    var v = element("div", "plan"), schritte = planSchritte(p, plan, a), weg = element("ol", "plan-weg");
     v.dataset.plan = p;
-    v.appendChild(element("p", "plan-fazit", plan.fazit));
+    v.append(element("p", "plan-fazit", plan.fazit), planUeberblick(p, a), element("h3", "plan-weg-titel", "Dein Weg in " + schritte.length + " Schritten"));
+    schritte.forEach(function (s, i) { weg.appendChild(schrittElement(i + 1, s, p, plan, a)); });
+    v.appendChild(weg);
     if (p === "ns") {
-      var start = element("section", "plan-start"), zahl = element("p", "plan-wert", a.startwert + " von 5"), stand = element("div");
-      zahl.appendChild(element("small", null, "Heute"));
-      stand.append(element("p", null, plan.fortschritt), element("p", null, "Schätz dich am " + datumText(plusTage(heute, 14)) + " und am " + datumText(plusTage(heute, 28)) + " nochmal ein."));
-      start.append(zahl, stand);
-      v.appendChild(start);
-    }
-    var routine = teil(p === "ns" ? "Deine Routine mit OMNI9" : "So nimmst du den Booster");
-    if (p === "ib") routine.appendChild(element("p", "plan-fakt", istAkut(a) ? "Morgens, mittags und abends je 1 Teelöffel (ca. 10 g), 5 bis 10 Tage. Pur vom Löffel oder in warmem Tee unter 40 °C." : "1 Teelöffel am Tag. Merkst du erste Anzeichen, wechsle auf 3-mal am Tag."));
-    routine.append(element("p", null, plan.routine.text), haken(plan.routine.schritte));
-    var erinnern = knopfMit(p === "ib" && istAkut(a) ? "Erinnere mich 3-mal am Tag" : "Erinnere mich jeden Tag", "knopf hell tp-erinnerung", function () {});
-    erinnern.dataset.erinnerung = p === "ns" ? "ns-taeglich" : istAkut(a) ? "ib-akut" : "ib-vorbeugend";
-    erinnern.prepend(ikon("i-kalender-linie"));
-    var rk = element("div", "plan-knoepfe");
-    rk.appendChild(erinnern);
-    routine.appendChild(rk);
-    v.appendChild(routine);
-    var wirk = teil(p === "ns" ? "Was in OMNI9 für dein Ziel arbeitet" : "Was im Booster für dich arbeitet"), wk = element("div", "plan-knoepfe");
-    wirk.appendChild(planListe(plan.wirkstoffe));
-    if (p === "ns") NS_ZIELE[a.ziel].achsen.forEach(function (nr) { wk.appendChild(knopfMit(ACHSEN_NAMEN[nr], "achse-chip", function () { achseOeffnen(nr); })); });
-    else wk.appendChild(linkMit("Alle Zutaten ansehen", "text-link", "#ib-inhalt"));
-    wirk.appendChild(wk);
-    v.appendChild(wirk);
-    var phasen = teil(p === "ns" ? "Deine 4 Wochen" : istAkut(a) ? "Tag für Tag" : "So bist du vorbereitet"), ol = element("ol", "plan-phasen");
-    plan.phasen.forEach(function (ph, i) {
-      var li = element("li"), rechts = element("div"), ul = element("ul");
-      ph.schritte.forEach(function (s) { ul.appendChild(element("li", null, s)); });
-      rechts.append(element("b", null, ph.titel), ul);
-      li.append(element("span", "plan-etikett", etiketten[i]), rechts);
-      ol.appendChild(li);
-    });
-    phasen.appendChild(ol);
-    v.appendChild(phasen);
-    var tipps = teil(p === "ns" ? "3 Gewohnheiten, die dich unterstützen" : "Was dir zusätzlich hilft");
-    tipps.appendChild(planListe(plan.tipps));
-    v.appendChild(tipps);
-    if (p === "ns") {
-      var hakt = teil("Wenn es hakt");
+      var hakt = teil("Wenn es mal nicht rund läuft");
       hakt.appendChild(planListe(plan.hakt));
       v.appendChild(hakt);
     } else {
@@ -2903,7 +3006,6 @@ body.chat-offen .chat-fenster { display: flex; }
       if (istAkut(a)) sicher.appendChild(element("p", "plan-warnung", WARNUNG));
       v.appendChild(sicher);
     }
-    v.appendChild(kaufTeil(p, a));
     var hilfe = teil("Fragen zu deinem Plan?"), hk = element("div", "plan-knoepfe");
     hilfe.appendChild(element("p", null, "Der Assistent im Hub kennt deinen Plan und antwortet sofort. Oder schreib unserem Team an service@omni9.de."));
     hk.append(knopfMit("Frag den Assistenten", "knopf hell", function () { planImChat(p); }), linkMit("Oder schreib unserem Team", "text-link", "mailto:service@omni9.de?subject=" + encodeURIComponent("Frage zu meinem OMNI9-Plan")));
@@ -2941,32 +3043,97 @@ body.chat-offen .chat-fenster { display: flex; }
     if (p === "ns" && nsTagBekannt) daten.tag = nsTag;
     return daten;
   }
+  /* Ladeanimation: Honigglas mit Welle, eine Liste aus den eigenen Antworten, die sich nacheinander abhakt, und ein Balken */
+  function antwortText(p, id, w) {
+    var f = QUIZ[p].filter(function (x) { return x.id === id; })[0];
+    var o = f && wert(f.antworten, QUIZ_BOXEN[p].antworten).filter(function (x) { return x.wert === w; })[0];
+    return o ? o.text : "";
+  }
+  function ladeSchritte(p, a) {
+    if (p === "ns") return ["Dein Ziel: " + detailVon(a)[2], "Dein Alltag: " + antwortText(p, "alltag", a.alltag), "Passende Wirkstoffe im Nutrition-System finden", "Deine 4 Wochen planen", a.huerde === "keine" ? "Tipps, damit du dranbleibst" : "Tipps für „" + antwortText(p, "huerde", a.huerde) + "“"];
+    return ["Deine Lage: " + antwortText(p, "modus", a.modus), istAkut(a) ? "Was du merkst: " + a.merkst.map(function (w) { return antwortText(p, "merkst", w); }).join(", ") : "Dein Alltag: " + antwortText(p, "kontakt", a.kontakt),
+      "Passende Wirkstoffe im Immun Booster finden", istAkut(a) ? "Tag für Tag planen" : "Deine Erkältungszeit planen", "Nachschub einplanen"];
+  }
+  function ladeAnsicht(p, a) {
+    var laden = element("div", "plan-laden"), glasPlatz = element("span", "plan-laden-glas"), liste = element("ol", "plan-laden-liste"), balken = element("div", "plan-laden-balken"), fuellung = element("i");
+    laden.setAttribute("role", "status");
+    var honig = glasEinsetzen(glasPlatz), welle = honig.querySelector("path");
+    /* längere Welle, damit sie endlos durchs Glas laufen kann */
+    welle.setAttribute("d", "M6 31q8-5 16 0" + new Array(10).join("t16 0 ") + "V124H6z");
+    glasPlatz.querySelector("svg").classList.add("wellt");
+    var punkte = ladeSchritte(p, a).map(function (text) {
+      var li = element("li");
+      li.append(element("span", "plan-laden-zeichen"), element("span", null, text));
+      liste.appendChild(li);
+      return li;
+    });
+    balken.appendChild(fuellung);
+    laden.append(glasPlatz, liste, balken, element("p", "plan-laden-hinweis", "Das dauert ein paar Sekunden."));
+    var aktiv = 0, stand = 0.15, takt = null;
+    function setzen() {
+      punkte.forEach(function (li, i) {
+        li.className = i < aktiv ? "fertig" : i === aktiv ? "aktiv" : "";
+        var zeichen = li.firstChild;
+        if (i < aktiv && !zeichen.firstChild) zeichen.appendChild(ikon("haken"));
+      });
+      glasFuellen(honig, stand);
+    }
+    return {
+      element: laden,
+      start: function () {
+        setzen();
+        requestAnimationFrame(function () { requestAnimationFrame(function () { fuellung.style.width = "90%"; }); });
+        takt = setInterval(function () {
+          if (!laden.isConnected) { clearInterval(takt); return; }
+          if (aktiv < punkte.length - 1) aktiv++;
+          stand = Math.min(0.85, stand + 0.12);
+          setzen();
+        }, 2000);
+      },
+      /* Plan ist da: die restlichen Punkte haken sich schnell nacheinander ab, dann kommt der Plan */
+      fertig: function (dann) {
+        clearInterval(takt);
+        stand = 1;
+        fuellung.style.transition = "width .4s ease-out";
+        fuellung.style.width = "100%";
+        if (bewegungAus) { aktiv = punkte.length; setzen(); dann(); return; }
+        (function weiter() {
+          aktiv++;
+          setzen();
+          setTimeout(aktiv < punkte.length ? weiter : dann, aktiv < punkte.length ? 220 : 550);
+        })();
+      },
+      stopp: function () { clearInterval(takt); }
+    };
+  }
   function planErstellen(p) {
     var q = QUIZ_BOXEN[p], nr = ++q.anfrage, a = q.antworten, modus = planModus(p, a), fertig = false;
     var koerper = q.box.querySelector("[data-q-koerper]"), fuss = q.box.querySelector("[data-q-fuss]");
     q.box.querySelector("[data-q-schritt]").textContent = planArt(p, a);
     q.box.querySelector("[data-q-titel]").textContent = "Dein Plan entsteht …";
-    var laden = element("div", "quiz-laden");
-    laden.setAttribute("role", "status");
-    laden.append(element("b", null, "Einen Moment, dein Plan entsteht."), element("p", null, "Wir schauen auf dein Ziel, deinen Alltag und deine Antworten."));
-    koerper.replaceChildren(laden);
+    var lader = ladeAnsicht(p, a);
+    q.box.classList.add("laedt");
+    koerper.replaceChildren(lader.element);
     fuss.replaceChildren();
-    var fuellung = 0.85, takt = setInterval(function () { fuellung = Math.min(0.98, fuellung + 0.01); glasFuellen(q.honig, fuellung); }, 600);
+    lader.start();
     var ab = null, uhr = null;
     /* Jeder Weg beendet das Laden: KI-Plan, sonst Ausweich-Plan, sonst ein Hinweis mit „Nochmal von vorn“ */
-    function zeigen(plan, quelle) {
-      if (fertig) return;
-      fertig = true;
-      clearInterval(takt);
-      clearTimeout(uhr);
+    function anzeigen(plan, quelle) {
       if (nr !== q.anfrage) return;
       try { planZeigen(p, plan || ausweichPlan(p, a), plan ? quelle : "tipps"); }
       catch (e) {
         try { planZeigen(p, ausweichPlan(p, a), "tipps"); } catch (e2) { planFehler(p); }
       }
     }
+    function zeigen(plan, quelle) {
+      if (fertig) return;
+      fertig = true;
+      clearTimeout(uhr);
+      if (nr !== q.anfrage) { lader.stopp(); return; }
+      lader.fertig(function () { anzeigen(plan, quelle); });
+    }
     function ausweichen() { zeigen(null); }
-    if (!PLAN_API) { uhr = setTimeout(ausweichen, 700); return; }
+    if (!PLAN_API) { uhr = setTimeout(ausweichen, 1800); return; }
     ab = new AbortController();
     uhr = setTimeout(function () { ab.abort(); ausweichen(); }, 25000);
     fetch(PLAN_API, { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify(planDaten(p)), signal: ab.signal })
@@ -2976,6 +3143,7 @@ body.chat-offen .chat-fenster { display: flex; }
   }
   function planFehler(p) {
     var q = QUIZ_BOXEN[p];
+    q.box.classList.remove("laedt");
     q.box.querySelector("[data-q-titel]").textContent = "Das hat gerade nicht geklappt";
     q.box.querySelector("[data-q-koerper]").replaceChildren(element("p", "quiz-hinweis plan", "Bitte starte die Fragen nochmal. Oder frag direkt den Assistenten oder unser Team."));
     q.box.querySelector("[data-q-fuss]").replaceChildren(knopfMit("Nochmal von vorn", "knopf", function () { q.anfrage++; q.id = null; q.antworten = {}; q.plan = null; zielKarte(p); quizRendern(p, true); }));
@@ -2990,22 +3158,27 @@ body.chat-offen .chat-fenster { display: flex; }
   }
   /* Kurze Fassung für die eigene Mail-App: höchstens 2.000 Zeichen im Link, damit kein Mail-Programm abschneidet */
   function planMailLink(p) {
-    var q = QUIZ_BOXEN[p], plan = q.plan, a = q.antworten, heute = new Date(), etiketten = planEtiketten(p, a);
+    var q = QUIZ_BOXEN[p], plan = q.plan, a = q.antworten, schritte = planSchritte(p, plan, a);
     var betreff = "Mein OMNI9-Plan: " + plan.titel;
-    var kopf = { text: planArt(p, a) + ": " + plan.titel + "\n\n" + plan.fazit, prio: 0 };
-    var bloecke = [kopf];
-    if (p === "ns") bloecke.push({ text: "Heute: " + a.startwert + " von 5. " + plan.fortschritt + "\nNochmal einschätzen am " + datumText(plusTage(heute, 14)) + " und am " + datumText(plusTage(heute, 28)) + ".", prio: 0 });
-    bloecke.push({ text: (p === "ns" ? "Deine Routine: " : "So nimmst du ihn: ") + plan.routine.text, prio: 0 });
-    var phasenBlock = { text: plan.phasen.map(function (ph, i) { return etiketten[i] + ": " + ph.titel + ". " + ph.schritte[0]; }).join("\n"), prio: 2, kurz: plan.phasen.map(function (ph, i) { return etiketten[i] + ": " + ph.titel; }).join("\n") };
-    bloecke.push(phasenBlock);
-    bloecke.push({ text: (p === "ns" ? "Deine Gewohnheiten: " : "Was dir hilft: ") + plan.tipps.map(function (t) { return t.titel; }).join(", ") + ".", prio: 3 });
-    if (p === "ns") bloecke.push({ text: nachkaufSatz(a), prio: 4 });
-    var schluss = { text: (/^https?:/.test(location.href) ? "Alle Infos und der Assistent für deine Fragen: " + hubAdresse("#" + p + "-tipps") + "\n\n" : "") + (q.quelle === "ki" ? "Erstellt mit KI aus den Produktinfos von OMNI9." : "Aus den Tipps von OMNI9.") + " Ersetzt keine ärztliche Beratung.", prio: 0 };
-    bloecke.push(schluss);
+    var kopf = { text: planArt(p, a) + ": " + plan.titel + "\n\n" + plan.fazit };
+    var blick = { text: ueberblickDaten(p, a).map(function (c) { return c[0] + ": " + c[1]; }).join(" · ") };
+    /* Stufe 2: mit erster Aufgabe, Gewohnheit und Nachbestellen. Stufe 1: mit erster Aufgabe. Stufe 0: nur die Titel */
+    function wegText(stufe) {
+      return "Dein Weg in " + schritte.length + " Schritten\n" + schritte.map(function (s, i) {
+        var t = (i + 1) + ". " + s.etikett + ": " + s.titel;
+        if (stufe > 0 && s.punkte && s.punkte.length) t += ". " + s.punkte[0];
+        if (stufe > 1 && s.tipp) t += " " + s.tipp.art + ": " + s.tipp.titel + ".";
+        if (stufe > 1 && s.bestellen && p === "ns") t += " " + nachkaufSatz(a);
+        return t;
+      }).join("\n");
+    }
+    var weg = { text: wegText(2) };
+    var schluss = { text: (/^https?:/.test(location.href) ? "Alle Infos und der Assistent für deine Fragen: " + hubAdresse("#" + p + "-tipps") + "\n\n" : "") + (q.quelle === "ki" ? "Erstellt mit KI aus den Produktinfos von OMNI9." : "Aus den Tipps von OMNI9.") + " Ersetzt keine ärztliche Beratung." };
+    var bloecke = [kopf, blick, weg, schluss];
     function link() { return "mailto:?subject=" + encodeURIComponent(betreff) + "&body=" + encodeURIComponent(bloecke.map(function (b) { return b.text; }).join("\n\n")); }
-    if (link().length > 2000) phasenBlock.text = phasenBlock.kurz;
-    [4, 3, 2].forEach(function (prio) { if (link().length > 2000) bloecke = bloecke.filter(function (b) { return b.prio !== prio; }); });
+    if (link().length > 2000) weg.text = wegText(1);
     if (link().length > 2000) kopf.text = planArt(p, a) + ": " + plan.titel + "\n\n" + (plan.fazit.match(/^[^.!?]+[.!?]/) || [plan.fazit.slice(0, 200)])[0];
+    if (link().length > 2000) weg.text = wegText(0);
     /* Reicht das nicht, wird der längste Block am Wortende gekürzt, bis der Link passt. Der Schluss mit Link und Hinweis bleibt */
     while (link().length > 2000) {
       var laengster = bloecke.filter(function (b) { return b !== schluss; }).sort(function (x, y) { return y.text.length - x.text.length; })[0];
@@ -3021,10 +3194,14 @@ body.chat-offen .chat-fenster { display: flex; }
     if (!plan) return;
     var druck = element("div"), kopf = element("header", "druck-kopf"), logo = element("img");
     druck.id = "plan-druck";
+    /* Das Glas im Schritt „nachbestellen“ kommt aus --glas der Produktseite */
+    druck.style.setProperty("--glas", getComputedStyle(q.box).getPropertyValue("--glas"));
     logo.src = "bilder/omni9-logo.svg";
     logo.alt = "OMNI9";
     kopf.append(logo, element("p", null, planArt(p, q.antworten) + " · erstellt am " + datumText(new Date())));
-    druck.append(kopf, element("h1", null, q.plan.titel), plan.cloneNode(true));
+    var kopie = plan.cloneNode(true);
+    kopie.querySelectorAll("details").forEach(function (d) { d.open = true; });
+    druck.append(kopf, element("h1", null, q.plan.titel), kopie);
     document.body.appendChild(druck);
     document.body.classList.add("plan-druck");
     function aufraeumen() { document.body.classList.remove("plan-druck"); druck.remove(); window.removeEventListener("afterprint", aufraeumen); }
