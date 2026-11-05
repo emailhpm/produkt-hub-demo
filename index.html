@@ -10,8 +10,8 @@
 <meta property="og:title" content="OMNI9 Produkt-Hub">
 <meta property="og:description" content="Prototyp: Alles für deinen Start mit OMNI9 an einem Ort.">
 <meta property="og:image" content="https://emailhpm.github.io/produkt-hub-demo/vorschau.png">
-<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='14' fill='%231c2029'/%3E%3Ctext x='32' y='45' font-family='Arial,sans-serif' font-size='36' font-weight='700' text-anchor='middle' fill='%23e2b25a'%3E9%3C/text%3E%3C/svg%3E">
-<meta name="theme-color" content="#1c2029">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='14' fill='%23333240'/%3E%3Ctext x='32' y='45' font-family='Arial,sans-serif' font-size='36' font-weight='700' text-anchor='middle' fill='%23d6a655'%3E9%3C/text%3E%3C/svg%3E">
+<meta name="theme-color" content="#333240">
 <link rel="manifest" href="manifest.webmanifest">
 <link rel="apple-touch-icon" href="bilder/app-icon-180.png">
 <meta name="apple-mobile-web-app-title" content="OMNI9">
@@ -22,29 +22,34 @@
 <!-- Chat mit ChatGPT: Adresse des Hub-Chat-Servers (Cloudflare Worker, Ordner chat im Repo product-hubs). Leer antwortet der Assistent mit festen Antworten. Der OpenAI-Schlüssel liegt nur auf dem Server. -->
 <meta name="hub-chat-api" content="https://hub-chat.hub-chat.workers.dev/chat/omni9">
 <style>
-@font-face { font-family: "Inter"; src: url("schriften/inter-latin.woff2") format("woff2"); font-weight: 100 900; font-display: block; }
+/* CI von omni9.de: Schrift Instrument Sans, Farben Nachtviolett, Violettgrau, Gold und Creme */
+@font-face { font-family: "Instrument Sans"; src: url("schriften/instrument-sans-latin.woff2") format("woff2"); font-weight: 400 700; font-display: block; }
 :root {
-  --text: #1a1a1a; --muted: #6b6b6b; --line: #ede7dc; --nacht: #1c2029; --nacht-2: #2a2f3b;
-  --gold: #c99a45; --gold-dunkel: #8a6219; --creme: #faf6ee; --hell: #f7f4ee; --honig: #f8efdc;
+  --nacht: #333240; --violett: #636279; --gold: #d6a655; --creme: #ede7d3;
+  --text: #333240; --text-2: #4b4a5a; --muted: #636279; --leise: #747388; --gold-text: #86652a; --gold-hell: #e6cf9b;
+  --creme-hell: #f7f4ec; --grau: #f4f4f4; --linie: #e6e3dc;
+  --verlauf: linear-gradient(135deg, #333240 0%, #636279 96%);
+  --schein: 0 6px 18px -6px rgba(214, 166, 85, .75);
 }
 * { box-sizing: border-box; margin: 0; padding: 0; }
 html { scroll-behavior: smooth; scroll-padding-top: 84px; }
-body { font-family: "Inter", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; font-size: 15px; line-height: 1.55; color: var(--text); background: #eeece7; -webkit-font-smoothing: antialiased; }
+body { font-family: "Instrument Sans", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; font-size: 15.5px; line-height: 1.55; color: var(--text); background: var(--grau); -webkit-font-smoothing: antialiased; }
 a { color: inherit; text-decoration: none; }
 button { font: inherit; color: inherit; }
 :focus-visible { outline: 2px solid var(--gold); outline-offset: 2px; }
 [hidden] { display: none !important; }
-h1 { font-size: 30px; line-height: 1.15; font-weight: 600; letter-spacing: -.02em; text-wrap: balance; }
-h2 { font-size: 19px; line-height: 1.3; font-weight: 600; letter-spacing: -.01em; }
-h3 { font-size: 15px; font-weight: 600; }
-.oberzeile { font-size: 13px; font-weight: 600; color: var(--gold-dunkel); }
+h1 { font-size: 30px; line-height: 1.15; font-weight: 650; letter-spacing: -.015em; text-wrap: balance; }
+h2 { font-size: 19px; line-height: 1.3; font-weight: 600; letter-spacing: -.005em; }
+h3 { font-size: 15.5px; font-weight: 600; }
+.oberzeile { font-size: 13px; font-weight: 600; color: var(--gold-text); }
 
 /* Rahmen und Seitenwechsel: die leere Startseite ist sichtbar, bis ein Produkt gewählt ist */
-.rahmen { display: flex; flex-direction: column; width: calc(100% - 40px); max-width: 1480px; min-height: calc(100vh - 40px); margin: 20px auto; background: #fff; border-radius: 30px; box-shadow: 0 0 0 1px #e3dfd6, 0 40px 80px -50px rgba(28, 32, 41, .3); overflow: clip; }
+.rahmen { display: flex; flex-direction: column; width: calc(100% - 40px); max-width: 1480px; min-height: calc(100vh - 40px); margin: 20px auto; background: #fff; border-radius: 20px; box-shadow: 0 0 0 1px var(--linie); overflow: clip; }
 .seite { display: none; flex: 1; }
 #start, .seite:target, .seite:has(:target) { display: grid; }
 body:has(.seite:target:not(#start)) #start, body:has(.seite:not(#start) :target) #start { display: none; }
-.start, .hauptbereich { background: radial-gradient(55% 360px at 0 0, rgba(238, 208, 148, .34), rgba(238, 208, 148, 0)), radial-gradient(45% 340px at 100% 100%, rgba(242, 208, 186, .28), rgba(242, 208, 186, 0)), #fff; }
+.start { background: radial-gradient(70% 420px at 50% 0, rgba(214, 166, 85, .12), rgba(214, 166, 85, 0)), linear-gradient(180deg, #fff 55%, var(--creme-hell)); }
+.hauptbereich { background: #fff; }
 
 /* Startseite: beide Produkte zur Auswahl */
 .start { grid-template-rows: auto 1fr auto; }
@@ -52,59 +57,64 @@ body:has(.seite:target:not(#start)) #start, body:has(.seite:not(#start) :target)
 .start-mitte { align-self: center; width: 100%; max-width: 720px; margin: 0 auto; padding: 0 24px 56px; text-align: center; }
 .hub-bild { display: block; width: 236px; height: auto; margin: 0 auto; }
 .start h1 { margin-top: 10px; font-size: 38px; }
-.hub-unter { max-width: 520px; margin: 12px auto 0; font-size: 17px; color: #45413b; text-wrap: balance; }
+.hub-unter { max-width: 520px; margin: 12px auto 0; font-size: 17px; color: var(--text-2); text-wrap: balance; }
 .produkt-wahl { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 14px; max-width: 640px; margin: 30px auto 0; text-align: left; }
-.wahl { display: grid; grid-template-columns: 64px minmax(0, 1fr) 18px; gap: 14px; align-items: center; padding: 14px 16px; background: #fff; border-radius: 16px; box-shadow: 0 0 0 1px #ece6db, 0 18px 40px -26px rgba(28, 32, 41, .4); }
-.wahl:hover { box-shadow: 0 0 0 1.5px var(--gold), 0 18px 40px -26px rgba(28, 32, 41, .4); }
-.wahl img { width: 64px; height: 78px; object-fit: contain; filter: drop-shadow(0 8px 8px rgba(28, 32, 41, .2)); }
-.wahl b { display: block; font-size: 16px; font-weight: 600; line-height: 1.3; }
+.wahl { display: grid; grid-template-columns: 64px minmax(0, 1fr) 18px; gap: 14px; align-items: center; padding: 14px 16px; background: #fff; border-radius: 14px; box-shadow: 0 0 0 1px var(--linie); transition: box-shadow .15s; }
+.wahl:hover { box-shadow: 0 0 0 1.5px var(--gold), var(--schein); }
+.wahl img { width: 64px; height: 78px; object-fit: contain; filter: drop-shadow(0 8px 8px rgba(51, 50, 64, .2)); }
+.wahl b { display: block; font-size: 16.5px; font-weight: 600; line-height: 1.3; }
 .wahl small { display: block; margin-top: 3px; font-size: 13px; line-height: 1.4; color: var(--muted); }
-.wahl svg { width: 18px; height: 18px; color: var(--gold-dunkel); }
+.wahl svg { width: 18px; height: 18px; color: var(--gold-text); }
 .wahl-hinweis { max-width: 640px; margin: 16px auto 0; font-size: 13px; color: var(--muted); }
-.start-recht { display: flex; flex-wrap: wrap; justify-content: center; gap: 4px 16px; padding: 0 20px 24px; font-size: 12px; color: #8d887f; }
+.start-recht { display: flex; flex-wrap: wrap; justify-content: center; gap: 4px 16px; padding: 0 20px 24px; font-size: 12px; color: var(--leise); }
 
 /* Produktseite: links die Kapitel, rechts immer nur ein Kapitel */
 .produkt { grid-template-columns: 264px minmax(0, 1fr); }
-.seitenleiste { position: sticky; top: 20px; align-self: start; height: calc(100vh - 40px); display: flex; flex-direction: column; padding: 26px 22px 20px; border-right: 1px solid #f0ece5; overflow-y: auto; scrollbar-width: thin; }
-.logo-zeile { padding: 8px 10px 22px; border-bottom: 1px solid #efeae2; }
+.seitenleiste { position: sticky; top: 20px; align-self: start; height: calc(100vh - 40px); display: flex; flex-direction: column; padding: 26px 22px 20px; border-right: 1px solid var(--linie); overflow-y: auto; scrollbar-width: thin; }
+.logo-zeile { padding: 8px 10px 22px; border-bottom: 1px solid var(--linie); }
 .logo-zeile img { display: block; height: 22px; width: auto; }
-.mein-produkt { display: grid; grid-template-columns: 46px minmax(0, 1fr); gap: 12px; align-items: center; margin-top: 20px; padding: 10px; border-radius: 14px; background: var(--hell); }
+.mein-produkt { display: grid; grid-template-columns: 46px minmax(0, 1fr); gap: 12px; align-items: center; margin-top: 20px; padding: 10px; border-radius: 12px; background: #fff; box-shadow: inset 0 0 0 1px var(--linie); }
 .mein-produkt img { width: 46px; height: 46px; object-fit: contain; }
 .mein-produkt small { display: block; font-size: 12px; color: var(--muted); }
 .mein-produkt b { display: block; font-size: 14px; font-weight: 600; line-height: 1.3; }
 button.mein-produkt { width: 100%; grid-template-columns: 46px minmax(0, 1fr) 14px; gap: 10px; padding: 10px 8px 10px 10px; border: 0; text-align: left; cursor: pointer; transition: background .15s; }
 button.mein-produkt b { font-size: 13.5px; }
-button.mein-produkt:hover, button.mein-produkt[aria-expanded="true"] { background: var(--honig); }
-.mein-produkt > svg { width: 14px; height: 14px; color: #8d887f; }
-.produkt-menue { position: fixed; z-index: 40; padding: 6px; border-radius: 14px; background: #fff; box-shadow: 0 0 0 1px #ece6db, 0 24px 50px -24px rgba(28, 32, 41, .45); }
+button.mein-produkt:hover, button.mein-produkt[aria-expanded="true"] { background: var(--creme-hell); box-shadow: inset 0 0 0 1px var(--gold-hell); }
+.mein-produkt > svg { width: 14px; height: 14px; color: var(--leise); }
+.produkt-menue { position: fixed; z-index: 40; padding: 6px; border-radius: 14px; background: #fff; box-shadow: 0 0 0 1px var(--linie), 0 24px 50px -24px rgba(51, 50, 64, .45); }
 .produkt-menue a { display: grid; grid-template-columns: 40px minmax(0, 1fr) 16px; gap: 12px; align-items: center; padding: 8px 10px; border-radius: 10px; }
-.produkt-menue a:hover, .produkt-menue a:focus-visible { background: var(--hell); }
-.produkt-menue a[aria-current="true"] { background: var(--honig); }
+.produkt-menue a:hover, .produkt-menue a:focus-visible { background: var(--grau); }
+.produkt-menue a[aria-current="true"] { background: var(--creme); }
 .produkt-menue img { width: 40px; height: 40px; object-fit: contain; }
 .produkt-menue b { display: block; font-size: 14px; font-weight: 600; line-height: 1.3; }
 .produkt-menue small { display: block; font-size: 12.5px; color: var(--muted); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
-.produkt-menue svg { width: 16px; height: 16px; color: var(--gold-dunkel); }
+.produkt-menue svg { width: 16px; height: 16px; color: var(--gold-text); }
 .nav { display: grid; gap: 2px; margin: 14px 0 36px; }
-.nav-punkt { display: flex; align-items: center; gap: 13px; height: 42px; padding: 0 14px; border-radius: 12px; font-size: 15px; color: #45413b; }
-.nav-punkt svg { flex: none; width: 22px; height: 22px; color: #6f6a62; }
-.nav-punkt:hover { background: var(--hell); }
-.nav-punkt.an { background: var(--honig); color: var(--text); font-weight: 600; }
-.nav-punkt.an svg { color: var(--gold-dunkel); }
-.nav-saeule { margin: 12px 0 2px; padding: 0 14px; font-size: 11.5px; font-weight: 600; letter-spacing: .08em; text-transform: uppercase; color: #9a8f7c; }
-.leiste-karte { position: relative; margin-top: auto; padding: 40px 18px 18px; border-radius: 16px; background: var(--hell); text-align: center; }
-.gluehen { position: absolute; top: -28px; left: 50%; width: 64px; height: 64px; margin-left: -32px; border-radius: 50%; background: radial-gradient(circle, rgba(236, 194, 106, .55) 0, rgba(236, 194, 106, .2) 42%, rgba(236, 194, 106, 0) 70%); display: flex; align-items: center; justify-content: center; }
-.gluehen svg { width: 22px; height: 22px; }
-.leiste-karte b { display: block; font-size: 15px; font-weight: 600; }
-.leiste-karte p { margin-top: 6px; font-size: 13px; line-height: 1.45; color: var(--muted); }
-.leiste-karte button { width: 100%; height: 42px; margin-top: 14px; border: 0; border-radius: 10px; background: #fff; font-size: 14px; font-weight: 600; box-shadow: 0 1px 2px rgba(28, 32, 41, .06), 0 8px 18px -12px rgba(28, 32, 41, .4); cursor: pointer; }
-.leiste-recht { display: flex; flex-wrap: wrap; justify-content: center; gap: 2px 12px; margin-top: 14px; font-size: 11.5px; color: #8d887f; }
+.nav-punkt { display: flex; align-items: center; gap: 13px; height: 42px; padding: 0 14px; border-radius: 10px; font-size: 15px; color: var(--text-2); }
+.nav-punkt svg { flex: none; width: 22px; height: 22px; color: var(--muted); }
+.nav-punkt:hover { background: var(--grau); }
+.nav-punkt.an { background: var(--creme); color: var(--text); font-weight: 600; }
+.nav-punkt.an svg { color: var(--gold-text); }
+.nav-saeule { display: flex; align-items: center; gap: 8px; margin: 16px 0 4px; padding: 0 14px; font-size: 12.5px; font-weight: 600; color: var(--muted); }
+.nav-saeule b { display: inline-flex; align-items: center; justify-content: center; width: 18px; height: 18px; border-radius: 50%; background: var(--creme); color: var(--gold-text); font-size: 11px; font-weight: 700; }
+/* Nie allein: Assistent und Team sind in der Seitenleiste immer da */
+.leiste-karte { margin-top: auto; padding: 18px; border-radius: 16px; background: var(--verlauf); color: #fff; }
+.leiste-karte .blase { width: 36px; height: 36px; margin-bottom: 12px; }
+.leiste-karte b { display: block; font-size: 15.5px; font-weight: 600; }
+.leiste-karte p { margin-top: 4px; font-size: 13.5px; line-height: 1.45; color: rgba(255, 255, 255, .78); }
+.leiste-karte button { width: 100%; height: 42px; margin-top: 14px; border: 0; border-radius: 8px; background: var(--gold); color: var(--nacht); font-size: 14px; font-weight: 600; cursor: pointer; transition: background .15s; }
+.leiste-karte button:hover { background: var(--gold-hell); }
+.leiste-karte a { display: block; margin-top: 10px; font-size: 13px; font-weight: 600; color: var(--creme); text-align: center; }
+.leiste-karte a:hover { text-decoration: underline; }
+.leiste-recht { display: flex; flex-wrap: wrap; justify-content: center; gap: 2px 12px; margin-top: 14px; font-size: 11.5px; color: var(--leise); }
 .hauptbereich { min-width: 0; }
 .topleiste { display: flex; align-items: center; gap: 12px; padding: 20px 40px 0 38px; }
-.zurueck { display: inline-flex; align-items: center; gap: 6px; height: 40px; padding: 0 12px 0 8px; border-radius: 12px; font-size: 14px; font-weight: 600; color: #45413b; }
-.zurueck:hover { background: rgba(28, 32, 41, .05); }
+.zurueck { display: inline-flex; align-items: center; gap: 6px; height: 40px; padding: 0 12px 0 8px; border-radius: 8px; font-size: 14px; font-weight: 600; color: var(--text-2); }
+.zurueck:hover { background: rgba(51, 50, 64, .05); }
 .zurueck svg { width: 16px; height: 16px; }
 .top-produkt, .tabbar { display: none; }
-.assistent-knopf { display: inline-flex; align-items: center; gap: 10px; height: 42px; margin-left: auto; padding: 0 16px 0 6px; border: 0; border-radius: 999px; background: #fff; box-shadow: 0 0 0 1px #ece6db, 0 10px 24px -18px rgba(28, 32, 41, .45); font-size: 14px; font-weight: 600; cursor: pointer; }
+.assistent-knopf { display: inline-flex; align-items: center; gap: 10px; height: 42px; margin-left: auto; padding: 0 16px 0 6px; border: 0; border-radius: 999px; background: #fff; box-shadow: 0 0 0 1px var(--linie); font-size: 14px; font-weight: 600; cursor: pointer; transition: box-shadow .15s; }
+.assistent-knopf:hover { box-shadow: 0 0 0 1px var(--gold), var(--schein); }
 .app { display: block; max-width: 1140px; padding: 14px 48px 56px; }
 
 /* Kapitel: immer nur eins sichtbar, ohne Ziel „Dein Stand“ */
@@ -117,60 +127,65 @@ button.mein-produkt:hover, button.mein-produkt[aria-expanded="true"] { backgroun
 #nutrition-system { --glas: url("bilder/ns-produkt.webp"); }
 #immun-booster { --glas: url("bilder/ib-produkt.webp"); }
 .ansicht-kopf { display: flow-root; }
-.ansicht-kopf::before { content: ""; float: right; width: 84px; height: 108px; margin-left: 28px; background: var(--glas) center bottom / contain no-repeat; filter: drop-shadow(0 12px 12px rgba(28, 32, 41, .22)); }
-.ansicht-kopf p { margin-top: 6px; max-width: 640px; font-size: 16px; color: #45413b; }
+.ansicht-kopf::before { content: ""; float: right; width: 84px; height: 108px; margin-left: 28px; background: var(--glas) center bottom / contain no-repeat; filter: drop-shadow(0 12px 12px rgba(51, 50, 64, .22)); }
+.ansicht-kopf p { margin-top: 6px; max-width: 640px; font-size: 16px; color: var(--text-2); }
 .zwei-spalten { display: grid; grid-template-columns: minmax(0, 1.2fr) minmax(0, 1fr); gap: 20px; align-items: start; }
 .zwei-spalten.breit { grid-template-columns: minmax(0, 1.55fr) minmax(0, 1fr); }
 .einnahme-raster { display: grid; grid-template-columns: minmax(0, 1.45fr) minmax(0, 1fr); gap: 20px; align-items: start; }
 .spalte { display: grid; gap: 20px; }
+/* Nächster Schritt am Ende jedes Kapitels: ruhig, damit er nicht mit den Kauf-Knöpfen konkurriert */
 .weiter { display: flex; justify-content: flex-end; }
-.weiter a { display: inline-flex; align-items: center; gap: 8px; min-height: 46px; padding: 0 16px 0 20px; border-radius: 12px; background: var(--nacht); color: #fff; font-weight: 600; }
-.weiter svg { width: 16px; height: 16px; }
-.block { padding: 24px 26px; background: #fff; border: 1px solid #f0ebe2; border-radius: 16px; box-shadow: 0 1px 2px rgba(28, 32, 41, .03), 0 16px 34px -28px rgba(28, 32, 41, .4); }
+.weiter a { display: inline-flex; align-items: center; gap: 8px; min-height: 44px; padding: 0 16px 0 18px; border-radius: 8px; background: #fff; box-shadow: inset 0 0 0 1px var(--linie); font-size: 14.5px; font-weight: 600; color: var(--text); transition: box-shadow .15s; }
+.weiter a:hover { box-shadow: inset 0 0 0 1px var(--gold); }
+.weiter svg { width: 16px; height: 16px; color: var(--gold-text); }
+.block { padding: 24px 26px; background: #fff; border: 1px solid var(--linie); border-radius: 16px; }
 
 /* Dein Stand: Produkt, die drei Säulen und der Regler */
 .p-held { display: grid; grid-template-columns: 124px minmax(0, 1fr); gap: 26px; align-items: center; }
 .p-bild { width: 124px; height: 160px; }
-.p-bild img { display: block; width: 100%; height: 100%; object-fit: contain; object-position: center bottom; filter: drop-shadow(0 16px 14px rgba(28, 32, 41, .24)); }
+.p-bild img { display: block; width: 100%; height: 100%; object-fit: contain; object-position: center bottom; filter: drop-shadow(0 16px 14px rgba(51, 50, 64, .24)); }
 .p-held h1 { margin-top: 2px; font-size: 32px; }
-.p-held .unter { margin-top: 6px; font-size: 16.5px; color: #45413b; }
-.versand-link { display: inline-flex; align-items: center; gap: 7px; margin-top: 10px; padding: 0; border: 0; background: none; font: inherit; font-size: 14px; font-weight: 600; color: var(--gold-dunkel); text-align: left; cursor: pointer; }
+.p-held .unter { margin-top: 6px; font-size: 16.5px; color: var(--text-2); }
+.versand-link { display: inline-flex; align-items: center; gap: 7px; margin-top: 10px; padding: 0; border: 0; background: none; font: inherit; font-size: 14px; font-weight: 600; color: var(--gold-text); text-align: left; cursor: pointer; }
 .versand-link svg { flex: none; width: 20px; height: 20px; }
 .versand-link:hover { text-decoration: underline; }
 .fakten { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 12px; }
-.fakten span { padding: 5px 12px; border-radius: 999px; background: #fff; box-shadow: inset 0 0 0 1px #ebe1cb; font-size: 12.5px; font-weight: 500; color: #4d4436; }
-.saeulen { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 14px; }
-.saeule-karte { display: flex; flex-direction: column; padding: 20px 22px; border-radius: 16px; background: #fff; border: 1px solid #f0ebe2; box-shadow: 0 1px 2px rgba(28, 32, 41, .03), 0 16px 34px -28px rgba(28, 32, 41, .4); }
-.saeule-karte:hover { border-color: #e2c88f; }
-.saeule-wert { display: block; margin-top: 14px; font-size: 17px; font-weight: 650; line-height: 1.3; }
+.fakten span { padding: 4px 10px; border-radius: 6px; background: var(--grau); font-size: 12.5px; font-weight: 500; color: var(--text-2); }
+/* Deine Reise in 3 Schritten: ein Kasten statt drei einzelner Karten */
+.saeulen { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); border: 1px solid var(--linie); border-radius: 16px; background: #fff; overflow: hidden; }
+.saeule-karte { display: flex; flex-direction: column; padding: 20px 22px; transition: background .15s; }
+.saeule-karte + .saeule-karte { border-left: 1px solid var(--linie); }
+.saeule-karte:hover { background: var(--creme-hell); }
+.saeule-wert { display: block; margin-top: 12px; font-size: 17px; font-weight: 650; line-height: 1.3; }
 .saeule-text { display: block; margin-top: 4px; font-size: 14px; line-height: 1.45; color: var(--muted); }
-.saeule-link { display: inline-flex; align-items: center; gap: 4px; margin-top: auto; padding-top: 14px; font-size: 14px; font-weight: 600; color: var(--gold-dunkel); }
+.saeule-link { display: inline-flex; align-items: center; gap: 4px; margin-top: auto; padding-top: 14px; font-size: 14px; font-weight: 600; color: var(--gold-text); }
 .saeule-link svg { width: 14px; height: 14px; }
-/* Säulen-Leiste oben in jedem Kapitel */
-.saeule-nav { display: flex; flex-wrap: wrap; align-items: center; gap: 8px; }
-.saeule-name { display: inline-flex; align-items: center; gap: 8px; margin-right: 6px; font-size: 13px; font-weight: 600; color: var(--gold-dunkel); }
+/* Kapitel-Reiter oben: Schritt der Reise und die Kapitel dazu */
+.saeule-nav { display: flex; flex-wrap: wrap; align-items: center; gap: 0 22px; border-bottom: 1px solid var(--linie); }
+.saeule-name { display: inline-flex; align-items: center; gap: 8px; margin-right: 6px; padding: 10px 0; font-size: 13px; font-weight: 600; color: var(--muted); }
 .saeule-name b { display: inline-flex; align-items: center; justify-content: center; width: 22px; height: 22px; border-radius: 50%; background: var(--gold); color: var(--nacht); font-size: 12px; font-weight: 700; }
-.saeule-nav a { padding: 6px 12px; border-radius: 999px; background: #fff; box-shadow: inset 0 0 0 1px #ebe1cb; font-size: 13px; font-weight: 500; color: #4d4436; }
-.saeule-nav a:hover { box-shadow: inset 0 0 0 1.5px var(--gold); }
-.saeule-nav a.an { background: var(--honig); box-shadow: inset 0 0 0 1.5px var(--gold); color: var(--text); font-weight: 600; }
+.saeule-nav a { position: relative; padding: 10px 0; font-size: 14.5px; font-weight: 500; color: var(--text-2); }
+.saeule-nav a:hover { color: var(--text); }
+.saeule-nav a.an { color: var(--text); font-weight: 600; }
+.saeule-nav a.an::after { content: ""; position: absolute; left: 0; right: 0; bottom: -1px; height: 2px; border-radius: 2px; background: var(--gold); }
 /* Dein Vorrat im Nachkauf */
 .vorrat { display: grid; grid-template-columns: 48px minmax(0, 1fr) auto; gap: 16px; align-items: center; }
-.vorrat-ikon { width: 48px; height: 48px; border-radius: 14px; background: var(--honig); display: flex; align-items: center; justify-content: center; color: var(--gold-dunkel); }
+.vorrat-ikon { width: 48px; height: 48px; border-radius: 50%; background: var(--creme-hell); display: flex; align-items: center; justify-content: center; color: var(--gold-text); }
 .vorrat-ikon svg { width: 24px; height: 24px; }
-.vorrat p:not(.oberzeile) { margin-top: 4px; font-size: 14.5px; color: #45413b; }
+.vorrat p:not(.oberzeile) { margin-top: 4px; font-size: 14.5px; color: var(--text-2); }
 .vorrat .text-link { display: inline-block; margin-top: 6px; }
 /* Dein Stand: Erinnerungen in den Kalender, gespeichert wird nichts */
-.erinnern { display: grid; grid-template-columns: 48px minmax(0, 1fr) auto; gap: 14px 18px; align-items: center; padding: 18px 22px; border-radius: 18px; background: linear-gradient(160deg, #fffaf0 0%, #f6ecd6 100%); border: 1px solid #ecdcb6; }
-.erinnern-ikon { width: 48px; height: 48px; border-radius: 14px; background: var(--gold); display: flex; align-items: center; justify-content: center; color: var(--nacht); }
-.erinnern-ikon svg { width: 24px; height: 24px; }
-.erinnern p { margin-top: 2px; font-size: 14.5px; color: #45413b; }
+.erinnern { display: grid; grid-template-columns: 44px minmax(0, 1fr) auto; gap: 12px 18px; align-items: center; padding: 16px 20px; border-radius: 16px; background: var(--creme-hell); }
+.erinnern-ikon { width: 44px; height: 44px; border-radius: 50%; background: #fff; display: flex; align-items: center; justify-content: center; color: var(--gold-text); }
+.erinnern-ikon svg { width: 22px; height: 22px; }
+.erinnern p { margin-top: 2px; font-size: 14.5px; color: var(--text-2); }
 .erinnern-knoepfe { display: flex; flex-wrap: wrap; gap: 10px; }
-.erinnern .knopf { margin-top: 0; min-height: 44px; padding: 8px 16px; font-size: 14px; }
+.erinnern .knopf { margin-top: 0; min-height: 42px; padding: 8px 16px; font-size: 14px; }
 .erinnern .knopf svg { flex: none; width: 18px; height: 18px; }
 
-.video { position: relative; display: block; width: 100%; aspect-ratio: 16 / 9; padding: 0; border: 0; border-radius: 12px; overflow: hidden; color: #fff; background: var(--nacht-2); text-align: left; cursor: pointer; }
+.video { position: relative; display: block; width: 100%; aspect-ratio: 16 / 9; padding: 0; border: 0; border-radius: 14px; overflow: hidden; color: #fff; background: var(--violett); text-align: left; cursor: pointer; }
 .video img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; }
-.video::after { content: ""; position: absolute; inset: 0; background: linear-gradient(180deg, rgba(28, 32, 41, 0) 40%, rgba(28, 32, 41, .82) 100%); }
+.video::after { content: ""; position: absolute; inset: 0; background: linear-gradient(180deg, rgba(51, 50, 64, 0) 40%, rgba(51, 50, 64, .82) 100%); }
 .video-text { position: absolute; left: 16px; right: 64px; bottom: 14px; z-index: 1; display: grid; grid-template-columns: 46px minmax(0, 1fr); column-gap: 12px; align-items: center; }
 .video-text b { font-size: 15px; font-weight: 600; line-height: 1.3; }
 .video-text > span:last-child { font-size: 13px; line-height: 1.35; color: rgba(255, 255, 255, .82); }
@@ -179,9 +194,9 @@ button.mein-produkt:hover, button.mein-produkt[aria-expanded="true"] { backgroun
 .dauer { position: absolute; right: 12px; bottom: 14px; z-index: 1; padding: 2px 7px; border-radius: 4px; background: rgba(0, 0, 0, .6); font-size: 12px; font-weight: 600; }
 
 /* Einnahme: Tagesplan mit Löffeln, beim Booster für Akutphase oder vorbeugend */
-.tagesplan { padding: 26px 28px 24px; border-radius: 20px; background: linear-gradient(160deg, #fffaf0 0%, #f6ecd6 100%); border: 1px solid #ecdcb6; }
-.tp-wahl { display: inline-flex; gap: 4px; margin-bottom: 20px; padding: 4px; border-radius: 14px; background: rgba(255, 255, 255, .75); box-shadow: inset 0 0 0 1px #ead9b4; }
-.tp-wahl button { display: flex; align-items: center; gap: 10px; padding: 8px 16px 8px 10px; border: 0; border-radius: 10px; background: none; color: var(--gold-dunkel); text-align: left; cursor: pointer; transition: background .15s, color .15s; }
+.tagesplan { padding: 26px 28px 24px; border-radius: 16px; background: var(--creme-hell); }
+.tp-wahl { display: inline-flex; gap: 4px; margin-bottom: 20px; padding: 4px; border-radius: 12px; background: #fff; box-shadow: inset 0 0 0 1px var(--linie); }
+.tp-wahl button { display: flex; align-items: center; gap: 10px; padding: 8px 16px 8px 10px; border: 0; border-radius: 8px; background: none; color: var(--gold-text); text-align: left; cursor: pointer; transition: background .15s, color .15s; }
 .tp-wahl button svg { flex: none; width: 22px; height: 22px; }
 .tp-wahl b { display: block; font-size: 14.5px; color: var(--text); }
 .tp-wahl small { display: block; font-size: 12px; color: var(--muted); }
@@ -189,50 +204,50 @@ button.mein-produkt:hover, button.mein-produkt[aria-expanded="true"] { backgroun
 .tp-wahl button[aria-checked="true"] b { color: #fff; }
 .tp-wahl button[aria-checked="true"] small { color: rgba(255, 255, 255, .7); }
 .tp-kopf { display: flex; flex-wrap: wrap; align-items: flex-end; justify-content: space-between; gap: 14px 24px; }
-.tp-kopf h2 { font-size: 30px; line-height: 1.1; letter-spacing: -.02em; }
-.tp-kopf p { max-width: 540px; margin-top: 6px; font-size: 15px; color: #45413b; }
+.tp-kopf h2 { font-size: 28px; line-height: 1.1; font-weight: 650; letter-spacing: -.015em; }
+.tp-kopf p { max-width: 540px; margin-top: 6px; font-size: 15px; color: var(--text-2); }
 .tp-erinnerung { margin-top: 0; min-height: 44px; padding: 8px 16px; font-size: 14px; }
 .tp-erinnerung svg { flex: none; width: 18px; height: 18px; }
 .tp-zeiten { list-style: none; display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 12px; margin-top: 22px; }
-.tp-zeiten li { display: grid; justify-items: center; align-content: start; gap: 6px; padding: 16px 12px 18px; border-radius: 16px; background: #fff; border: 1px solid #efe1c2; text-align: center; transition: background .25s, border-color .25s; }
-.tp-zeit { display: inline-flex; align-items: center; gap: 6px; font-size: 13.5px; font-weight: 600; color: var(--gold-dunkel); }
+.tp-zeiten li { display: grid; justify-items: center; align-content: start; gap: 6px; padding: 16px 12px 18px; border-radius: 14px; background: #fff; border: 1px solid var(--linie); text-align: center; transition: background .25s, border-color .25s; }
+.tp-zeit { display: inline-flex; align-items: center; gap: 6px; font-size: 13.5px; font-weight: 600; color: var(--gold-text); }
 .tp-zeit svg { width: 18px; height: 18px; }
 .tp-loeffel { width: 34px; height: 70px; }
 .tp-zeiten b { font-size: 15px; }
 .tp-zeiten small { font-size: 12.5px; color: var(--muted); }
-.tp-zeiten li.aus { background: rgba(255, 255, 255, .45); border-style: dashed; border-color: #e3d5b6; }
-.tp-zeiten li.aus .tp-zeit { color: #a89c84; }
-.tp-zeiten li.aus b { font-weight: 500; color: #9a907f; }
-.tp-dauer { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 12px 20px; margin-top: 18px; padding-top: 16px; border-top: 1px solid #ead9b4; }
-.tp-dauer p { font-size: 14.5px; color: #45413b; }
+.tp-zeiten li.aus { background: none; border-style: dashed; }
+.tp-zeiten li.aus .tp-zeit { color: var(--leise); }
+.tp-zeiten li.aus b { font-weight: 500; color: var(--leise); }
+.tp-dauer { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 12px 20px; margin-top: 18px; padding-top: 16px; border-top: 1px solid var(--linie); }
+.tp-dauer p { font-size: 14.5px; color: var(--text-2); }
 .tp-tage { list-style: none; display: flex; gap: 5px; }
 .tp-tage li { display: flex; align-items: center; justify-content: center; width: 28px; height: 28px; border-radius: 8px; background: var(--gold); font-size: 12px; font-weight: 700; color: var(--nacht); font-variant-numeric: tabular-nums; }
-.tp-tage li.kann { background: #fff; box-shadow: inset 0 0 0 1.5px #e2cf9f; color: var(--gold-dunkel); }
+.tp-tage li.kann { background: #fff; box-shadow: inset 0 0 0 1.5px var(--linie); color: var(--gold-text); }
 .tp-schritte { list-style: none; display: flex; align-items: center; gap: 10px; }
 .tp-schritte li { position: relative; display: flex; align-items: center; gap: 10px; padding: 8px 14px 8px 8px; border-radius: 12px; background: #fff; }
 .tp-schritte li + li { margin-left: 18px; }
 .tp-schritte li + li::before { content: ""; position: absolute; left: -19px; top: 50%; width: 8px; height: 8px; border-top: 2px solid var(--gold); border-right: 2px solid var(--gold); transform: translateY(-50%) rotate(45deg); }
 .tp-schritte .tp-loeffel { width: 20px; height: 42px; }
 .tp-schritte b { display: block; font-size: 13.5px; }
-.tp-schritte span { font-size: 13px; color: #45413b; }
+.tp-schritte span { font-size: 13px; color: var(--text-2); }
 
 /* Nachkauf: Spar-Rechner mit den Preisen aus dem Vergleich auf omni9.de */
 .sparen-raster { display: grid; grid-template-columns: minmax(0, 1.25fr) minmax(0, 1fr); gap: 20px 28px; align-items: start; margin-top: 16px; }
 .sparen-wahl { display: flex; flex-wrap: wrap; gap: 8px; }
-.sparen-chip { display: inline-flex; align-items: baseline; gap: 8px; padding: 8px 13px; border: 1.5px solid #ece3d0; border-radius: 999px; background: #fff; font-size: 14px; font-weight: 600; color: var(--text); cursor: pointer; transition: background .15s, border-color .15s, color .15s; }
-.sparen-chip small { font-size: 12.5px; color: var(--gold-dunkel); font-variant-numeric: tabular-nums; }
+.sparen-chip { display: inline-flex; align-items: baseline; gap: 8px; padding: 8px 13px; border: 1px solid var(--linie); border-radius: 999px; background: #fff; font-size: 14px; font-weight: 600; color: var(--text); cursor: pointer; transition: background .15s, border-color .15s, color .15s; }
+.sparen-chip small { font-size: 12.5px; color: var(--gold-text); font-variant-numeric: tabular-nums; }
 .sparen-chip:hover { border-color: var(--gold); }
 .sparen-chip[aria-pressed="true"] { background: var(--nacht); border-color: var(--nacht); color: #fff; }
 .sparen-chip[aria-pressed="true"] small { color: var(--gold); }
-.sparen-ergebnis { display: grid; gap: 12px; padding: 18px; border-radius: 16px; background: var(--creme); border: 1px solid #ecdcc0; }
+.sparen-ergebnis { display: grid; gap: 12px; padding: 18px; border-radius: 14px; background: var(--creme-hell); }
 .sparen-leer { font-size: 14px; color: var(--muted); }
 .sparen-balken { display: grid; grid-template-columns: 74px minmax(0, 1fr) 66px; gap: 10px; align-items: center; font-size: 13.5px; }
-.sparen-name { font-weight: 600; color: #45413b; }
-.sparen-spur { height: 12px; border-radius: 999px; background: #efe4cc; overflow: hidden; }
-.sparen-spur i { display: block; height: 100%; border-radius: 999px; background: #9a907f; transition: width .4s ease-out; }
+.sparen-name { font-weight: 600; color: var(--text-2); }
+.sparen-spur { height: 12px; border-radius: 999px; background: var(--creme); overflow: hidden; }
+.sparen-spur i { display: block; height: 100%; border-radius: 999px; background: var(--leise); transition: width .4s ease-out; }
 .sparen-balken.omni9 .sparen-spur i { background: var(--gold); }
 .sparen-balken b { text-align: right; font-variant-numeric: tabular-nums; }
-.sparen-fazit { font-size: 14.5px; color: #45413b; }
+.sparen-fazit { font-size: 14.5px; color: var(--text-2); }
 .sparen-fazit b { display: block; font-size: 19px; letter-spacing: -.01em; color: var(--text); }
 .sparen-basis { font-size: 12.5px; color: var(--muted); }
 .haken-liste { list-style: none; display: grid; gap: 10px; }
@@ -240,52 +255,54 @@ button.mein-produkt:hover, button.mein-produkt[aria-expanded="true"] { backgroun
 .haken-liste svg { width: 20px; height: 20px; margin-top: 1px; }
 
 .zeitleiste { list-style: none; position: relative; }
-.zeitleiste::before { content: ""; position: absolute; left: 17px; top: 18px; bottom: 18px; width: 2px; background: #ecdcc0; }
+.zeitleiste::before { content: ""; position: absolute; left: 17px; top: 18px; bottom: 18px; width: 2px; background: var(--linie); }
 .zeitleiste li { position: relative; display: grid; grid-template-columns: 36px 1fr; gap: 14px; padding-bottom: 18px; }
 .zeitleiste li:last-child { padding-bottom: 0; }
 .zeitleiste li > div { padding-top: 7px; }
-.punkt { position: relative; z-index: 1; width: 36px; height: 36px; border-radius: 50%; background: #fff; border: 1.5px solid #e2c88f; display: flex; align-items: center; justify-content: center; color: var(--gold-dunkel); }
+.punkt { position: relative; z-index: 1; width: 36px; height: 36px; border-radius: 50%; background: #fff; border: 1.5px solid var(--gold-hell); display: flex; align-items: center; justify-content: center; color: var(--gold-text); }
 .punkt svg { width: 18px; height: 18px; }
-.zeitleiste li.erledigt .punkt { background: var(--honig); }
-.zeitleiste li.jetzt .punkt { background: var(--gold); border-color: var(--gold); color: var(--nacht); box-shadow: 0 0 0 5px rgba(201, 154, 69, .16); }
-.zeitleiste.persoenlich li.jetzt b::after { content: "Du bist hier"; margin-left: 8px; padding: 2px 8px; border-radius: 999px; background: var(--honig); font-size: 11.5px; font-weight: 600; color: var(--gold-dunkel); vertical-align: 1px; }
+.zeitleiste li.erledigt .punkt { background: var(--creme); }
+.zeitleiste li.jetzt .punkt { background: var(--gold); border-color: var(--gold); color: var(--nacht); box-shadow: 0 0 0 5px rgba(214, 166, 85, .16); }
+.zeitleiste.persoenlich li.jetzt b::after { content: "Du bist hier"; margin-left: 8px; padding: 2px 8px; border-radius: 999px; background: var(--creme); font-size: 11.5px; font-weight: 600; color: var(--gold-text); vertical-align: 1px; }
 .zeitleiste b { display: block; font-size: 14px; }
 .zeitleiste p { font-size: 14px; color: var(--muted); }
 
 /* Inhalt: Achsen und Komplexe zum Antippen, Zutaten, Synergien */
 .block-text { margin-top: 4px; font-size: 14px; color: var(--muted); }
 .achsen-wahl { display: grid; grid-template-columns: 240px minmax(0, 1fr); gap: 18px; margin-top: 16px; }
-.achsen-liste { display: grid; gap: 6px; align-content: start; }
-.achsen-liste button { width: 100%; padding: 10px 14px; border: 0; border-radius: 10px; background: var(--hell); font-size: 14px; font-weight: 600; text-align: left; color: #45413b; cursor: pointer; }
-.achsen-liste button:hover { background: var(--honig); }
-.achsen-liste button[aria-selected="true"] { background: var(--nacht); color: #fff; }
-.achse-panel { padding: 22px 24px; border-radius: 14px; background: var(--creme); border: 1px solid #ecdcc0; }
+.achsen-liste { display: grid; gap: 2px; align-content: start; }
+.achsen-liste button { width: 100%; padding: 10px 14px; border: 0; border-radius: 8px; background: none; font-size: 14.5px; font-weight: 600; text-align: left; color: var(--text-2); cursor: pointer; }
+.achsen-liste button:hover { background: var(--grau); }
+.achsen-liste button[aria-selected="true"] { background: var(--nacht); color: var(--creme); }
+.achse-panel { padding: 22px 24px; border-radius: 14px; background: var(--creme-hell); }
 .achse-panel[hidden] { display: none; }
 .achse-panel h3 { font-size: 18px; }
-.achse-panel .unterzeile { margin-top: 2px; font-size: 14px; font-weight: 600; color: var(--gold-dunkel); }
+.achse-panel .unterzeile { margin-top: 2px; font-size: 14px; font-weight: 600; color: var(--gold-text); }
 .achse-panel dl { display: grid; gap: 14px; margin-top: 16px; }
-.achse-panel dt { font-size: 12.5px; font-weight: 700; color: #6e5a3a; }
-.achse-panel dd { margin-top: 3px; font-size: 14.5px; color: #3f3b35; }
+.achse-panel dt { font-size: 12.5px; font-weight: 700; color: var(--text-2); }
+.achse-panel dd { margin-top: 3px; font-size: 14.5px; color: var(--text-2); }
 .komplexe { display: flex; flex-wrap: wrap; gap: 6px; }
-.komplexe span { padding: 4px 10px; border-radius: 999px; background: #fff; border: 1px solid #eadcbf; font-size: 12.5px; font-weight: 500; }
-.synergie { list-style: none; display: grid; gap: 10px; margin-top: 14px; }
-.synergie li { padding: 12px 14px; border-radius: 12px; background: var(--hell); }
-.synergie b { display: block; font-size: 14px; }
-.synergie span { display: block; margin-top: 2px; font-size: 13px; color: var(--muted); }
-.zutaten { list-style: none; display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 8px; margin-top: 14px; }
-.zutaten .basis { grid-column: 1 / -1; background: var(--creme); box-shadow: inset 0 0 0 1px #ecdcc0; }
-.zutaten li { padding: 10px 12px; border-radius: 12px; background: var(--hell); }
+.komplexe span { padding: 4px 10px; border-radius: 6px; background: #fff; font-size: 12.5px; font-weight: 500; color: var(--text-2); }
+/* Listen in Kästen mit Trennlinien statt Kästchen im Kasten */
+.synergie { list-style: none; display: grid; margin-top: 10px; }
+.synergie li { padding: 12px 0; border-top: 1px solid var(--linie); }
+.synergie li:first-child { border-top: 0; }
+.synergie b { display: block; font-size: 14.5px; }
+.synergie span { display: block; margin-top: 2px; font-size: 13.5px; color: var(--muted); }
+.zutaten { list-style: none; display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); column-gap: 24px; margin-top: 14px; }
+.zutaten .basis { grid-column: 1 / -1; margin-bottom: 6px; padding: 12px 14px; border: 0; border-radius: 12px; background: var(--creme-hell); }
+.zutaten li { padding: 10px 0; border-top: 1px solid var(--linie); }
 .zutaten b { display: block; font-size: 13.5px; font-weight: 650; }
 .zutaten span { display: block; margin-top: 2px; font-size: 12.5px; line-height: 1.4; color: var(--muted); }
 .siegel { margin-top: 14px; }
 .bild-links { display: grid; grid-template-columns: minmax(0, 1fr); gap: 12px; margin-top: 16px; }
-.bild-link { display: block; width: 100%; padding: 0; border-radius: 12px; overflow: hidden; border: 1px solid var(--line); background: #fff; text-align: left; cursor: pointer; }
-.bild-link:hover { border-color: #e6d4ab; }
+.bild-link { display: block; width: 100%; padding: 0; border-radius: 12px; overflow: hidden; border: 1px solid var(--linie); background: #fff; text-align: left; cursor: pointer; }
+.bild-link:hover { border-color: var(--gold-hell); }
 .bild-link img { display: block; width: 100%; aspect-ratio: 16 / 10; object-fit: cover; object-position: top; }
 .bild-link span { display: flex; justify-content: space-between; align-items: center; padding: 10px 12px; font-size: 13px; font-weight: 600; }
 .bild-link svg { width: 16px; height: 16px; }
 
-details { border-top: 1px solid var(--line); }
+details { border-top: 1px solid var(--linie); }
 details:first-of-type { margin-top: 12px; }
 summary { list-style: none; display: flex; justify-content: space-between; align-items: center; gap: 12px; padding: 15px 0; font-weight: 600; cursor: pointer; }
 summary::-webkit-details-marker { display: none; }
@@ -295,8 +312,8 @@ details p { padding: 0 0 16px; font-size: 14px; color: var(--muted); }
 
 /* Nachkauf: einmal oder automatisch liefern lassen */
 .optionen { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 20px; }
-.option { position: relative; display: flex; flex-direction: column; padding: 26px; background: #fff; border: 1px solid #f0ebe2; border-radius: 18px; box-shadow: 0 1px 2px rgba(28, 32, 41, .03), 0 16px 34px -28px rgba(28, 32, 41, .4); }
-.option.empfohlen { border: 1.5px solid var(--gold); background: linear-gradient(165deg, #fffaf0 0%, #fff 55%); }
+.option { position: relative; display: flex; flex-direction: column; padding: 26px; background: #fff; border: 1px solid var(--linie); border-radius: 16px; }
+.option.empfohlen { border: 1.5px solid var(--gold); background: linear-gradient(180deg, var(--creme-hell) 0%, #fff 45%); }
 .option-marke { position: absolute; top: -12px; left: 22px; padding: 4px 11px; border-radius: 999px; background: var(--gold); color: var(--nacht); font-size: 12px; font-weight: 700; }
 .option h2 { font-size: 18px; }
 .option-preis { display: flex; flex-wrap: wrap; align-items: baseline; gap: 4px 10px; margin-top: 10px; }
@@ -306,69 +323,73 @@ details p { padding: 0 0 16px; font-size: 14px; color: var(--muted); }
 .option .haken-liste { margin: 18px 0 22px; }
 .option .knopf { margin-top: auto; }
 .rhythmus { display: flex; flex-wrap: wrap; gap: 8px; margin: 18px 0 0; padding: 0; border: 0; }
-.rhythmus legend { margin-bottom: 8px; padding: 0; font-size: 13px; font-weight: 600; color: #45413b; }
+.rhythmus legend { margin-bottom: 8px; padding: 0; font-size: 13px; font-weight: 600; color: var(--text-2); }
 .rhythmus label { position: relative; }
 .rhythmus input { position: absolute; inset: 0; margin: 0; opacity: 0; cursor: pointer; }
-.rhythmus span { display: block; padding: 8px 12px; border-radius: 10px; border: 1px solid #e6dcc6; background: #fff; font-size: 13.5px; font-weight: 600; }
+.rhythmus span { display: block; padding: 8px 12px; border-radius: 8px; border: 1px solid var(--linie); background: #fff; font-size: 13.5px; font-weight: 600; }
 .rhythmus input:checked + span { background: var(--nacht); border-color: var(--nacht); color: #fff; }
 .rhythmus input:focus-visible + span { outline: 2px solid var(--gold); outline-offset: 2px; }
 .kasse-hinweis { display: flex; align-items: flex-start; gap: 8px; font-size: 13px; color: var(--muted); }
-.kasse-hinweis svg { flex: none; width: 15px; height: 15px; margin-top: 2px; color: var(--gold-dunkel); }
+.kasse-hinweis svg { flex: none; width: 15px; height: 15px; margin-top: 2px; color: var(--gold-text); }
 .sets { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 12px; margin-top: 14px; }
-.set { display: grid; grid-template-columns: 72px minmax(0, 1fr) 14px; gap: 14px; align-items: center; padding: 14px; border-radius: 14px; border: 1px solid var(--line); background: #fff; }
-.set:hover { border-color: #e6d4ab; }
+.set { display: grid; grid-template-columns: 72px minmax(0, 1fr) 14px; gap: 14px; align-items: center; padding: 14px; border-radius: 14px; border: 1px solid var(--linie); background: #fff; }
+.set:hover { border-color: var(--gold-hell); }
 .set-bild { position: relative; width: 72px; height: 64px; }
-.set-bild img { position: absolute; bottom: 0; left: 0; z-index: 1; width: auto; height: 62px; filter: drop-shadow(0 6px 6px rgba(28, 32, 41, .2)); }
+.set-bild img { position: absolute; bottom: 0; left: 0; z-index: 1; width: auto; height: 62px; filter: drop-shadow(0 6px 6px rgba(51, 50, 64, .2)); }
 .set-bild img + img { left: auto; right: 0; z-index: 0; height: 50px; }
 .set-bild em { position: absolute; z-index: 2; right: -6px; bottom: -6px; padding: 2px 6px; border-radius: 999px; background: var(--gold); color: var(--nacht); font-style: normal; font-size: 11px; font-weight: 700; }
 .set b { display: block; font-size: 14.5px; }
 .set-text > span { display: block; font-size: 13px; color: var(--muted); }
 .set .set-preis { margin-top: 4px; font-size: 14px; font-weight: 700; color: var(--text); }
 .set-preis s { font-weight: 400; color: var(--muted); }
-.set > svg { width: 14px; height: 14px; color: #a29c91; }
+.set > svg { width: 14px; height: 14px; color: var(--leise); }
 .dazu-karte { display: grid; grid-template-columns: 72px minmax(0, 1fr) auto; gap: 18px; align-items: center; }
-.dazu-karte img { width: 72px; height: 92px; object-fit: contain; filter: drop-shadow(0 10px 10px rgba(28, 32, 41, .2)); }
+.dazu-karte img { width: 72px; height: 92px; object-fit: contain; filter: drop-shadow(0 10px 10px rgba(51, 50, 64, .2)); }
 .dazu-karte h2 { font-size: 17px; }
 .dazu-karte p { margin-top: 4px; font-size: 14px; color: var(--muted); }
 .dazu-knoepfe { display: flex; flex-direction: column; align-items: center; gap: 8px; }
 .dazu-knoepfe .knopf { margin-top: 0; }
-.teaser p { margin-top: 6px; font-size: 14.5px; color: #45413b; }
+.teaser p { margin-top: 6px; font-size: 14.5px; color: var(--text-2); }
 .block > h2 + .haken-liste { margin-top: 14px; }
 
-.knopf { display: flex; align-items: center; justify-content: center; gap: 8px; min-height: 48px; margin-top: 14px; padding: 12px 20px; border-radius: 12px; background: var(--nacht); color: #fff; font-weight: 600; text-align: center; }
-.knopf.hell { background: #fff; color: var(--nacht); border: 1.5px solid var(--nacht); }
+/* Knöpfe wie auf omni9.de: Verlauf in Nachtviolett, der wichtigste mit goldenem Schein */
+.knopf { display: flex; align-items: center; justify-content: center; gap: 8px; min-height: 46px; margin-top: 14px; padding: 12px 20px; border-radius: 8px; background: var(--verlauf); color: #fff; font-weight: 600; text-align: center; transition: filter .15s, background .15s; }
+.knopf:hover { filter: brightness(1.12); }
+.knopf.hell { background: #fff; color: var(--nacht); box-shadow: inset 0 0 0 1px var(--nacht); }
+.knopf.hell:hover { filter: none; background: var(--creme-hell); }
 button.knopf { border: 0; cursor: pointer; }
-.knopf.gold { background: var(--gold); color: var(--nacht); }
-.text-link { font-size: 14px; font-weight: 600; color: var(--gold-dunkel); }
+.knopf.gold { box-shadow: var(--schein); }
+.text-link { font-size: 14px; font-weight: 600; color: var(--gold-text); }
 .text-link:hover { text-decoration: underline; }
 
-.hilfe-liste { display: grid; grid-template-columns: repeat(auto-fit, minmax(230px, 1fr)); gap: 10px; margin-top: 14px; }
-.hilfe-zeile { display: grid; grid-template-columns: 36px minmax(0, 1fr) 14px; gap: 12px; align-items: center; padding: 12px; border-radius: 12px; background: var(--hell); transition: background .15s; }
-a.hilfe-zeile:hover, button.hilfe-zeile:hover { background: var(--honig); }
-button.hilfe-zeile { width: 100%; border: 0; font: inherit; color: inherit; text-align: left; cursor: pointer; }
+.hilfe-liste { display: grid; grid-template-columns: repeat(auto-fit, minmax(230px, 1fr)); column-gap: 16px; margin-top: 8px; }
+.hilfe-zeile { display: grid; grid-template-columns: 36px minmax(0, 1fr) 14px; gap: 12px; align-items: center; padding: 12px 6px; border-bottom: 1px solid var(--linie); transition: background .15s; }
+.hilfe-zeile:last-child { border-bottom: 0; }
+a.hilfe-zeile:hover, button.hilfe-zeile:hover { background: var(--creme-hell); }
+button.hilfe-zeile { width: 100%; border: 0; border-bottom: 1px solid var(--linie); background: none; font: inherit; color: inherit; text-align: left; cursor: pointer; }
 .hilfe-zeile .ikon img { width: 28px; height: 28px; border-radius: 7px; }
-.hilfe-zeile > svg { width: 14px; height: 14px; color: #a29c91; }
-.hilfe-zeile .ikon { width: 36px; height: 36px; border-radius: 10px; background: #fff; display: flex; align-items: center; justify-content: center; }
+.hilfe-zeile > svg { width: 14px; height: 14px; color: var(--leise); }
+.hilfe-zeile .ikon { width: 36px; height: 36px; border-radius: 50%; background: var(--creme-hell); display: flex; align-items: center; justify-content: center; }
 .hilfe-zeile .ikon svg { width: 20px; height: 20px; }
 .hilfe-zeile b { display: block; font-size: 14px; }
 .hilfe-zeile div span { display: block; font-size: 13px; color: var(--muted); }
 .bewertung { margin-top: 22px; }
 .sterne { display: flex; gap: 4px; margin-top: 12px; }
-.sterne button { padding: 2px; border: 0; background: none; color: #f3e3c2; cursor: pointer; }
+.sterne button { padding: 2px; border: 0; background: none; color: var(--creme); cursor: pointer; }
 .sterne button svg { display: block; width: 34px; height: 34px; }
-.sterne:hover button { color: #e8c47e; }
+.sterne:hover button { color: var(--gold-hell); }
 .sterne button.an { color: var(--gold); }
-.sterne button:hover ~ button { color: #f3e3c2; }
-.bewertung-antwort { margin-top: 12px; padding: 12px 14px; border-radius: 12px; background: var(--creme); border: 1px solid #ecdcc0; font-size: 14px; color: #45413b; }
+.sterne button:hover ~ button { color: var(--creme); }
+.bewertung-antwort { margin-top: 12px; padding: 12px 14px; border-radius: 12px; background: var(--creme-hell); font-size: 14px; color: var(--text-2); }
 .bewertung-antwort .text-link { display: inline-block; margin-top: 6px; }
-.hinweis-box { display: grid; grid-template-columns: 22px 1fr; gap: 10px; padding: 12px 14px; border-radius: 12px; background: #fff7e8; border: 1px solid #f1dcb0; font-size: 13.5px; color: #5b4a2c; }
+.hinweis-box { display: grid; grid-template-columns: 22px 1fr; gap: 10px; padding: 12px 14px; border-radius: 12px; background: var(--creme-hell); font-size: 13.5px; color: var(--text-2); }
 .hinweis-box svg { width: 22px; height: 22px; }
 
 /* Fortschritt: Regler „Seit wie vielen Tagen?“, Glas und Fortschritt im Körper. Gespeichert wird nichts */
-.fortschritt { padding: 24px 26px 20px; border-radius: 18px; background: #fff; border: 1px solid #ecdcb6; box-shadow: 0 1px 2px rgba(28, 32, 41, .03), 0 24px 46px -34px rgba(28, 32, 41, .5); }
+.fortschritt { padding: 24px 26px 20px; border-radius: 16px; background: #fff; border: 1px solid var(--linie); }
 .fortschritt h2 { font-size: 20px; }
 .fs-oben { display: grid; grid-template-columns: minmax(0, 1fr) auto; gap: 14px 32px; align-items: center; }
-.fs-gruss { margin-bottom: 2px; font-size: 14px; font-weight: 600; color: var(--gold-dunkel); }
+.fs-gruss { margin-bottom: 2px; font-size: 14px; font-weight: 600; color: var(--gold-text); }
 .fs-anzeige { display: grid; grid-template-columns: 56px 200px; gap: 14px; align-items: center; }
 [data-glas] { display: block; }
 .honigglas { display: block; width: 100%; height: auto; }
@@ -379,69 +400,69 @@ button.hilfe-zeile { width: 100%; border: 0; font: inherit; color: inherit; text
 .fs-schiene { --daumen: 30px; position: relative; margin-top: 14px; padding-bottom: 20px; }
 .fs-regler { -webkit-appearance: none; appearance: none; display: block; width: 100%; height: 44px; margin: 0; background: none; cursor: pointer; touch-action: pan-y; }
 .fs-regler:focus-visible { outline: none; }
-.fs-regler::-webkit-slider-runnable-track { height: 8px; border-radius: 999px; background: linear-gradient(90deg, var(--gold) 0 calc(var(--daumen) / 2 + (100% - var(--daumen)) * var(--anteil, 0)), #efe6d3 0); }
-.fs-regler::-webkit-slider-thumb { -webkit-appearance: none; width: var(--daumen); height: var(--daumen); margin-top: calc(4px - var(--daumen) / 2); border-radius: 50%; background: #fff; border: 3px solid var(--gold); box-shadow: 0 6px 14px -6px rgba(28, 32, 41, .5); }
-.fs-regler:focus-visible::-webkit-slider-thumb { box-shadow: 0 0 0 5px rgba(201, 154, 69, .3), 0 6px 14px -6px rgba(28, 32, 41, .5); }
-.fs-regler::-moz-range-track { height: 8px; border-radius: 999px; background: #efe6d3; }
+.fs-regler::-webkit-slider-runnable-track { height: 8px; border-radius: 999px; background: linear-gradient(90deg, var(--gold) 0 calc(var(--daumen) / 2 + (100% - var(--daumen)) * var(--anteil, 0)), var(--creme) 0); }
+.fs-regler::-webkit-slider-thumb { -webkit-appearance: none; width: var(--daumen); height: var(--daumen); margin-top: calc(4px - var(--daumen) / 2); border-radius: 50%; background: #fff; border: 3px solid var(--gold); box-shadow: 0 6px 14px -6px rgba(51, 50, 64, .5); }
+.fs-regler:focus-visible::-webkit-slider-thumb { box-shadow: 0 0 0 5px rgba(214, 166, 85, .3), 0 6px 14px -6px rgba(51, 50, 64, .5); }
+.fs-regler::-moz-range-track { height: 8px; border-radius: 999px; background: var(--creme); }
 .fs-regler::-moz-range-progress { height: 8px; border-radius: 999px; background: var(--gold); }
-.fs-regler::-moz-range-thumb { box-sizing: border-box; width: var(--daumen); height: var(--daumen); border-radius: 50%; background: #fff; border: 3px solid var(--gold); box-shadow: 0 6px 14px -6px rgba(28, 32, 41, .5); }
-.fs-regler:focus-visible::-moz-range-thumb { box-shadow: 0 0 0 5px rgba(201, 154, 69, .3); }
-.fs-skala { position: absolute; left: 0; right: 0; bottom: 0; height: 18px; font-size: 12px; font-weight: 600; color: #9a907f; font-variant-numeric: tabular-nums; }
+.fs-regler::-moz-range-thumb { box-sizing: border-box; width: var(--daumen); height: var(--daumen); border-radius: 50%; background: #fff; border: 3px solid var(--gold); box-shadow: 0 6px 14px -6px rgba(51, 50, 64, .5); }
+.fs-regler:focus-visible::-moz-range-thumb { box-shadow: 0 0 0 5px rgba(214, 166, 85, .3); }
+.fs-skala { position: absolute; left: 0; right: 0; bottom: 0; height: 18px; font-size: 12px; font-weight: 600; color: var(--leise); font-variant-numeric: tabular-nums; }
 .fs-skala span { position: absolute; top: 0; left: calc(var(--daumen) / 2 + (100% - var(--daumen)) * var(--pos)); transform: translateX(-50%); }
-.fs-koerper { margin-top: 18px; padding-top: 20px; border-top: 1px solid var(--line); }
+.fs-koerper { margin-top: 18px; padding-top: 20px; border-top: 1px solid var(--linie); }
 .fs-koerper h3 { font-size: 16px; }
 .fs-stufen { list-style: none; position: relative; display: grid; grid-template-columns: repeat(5, minmax(0, 1fr)); margin-top: 16px; }
 .fs-stufen::before, .fs-stufen::after { content: ""; position: absolute; top: 19px; left: 10%; height: 2px; border-radius: 2px; }
-.fs-stufen::before { right: 10%; background: #ece1c8; }
+.fs-stufen::before { right: 10%; background: var(--linie); }
 .fs-stufen::after { width: calc(80% * var(--stufe, 0)); background: var(--gold); transition: width .4s ease-out; }
 .fs-stufen li { position: relative; z-index: 1; display: flex; flex-direction: column; align-items: center; gap: 8px; text-align: center; }
-.fs-punkt { display: flex; align-items: center; justify-content: center; width: 40px; height: 40px; border-radius: 50%; background: #fff; border: 1.5px solid #e6d8b8; color: #b5a888; transition: background .3s, border-color .3s, color .3s, box-shadow .3s; }
+.fs-punkt { display: flex; align-items: center; justify-content: center; width: 40px; height: 40px; border-radius: 50%; background: #fff; border: 1.5px solid var(--linie); color: var(--leise); transition: background .3s, border-color .3s, color .3s, box-shadow .3s; }
 .fs-punkt svg { width: 20px; height: 20px; }
-.fs-name { font-size: 13px; font-weight: 600; line-height: 1.2; color: #9a907f; hyphens: auto; }
-.fs-stufen .erreicht .fs-punkt { background: var(--honig); border-color: var(--gold); color: var(--gold-dunkel); }
-.fs-stufen .erreicht .fs-name { color: #45413b; }
-.fs-stufen .jetzt .fs-punkt { background: var(--gold); border-color: var(--gold); color: var(--nacht); box-shadow: 0 0 0 6px rgba(201, 154, 69, .18); }
+.fs-name { font-size: 13px; font-weight: 600; line-height: 1.2; color: var(--leise); hyphens: auto; }
+.fs-stufen .erreicht .fs-punkt { background: var(--creme); border-color: var(--gold); color: var(--gold-text); }
+.fs-stufen .erreicht .fs-name { color: var(--text-2); }
+.fs-stufen .jetzt .fs-punkt { background: var(--gold); border-color: var(--gold); color: var(--nacht); box-shadow: 0 0 0 6px rgba(214, 166, 85, .18); }
 .fs-stufen .jetzt .fs-name { color: var(--text); }
 .fs-phase { display: grid; grid-template-columns: minmax(0, 1.3fr) minmax(0, 1fr); gap: 16px 28px; align-items: start; margin-top: 22px; }
 .fs-phase.neu { animation: phaseRein .35s ease-out; }
 @keyframes phaseRein { from { opacity: 0; transform: translateY(6px); } }
-.fs-zeit { font-size: 13px; font-weight: 600; color: var(--gold-dunkel); }
+.fs-zeit { font-size: 13px; font-weight: 600; color: var(--gold-text); }
 .fs-text h4 { margin-top: 2px; font-size: 19px; line-height: 1.3; font-weight: 650; letter-spacing: -.01em; }
-.fs-text h4 + p { margin-top: 6px; font-size: 14.5px; line-height: 1.6; color: #45413b; }
-.fs-tipp { margin-top: 12px; padding: 12px 14px; border-radius: 12px; background: var(--creme); border: 1px solid #ecdcc0; font-size: 14px; line-height: 1.5; color: #45413b; }
-.fs-tipp b { color: var(--gold-dunkel); }
+.fs-text h4 + p { margin-top: 6px; font-size: 14.5px; line-height: 1.6; color: var(--text-2); }
+.fs-tipp { margin-top: 12px; padding: 12px 14px; border-radius: 12px; background: var(--creme-hell); font-size: 14px; line-height: 1.5; color: var(--text-2); }
+.fs-tipp b { color: var(--gold-text); }
 .fs-warnung { margin-top: 10px; font-size: 13px; color: var(--muted); }
 .fs-text .text-link { display: inline-block; margin-top: 10px; }
-.fs-stimme { display: flex; flex-direction: column; margin: 0; padding: 16px; border-radius: 14px; background: var(--hell); }
-.fs-stimme blockquote { font-size: 14px; line-height: 1.5; color: #3f3b35; }
+.fs-stimme { display: flex; flex-direction: column; margin: 0; padding: 16px; border-radius: 14px; background: var(--creme-hell); }
+.fs-stimme blockquote { font-size: 14px; line-height: 1.5; color: var(--text-2); }
 .fs-stimme .stimme-zeit + blockquote { margin-top: 10px; }
-.fs-hinweis { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 12px 20px; margin-top: 18px; padding: 14px 16px; border-radius: 14px; background: var(--nacht); }
+.fs-hinweis { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 12px 20px; margin-top: 18px; padding: 14px 16px; border-radius: 14px; background: var(--verlauf); }
 .fs-hinweis p { flex: 1 1 320px; font-size: 14.5px; color: rgba(255, 255, 255, .82); }
 .fs-hinweis b { color: #fff; }
 .fs-hinweis .knopf { flex: none; margin-top: 0; min-height: 42px; padding: 8px 18px; background: var(--gold); color: var(--nacht); font-size: 14px; }
-.q-ikon { width: 40px; height: 40px; border-radius: 12px; background: var(--honig); color: var(--gold-dunkel); display: flex; align-items: center; justify-content: center; }
+.q-ikon { width: 40px; height: 40px; border-radius: 50%; background: var(--creme-hell); color: var(--gold-text); display: flex; align-items: center; justify-content: center; }
 .q-ikon svg { width: 22px; height: 22px; }
-.achse-chip { padding: 5px 11px; border: 1px solid #e2cf9f; border-radius: 999px; background: var(--creme); font-size: 12.5px; font-weight: 600; color: #5b4a2c; cursor: pointer; }
-.achse-chip:hover { background: var(--honig); }
+.achse-chip { padding: 5px 11px; border: 1px solid var(--linie); border-radius: 999px; background: #fff; font-size: 12.5px; font-weight: 600; color: var(--text-2); cursor: pointer; }
+.achse-chip:hover { background: var(--creme); }
 .fs-fuss { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 6px 18px; margin-top: 14px; font-size: 12.5px; color: var(--muted); }
 button.text-link { padding: 0; border: 0; background: none; font-size: 14px; cursor: pointer; }
 
 /* Inhalt: Assistent für tiefere Fragen */
-.frag-box { display: grid; grid-template-columns: 48px minmax(0, 1fr); gap: 14px 16px; align-items: center; padding: 22px 24px; border-radius: 18px; background: var(--nacht); color: #fff; }
+.frag-box { display: grid; grid-template-columns: 48px minmax(0, 1fr); gap: 14px 16px; align-items: center; padding: 22px 24px; border-radius: 16px; background: var(--verlauf); color: #fff; }
 .frag-box .blase { width: 48px; height: 48px; }
 .frag-box .blase svg { width: 22px; height: 22px; }
 .frag-box h2 { font-size: 19px; }
-.frag-box p { margin-top: 2px; font-size: 14px; color: rgba(255, 255, 255, .74); }
+.frag-box p { margin-top: 2px; font-size: 14px; color: rgba(255, 255, 255, .78); }
 .frag-zeile { grid-column: 1 / -1; display: grid; gap: 12px; }
-.frag-feld { display: flex; align-items: center; justify-content: space-between; gap: 10px; width: 100%; height: 50px; padding: 0 6px 0 16px; border: 0; border-radius: 12px; background: #fff; color: #8d887f; font-size: 15px; text-align: left; cursor: text; }
+.frag-feld { display: flex; align-items: center; justify-content: space-between; gap: 10px; width: 100%; height: 50px; padding: 0 6px 0 16px; border: 0; border-radius: 10px; background: #fff; color: var(--leise); font-size: 15px; text-align: left; cursor: text; }
 .frag-feld:hover { box-shadow: 0 0 0 2px var(--gold); }
-.frag-senden { flex: none; width: 38px; height: 38px; border-radius: 10px; background: var(--nacht); display: flex; align-items: center; justify-content: center; }
+.frag-senden { flex: none; width: 38px; height: 38px; border-radius: 8px; background: var(--nacht); display: flex; align-items: center; justify-content: center; }
 .frag-senden svg { width: 17px; height: 17px; }
 .frag-chips { display: flex; flex-wrap: wrap; gap: 8px; }
-.frag-chips button { padding: 7px 12px; border: 1px solid rgba(232, 196, 126, .5); border-radius: 999px; background: rgba(255, 255, 255, .06); color: #f6e7c6; font-size: 13px; font-weight: 500; cursor: pointer; }
-.frag-chips button:hover { background: rgba(232, 196, 126, .18); }
-.achse-frag { display: inline-flex; align-items: center; gap: 8px; margin-top: 18px; padding: 8px 14px; border: 1px solid #e2cf9f; border-radius: 999px; background: #fff; font-size: 13.5px; font-weight: 600; color: #5b4a2c; cursor: pointer; }
-.achse-frag:hover { background: var(--honig); }
+.frag-chips button { padding: 7px 12px; border: 1px solid rgba(237, 231, 211, .35); border-radius: 999px; background: rgba(255, 255, 255, .06); color: var(--creme); font-size: 13px; font-weight: 500; cursor: pointer; }
+.frag-chips button:hover { background: rgba(237, 231, 211, .14); }
+.achse-frag { display: inline-flex; align-items: center; gap: 8px; margin-top: 18px; padding: 8px 14px; border: 1px solid var(--linie); border-radius: 999px; background: #fff; font-size: 13.5px; font-weight: 600; color: var(--text-2); cursor: pointer; }
+.achse-frag:hover { background: var(--creme); }
 .achse-frag svg { width: 16px; height: 16px; }
 
 /* 30 Tage: Wenn es hakt, So ging es anderen */
@@ -449,144 +470,145 @@ button.text-link { padding: 0; border: 0; background: none; font-size: 14px; cur
 .hakt-raster > details:first-of-type { margin-top: 0; }
 .hakt-raster .text-link { display: inline-block; margin-top: 4px; }
 .stimmen { list-style: none; display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 12px; margin-top: 16px; }
-.stimmen li { display: flex; flex-direction: column; padding: 16px; border-radius: 14px; background: var(--hell); }
-.stimme-zeit { align-self: flex-start; padding: 3px 10px; border-radius: 999px; background: var(--nacht); color: #fff; font-size: 12px; font-weight: 600; }
-.stimmen blockquote { margin-top: 10px; font-size: 14px; line-height: 1.5; color: #3f3b35; }
+.stimmen li { display: flex; flex-direction: column; padding: 16px; border-radius: 14px; background: var(--creme-hell); }
+.stimme-zeit { align-self: flex-start; font-size: 12.5px; font-weight: 600; color: var(--gold-text); }
+.stimmen blockquote { margin-top: 10px; font-size: 14px; line-height: 1.5; color: var(--text-2); }
 .stimme-name { display: flex; flex-wrap: wrap; align-items: center; gap: 4px 8px; margin-top: auto; padding-top: 12px; font-size: 12.5px; color: var(--muted); }
 .mini-sterne { display: inline-flex; gap: 1px; color: var(--gold); }
 .mini-sterne svg { width: 12px; height: 12px; }
-.mini-sterne .aus { color: #f3e3c2; }
+.mini-sterne .aus { color: var(--creme); }
 .stimmen + .text-link { display: inline-block; margin-top: 14px; }
 
 /* Ziel-Quiz und App-Hinweis */
-.dialog-hell { width: min(94vw, 640px); max-width: none; max-height: 92vh; margin: auto; padding: 0; border: 0; border-radius: 22px; background: #fff; color: var(--text); box-shadow: 0 40px 80px -30px rgba(28, 32, 41, .55); overflow: auto; }
-.dialog-hell::backdrop { background: rgba(20, 22, 28, .55); }
+.dialog-hell { width: min(94vw, 640px); max-width: none; max-height: 92vh; margin: auto; padding: 0; border: 0; border-radius: 20px; background: #fff; color: var(--text); box-shadow: 0 40px 80px -30px rgba(51, 50, 64, .55); overflow: auto; }
+.dialog-hell::backdrop { background: rgba(31, 30, 41, .55); }
 .quiz-kopf { display: grid; grid-template-columns: 44px minmax(0, 1fr) 38px; gap: 14px; align-items: center; padding: 22px 22px 0; }
 .quiz-glas { width: 44px; }
-.quiz-schritt { font-size: 13px; font-weight: 600; color: var(--gold-dunkel); }
+.quiz-schritt { font-size: 13px; font-weight: 600; color: var(--gold-text); }
 .quiz-kopf h2 { font-size: 21px; }
-.dialog-zu { width: 38px; height: 38px; border: 0; border-radius: 50%; background: var(--hell); color: #3c3a36; display: flex; align-items: center; justify-content: center; cursor: pointer; }
+.dialog-zu { width: 38px; height: 38px; border: 0; border-radius: 50%; background: var(--grau); color: var(--text); display: flex; align-items: center; justify-content: center; cursor: pointer; }
 .dialog-zu svg { width: 14px; height: 14px; }
 .quiz-antworten { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 10px; padding: 20px 22px 6px; animation: quizrein .28s ease-out; }
 @keyframes quizrein { from { opacity: 0; transform: translateX(14px); } }
-.quiz-antwort { display: grid; grid-template-columns: 40px minmax(0, 1fr); gap: 12px; align-items: center; min-height: 64px; padding: 12px 14px; border: 1.5px solid #ece3d0; border-radius: 14px; background: #fff; font-size: 15px; font-weight: 600; text-align: left; cursor: pointer; transition: border-color .15s, background .15s, transform .15s; }
-.quiz-antwort:hover { border-color: var(--gold); background: var(--creme); }
+.quiz-antwort { display: grid; grid-template-columns: 40px minmax(0, 1fr); gap: 12px; align-items: center; min-height: 64px; padding: 12px 14px; border: 1px solid var(--linie); border-radius: 12px; background: #fff; font-size: 15px; font-weight: 600; text-align: left; cursor: pointer; transition: border-color .15s, background .15s, transform .15s; }
+.quiz-antwort:hover { border-color: var(--gold); background: var(--creme-hell); }
 .quiz-antwort:active { transform: scale(.98); }
-.quiz-antwort[aria-pressed="true"] { border-color: var(--nacht); background: var(--honig); }
+.quiz-antwort[aria-pressed="true"] { border-color: var(--nacht); background: var(--creme); }
 .quiz-ergebnis { padding: 16px 22px 4px; animation: quizrein .28s ease-out; }
 .plan-achsen { display: flex; flex-wrap: wrap; align-items: center; gap: 6px; }
-.plan-achsen p { margin-right: 4px; font-size: 14px; color: #45413b; }
+.plan-achsen p { margin-right: 4px; font-size: 14px; color: var(--text-2); }
 .plan-tipps { list-style: none; display: grid; gap: 10px; margin-top: 16px; }
-.plan-tipps > li { display: grid; grid-template-columns: 40px minmax(0, 1fr); gap: 14px; padding: 16px; border-radius: 14px; background: var(--hell); }
+.plan-tipps > li { display: grid; grid-template-columns: 40px minmax(0, 1fr); gap: 14px; padding: 16px; border-radius: 14px; background: var(--creme-hell); }
 .plan-tipps .q-ikon { background: #fff; }
-.plan-art { font-size: 12.5px; font-weight: 600; color: var(--gold-dunkel); }
+.plan-art { font-size: 12.5px; font-weight: 600; color: var(--gold-text); }
 .plan-tipps h3 { margin-top: 1px; font-size: 16px; line-height: 1.35; }
-.plan-tipps h3 + p { margin-top: 4px; font-size: 14px; line-height: 1.5; color: #3f3b35; }
+.plan-tipps h3 + p { margin-top: 4px; font-size: 14px; line-height: 1.5; color: var(--text-2); }
 .plan-schritte { margin-top: 10px; gap: 7px; }
-.plan-schritte li { color: #3f3b35; }
+.plan-schritte li { color: var(--text-2); }
 .plan-extra { margin-top: 12px; }
 .quiz-fuss { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 10px; padding: 14px 22px 22px; }
 .quiz-fuss:empty { display: none; }
 .app-symbol { width: 44px; height: 44px; border-radius: 11px; }
-.quiz-box { padding-bottom: 6px; border-radius: 18px; background: #fff; border: 1px solid #ecdcb6; box-shadow: 0 1px 2px rgba(28, 32, 41, .03), 0 24px 46px -34px rgba(28, 32, 41, .5); scroll-margin-top: 90px; }
+.quiz-box { padding-bottom: 6px; border-radius: 16px; background: #fff; border: 1px solid var(--linie); scroll-margin-top: 90px; }
 .quiz-box .quiz-kopf { grid-template-columns: 44px minmax(0, 1fr); }
 .quiz-box .quiz-antworten { grid-template-columns: repeat(3, minmax(0, 1fr)); }
 .quiz-box .plan-tipps { grid-template-columns: repeat(2, minmax(0, 1fr)); }
-.kal-symbol { width: 44px; height: 44px; border-radius: 12px; background: var(--honig); display: flex; align-items: center; justify-content: center; }
+.kal-symbol { width: 44px; height: 44px; border-radius: 50%; background: var(--creme-hell); display: flex; align-items: center; justify-content: center; }
 .kal-symbol svg { width: 24px; height: 24px; }
 .kal-inhalt { padding: 14px 22px 22px; }
-.kal-inhalt > p { font-size: 15px; color: #45413b; }
+.kal-inhalt > p { font-size: 15px; color: var(--text-2); }
 .kal-felder { display: grid; grid-template-columns: repeat(auto-fill, minmax(130px, 1fr)); gap: 12px; margin-top: 16px; }
-.kal-feld { display: grid; gap: 6px; font-size: 13px; font-weight: 600; color: #6e5a3a; }
+.kal-feld { display: grid; gap: 6px; font-size: 13px; font-weight: 600; color: var(--text-2); }
 .kal-feld:has(.kal-dauer) { grid-column: 1 / -1; }
-.kal-feld input { height: 44px; padding: 0 12px; border: 1.5px solid #e6dcc6; border-radius: 10px; background: #fff; font: inherit; font-size: 16px; color: var(--text); }
+.kal-feld input { height: 44px; padding: 0 12px; border: 1px solid var(--linie); border-radius: 8px; background: #fff; font: inherit; font-size: 16px; color: var(--text); }
 .kal-feld input:focus { outline: 0; border-color: var(--gold); }
 .kal-dauer { display: flex; flex-wrap: wrap; gap: 6px; }
-.kal-dauer button { height: 44px; padding: 0 16px; border: 1.5px solid #e6dcc6; border-radius: 10px; background: #fff; font-size: 14px; font-weight: 600; cursor: pointer; }
+.kal-dauer button { height: 44px; padding: 0 16px; border: 1px solid var(--linie); border-radius: 8px; background: #fff; font-size: 14px; font-weight: 600; cursor: pointer; }
 .kal-dauer button[aria-checked="true"] { background: var(--nacht); border-color: var(--nacht); color: #fff; }
 .kal-knoepfe { display: grid; gap: 10px; margin-top: 20px; }
 .kal-knoepfe .knopf { margin-top: 0; }
 .kal-google { display: flex; flex-wrap: wrap; gap: 8px; }
 .kal-google .knopf { flex: 1 1 110px; }
-.kal-google p { flex-basis: 100%; font-size: 13px; font-weight: 600; color: #6e5a3a; }
+.kal-google p { flex-basis: 100%; font-size: 13px; font-weight: 600; color: var(--text-2); }
 .kal-hinweis { margin-top: 14px; font-size: 12.5px; color: var(--muted); }
 /* Wo ist mein Paket? Zwei Wege, der Status kommt direkt von DHL */
 .paket-wege { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1.35fr); gap: 12px; margin-top: 14px; }
-.paket-weg { display: flex; flex-direction: column; gap: 8px; padding: 16px; border-radius: 14px; background: var(--hell); }
+.paket-weg { display: flex; flex-direction: column; gap: 8px; padding: 16px; border-radius: 14px; background: var(--creme-hell); }
 .paket-weg h3 { font-size: 16px; }
-.paket-weg > p:not(.oberzeile) { font-size: 14px; color: #45413b; }
+.paket-weg > p:not(.oberzeile) { font-size: 14px; color: var(--text-2); }
 .paket-weg .knopf { margin-top: auto; }
 .paket-weg .kal-feld { margin-top: 4px; }
 .paket-eingabe { display: flex; gap: 6px; }
 .paket-eingabe input { flex: 1; min-width: 0; }
-.paket-einfuegen { flex: none; height: 44px; padding: 0 12px; border: 1.5px solid #e6dcc6; border-radius: 10px; background: #fff; font-size: 13.5px; font-weight: 600; color: var(--text); cursor: pointer; }
+.paket-einfuegen { flex: none; height: 44px; padding: 0 12px; border: 1px solid var(--linie); border-radius: 8px; background: #fff; font-size: 13.5px; font-weight: 600; color: var(--text); cursor: pointer; }
 .paket-einfuegen:hover { border-color: var(--gold); }
 .paket-fehler { font-size: 13.5px; color: #8a3b26; }
-.paket-ergebnis { margin-top: 14px; padding: 18px; border-radius: 14px; background: #fffaf0; border: 1px solid #ecdcb6; }
+.paket-ergebnis { margin-top: 14px; padding: 18px; border-radius: 14px; background: var(--creme-hell); }
 .paket-status { display: inline-block; padding: 3px 10px; border-radius: 999px; background: var(--nacht); color: #fff; font-size: 12.5px; font-weight: 600; }
 .paket-status.zugestellt { background: #2f6b3a; }
 .paket-status.problem { background: #a3412c; }
 .paket-kopf b { display: block; margin-top: 8px; font-size: 16px; line-height: 1.35; }
 .paket-kopf small { display: block; margin-top: 3px; font-size: 13px; color: var(--muted); }
 .paket-stufen { list-style: none; display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 6px; margin-top: 16px; }
-.paket-stufen li { padding-top: 8px; border-top: 4px solid #eadfc8; font-size: 12.5px; font-weight: 600; color: #9a8f7c; }
+.paket-stufen li { padding-top: 8px; border-top: 4px solid var(--linie); font-size: 12.5px; font-weight: 600; color: var(--leise); }
 .paket-stufen li.an { border-color: var(--gold); color: var(--text); }
 .paket-eta { margin-top: 12px; font-size: 14px; font-weight: 600; }
 .paket-verlauf { margin-top: 12px; font-size: 13.5px; }
-.paket-verlauf summary { cursor: pointer; font-weight: 600; color: var(--gold-dunkel); }
-.paket-verlauf ol { list-style: none; display: grid; gap: 10px; margin-top: 10px; padding-left: 12px; border-left: 2px solid #eadfc8; }
+.paket-verlauf summary { cursor: pointer; font-weight: 600; color: var(--gold-text); }
+.paket-verlauf ol { list-style: none; display: grid; gap: 10px; margin-top: 10px; padding-left: 12px; border-left: 2px solid var(--linie); }
 .paket-verlauf small { display: block; color: var(--muted); }
 .paket-aktionen { display: flex; flex-wrap: wrap; gap: 8px 18px; margin-top: 14px; }
 .app-inhalt { padding: 14px 22px 22px; }
-.app-inhalt > p { font-size: 15px; color: #45413b; }
+.app-inhalt > p { font-size: 15px; color: var(--text-2); }
 .app-schritte { display: grid; gap: 8px; margin: 14px 0 0 20px; font-size: 14.5px; }
 .app-inhalt .knopf { margin-top: 16px; }
 
 /* Chat */
 .blase { flex: none; width: 30px; height: 30px; border-radius: 50%; background: var(--gold); display: flex; align-items: center; justify-content: center; }
 .blase svg { width: 16px; height: 16px; }
-.chat-cta { display: flex; width: 100%; align-items: center; gap: 12px; margin-top: 16px; padding: 14px; border: 1px dashed #d9bf86; border-radius: 14px; background: var(--creme); text-align: left; cursor: pointer; }
+.chat-cta { display: flex; width: 100%; align-items: center; gap: 12px; margin-top: 16px; padding: 14px; border: 0; border-radius: 12px; background: var(--creme-hell); text-align: left; cursor: pointer; transition: background .15s; }
+.chat-cta:hover { background: var(--creme); }
 .chat-cta b { display: block; font-size: 14px; }
 .chat-cta small { display: block; font-size: 13px; color: var(--muted); }
-.chat-schleier { position: fixed; inset: 0; z-index: 25; display: none; background: rgba(28, 32, 41, .35); }
-.chat-fenster { position: fixed; z-index: 30; left: 0; right: 0; bottom: 0; height: 84vh; max-height: 720px; display: none; flex-direction: column; background: #fff; border-radius: 20px 20px 0 0; box-shadow: 0 -20px 50px -20px rgba(28, 32, 41, .5); overflow: hidden; }
+.chat-schleier { position: fixed; inset: 0; z-index: 25; display: none; background: rgba(51, 50, 64, .35); }
+.chat-fenster { position: fixed; z-index: 30; left: 0; right: 0; bottom: 0; height: 84vh; max-height: 720px; display: none; flex-direction: column; background: #fff; border-radius: 20px 20px 0 0; box-shadow: 0 -20px 50px -20px rgba(51, 50, 64, .5); overflow: hidden; }
 body.chat-offen .chat-schleier { display: block; }
 body.chat-offen .chat-fenster { display: flex; }
-.chat-kopf { display: flex; align-items: center; gap: 12px; padding: 14px 16px; background: #fff; border-bottom: 1px solid var(--line); }
+.chat-kopf { display: flex; align-items: center; gap: 12px; padding: 14px 16px; background: var(--verlauf); color: #fff; }
 .chat-avatar { flex: none; width: 38px; height: 38px; border-radius: 50%; background: var(--gold); color: var(--nacht); font-weight: 700; font-size: 13px; display: flex; align-items: center; justify-content: center; }
 .chat-kopf b { display: block; font-size: 15px; }
-.chat-kopf small { display: block; font-size: 12px; color: var(--muted); }
-.chat-zu { margin-left: auto; flex: none; width: 34px; height: 34px; border: 0; border-radius: 50%; background: var(--hell); color: #3c3a36; display: flex; align-items: center; justify-content: center; cursor: pointer; }
+.chat-kopf small { display: block; font-size: 12px; color: rgba(255, 255, 255, .75); }
+.chat-zu { margin-left: auto; flex: none; width: 34px; height: 34px; border: 0; border-radius: 50%; background: rgba(255, 255, 255, .14); color: #fff; display: flex; align-items: center; justify-content: center; cursor: pointer; }
 .chat-zu svg { width: 14px; height: 14px; }
-.chat-verlauf { flex: 1; overflow-y: auto; padding: 16px; display: flex; flex-direction: column; gap: 10px; background: var(--hell); }
-.nachricht { max-width: 86%; padding: 10px 13px; border-radius: 16px; font-size: 14px; line-height: 1.5; white-space: pre-line; }
-.nachricht.bot { align-self: flex-start; background: #fff; border: 1px solid var(--line); border-bottom-left-radius: 4px; }
+.chat-verlauf { flex: 1; overflow-y: auto; padding: 16px; display: flex; flex-direction: column; gap: 10px; background: var(--grau); }
+.nachricht { max-width: 86%; padding: 10px 13px; border-radius: 14px; font-size: 14px; line-height: 1.5; white-space: pre-line; }
+.nachricht.bot { align-self: flex-start; background: #fff; border: 1px solid var(--linie); border-bottom-left-radius: 4px; }
 .nachricht.ich { align-self: flex-end; background: var(--nacht); color: #fff; border-bottom-right-radius: 4px; }
 .nachricht-links { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 8px; white-space: normal; }
-.nachricht-links a { padding: 5px 10px; border-radius: 999px; background: var(--creme); border: 1px solid #e2cf9f; font-size: 12.5px; font-weight: 600; color: #5b4a2c; }
-.nachricht-links a:hover { background: var(--honig); }
+.nachricht-links a { padding: 5px 10px; border-radius: 999px; background: var(--creme-hell); border: 1px solid var(--linie); font-size: 12.5px; font-weight: 600; color: var(--text-2); }
+.nachricht-links a:hover { background: var(--creme); }
 .tippt { display: inline-flex; gap: 4px; padding: 4px 0; }
-.tippt i { width: 6px; height: 6px; border-radius: 50%; background: #b9ab92; animation: tippen 1s infinite; }
+.tippt i { width: 6px; height: 6px; border-radius: 50%; background: var(--leise); animation: tippen 1s infinite; }
 .tippt i:nth-child(2) { animation-delay: .15s; }
 .tippt i:nth-child(3) { animation-delay: .3s; }
 @keyframes tippen { 0%, 60%, 100% { opacity: .3; } 30% { opacity: 1; } }
 .chat-vorschlaege { display: flex; gap: 8px; overflow-x: auto; padding: 10px 16px 0; background: #fff; scrollbar-width: none; }
-.chat-vorschlaege button { flex: none; padding: 7px 12px; border-radius: 999px; border: 1px solid #e2cf9f; background: var(--creme); font-size: 13px; font-weight: 500; color: #5b4a2c; cursor: pointer; }
+.chat-vorschlaege button { flex: none; padding: 7px 12px; border-radius: 999px; border: 1px solid var(--linie); background: #fff; font-size: 13px; font-weight: 500; color: var(--text-2); cursor: pointer; }
 .chat-eingabe { display: flex; gap: 8px; padding: 10px 16px 6px; background: #fff; }
-.chat-eingabe input { flex: 1; min-width: 0; height: 46px; padding: 0 14px; border: 1.5px solid var(--line); border-radius: 12px; font: inherit; font-size: 15px; outline: 0; }
+.chat-eingabe input { flex: 1; min-width: 0; height: 46px; padding: 0 14px; border: 1px solid var(--linie); border-radius: 10px; font: inherit; font-size: 15px; outline: 0; }
 .chat-eingabe input:focus { border-color: var(--nacht); }
-.chat-eingabe button { flex: none; width: 46px; height: 46px; border: 0; border-radius: 12px; background: var(--nacht); display: flex; align-items: center; justify-content: center; cursor: pointer; }
+.chat-eingabe button { flex: none; width: 46px; height: 46px; border: 0; border-radius: 10px; background: var(--verlauf); display: flex; align-items: center; justify-content: center; cursor: pointer; }
 .chat-eingabe svg { width: 18px; height: 18px; }
 .chat-hinweis { padding: 2px 16px 12px; background: #fff; font-size: 11px; color: var(--muted); }
-.nachricht-links a.support-knopf { padding: 8px 14px; border-radius: 10px; background: var(--nacht); border-color: var(--nacht); color: #fff; }
-.nachricht-links a.support-knopf:hover { background: var(--nacht-2); }
-.chat-hinweis a { font-weight: 600; color: var(--gold-dunkel); }
-@media (min-width: 700px) { .chat-fenster { left: auto; right: 28px; bottom: 28px; width: 400px; height: 640px; max-height: calc(100vh - 56px); border-radius: 20px; box-shadow: 0 0 0 1px #e9e4da, 0 30px 60px -24px rgba(28, 32, 41, .45); } }
+.nachricht-links a.support-knopf { padding: 8px 14px; border-radius: 8px; background: var(--nacht); border-color: var(--nacht); color: #fff; }
+.nachricht-links a.support-knopf:hover { background: var(--violett); }
+.chat-hinweis a { font-weight: 600; color: var(--gold-text); }
+@media (min-width: 700px) { .chat-fenster { left: auto; right: 28px; bottom: 28px; width: 400px; height: 640px; max-height: calc(100vh - 56px); border-radius: 20px; box-shadow: 0 0 0 1px var(--linie), 0 30px 60px -24px rgba(51, 50, 64, .45); } }
 
 /* Großansicht für Bilder, Video und Platzhalter */
-.gross { width: min(92vw, 880px); max-width: none; max-height: 92vh; margin: auto; padding: 0; border: 0; border-radius: 18px; background: #14161c; color: #fff; overflow: hidden; }
+.gross { width: min(92vw, 880px); max-width: none; max-height: 92vh; margin: auto; padding: 0; border: 0; border-radius: 18px; background: #1f1e29; color: #fff; overflow: hidden; }
 .gross[data-art="video"] { width: min(92vw, 520px); background: #000; }
-.gross::backdrop { background: rgba(20, 22, 28, .72); }
+.gross::backdrop { background: rgba(31, 30, 41, .72); }
 .gross-inhalt > img, .gross-inhalt > video { display: block; width: 100%; max-height: 88vh; object-fit: contain; }
 .gross[data-art="bild"] { width: fit-content; }
 .gross[data-art="bild"] .gross-inhalt > img { width: auto; max-width: min(92vw, 1200px); }
@@ -595,7 +617,7 @@ body.chat-offen .chat-fenster { display: flex; }
 .platzhalter { display: grid; justify-items: center; gap: 16px; padding: 0 0 26px; text-align: center; }
 .platzhalter img { width: 100%; aspect-ratio: 16 / 9; object-fit: cover; opacity: .5; }
 .platzhalter p { max-width: 460px; padding: 0 20px; font-size: 16px; line-height: 1.5; }
-.platzhalter .knopf { margin-top: 0; }
+.platzhalter .knopf { margin-top: 0; background: var(--gold); color: var(--nacht); }
 .start-recht a:hover, .leiste-recht a:hover { text-decoration: underline; }
 
 /* Niedrige Fenster: Seitenleiste enger, Hilfe-Karte kompakt */
@@ -604,7 +626,7 @@ body.chat-offen .chat-fenster { display: flex; }
   .mein-produkt { margin-top: 14px; }
   .nav { margin-bottom: 16px; }
   .nav-punkt { height: 40px; }
-  .gluehen, .leiste-karte p { display: none; }
+  .leiste-karte p { display: none; }
   .leiste-karte { padding: 14px 16px 16px; }
   .leiste-karte button { margin-top: 10px; }
 }
@@ -615,7 +637,7 @@ body.chat-offen .chat-fenster { display: flex; }
   .bild-links { grid-template-columns: 1fr 1fr; }
   .bild-link img { aspect-ratio: 1; }
   .stimmen { grid-template-columns: repeat(2, minmax(0, 1fr)); }
-  .erinnern { grid-template-columns: 48px minmax(0, 1fr); }
+  .erinnern { grid-template-columns: 44px minmax(0, 1fr); }
   .erinnern-knoepfe { grid-column: 2 / -1; }
 }
 /* Handy: Kopfzeile mit Produkt, Kapitel unten als Leiste */
@@ -630,23 +652,23 @@ body.chat-offen .chat-fenster { display: flex; }
   .produkt-wahl { grid-template-columns: minmax(0, 1fr); margin-top: 24px; }
   .produkt { grid-template-columns: minmax(0, 1fr); }
   .seitenleiste { display: none; }
-  .hauptbereich { background: radial-gradient(100% 320px at 0 0, rgba(238, 208, 148, .3), rgba(238, 208, 148, 0)), #fff; }
-  .topleiste { position: sticky; top: 0; z-index: 15; gap: 8px; padding: 10px 12px 10px 6px; background: rgba(255, 255, 255, .92); -webkit-backdrop-filter: blur(12px); backdrop-filter: blur(12px); border-bottom: 1px solid #f1ece4; }
+  .hauptbereich { background: #fff; }
+  .topleiste { position: sticky; top: 0; z-index: 15; gap: 8px; padding: 10px 12px 10px 6px; background: rgba(255, 255, 255, .92); -webkit-backdrop-filter: blur(12px); backdrop-filter: blur(12px); border-bottom: 1px solid var(--linie); }
   .zurueck { flex: none; justify-content: center; width: 40px; padding: 0; }
   .zurueck span { display: none; }
   .zurueck svg { width: 20px; height: 20px; }
   .top-produkt { display: flex; align-items: center; gap: 6px; min-width: 0; padding: 4px 6px 4px 4px; border: 0; border-radius: 12px; background: none; cursor: pointer; }
-  .top-produkt:hover, .top-produkt[aria-expanded="true"] { background: var(--hell); }
+  .top-produkt:hover, .top-produkt[aria-expanded="true"] { background: var(--grau); }
   .top-produkt img { flex: none; width: 34px; height: 34px; object-fit: contain; }
   .top-produkt b { font-size: 14px; font-weight: 600; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
-  .top-produkt .runter { flex: none; width: 14px; height: 14px; color: #8d887f; }
+  .top-produkt .runter { flex: none; width: 14px; height: 14px; color: var(--leise); }
   .assistent-knopf { flex: none; height: 40px; padding: 0 12px 0 5px; font-size: 13.5px; }
   .app { padding: 18px 16px 104px; }
-  .tabbar { position: fixed; left: 0; right: 0; bottom: 0; z-index: 20; display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); padding: 6px 2px calc(6px + env(safe-area-inset-bottom)); background: rgba(255, 255, 255, .95); -webkit-backdrop-filter: blur(14px); backdrop-filter: blur(14px); border-top: 1px solid #ece6db; }
-  .tab { display: flex; flex-direction: column; align-items: center; gap: 2px; padding: 2px 0; font-size: 11px; font-weight: 500; color: #6f6a62; }
+  .tabbar { position: fixed; left: 0; right: 0; bottom: 0; z-index: 20; display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); padding: 6px 2px calc(6px + env(safe-area-inset-bottom)); background: rgba(255, 255, 255, .95); -webkit-backdrop-filter: blur(14px); backdrop-filter: blur(14px); border-top: 1px solid var(--linie); }
+  .tab { display: flex; flex-direction: column; align-items: center; gap: 2px; padding: 2px 0; font-size: 11px; font-weight: 500; color: var(--muted); }
   .tab svg { width: 40px; height: 30px; padding: 4px 9px; border-radius: 999px; }
   .tab.an { color: var(--text); font-weight: 600; }
-  .tab.an svg { background: var(--honig); color: var(--gold-dunkel); }
+  .tab.an svg { background: var(--creme); color: var(--gold-text); }
   .ansicht > * + * { margin-top: 18px; }
   .ansicht-kopf h1 { font-size: 25px; }
   .ansicht-kopf p { font-size: 15px; }
@@ -656,16 +678,17 @@ body.chat-offen .chat-fenster { display: flex; }
   .p-held h1 { font-size: 23px; }
   .p-held .unter { font-size: 14.5px; }
   .block { padding: 20px 18px; }
-  .saeulen { grid-template-columns: minmax(0, 1fr); gap: 10px; }
+  .saeulen { grid-template-columns: minmax(0, 1fr); }
   .saeule-karte { padding: 16px 18px; }
+  .saeule-karte + .saeule-karte { border-left: 0; border-top: 1px solid var(--linie); }
   .saeule-wert { margin-top: 10px; font-size: 16px; }
-  .saeule-nav { gap: 10px 6px; }
-  .saeule-nav .saeule-name { flex-basis: 100%; }
+  .saeule-nav { gap: 0 18px; }
+  .saeule-nav .saeule-name { flex-basis: 100%; padding-bottom: 2px; }
   .vorrat { grid-template-columns: 40px minmax(0, 1fr); gap: 12px; align-items: start; }
-  .vorrat-ikon { width: 40px; height: 40px; border-radius: 12px; }
+  .vorrat-ikon { width: 40px; height: 40px; }
   .vorrat .knopf { grid-column: 1 / -1; }
   .erinnern { grid-template-columns: 40px minmax(0, 1fr); gap: 12px 14px; padding: 16px; align-items: start; }
-  .erinnern-ikon { width: 40px; height: 40px; border-radius: 12px; }
+  .erinnern-ikon { width: 40px; height: 40px; }
   .erinnern-knoepfe { grid-column: 1 / -1; display: grid; gap: 8px; }
   .optionen, .sets { grid-template-columns: minmax(0, 1fr); gap: 14px; }
   .option { padding: 24px 18px 20px; }
@@ -675,7 +698,7 @@ body.chat-offen .chat-fenster { display: flex; }
   .achsen-wahl { grid-template-columns: minmax(0, 1fr); }
   .achsen-liste { display: flex; overflow-x: auto; gap: 6px; margin: 0 -18px; padding: 0 18px 2px; scrollbar-width: none; }
   .achsen-liste::-webkit-scrollbar { display: none; }
-  .achsen-liste button { flex: none; width: auto; padding: 9px 13px; }
+  .achsen-liste button { flex: none; width: auto; padding: 9px 13px; background: var(--grau); }
   .achse-panel { padding: 18px 16px; }
   .zutaten.lang { grid-template-columns: minmax(0, 1fr); }
   .weiter a { width: 100%; justify-content: center; }
@@ -739,27 +762,27 @@ body.chat-offen .chat-fenster { display: flex; }
 </head>
 <body>
 <svg width="0" height="0" style="position:absolute" aria-hidden="true">
-  <symbol id="pfeil" viewBox="0 0 20 20"><path d="M7.5 4.5L13 10l-5.5 5.5" fill="none" stroke="#1c2029" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></symbol>
+  <symbol id="pfeil" viewBox="0 0 20 20"><path d="M7.5 4.5L13 10l-5.5 5.5" fill="none" stroke="#333240" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></symbol>
   <symbol id="zurueck" viewBox="0 0 16 16"><path d="M10 3L5 8l5 5" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></symbol>
-  <symbol id="haken" viewBox="0 0 20 20"><circle cx="10" cy="10" r="10" fill="#faf6ee"/><circle cx="10" cy="10" r="9.25" fill="none" stroke="#e2c88f" stroke-width="1.5"/><path d="M6 10.3l2.6 2.6L14 7.4" fill="none" stroke="#8a6219" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></symbol>
-  <symbol id="plus" viewBox="0 0 18 18"><path d="M9 3v12M3 9h12" stroke="#1c2029" stroke-width="2" stroke-linecap="round"/></symbol>
-  <symbol id="paket" viewBox="0 0 24 24"><path d="M12 2.8l8.2 4.4v9.6L12 21.2l-8.2-4.4V7.2z" fill="none" stroke="#8a6219" stroke-width="1.6" stroke-linejoin="round"/><path d="M3.8 7.2L12 11.6l8.2-4.4M12 11.6v9.6M7.9 5l8.2 4.4" fill="none" stroke="#8a6219" stroke-width="1.6" stroke-linejoin="round"/></symbol>
-  <symbol id="lieferwagen" viewBox="0 0 24 24"><g fill="none" stroke="#8a6219" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M2.8 6.5h10.7v9H2.8z"/><path d="M13.5 9.5h4.1l3.6 3.6v2.4h-7.7"/><circle cx="7.2" cy="17.6" r="1.8"/><circle cx="17.2" cy="17.6" r="1.8"/></g></symbol>
-  <symbol id="kalender" viewBox="0 0 24 24"><rect x="3.5" y="5" width="17" height="15.5" rx="3" fill="none" stroke="#8a6219" stroke-width="1.6"/><path d="M3.5 10h17M8 3v4M16 3v4" stroke="#8a6219" stroke-width="1.6" stroke-linecap="round"/><path d="M8.5 14.5l2.2 2.2 4.8-4.6" fill="none" stroke="#8a6219" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></symbol>
-  <symbol id="mail" viewBox="0 0 24 24"><rect x="3" y="5.5" width="18" height="13" rx="3" fill="none" stroke="#8a6219" stroke-width="1.6"/><path d="M4 7.5l8 6 8-6" fill="none" stroke="#8a6219" stroke-width="1.6" stroke-linejoin="round"/></symbol>
-  <symbol id="schild" viewBox="0 0 24 24"><path d="M12 2.5l8 3v6.2c0 5-3.4 8.8-8 10.8-4.6-2-8-5.8-8-10.8V5.5z" fill="#faf6ee" stroke="#c99a45" stroke-width="1.5"/><path d="M8.3 12.2l2.6 2.6 4.8-5" fill="none" stroke="#8a6219" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></symbol>
-  <symbol id="stern" viewBox="0 0 24 24"><path d="M12 2.6l2.9 6.1 6.7.8-4.9 4.6 1.3 6.6L12 17.4l-6 3.3 1.3-6.6-4.9-4.6 6.7-.8z" fill="currentColor" stroke="#c99a45" stroke-width="1.2" stroke-linejoin="round"/></symbol>
-  <symbol id="info" viewBox="0 0 22 22"><circle cx="11" cy="11" r="10" fill="#f1dcb0"/><path d="M11 9.6v6" stroke="#5b4a2c" stroke-width="2" stroke-linecap="round"/><circle cx="11" cy="6.4" r="1.3" fill="#5b4a2c"/></symbol>
+  <symbol id="haken" viewBox="0 0 20 20"><circle cx="10" cy="10" r="10" fill="#d6a655"/><path d="M6 10.3l2.6 2.6L14 7.4" fill="none" stroke="#fff" stroke-width="2.1" stroke-linecap="round" stroke-linejoin="round"/></symbol>
+  <symbol id="plus" viewBox="0 0 18 18"><path d="M9 3v12M3 9h12" stroke="#333240" stroke-width="2" stroke-linecap="round"/></symbol>
+  <symbol id="paket" viewBox="0 0 24 24"><path d="M12 2.8l8.2 4.4v9.6L12 21.2l-8.2-4.4V7.2z" fill="none" stroke="#86652a" stroke-width="1.6" stroke-linejoin="round"/><path d="M3.8 7.2L12 11.6l8.2-4.4M12 11.6v9.6M7.9 5l8.2 4.4" fill="none" stroke="#86652a" stroke-width="1.6" stroke-linejoin="round"/></symbol>
+  <symbol id="lieferwagen" viewBox="0 0 24 24"><g fill="none" stroke="#86652a" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M2.8 6.5h10.7v9H2.8z"/><path d="M13.5 9.5h4.1l3.6 3.6v2.4h-7.7"/><circle cx="7.2" cy="17.6" r="1.8"/><circle cx="17.2" cy="17.6" r="1.8"/></g></symbol>
+  <symbol id="kalender" viewBox="0 0 24 24"><rect x="3.5" y="5" width="17" height="15.5" rx="3" fill="none" stroke="#86652a" stroke-width="1.6"/><path d="M3.5 10h17M8 3v4M16 3v4" stroke="#86652a" stroke-width="1.6" stroke-linecap="round"/><path d="M8.5 14.5l2.2 2.2 4.8-4.6" fill="none" stroke="#86652a" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></symbol>
+  <symbol id="mail" viewBox="0 0 24 24"><rect x="3" y="5.5" width="18" height="13" rx="3" fill="none" stroke="#86652a" stroke-width="1.6"/><path d="M4 7.5l8 6 8-6" fill="none" stroke="#86652a" stroke-width="1.6" stroke-linejoin="round"/></symbol>
+  <symbol id="schild" viewBox="0 0 24 24"><path d="M12 2.5l8 3v6.2c0 5-3.4 8.8-8 10.8-4.6-2-8-5.8-8-10.8V5.5z" fill="#f7f4ec" stroke="#d6a655" stroke-width="1.5"/><path d="M8.3 12.2l2.6 2.6 4.8-5" fill="none" stroke="#86652a" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></symbol>
+  <symbol id="stern" viewBox="0 0 24 24"><path d="M12 2.6l2.9 6.1 6.7.8-4.9 4.6 1.3 6.6L12 17.4l-6 3.3 1.3-6.6-4.9-4.6 6.7-.8z" fill="currentColor" stroke="#d6a655" stroke-width="1.2" stroke-linejoin="round"/></symbol>
+  <symbol id="info" viewBox="0 0 22 22"><circle cx="11" cy="11" r="10" fill="#ede7d3"/><path d="M11 9.6v6" stroke="#4b4a5a" stroke-width="2" stroke-linecap="round"/><circle cx="11" cy="6.4" r="1.3" fill="#4b4a5a"/></symbol>
   <symbol id="play" viewBox="0 0 16 16"><path d="M3 1.8v12.4L13.5 8z"/></symbol>
-  <symbol id="i-darm" viewBox="0 0 24 24"><path d="M8 4.5h6.5a3 3 0 0 1 0 6H9a3 3 0 0 0 0 6h6.5a3 3 0 0 1 0 6H9" fill="none" stroke="#c99a45" stroke-width="1.8" stroke-linecap="round"/></symbol>
-  <symbol id="i-energie" viewBox="0 0 24 24"><path d="M13.5 2.5L5 13.5h6l-1.5 8L19 10.5h-6z" fill="none" stroke="#c99a45" stroke-width="1.8" stroke-linejoin="round"/></symbol>
-  <symbol id="i-schlaf" viewBox="0 0 24 24"><path d="M19.5 14.5A8 8 0 0 1 9.5 4.5a8 8 0 1 0 10 10z" fill="none" stroke="#c99a45" stroke-width="1.8" stroke-linejoin="round"/></symbol>
-  <symbol id="i-fokus" viewBox="0 0 24 24"><circle cx="12" cy="12" r="8.5" fill="none" stroke="#c99a45" stroke-width="1.8"/><circle cx="12" cy="12" r="4.5" fill="none" stroke="#c99a45" stroke-width="1.8"/><circle cx="12" cy="12" r="1.4" fill="#c99a45"/></symbol>
-  <symbol id="i-schutz" viewBox="0 0 24 24"><path d="M12 2.8l7.5 2.8v5.8c0 4.7-3.2 8.3-7.5 10.1-4.3-1.8-7.5-5.4-7.5-10.1V5.6z" fill="none" stroke="#c99a45" stroke-width="1.8" stroke-linejoin="round"/></symbol>
-  <symbol id="i-hals" viewBox="0 0 24 24"><path d="M12 3.5c3 4 6 7.3 6 10.5a6 6 0 0 1-12 0c0-3.2 3-6.5 6-10.5z" fill="none" stroke="#c99a45" stroke-width="1.8" stroke-linejoin="round"/></symbol>
-  <symbol id="i-akku" viewBox="0 0 24 24"><rect x="3" y="7" width="16" height="10" rx="2.5" fill="none" stroke="#c99a45" stroke-width="1.8"/><path d="M21 10.5v3" stroke="#c99a45" stroke-width="1.8" stroke-linecap="round"/><rect x="5.5" y="9.5" width="8" height="5" rx="1" fill="#c99a45"/></symbol>
-  <symbol id="i-loeffel" viewBox="0 0 24 24"><ellipse cx="8" cy="8" rx="3.3" ry="5.8" transform="rotate(-45 8 8)" fill="#c99a45" fill-opacity=".3" stroke="#c99a45" stroke-width="1.8"/><path d="M12.1 12.1l8.4 8.4" stroke="#c99a45" stroke-width="1.8" stroke-linecap="round"/></symbol>
-  <symbol id="i-chat" viewBox="0 0 24 24"><path d="M4 5.5h16v10H10l-4.5 3.5V15.5H4z" fill="none" stroke="#1c2029" stroke-width="2" stroke-linejoin="round"/></symbol>
+  <symbol id="i-darm" viewBox="0 0 24 24"><path d="M8 4.5h6.5a3 3 0 0 1 0 6H9a3 3 0 0 0 0 6h6.5a3 3 0 0 1 0 6H9" fill="none" stroke="#d6a655" stroke-width="1.8" stroke-linecap="round"/></symbol>
+  <symbol id="i-energie" viewBox="0 0 24 24"><path d="M13.5 2.5L5 13.5h6l-1.5 8L19 10.5h-6z" fill="none" stroke="#d6a655" stroke-width="1.8" stroke-linejoin="round"/></symbol>
+  <symbol id="i-schlaf" viewBox="0 0 24 24"><path d="M19.5 14.5A8 8 0 0 1 9.5 4.5a8 8 0 1 0 10 10z" fill="none" stroke="#d6a655" stroke-width="1.8" stroke-linejoin="round"/></symbol>
+  <symbol id="i-fokus" viewBox="0 0 24 24"><circle cx="12" cy="12" r="8.5" fill="none" stroke="#d6a655" stroke-width="1.8"/><circle cx="12" cy="12" r="4.5" fill="none" stroke="#d6a655" stroke-width="1.8"/><circle cx="12" cy="12" r="1.4" fill="#d6a655"/></symbol>
+  <symbol id="i-schutz" viewBox="0 0 24 24"><path d="M12 2.8l7.5 2.8v5.8c0 4.7-3.2 8.3-7.5 10.1-4.3-1.8-7.5-5.4-7.5-10.1V5.6z" fill="none" stroke="#d6a655" stroke-width="1.8" stroke-linejoin="round"/></symbol>
+  <symbol id="i-hals" viewBox="0 0 24 24"><path d="M12 3.5c3 4 6 7.3 6 10.5a6 6 0 0 1-12 0c0-3.2 3-6.5 6-10.5z" fill="none" stroke="#d6a655" stroke-width="1.8" stroke-linejoin="round"/></symbol>
+  <symbol id="i-akku" viewBox="0 0 24 24"><rect x="3" y="7" width="16" height="10" rx="2.5" fill="none" stroke="#d6a655" stroke-width="1.8"/><path d="M21 10.5v3" stroke="#d6a655" stroke-width="1.8" stroke-linecap="round"/><rect x="5.5" y="9.5" width="8" height="5" rx="1" fill="#d6a655"/></symbol>
+  <symbol id="i-loeffel" viewBox="0 0 24 24"><ellipse cx="8" cy="8" rx="3.3" ry="5.8" transform="rotate(-45 8 8)" fill="#d6a655" fill-opacity=".3" stroke="#d6a655" stroke-width="1.8"/><path d="M12.1 12.1l8.4 8.4" stroke="#d6a655" stroke-width="1.8" stroke-linecap="round"/></symbol>
+  <symbol id="i-chat" viewBox="0 0 24 24"><path d="M4 5.5h16v10H10l-4.5 3.5V15.5H4z" fill="none" stroke="#333240" stroke-width="2" stroke-linejoin="round"/></symbol>
   <symbol id="i-senden" viewBox="0 0 24 24"><path d="M4 12l16-7-5.5 15-3-6.5z" fill="none" stroke="#fff" stroke-width="2" stroke-linejoin="round"/></symbol>
   <symbol id="i-x" viewBox="0 0 16 16"><path d="M3 3l10 10M13 3L3 13" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></symbol>
   <symbol id="i-raster" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-width="1.6"><rect x="3.5" y="3.5" width="7" height="7" rx="2.2"/><rect x="13.5" y="3.5" width="7" height="7" rx="2.2"/><rect x="3.5" y="13.5" width="7" height="7" rx="2.2"/><rect x="13.5" y="13.5" width="7" height="7" rx="2.2"/></g></symbol>
@@ -768,11 +791,10 @@ body.chat-offen .chat-fenster { display: flex; }
   <symbol id="i-loeffel-linie" viewBox="0 0 24 24"><g stroke="currentColor" stroke-width="1.6" stroke-linecap="round"><ellipse cx="8" cy="8" rx="3.3" ry="5.8" transform="rotate(-45 8 8)" fill="currentColor" fill-opacity=".22"/><path d="M12.1 12.1l8.4 8.4" fill="none"/></g></symbol>
   <symbol id="i-kalender-linie" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><rect x="3.5" y="5" width="17" height="15.5" rx="3"/><path d="M3.5 10h17M8 3v4M16 3v4"/><path d="M8 14h.01M12 14h.01M16 14h.01M8 17.3h.01M12 17.3h.01" stroke-width="2.2"/></g></symbol>
   <symbol id="i-hilfe" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M5.5 4.5h13a2 2 0 0 1 2 2V15a2 2 0 0 1-2 2H11l-4.5 3.5V17h-1a2 2 0 0 1-2-2V6.5a2 2 0 0 1 2-2z"/><path d="M10 9.3a2 2 0 1 1 2.8 1.8c-.5.3-.8.7-.8 1.2v.2"/><path d="M12 14.4h.01" stroke-width="2.2"/></g></symbol>
-  <symbol id="i-tropfen" viewBox="0 0 24 24"><path d="M12 3c3.3 4.3 6.5 7.6 6.5 11a6.5 6.5 0 0 1-13 0c0-3.4 3.2-6.7 6.5-11z" fill="#e2b25a"/><path d="M9.3 14.2a3 3 0 0 0 2.2 2.9" fill="none" stroke="#fff" stroke-width="1.5" stroke-linecap="round" opacity=".8"/></symbol>
   <symbol id="i-nachkauf" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M5.5 8h13l-1 11.5a1.5 1.5 0 0 1-1.5 1.4H8a1.5 1.5 0 0 1-1.5-1.4z"/><path d="M9 8V6.5a3 3 0 0 1 6 0V8"/></g></symbol>
   <symbol id="i-extern" viewBox="0 0 16 16"><path d="M6.5 3.5h-3v9h9v-3M9.5 2.5h4v4M13.5 2.5L8 8" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></symbol>
   <symbol id="i-schloss" viewBox="0 0 16 16"><g fill="none" stroke="currentColor" stroke-width="1.5"><rect x="3" y="7" width="10" height="7" rx="2"/><path d="M5.5 7V5a2.5 2.5 0 0 1 5 0v2"/></g></symbol>
-  <symbol id="ruecksendung" viewBox="0 0 24 24"><g fill="none" stroke="#8a6219" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M8.5 6.5H4V2"/><path d="M4.4 6.5A8 8 0 1 1 4 12"/></g></symbol>
+  <symbol id="ruecksendung" viewBox="0 0 24 24"><g fill="none" stroke="#86652a" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M8.5 6.5H4V2"/><path d="M4.4 6.5A8 8 0 1 1 4 12"/></g></symbol>
   <symbol id="i-runter" viewBox="0 0 16 16"><path d="M4 6l4 4 4-4" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></symbol>
   <symbol id="i-haken" viewBox="0 0 20 20"><path d="M5 10.5l3.2 3.2L15 6.8" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/></symbol>
   <symbol id="t-keim" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M12 20v-8"/><path d="M12 12c0-4 2.8-6.5 7-6.5 0 4-2.8 6.5-7 6.5z"/><path d="M12 14.5c0-3.3-2.3-5.3-6-5.3 0 3.3 2.3 5.3 6 5.3z"/><path d="M7.5 20h9"/></g></symbol>
@@ -796,9 +818,9 @@ body.chat-offen .chat-fenster { display: flex; }
   <symbol id="z-kita" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-width="1.7" stroke-linejoin="round"><rect x="4" y="12" width="7" height="7" rx="1.5"/><rect x="13" y="12" width="7" height="7" rx="1.5"/><path d="M12 4l3.5 6h-7z"/></g></symbol>
   <symbol id="z-hals" viewBox="0 0 24 24"><path d="M12 3.5c3 4 6 7.3 6 10.5a6 6 0 0 1-12 0c0-3.2 3-6.5 6-10.5z" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linejoin="round"/></symbol>
   <defs><linearGradient id="lh-honig" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#f3d38c"/><stop offset="1" stop-color="#d49c3a"/></linearGradient></defs>
-  <symbol id="loeffel-honig" viewBox="0 0 48 100"><path d="M24 40v54" stroke="#1c2029" stroke-width="5.5" stroke-linecap="round"/><ellipse cx="24" cy="23" rx="17" ry="21" fill="#fff" stroke="#1c2029" stroke-width="2.4"/><ellipse cx="24" cy="25" rx="12.5" ry="15.5" fill="url(#lh-honig)"/><path d="M17.5 17.5c2.2-3.2 5.6-4.4 8.8-3.5" fill="none" stroke="#fff" stroke-width="2.2" stroke-linecap="round" opacity=".75"/></symbol>
-  <symbol id="loeffel-wenig" viewBox="0 0 48 100"><path d="M24 40v54" stroke="#1c2029" stroke-width="5.5" stroke-linecap="round"/><ellipse cx="24" cy="23" rx="17" ry="21" fill="#fff" stroke="#1c2029" stroke-width="2.4"/><ellipse cx="24" cy="31" rx="9" ry="8" fill="url(#lh-honig)"/></symbol>
-  <symbol id="loeffel-leer" viewBox="0 0 48 100"><path d="M24 40v54" stroke="#dcd1bb" stroke-width="5.5" stroke-linecap="round"/><ellipse cx="24" cy="23" rx="17" ry="21" fill="none" stroke="#dcd1bb" stroke-width="2.4" stroke-dasharray="5 4"/></symbol>
+  <symbol id="loeffel-honig" viewBox="0 0 48 100"><path d="M24 40v54" stroke="#333240" stroke-width="5.5" stroke-linecap="round"/><ellipse cx="24" cy="23" rx="17" ry="21" fill="#fff" stroke="#333240" stroke-width="2.4"/><ellipse cx="24" cy="25" rx="12.5" ry="15.5" fill="url(#lh-honig)"/><path d="M17.5 17.5c2.2-3.2 5.6-4.4 8.8-3.5" fill="none" stroke="#fff" stroke-width="2.2" stroke-linecap="round" opacity=".75"/></symbol>
+  <symbol id="loeffel-wenig" viewBox="0 0 48 100"><path d="M24 40v54" stroke="#333240" stroke-width="5.5" stroke-linecap="round"/><ellipse cx="24" cy="23" rx="17" ry="21" fill="#fff" stroke="#333240" stroke-width="2.4"/><ellipse cx="24" cy="31" rx="9" ry="8" fill="url(#lh-honig)"/></symbol>
+  <symbol id="loeffel-leer" viewBox="0 0 48 100"><path d="M24 40v54" stroke="#d8d4ca" stroke-width="5.5" stroke-linecap="round"/><ellipse cx="24" cy="23" rx="17" ry="21" fill="none" stroke="#d8d4ca" stroke-width="2.4" stroke-dasharray="5 4"/></symbol>
 </svg>
 
 <div class="rahmen">
@@ -810,12 +832,12 @@ body.chat-offen .chat-fenster { display: flex; }
     <svg class="hub-bild" viewBox="10 6 244 166" aria-hidden="true">
       <defs><clipPath id="glas-form"><rect x="98" y="66" width="64" height="88" rx="14"/></clipPath></defs>
       <ellipse cx="130" cy="163" rx="46" ry="4.5" fill="#f1e4c6"/>
-      <path d="M22 108A108 36 0 0 1 238 108" transform="rotate(-12 130 108)" fill="none" stroke="#1d1c1a" stroke-width="1.2" stroke-linecap="round" stroke-dasharray="2.5 5"/>
-      <g font-family="Inter, sans-serif" font-weight="700" text-anchor="middle">
-        <circle cx="39.2" cy="106.2" r="10.5" fill="#1d1c1a"/><text x="39.2" y="108.9" font-size="7.5" fill="#fff">D3</text>
-        <circle cx="206.1" cy="68.2" r="10.5" fill="#1d1c1a"/><text x="206.1" y="70.7" font-size="7" fill="#fff">B12</text>
+      <path d="M22 108A108 36 0 0 1 238 108" transform="rotate(-12 130 108)" fill="none" stroke="#333240" stroke-width="1.2" stroke-linecap="round" stroke-dasharray="2.5 5"/>
+      <g font-family="Instrument Sans, sans-serif" font-weight="700" text-anchor="middle">
+        <circle cx="39.2" cy="106.2" r="10.5" fill="#333240"/><text x="39.2" y="108.9" font-size="7.5" fill="#fff">D3</text>
+        <circle cx="206.1" cy="68.2" r="10.5" fill="#333240"/><text x="206.1" y="70.7" font-size="7" fill="#fff">B12</text>
       </g>
-      <g stroke="#1d1c1a" stroke-linecap="round" stroke-linejoin="round">
+      <g stroke="#333240" stroke-linecap="round" stroke-linejoin="round">
         <rect x="98" y="66" width="64" height="88" rx="14" fill="#fff" stroke="none"/>
         <g clip-path="url(#glas-form)">
           <path d="M96 98q8-6 16 0t16 0 16 0 16 0 16 0V158H96z" fill="#f5e2b5" stroke="none"/>
@@ -824,28 +846,28 @@ body.chat-offen .chat-fenster { display: flex; }
         <rect x="98" y="66" width="64" height="88" rx="14" fill="none" stroke-width="1.6"/>
         <path d="M106 76v12M106 138v8" fill="none" stroke-width="1.3"/>
         <rect x="103" y="60" width="54" height="8" rx="2" fill="#fff" stroke-width="1.5"/>
-        <rect x="96" y="44" width="68" height="18" rx="5" fill="#e8c47e" stroke-width="1.6"/>
+        <rect x="96" y="44" width="68" height="18" rx="5" fill="#e4c58a" stroke-width="1.6"/>
         <path d="M103 48.5v9M110 48.5v9M117 48.5v9M124 48.5v9M131 48.5v9M138 48.5v9M145 48.5v9M152 48.5v9M159 48.5v9" fill="none" stroke-width=".9" opacity=".5"/>
         <rect x="109" y="104" width="42" height="32" rx="4" fill="#fff" stroke-width="1.3"/>
-        <path d="M130 121.5c-2.6 3.4-4 5.4-4 7a4 4 0 0 0 8 0c0-1.6-1.4-3.6-4-7z" fill="#e8c47e" stroke-width="1.1"/>
+        <path d="M130 121.5c-2.6 3.4-4 5.4-4 7a4 4 0 0 0 8 0c0-1.6-1.4-3.6-4-7z" fill="#e4c58a" stroke-width="1.1"/>
       </g>
-      <text x="130" y="116.5" text-anchor="middle" font-family="Inter, sans-serif" font-size="8" font-weight="700" letter-spacing=".4" fill="#1d1c1a">OMNI-9</text>
-      <path d="M238 108A108 36 0 0 1 22 108" transform="rotate(-12 130 108)" fill="none" stroke="#1d1c1a" stroke-width="1.2" stroke-linecap="round" stroke-dasharray="2.5 5"/>
-      <g font-family="Inter, sans-serif" font-weight="700" text-anchor="middle">
-        <circle cx="29.9" cy="138.8" r="10.5" fill="#1d1c1a"/><text x="29.9" y="141.5" font-size="7.5" fill="#fff">Zn</text>
-        <circle cx="67.8" cy="149.4" r="10.5" fill="#1d1c1a"/><text x="67.8" y="152.1" font-size="7.5" fill="#fff">K2</text>
-        <circle cx="164.6" cy="136.2" r="10.5" fill="#1d1c1a"/><text x="164.6" y="138.9" font-size="7.5" fill="#fff">C</text>
-        <circle cx="215.7" cy="113.4" r="10.5" fill="#1d1c1a"/><text x="215.7" y="115.8" font-size="6.4" fill="#fff">DHA</text>
+      <text x="130" y="116.5" text-anchor="middle" font-family="Instrument Sans, sans-serif" font-size="8" font-weight="700" letter-spacing=".4" fill="#333240">OMNI-9</text>
+      <path d="M238 108A108 36 0 0 1 22 108" transform="rotate(-12 130 108)" fill="none" stroke="#333240" stroke-width="1.2" stroke-linecap="round" stroke-dasharray="2.5 5"/>
+      <g font-family="Instrument Sans, sans-serif" font-weight="700" text-anchor="middle">
+        <circle cx="29.9" cy="138.8" r="10.5" fill="#333240"/><text x="29.9" y="141.5" font-size="7.5" fill="#fff">Zn</text>
+        <circle cx="67.8" cy="149.4" r="10.5" fill="#333240"/><text x="67.8" y="152.1" font-size="7.5" fill="#fff">K2</text>
+        <circle cx="164.6" cy="136.2" r="10.5" fill="#333240"/><text x="164.6" y="138.9" font-size="7.5" fill="#fff">C</text>
+        <circle cx="215.7" cy="113.4" r="10.5" fill="#333240"/><text x="215.7" y="115.8" font-size="6.4" fill="#fff">DHA</text>
       </g>
-      <g fill="none" stroke="#1d1c1a" stroke-linecap="round">
+      <g fill="none" stroke="#333240" stroke-linecap="round">
         <path d="M59.5 36L30 15" stroke-width="1.6"/>
         <path d="M214 22v12M208 28h12M100 17v8M96 21h8" stroke-width="1.3"/>
         <circle cx="246" cy="132" r="2.6" stroke-width="1.2"/>
       </g>
-      <ellipse cx="68" cy="42" rx="10.5" ry="6.5" transform="rotate(34.4 68 42)" fill="#e8c47e" stroke="#1d1c1a" stroke-width="1.5"/>
-      <path d="M74 49.5c.6 3.2 0 6-1.6 8.4" fill="none" stroke="#c99a45" stroke-width="1.8" stroke-linecap="round"/>
-      <path d="M72.2 61.5c-1.6 2.2-2.6 3.6-2.6 4.8a2.6 2.6 0 0 0 5.2 0c0-1.2-1-2.6-2.6-4.8z" fill="#e8c47e" stroke="#1d1c1a" stroke-width="1"/>
-      <circle cx="186" cy="22" r="1.8" fill="#c99a45"/>
+      <ellipse cx="68" cy="42" rx="10.5" ry="6.5" transform="rotate(34.4 68 42)" fill="#e4c58a" stroke="#333240" stroke-width="1.5"/>
+      <path d="M74 49.5c.6 3.2 0 6-1.6 8.4" fill="none" stroke="#d6a655" stroke-width="1.8" stroke-linecap="round"/>
+      <path d="M72.2 61.5c-1.6 2.2-2.6 3.6-2.6 4.8a2.6 2.6 0 0 0 5.2 0c0-1.2-1-2.6-2.6-4.8z" fill="#e4c58a" stroke="#333240" stroke-width="1"/>
+      <circle cx="186" cy="22" r="1.8" fill="#d6a655"/>
     </svg>
     <h1>Welches Produkt hast du gekauft?</h1>
     <p class="hub-unter">Wähl dein Produkt. Dann siehst du, wie du es nimmst, wie du deinem Ziel näherkommst und wann du nachbestellst.</p>
@@ -865,21 +887,22 @@ body.chat-offen .chat-fenster { display: flex; }
     <button class="mein-produkt" type="button" title="Produkt wechseln" data-produktwahl aria-haspopup="menu" aria-expanded="false" aria-controls="produkt-menue"><img src="bilder/ns-produkt.webp" alt=""><span><small>Dein Produkt</small><b>Nutrition-System</b></span><svg><use href="#i-runter"/></svg></button>
     <nav class="nav" aria-label="Kapitel">
       <a class="nav-punkt" href="#ns-ueberblick" data-ansicht="ns-ueberblick"><svg><use href="#i-raster"/></svg>Dein Stand</a>
-      <p class="nav-saeule">1 · Produkt verstehen</p>
+      <p class="nav-saeule"><b>1</b>Produkt verstehen</p>
       <a class="nav-punkt" href="#ns-einnahme" data-ansicht="ns-einnahme"><svg><use href="#i-loeffel-linie"/></svg>Einnahme</a>
       <a class="nav-punkt" href="#ns-inhalt" data-ansicht="ns-inhalt"><svg><use href="#i-glas"/></svg>Was drin ist</a>
       <a class="nav-punkt" href="#ns-fragen" data-ansicht="ns-fragen"><svg><use href="#i-hilfe"/></svg>Fragen</a>
-      <p class="nav-saeule">2 · Näher an dein Ziel</p>
+      <p class="nav-saeule"><b>2</b>Näher an dein Ziel</p>
       <a class="nav-punkt" href="#ns-tipps" data-ansicht="ns-tipps"><svg><use href="#z-fokus"/></svg>Dein Ziel</a>
       <a class="nav-punkt" href="#ns-30" data-ansicht="ns-30"><svg><use href="#i-kalender-linie"/></svg>Die ersten 30 Tage</a>
-      <p class="nav-saeule">3 · Nachbestellen</p>
+      <p class="nav-saeule"><b>3</b>Nachbestellen</p>
       <a class="nav-punkt" href="#ns-nachkauf" data-ansicht="ns-nachkauf"><svg><use href="#i-nachkauf"/></svg>Nachkauf</a>
     </nav>
     <div class="leiste-karte">
-      <span class="gluehen"><svg><use href="#i-tropfen"/></svg></span>
+      <span class="blase"><svg><use href="#i-chat"/></svg></span>
       <b>Noch Fragen?</b>
       <p>Unser Assistent kennt beide Produkte und antwortet dir sofort.</p>
       <button type="button" data-chat>Frage stellen</button>
+      <a href="mailto:service@omni9.de?subject=Frage%20zu%20OMNI9">Oder schreib unserem Team</a>
     </div>
     <p class="leiste-recht"><a href="https://omni9.de/policies/legal-notice" target="_blank" rel="noopener">Impressum</a><a href="https://omni9.de/policies/privacy-policy" target="_blank" rel="noopener">Datenschutz</a><a href="https://omni9.de/policies/refund-policy" target="_blank" rel="noopener">Widerrufsrecht</a><a href="https://omni9.de/policies/terms-of-service" target="_blank" rel="noopener">AGB</a></p>
   </aside>
@@ -1317,21 +1340,22 @@ body.chat-offen .chat-fenster { display: flex; }
     <button class="mein-produkt" type="button" title="Produkt wechseln" data-produktwahl aria-haspopup="menu" aria-expanded="false" aria-controls="produkt-menue"><img src="bilder/ib-produkt.webp" alt=""><span><small>Dein Produkt</small><b>Immun Booster</b></span><svg><use href="#i-runter"/></svg></button>
     <nav class="nav" aria-label="Kapitel">
       <a class="nav-punkt" href="#ib-ueberblick" data-ansicht="ib-ueberblick"><svg><use href="#i-raster"/></svg>Dein Stand</a>
-      <p class="nav-saeule">1 · Produkt verstehen</p>
+      <p class="nav-saeule"><b>1</b>Produkt verstehen</p>
       <a class="nav-punkt" href="#ib-einnahme" data-ansicht="ib-einnahme"><svg><use href="#i-loeffel-linie"/></svg>Einnahme</a>
       <a class="nav-punkt" href="#ib-inhalt" data-ansicht="ib-inhalt"><svg><use href="#i-glas"/></svg>Was drin ist</a>
       <a class="nav-punkt" href="#ib-fragen" data-ansicht="ib-fragen"><svg><use href="#i-hilfe"/></svg>Fragen</a>
-      <p class="nav-saeule">2 · Näher an dein Ziel</p>
+      <p class="nav-saeule"><b>2</b>Näher an dein Ziel</p>
       <a class="nav-punkt" href="#ib-tipps" data-ansicht="ib-tipps"><svg><use href="#z-fokus"/></svg>Dein Ziel</a>
       <a class="nav-punkt" href="#ib-plan" data-ansicht="ib-plan"><svg><use href="#i-kalender-linie"/></svg>Akutphase</a>
-      <p class="nav-saeule">3 · Nachbestellen</p>
+      <p class="nav-saeule"><b>3</b>Nachbestellen</p>
       <a class="nav-punkt" href="#ib-nachkauf" data-ansicht="ib-nachkauf"><svg><use href="#i-nachkauf"/></svg>Nachkauf</a>
     </nav>
     <div class="leiste-karte">
-      <span class="gluehen"><svg><use href="#i-tropfen"/></svg></span>
+      <span class="blase"><svg><use href="#i-chat"/></svg></span>
       <b>Noch Fragen?</b>
       <p>Unser Assistent kennt beide Produkte und antwortet dir sofort.</p>
       <button type="button" data-chat>Frage stellen</button>
+      <a href="mailto:service@omni9.de?subject=Frage%20zu%20OMNI9">Oder schreib unserem Team</a>
     </div>
     <p class="leiste-recht"><a href="https://omni9.de/policies/legal-notice" target="_blank" rel="noopener">Impressum</a><a href="https://omni9.de/policies/privacy-policy" target="_blank" rel="noopener">Datenschutz</a><a href="https://omni9.de/policies/refund-policy" target="_blank" rel="noopener">Widerrufsrecht</a><a href="https://omni9.de/policies/terms-of-service" target="_blank" rel="noopener">AGB</a></p>
   </aside>
@@ -2197,12 +2221,12 @@ body.chat-offen .chat-fenster { display: flex; }
     platz.innerHTML = '<svg class="honigglas" viewBox="0 0 96 120" aria-hidden="true"><defs><clipPath id="' + id + '-form"><rect x="13" y="27" width="70" height="86" rx="17"/></clipPath><linearGradient id="' + id + '-honig" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#f3d38c"/><stop offset="1" stop-color="#d49c3a"/></linearGradient></defs>' +
       '<rect x="13" y="27" width="70" height="86" rx="17" fill="#fffdf7"/>' +
       '<g clip-path="url(#' + id + '-form)"><g class="honig"><path d="M6 31q8-5 16 0t16 0 16 0 16 0 16 0 16 0V124H6z" fill="url(#' + id + '-honig)"/></g></g>' +
-      '<rect x="13" y="27" width="70" height="86" rx="17" fill="none" stroke="#1c2029" stroke-width="2.2"/>' +
-      '<rect x="21" y="20" width="54" height="9" rx="2.5" fill="#fff" stroke="#1c2029" stroke-width="2"/>' +
-      '<rect x="16" y="6" width="64" height="16" rx="5" fill="#e8c47e" stroke="#1c2029" stroke-width="2.2"/>' +
-      '<path d="M25 10v8M33 10v8M41 10v8M49 10v8M57 10v8M65 10v8M73 10v8" stroke="#1c2029" stroke-width="1.1" opacity=".35"/>' +
-      '<rect x="30" y="74" width="36" height="22" rx="4" fill="#fff" stroke="#1c2029" stroke-width="1.6"/>' +
-      '<text x="48" y="88.5" text-anchor="middle" font-family="Inter, sans-serif" font-size="8.5" font-weight="700" fill="#1c2029">OMNI·9</text></svg>';
+      '<rect x="13" y="27" width="70" height="86" rx="17" fill="none" stroke="#333240" stroke-width="2.2"/>' +
+      '<rect x="21" y="20" width="54" height="9" rx="2.5" fill="#fff" stroke="#333240" stroke-width="2"/>' +
+      '<rect x="16" y="6" width="64" height="16" rx="5" fill="#e4c58a" stroke="#333240" stroke-width="2.2"/>' +
+      '<path d="M25 10v8M33 10v8M41 10v8M49 10v8M57 10v8M65 10v8M73 10v8" stroke="#333240" stroke-width="1.1" opacity=".35"/>' +
+      '<rect x="30" y="74" width="36" height="22" rx="4" fill="#fff" stroke="#333240" stroke-width="1.6"/>' +
+      '<text x="48" y="88.5" text-anchor="middle" font-family="Instrument Sans, sans-serif" font-size="8.5" font-weight="700" fill="#333240">OMNI·9</text></svg>';
     return platz.querySelector(".honig");
   }
   function glasFuellen(honig, anteil) {
