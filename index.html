@@ -21,6 +21,8 @@
 <meta name="dhl-api-key" content="">
 <!-- Chat mit ChatGPT: Adresse des Hub-Chat-Servers (Cloudflare Worker, Ordner chat im Repo product-hubs). Leer antwortet der Assistent mit festen Antworten. Der OpenAI-Schlüssel liegt nur auf dem Server. -->
 <meta name="hub-chat-api" content="https://hub-chat.hub-chat.workers.dev/chat/omni9">
+<!-- Persönlicher Plan aus dem Ziel-Quiz: Adresse beim Hub-Chat-Server. Leer zeigt der Hub den Ausweich-Plan aus festen Texten. -->
+<meta name="hub-plan-api" content="https://hub-chat.hub-chat.workers.dev/plan/omni9">
 <style>
 /* CI von omni9.de: Schrift Instrument Sans, Farben Nachtviolett, Violettgrau, Gold und Creme */
 @font-face { font-family: "Instrument Sans"; src: url("schriften/instrument-sans-latin.woff2") format("woff2"); font-weight: 400 700; font-display: block; }
@@ -494,25 +496,58 @@ button.text-link { padding: 0; border: 0; background: none; font-size: 14px; cur
 .quiz-antwort:hover { border-color: var(--gold); background: var(--creme-hell); }
 .quiz-antwort:active { transform: scale(.98); }
 .quiz-antwort[aria-pressed="true"] { border-color: var(--nacht); background: var(--creme); }
-.quiz-ergebnis { padding: 16px 22px 4px; animation: quizrein .28s ease-out; }
-.plan-achsen { display: flex; flex-wrap: wrap; align-items: center; gap: 6px; }
-.plan-achsen p { margin-right: 4px; font-size: 14px; color: var(--text-2); }
-.plan-tipps { list-style: none; display: grid; gap: 10px; margin-top: 16px; }
-.plan-tipps > li { display: grid; grid-template-columns: 40px minmax(0, 1fr); gap: 14px; padding: 16px; border-radius: 14px; background: var(--creme-hell); }
-.plan-tipps .q-ikon { background: #fff; }
-.plan-art { font-size: 12.5px; font-weight: 600; color: var(--gold-text); }
-.plan-tipps h3 { margin-top: 1px; font-size: 16px; line-height: 1.35; }
-.plan-tipps h3 + p { margin-top: 4px; font-size: 14px; line-height: 1.5; color: var(--text-2); }
-.plan-schritte { margin-top: 10px; gap: 7px; }
-.plan-schritte li { color: var(--text-2); }
-.plan-extra { margin-top: 12px; }
+.quiz-antwort.ohne-ikon { grid-template-columns: minmax(0, 1fr); }
+.quiz-skala { display: grid; grid-template-columns: repeat(5, minmax(0, 1fr)); gap: 8px; padding: 20px 22px 0; animation: quizrein .28s ease-out; }
+.quiz-skala button { min-height: 56px; border: 1px solid var(--linie); border-radius: 12px; background: #fff; font: inherit; font-size: 19px; font-weight: 650; color: var(--text); cursor: pointer; transition: border-color .15s, background .15s; }
+.quiz-skala button:hover { border-color: var(--gold); background: var(--creme-hell); }
+.quiz-skala button[aria-pressed="true"] { border-color: var(--nacht); background: var(--creme); }
+.quiz-legende { display: flex; justify-content: space-between; gap: 12px; padding: 8px 22px 6px; font-size: 13px; color: var(--muted); }
+.quiz-chips { display: flex; flex-wrap: wrap; gap: 8px; padding: 20px 22px 6px; animation: quizrein .28s ease-out; }
+.quiz-chip { padding: 10px 15px; border: 1px solid var(--linie); border-radius: 999px; background: #fff; font: inherit; font-size: 14.5px; font-weight: 600; color: var(--text); cursor: pointer; transition: border-color .15s, background .15s, color .15s; }
+.quiz-chip:hover { border-color: var(--gold); }
+.quiz-chip[aria-pressed="true"] { border-color: var(--nacht); background: var(--nacht); color: #fff; }
+.quiz-freitext { padding: 18px 22px 0; animation: quizrein .28s ease-out; }
+.quiz-freitext textarea { display: block; width: 100%; min-height: 116px; padding: 12px 14px; border: 1px solid var(--linie); border-radius: 12px; background: #fff; font: inherit; font-size: 15px; line-height: 1.5; color: var(--text); resize: vertical; }
+.quiz-freitext textarea:focus { outline: 2px solid var(--gold); outline-offset: 1px; border-color: var(--gold); }
+.quiz-zaehler { margin-top: 6px; font-size: 12.5px; color: var(--muted); text-align: right; }
+.quiz-hinweis { margin-top: 8px; font-size: 13px; line-height: 1.5; color: var(--muted); }
+.quiz-laden { display: grid; justify-items: center; gap: 6px; padding: 30px 22px 34px; text-align: center; }
+.quiz-laden b { font-size: 17px; }
+.quiz-laden p { font-size: 14px; color: var(--muted); }
+.plan { display: grid; gap: 16px; padding: 16px 22px 4px; animation: quizrein .28s ease-out; }
+.plan-fazit { font-size: 15.5px; line-height: 1.6; color: var(--text-2); }
+.plan-start { display: grid; grid-template-columns: auto minmax(0, 1fr); gap: 18px; align-items: center; padding: 16px 18px; border-radius: 14px; background: var(--creme-hell); }
+.plan-wert { font-size: 30px; font-weight: 650; line-height: 1; white-space: nowrap; }
+.plan-wert small { display: block; margin-top: 6px; font-size: 12.5px; font-weight: 600; color: var(--gold-text); }
+.plan-start div p { font-size: 14.5px; color: var(--text-2); }
+.plan-start div p + p { margin-top: 4px; }
+.plan-teil { padding-top: 16px; border-top: 1px solid var(--linie); }
+.plan-teil h3 { font-size: 16.5px; }
+.plan-teil > p { margin-top: 6px; font-size: 14.5px; color: var(--text-2); }
+.plan-teil > .plan-fakt { color: var(--text); font-weight: 600; }
+.plan-teil .haken-liste { margin-top: 10px; }
+.plan-liste { list-style: none; display: grid; gap: 12px; margin-top: 12px; }
+.plan-liste p { margin-top: 2px; font-size: 14.5px; color: var(--text-2); }
+.plan-phasen { list-style: none; margin-top: 10px; }
+.plan-phasen > li { display: grid; grid-template-columns: 170px minmax(0, 1fr); gap: 14px; padding: 12px 0; border-top: 1px solid var(--linie); }
+.plan-phasen > li:first-child { border-top: 0; }
+.plan-etikett { font-size: 13px; font-weight: 600; color: var(--gold-text); }
+.plan-phasen ul { list-style: none; display: grid; gap: 4px; margin-top: 4px; font-size: 14.5px; color: var(--text-2); }
+.plan-knoepfe { display: flex; flex-wrap: wrap; align-items: center; gap: 10px 16px; margin-top: 12px; }
+.plan-kauf { padding: 18px; border-radius: 14px; background: var(--creme-hell); }
+.plan-kauf h3 { font-size: 16.5px; }
+.plan-kauf > p { margin-top: 6px; font-size: 14.5px; color: var(--text-2); }
+.plan-warnung { margin-top: 8px; font-size: 14px; color: #8a3b26; }
+.plan-quelle { font-size: 12.5px; color: var(--muted); }
+#plan-druck { display: none; }
+.plan-aktionen { display: flex; flex-wrap: wrap; gap: 10px; }
 .quiz-fuss { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 10px; padding: 14px 22px 22px; }
 .quiz-fuss:empty { display: none; }
 .app-symbol { width: 44px; height: 44px; border-radius: 11px; }
 .quiz-box { padding-bottom: 6px; border-radius: 16px; background: #fff; border: 1px solid var(--linie); scroll-margin-top: 90px; }
 .quiz-box .quiz-kopf { grid-template-columns: 44px minmax(0, 1fr); }
 .quiz-box .quiz-antworten { grid-template-columns: repeat(3, minmax(0, 1fr)); }
-.quiz-box .plan-tipps { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+.quiz-box .quiz-skala, .quiz-box .quiz-chips { max-width: 760px; }
 .kal-symbol { width: 44px; height: 44px; border-radius: 50%; background: var(--creme-hell); display: flex; align-items: center; justify-content: center; }
 .kal-symbol svg { width: 24px; height: 24px; }
 .kal-inhalt { padding: 14px 22px 22px; }
@@ -712,10 +747,9 @@ body.chat-offen .chat-fenster { display: flex; }
   .fs-name { font-size: 11px; }
   .fs-phase { grid-template-columns: minmax(0, 1fr); }
   .fs-hinweis .knopf { width: 100%; }
-  .plan-tipps > li { grid-template-columns: 36px minmax(0, 1fr); gap: 12px; padding: 14px; }
-  .plan-tipps .q-ikon { width: 36px; height: 36px; }
   .quiz-box .quiz-antworten { grid-template-columns: repeat(2, minmax(0, 1fr)); }
-  .quiz-box .plan-tipps { grid-template-columns: minmax(0, 1fr); }
+  .plan-phasen > li { grid-template-columns: minmax(0, 1fr); gap: 2px; }
+  .plan-start { grid-template-columns: minmax(0, 1fr); gap: 10px; }
   .tagesplan { padding: 20px 16px 18px; }
   .tp-wahl { display: flex; }
   .tp-wahl button { flex: 1; justify-content: center; padding: 8px 10px; text-align: center; }
@@ -745,7 +779,10 @@ body.chat-offen .chat-fenster { display: flex; }
   .quiz-kopf { padding: 18px 16px 0; }
   .quiz-antworten { gap: 8px; padding: 16px 16px 4px; }
   .quiz-antwort { grid-template-columns: minmax(0, 1fr); justify-items: start; gap: 8px; min-height: 0; padding: 12px; font-size: 14.5px; }
-  .quiz-ergebnis { padding: 14px 16px 4px; }
+  .quiz-skala { gap: 6px; padding: 16px 16px 0; }
+  .quiz-legende { padding: 8px 16px 4px; }
+  .quiz-chips, .quiz-freitext { padding-left: 16px; padding-right: 16px; }
+  .plan { padding: 14px 16px 4px; }
   .quiz-fuss { padding: 12px 16px calc(18px + env(safe-area-inset-bottom)); }
   .app-inhalt { padding: 12px 16px calc(20px + env(safe-area-inset-bottom)); }
 }
@@ -755,8 +792,24 @@ body.chat-offen .chat-fenster { display: flex; }
   .tippt i { animation: none; opacity: .6; }
   .honig, .fs-punkt, .fs-stufen::after, .tp-zeiten li, .sparen-spur i { transition: none; }
   .fs-phase.neu { animation: none; }
-  .quiz-antworten, .quiz-ergebnis { animation: none; }
+  .quiz-antworten, .quiz-skala, .quiz-chips, .quiz-freitext, .plan { animation: none; }
   summary svg { transition: none; }
+}
+/* Plan als PDF: Die Druckansicht zeigt nur den Plan im OMNI9-Look */
+@media print {
+  @page { margin: 16mm 14mm; }
+  body.plan-druck { background: #fff; }
+  body.plan-druck > :not(#plan-druck) { display: none !important; }
+  body.plan-druck #plan-druck { display: block; color: var(--text); }
+  #plan-druck .druck-kopf { display: flex; align-items: center; justify-content: space-between; padding-bottom: 10px; border-bottom: 2px solid var(--gold); }
+  #plan-druck .druck-kopf img { width: 110px; }
+  #plan-druck .druck-kopf p { font-size: 11px; color: var(--muted); }
+  #plan-druck h1 { margin: 16px 0 6px; font-size: 24px; }
+  #plan-druck .plan { padding: 0; animation: none; }
+  #plan-druck button, #plan-druck .plan-knoepfe { display: none !important; }
+  #plan-druck .plan-start, #plan-druck .plan-kauf, #plan-druck .plan-phasen > li, #plan-druck .plan-liste > li, #plan-druck .haken-liste { break-inside: avoid; }
+  #plan-druck h3 { break-after: avoid; }
+  #plan-druck .plan-start, #plan-druck .plan-kauf { -webkit-print-color-adjust: exact; print-color-adjust: exact; }
 }
 </style>
 </head>
@@ -934,7 +987,7 @@ body.chat-offen .chat-fenster { display: flex; }
         </section>
         <section class="saeulen" aria-label="Deine drei Säulen">
           <a class="saeule-karte" href="#ns-einnahme"><span class="saeule-name"><b>1</b>Produkt verstehen</span><b class="saeule-wert">1 Teelöffel am Tag</b><span class="saeule-text">Am besten immer zur gleichen Zeit. So nimmst du es, was drin ist und Antworten auf deine Fragen.</span><span class="saeule-link">Zur Einnahme<svg><use href="#i-weiter"/></svg></span></a>
-          <a class="saeule-karte" href="#ns-tipps"><span class="saeule-name"><b>2</b>Näher an dein Ziel</span><b class="saeule-wert" data-ziel-wert="ns">Was soll sich als Erstes ändern?</b><span class="saeule-text" data-ziel-text="ns">3 kurze Fragen, dann bekommst du deinen Plan mit Tipps für deinen Alltag.</span><span class="saeule-link">Zu deinem Ziel<svg><use href="#i-weiter"/></svg></span></a>
+          <a class="saeule-karte" href="#ns-tipps"><span class="saeule-name"><b>2</b>Näher an dein Ziel</span><b class="saeule-wert" data-ziel-wert="ns">Was soll sich als Erstes verbessern?</b><span class="saeule-text" data-ziel-text="ns">Ein paar kurze Fragen, dann bekommst du deinen persönlichen 30-Tage-Plan.</span><span class="saeule-link">Zu deinem Ziel<svg><use href="#i-weiter"/></svg></span></a>
           <a class="saeule-karte" href="#ns-nachkauf"><span class="saeule-name"><b>3</b>Nachbestellen</span><b class="saeule-wert" data-vorrat-wert="ns">Ein Glas reicht 30 Tage</b><span class="saeule-text" data-vorrat-text="ns">Schieb unten den Regler auf deinen Tag. Dann siehst du, wann du nachbestellen solltest.</span><span class="saeule-link">Zum Nachbestellen<svg><use href="#i-weiter"/></svg></span></a>
         </section>
         <section class="fortschritt" id="ns-fortschritt" aria-labelledby="ns-fortschritt-titel">
@@ -1053,7 +1106,7 @@ body.chat-offen .chat-fenster { display: flex; }
 
       <section class="ansicht" id="ns-tipps" data-saeule="ns-ziel">
         <nav class="saeule-nav" aria-label="Näher an dein Ziel"><span class="saeule-name"><b>2</b>Näher an dein Ziel</span><a href="#ns-tipps" data-ansicht="ns-tipps">Dein Ziel</a><a href="#ns-30" data-ansicht="ns-30">Die ersten 30 Tage</a></nav>
-        <header class="ansicht-kopf"><h1>Dein Ziel, deine Tipps</h1><p>3 kurze Fragen zu deinem Ziel und deinem Alltag. Dann bekommst du ausführliche Tipps, die zu dir passen.</p></header>
+        <header class="ansicht-kopf"><h1>Dein Ziel, dein Plan</h1><p>Ein paar kurze Fragen zu deinem Ziel und deinem Alltag. Dann bekommst du deinen persönlichen 30-Tage-Plan, den du dir auch schicken kannst.</p></header>
         <div class="quiz-box" data-quiz-box="ns">
           <div class="quiz-kopf"><span class="quiz-glas" data-glas></span><div><p class="quiz-schritt" data-q-schritt></p><h2 data-q-titel></h2></div></div>
           <div data-q-koerper></div>
@@ -1387,7 +1440,7 @@ body.chat-offen .chat-fenster { display: flex; }
         </section>
         <section class="saeulen" aria-label="Deine drei Säulen">
           <a class="saeule-karte" href="#ib-einnahme"><span class="saeule-name"><b>1</b>Produkt verstehen</span><b class="saeule-wert">3 Teelöffel am Tag</b><span class="saeule-text">In der Akutphase 5 bis 10 Tage lang. So nimmst du ihn, was drin ist und Antworten auf deine Fragen.</span><span class="saeule-link">Zur Einnahme<svg><use href="#i-weiter"/></svg></span></a>
-          <a class="saeule-karte" href="#ib-tipps"><span class="saeule-name"><b>2</b>Näher an dein Ziel</span><b class="saeule-wert" data-ziel-wert="ib">Akutphase oder vorbeugen?</b><span class="saeule-text" data-ziel-text="ib">2 kurze Fragen, dann bekommst du Tipps, die zu deinem Alltag passen.</span><span class="saeule-link">Zu deinem Ziel<svg><use href="#i-weiter"/></svg></span></a>
+          <a class="saeule-karte" href="#ib-tipps"><span class="saeule-name"><b>2</b>Näher an dein Ziel</span><b class="saeule-wert" data-ziel-wert="ib">Akutphase oder vorbeugen?</b><span class="saeule-text" data-ziel-text="ib">Ein paar kurze Fragen, dann bekommst du deinen persönlichen Plan.</span><span class="saeule-link">Zu deinem Ziel<svg><use href="#i-weiter"/></svg></span></a>
           <a class="saeule-karte" href="#ib-nachkauf"><span class="saeule-name"><b>3</b>Nachbestellen</span><b class="saeule-wert" data-vorrat-wert="ib">Ein Glas reicht für eine Akutphase</b><span class="saeule-text" data-vorrat-text="ib">Bis zu 10 Tage mit 3 Teelöffeln am Tag. Bestell rechtzeitig nach, dann hast du ihn beim nächsten Mal griffbereit.</span><span class="saeule-link">Zum Nachbestellen<svg><use href="#i-weiter"/></svg></span></a>
         </section>
         <section class="fortschritt" id="ib-fortschritt" aria-labelledby="ib-fortschritt-titel">
@@ -1484,7 +1537,7 @@ body.chat-offen .chat-fenster { display: flex; }
 
       <section class="ansicht" id="ib-tipps" data-saeule="ib-ziel">
         <nav class="saeule-nav" aria-label="Näher an dein Ziel"><span class="saeule-name"><b>2</b>Näher an dein Ziel</span><a href="#ib-tipps" data-ansicht="ib-tipps">Dein Ziel</a><a href="#ib-plan" data-ansicht="ib-plan">Deine Akutphase</a></nav>
-        <header class="ansicht-kopf"><h1>Dein Ziel, deine Tipps</h1><p>2 kurze Fragen: Willst du vorbeugen oder merkst du schon erste Anzeichen, und wo hast du viel Kontakt? Dann bekommst du Tipps, die zu deinem Alltag passen.</p></header>
+        <header class="ansicht-kopf"><h1>Dein Ziel, dein Plan</h1><p>Ein paar kurze Fragen: Merkst du schon erste Anzeichen oder willst du vorbeugen? Dann bekommst du deinen persönlichen Plan, den du dir auch schicken kannst.</p></header>
         <div class="quiz-box" data-quiz-box="ib">
           <div class="quiz-kopf"><span class="quiz-glas" data-glas></span><div><p class="quiz-schritt" data-q-schritt></p><h2 data-q-titel></h2></div></div>
           <div data-q-koerper></div>
@@ -1899,8 +1952,8 @@ body.chat-offen .chat-fenster { display: flex; }
   var CHAT_API = (document.querySelector('meta[name="hub-chat-api"]') || {}).content || "";
   var CHAT_LINKS = {
     "ns": L.ns, "ib": L.ib,
-    "ns-einnahme": ["So nimmst du OMNI9", "#ns-einnahme"], "ns-inhalt": L.nsInhalt, "ns-30": ["Deine ersten 30 Tage", "#ns-30"], "ns-tipps": ["Dein Ziel, deine Tipps", "#ns-tipps"], "ns-nachkauf": L.nsKauf, "ns-fragen": ["Fragen und Hilfe", "#ns-fragen"],
-    "ib-einnahme": ["So nimmst du den Booster", "#ib-einnahme"], "ib-inhalt": L.ibInhalt, "ib-plan": ["Deine Akutphase", "#ib-plan"], "ib-tipps": ["Dein Ziel, deine Tipps", "#ib-tipps"], "ib-nachkauf": L.ibKauf, "ib-fragen": ["Fragen und Hilfe", "#ib-fragen"],
+    "ns-einnahme": ["So nimmst du OMNI9", "#ns-einnahme"], "ns-inhalt": L.nsInhalt, "ns-30": ["Deine ersten 30 Tage", "#ns-30"], "ns-tipps": ["Dein Ziel, dein Plan", "#ns-tipps"], "ns-nachkauf": L.nsKauf, "ns-fragen": ["Fragen und Hilfe", "#ns-fragen"],
+    "ib-einnahme": ["So nimmst du den Booster", "#ib-einnahme"], "ib-inhalt": L.ibInhalt, "ib-plan": ["Deine Akutphase", "#ib-plan"], "ib-tipps": ["Dein Ziel, dein Plan", "#ib-tipps"], "ib-nachkauf": L.ibKauf, "ib-fragen": ["Fragen und Hilfe", "#ib-fragen"],
     "versand": L.versand, "widerruf": L.widerruf, "konto": L.konto, "sendung": L.sendung
   };
   var chatVerlauf = [];
@@ -2294,7 +2347,7 @@ body.chat-offen .chat-fenster { display: flex; }
   var NS_TAGE = [];
   for (var t = 1; t <= 30; t++) NS_TAGE.push(t);
   for (t = 35; t <= 90; t += 5) NS_TAGE.push(t);
-  var nsTag = 1;
+  var nsTag = 1, nsTagBekannt = linkTag >= 1;
   var NS_FORTSCHRITT = {
     id: "ns-fortschritt", tage: NS_TAGE, phasen: NS_PHASEN, marken: [1, 7, 14, 21, 30, 60, 90],
     stufen: [["Ankommen", "i-loeffel-linie"], ["Darm", "z-darm"], ["Ruhe", "z-schlaf"], ["Energie", "z-energie"], ["Stabilität", "t-keim"]],
@@ -2309,6 +2362,7 @@ body.chat-offen .chat-fenster { display: flex; }
     },
     beiTag: function (tag, persoenlich) {
       nsTag = tag;
+      if (persoenlich) nsTagBekannt = true;
       document.querySelectorAll("[data-erinnerung=ns-nachbestellen]").forEach(function (b) { b.hidden = nsRest(tag) <= 7; });
       if (persoenlich) vorratZeigen("ns", tag);
     },
@@ -2404,145 +2458,578 @@ body.chat-offen .chat-fenster { display: flex; }
     zeigen(linkTag >= 1);
   }
 
-  /* Ziel-Quiz: die Antworten ergeben einen Plan mit ausführlichen Tipps. Gespeichert wird nichts.
-     Produkttipps nur aus omni9.de, Alltagstipps allgemein (von OMNI9 freigeben lassen). */
-  var ZIELE = {
-    energie: { name: "Mehr Energie", icon: "z-energie", achsen: [3, 2, 4],
-      produkt: { titel: "Energie aus deinen Zellen", text: "Für deine Energie arbeiten in OMNI9 vor allem aktives NADH und die aktiven B-Vitamine B6, B9 und B12. NADH unterstützt in deinen Mitochondrien die Prozesse, durch die Energie entsteht. Gedacht ist das als stabile Kraft über den Tag, nicht als kurzer Energieschub wie bei Kaffee.", schritte: ["Nimm deinen Teelöffel morgens, als festen Start in den Tag.", "Gib dir Zeit: Erst wenn dein Darm stabiler ist, kommen die Nährstoffe richtig an."] },
-      fortschritt: { titel: "Schau auf Morgen und Nachmittag", text: "Achte darauf, wie du morgens aufstehst und ob das Tief am Nachmittag später kommt oder schwächer ausfällt. In den Bewertungen schreiben einige nach 2 bis 3 Wochen von mehr Energie, zum Beispiel morgens beim Aufstehen. Bei jedem ist es anders.", schritte: ["Notier dir eine Woche lang um 15 Uhr deine Energie von 1 bis 5.", "Vergleich die Zahlen nach drei Wochen."] } },
-    schlaf: { name: "Besser schlafen", icon: "z-schlaf", achsen: [4, 5, 1],
-      produkt: { titel: "Ruhe für dein Nervensystem", text: "Für Ruhe und Schlaf sind vor allem Ashwagandha und die aktiven B-Vitamine enthalten. Ashwagandha unterstützt die Regulation deiner Stressachse, die B-Vitamine versorgen dein Nervensystem. So kann Schlaf wieder Reparatur werden statt Notprogramm.", schritte: ["Wichtiger als die Uhrzeit ist, dass du OMNI9 jeden Tag nimmst.", "Such dir einen festen Moment, dann vergisst du die Einnahme nicht."] },
-      fortschritt: { titel: "Schau auf deine Nächte", text: "Achte darauf, wie schnell du einschläfst und wie erholt du aufwachst. Ein Kunde schreibt in Woche 2, er sei ausgeglichener und könne nachts besser schlafen. Gib dir ein paar Wochen, bei jedem ist es anders.", schritte: ["Gib dir jeden Morgen eine Note von 1 bis 5: Wie erholt bin ich?", "Schau nach zwei Wochen, ob sich etwas verändert hat."] } },
-    darm: { name: "Ruhiger Bauch", icon: "z-darm", achsen: [2, 9, 6],
-      produkt: { titel: "Das Fundament für deinen Bauch", text: "Die Grundlage für deinen Darm bilden in OMNI9 Bio-Akazienfaser, die hilfreiche Darmbakterien nährt, und die Sporenkultur Bacillus coagulans, die das Darmmilieu unterstützt. Dazu kommen Oligosaccharide aus dem Buchweizenhonig. Wird der Darm stabiler, kann er Nährstoffe besser aufnehmen.", schritte: ["Ist dein Bauch empfindlich, starte die ersten Tage mit weniger als einem Teelöffel.", "Steigere dann langsam auf einen Teelöffel pro Tag."] },
-      fortschritt: { titel: "Schau auf die Zeit nach dem Essen", text: "Achte darauf, wie sich dein Bauch nach dem Essen anfühlt, vor allem abends. Eine Kundin schreibt, ihr Blähbauch am Abend sei deutlich weniger geworden. Gib dir ein paar Wochen, bei jedem ist es anders.", schritte: ["Notier dir eine Woche lang, nach welchem Essen es rumort.", "Vergleich nach drei Wochen."] } },
-    fokus: { name: "Klarer Kopf", icon: "z-fokus", achsen: [5, 3, 7],
-      produkt: { titel: "Versorgung für deinen Kopf", text: "Für deinen Kopf arbeiten in OMNI9 Lion’s Mane, Ginkgo, DHA aus Algenöl und NADH zusammen. Lion’s Mane unterstützt die Nervenregeneration, Ginkgo die Versorgung des Gehirns. DHA ist ein Baustein der Nervenzellen, und NADH liefert Zellenergie.", schritte: ["Nimm deinen Löffel vor der Arbeit, zum Beispiel zum Frühstück.", "Bleib jeden Tag dran, auch am Wochenende."] },
-      fortschritt: { titel: "Schau auf deine Konzentration", text: "Achte darauf, wie lange du dich am Stück konzentrieren kannst und ob du Sätze seltener zweimal liest. Ein Kunde schreibt, er fühle sich klarer und nicht mehr so matschig im Kopf. Gib dir ein paar Wochen, bei jedem ist es anders.", schritte: ["Merk dir, wie lange du heute ohne Ablenkung arbeiten konntest.", "Vergleich nach drei Wochen."] } },
-    stress: { name: "Weniger Stress", icon: "z-stress", achsen: [4, 1, 5],
-      produkt: { titel: "Raus aus dem Daueralarm", text: "Bleibt dein Stresssystem dauerhaft aktiv, kann dein Körper nicht gut zwischen Anspannung und Erholung wechseln. Ashwagandha unterstützt die Regulation deiner Stressachse, die aktiven B-Vitamine versorgen dein Nervensystem.", schritte: ["Nimm dir für deinen Löffel einen ruhigen Moment: Setz dich hin und lass ihn langsam im Mund zergehen.", "Nimm ihn jeden Tag, auch an ruhigen Tagen."] },
-      fortschritt: { titel: "Schau auf deine Abende", text: "Achte darauf, wie schnell du abends abschalten kannst und wie oft du gereizt reagierst. Ein Kunde schreibt in Woche 2, er sei ausgeglichener. Gib dir ein paar Wochen, bei jedem ist es anders.", schritte: ["Notier dir abends kurz: Wie angespannt war ich heute, von 1 bis 5?", "Vergleich nach drei Wochen."] } },
-    abwehr: { name: "Starke Abwehr", icon: "t-schild", achsen: [6, 2], booster: true,
-      produkt: { titel: "Deine tägliche Basis für die Abwehr", text: "Für deine Abwehr stecken in OMNI9 Vitamin C aus Acerola, Vitamin D3 aus Flechte und Zink aus Guavenblatt. Ein großer Teil deiner Immunregulation beginnt im Darm und an den Schleimhäuten. Deshalb gehören Bacillus coagulans und Akazienfaser dazu.", schritte: ["Nimm OMNI9 jeden Tag, auch wenn es dir gut geht.", "Kommt doch ein Infekt, nimm 5 bis 10 Tage zusätzlich den Immun Booster."] },
-      fortschritt: { titel: "Schau auf die Erkältungszeit", text: "Achte darauf, wie du durch die nächste Erkältungszeit kommst und wie schnell du dich nach Belastungen wieder erholst. Bei jedem ist es anders.", schritte: ["Stell den Immun Booster schon jetzt in den Küchenschrank, dann hast du ihn beim ersten Halskratzen griffbereit."] } }
+  /* Ziel-Quiz: bessere Fragen, danach ein persönlicher Plan. Gespeichert wird nichts.
+     Kürzel und Texte müssen zu chat/plan.js (TEXTE) passen. Produkt-Aussagen nur aus omni9.de,
+     Alltagstipps allgemein (von OMNI9 freigeben lassen). */
+  var NS_ZIELE = {
+    energie: { name: "Mehr Energie", icon: "z-energie", achsen: [3, 2, 4] },
+    schlaf: { name: "Besser schlafen", icon: "z-schlaf", achsen: [4, 5, 1] },
+    darm: { name: "Ruhiger Bauch", icon: "z-darm", achsen: [2, 9, 6] },
+    fokus: { name: "Klarer Kopf", icon: "z-fokus", achsen: [5, 3, 7] },
+    stress: { name: "Weniger Stress", icon: "z-stress", achsen: [4, 1, 5] },
+    abwehr: { name: "Starke Abwehr", icon: "t-schild", achsen: [6, 2] }
   };
-  var ZEITEN = {
-    morgens: { name: "Morgens", icon: "z-morgen", art: "Für deinen Morgen", titel: "Ein Start ohne Nachdenken", text: "Wenn der Morgen schwerfällt, hilft eine feste Reihenfolge, über die du nicht nachdenken musst.", schritte: ["Stell dein Glas neben die Kaffeemaschine oder die Zahnbürste.", "Erst ein großes Glas Wasser, dann dein Löffel, dann der Kaffee.", "Geh in der ersten Stunde ein paar Minuten ans Tageslicht, zum Beispiel ans offene Fenster."] },
-    nachmittag: { name: "Im Nachmittagstief", icon: "z-mittag", art: "Für deinen Nachmittag", titel: "Dem Tief zuvorkommen", text: "Das Tief nach dem Mittagessen wird oft durch schweres Essen und zu wenig Bewegung verstärkt.", schritte: ["Geh nach dem Mittagessen 10 Minuten raus ans Tageslicht.", "Trink ein großes Glas Wasser, bevor du zum nächsten Kaffee greifst.", "Iss mittags lieber etwas leichter."] },
-    abends: { name: "Abends", icon: "z-abend", art: "Für deinen Abend", titel: "Ein klarer Schluss für den Tag", text: "Damit dein Kopf abschalten kann, braucht er ein Signal: Der Tag ist vorbei.", schritte: ["Leg eine Stunde vor dem Schlafen das Handy weg.", "Schreib kurz auf, was morgen ansteht. Dann musst du es nicht im Kopf behalten.", "Halt das Schlafzimmer kühl und dunkel."] },
-    essen: { name: "Nach dem Essen", icon: "z-essen", art: "Rund ums Essen", titel: "Ruhe beim Essen", text: "Ein ruhiger Bauch fängt oft schon beim Essen an.", schritte: ["Iss in Ruhe und kau gründlich.", "Probier kleinere Portionen.", "Mach nach dem Essen einen kurzen Spaziergang."] }
+  /* Je Antwort: Kürzel, Text, Titel und Beobachtung für den Ausweich-Plan */
+  var NS_DETAIL = {
+    energie: { frage: "Wann fehlt dir die Energie am meisten?", start: "Wie gut ist deine Energie gerade?", antworten: [
+      ["morgens", "Schon beim Aufstehen", "Mehr Energie am Morgen", "Achte darauf, wie du morgens aus dem Bett kommst. Gib dir jeden Morgen eine Note von 1 bis 5."],
+      ["nachmittag", "Im Tief nach dem Mittagessen", "Mehr Energie am Nachmittag", "Achte darauf, ob das Tief nach dem Mittagessen später kommt oder schwächer ausfällt. Notier dir um 15 Uhr deine Energie von 1 bis 5."],
+      ["abends", "Abends bin ich leer", "Mehr Kraft bis in den Abend", "Achte darauf, wie viel Kraft dir abends noch bleibt, zum Beispiel für Sport oder Freunde."],
+      ["ganztags", "Den ganzen Tag", "Mehr Energie über den Tag", "Achte darauf, ob deine Energie über den Tag gleichmäßiger wird. Notier dir morgens und nachmittags eine Zahl von 1 bis 5."]] },
+    schlaf: { frage: "Was ist nachts los?", start: "Wie erholt wachst du gerade auf?", antworten: [
+      ["einschlafen", "Ich schlafe schwer ein", "Leichter einschlafen", "Achte darauf, wie lange du abends zum Einschlafen brauchst."],
+      ["durchschlafen", "Ich wache nachts auf", "Besser durchschlafen", "Achte darauf, wie oft du nachts aufwachst und wie schnell du wieder einschläfst."],
+      ["frueh", "Ich wache zu früh auf", "Länger schlafen", "Achte darauf, wann du morgens aufwachst und wie ausgeruht du dich dann fühlst."],
+      ["unerholt", "Ich schlafe, bin aber nicht erholt", "Erholter aufwachen", "Gib dir jeden Morgen eine Note von 1 bis 5: Wie erholt bin ich?"]] },
+    darm: { frage: "Wann meldet sich dein Bauch?", start: "Wie ruhig ist dein Bauch gerade?", antworten: [
+      ["essen", "Nach dem Essen", "Ruhiger Bauch nach dem Essen", "Notier dir eine Woche lang, wie sich dein Bauch nach dem Essen anfühlt."],
+      ["abends", "Abends, mit Blähbauch", "Ruhiger Bauch am Abend", "Achte darauf, wie sich dein Bauch am Abend anfühlt, und notier dir eine Zahl von 1 bis 5."],
+      ["morgens", "Morgens", "Ruhiger Bauch am Morgen", "Achte darauf, wie ruhig dein Bauch morgens ist."],
+      ["wechselnd", "Mal so, mal so", "Mehr Ruhe im Bauch", "Notier dir jeden Abend kurz, wie dein Bauch war. So siehst du nach ein paar Wochen, ob es ruhiger wird."]] },
+    fokus: { frage: "Wann ist dein Kopf am wenigsten klar?", start: "Wie klar ist dein Kopf gerade?", antworten: [
+      ["morgens", "Morgens, bis ich in Gang komme", "Klarer Kopf am Morgen", "Achte darauf, wie schnell du morgens in Gang kommst."],
+      ["nachmittag", "Am Nachmittag", "Klarer Kopf am Nachmittag", "Achte darauf, wie lange du dich am Nachmittag am Stück konzentrieren kannst."],
+      ["trubel", "Wenn viel gleichzeitig los ist", "Klarer Kopf, auch im Trubel", "Achte darauf, wie gut du den Überblick behältst, wenn viel gleichzeitig los ist."],
+      ["nebel", "Fast immer wie im Nebel", "Raus aus dem Nebel", "Achte darauf, ob sich dein Kopf klarer anfühlt und du Sätze seltener zweimal liest."]] },
+    stress: { frage: "Wie zeigt sich Stress bei dir?", start: "Wie entspannt bist du gerade?", antworten: [
+      ["abschalten", "Ich kann abends nicht abschalten", "Abends besser abschalten", "Achte darauf, wie schnell du abends zur Ruhe kommst."],
+      ["gereizt", "Ich bin schnell gereizt", "Gelassener durch den Tag", "Notier dir abends kurz: Wie gereizt war ich heute, von 1 bis 5?"],
+      ["anspannung", "Ich spüre Anspannung im Körper", "Weniger Anspannung", "Achte darauf, wie angespannt sich dein Körper am Abend anfühlt."],
+      ["gedanken", "Mein Kopf rattert nachts", "Ruhigere Nächte", "Achte darauf, wie oft dich nachts Gedanken wach halten."]] },
+    abwehr: { frage: "Wie oft erwischt es dich?", start: "Wie fit fühlst du dich gerade?", antworten: [
+      ["selten", "Selten, ich will vorbeugen", "Gut vorbereitet durch die Erkältungszeit", "Achte darauf, wie du durch die nächste Erkältungszeit kommst."],
+      ["zwei_drei", "2- bis 3-mal im Jahr", "Gut durch die Erkältungszeit", "Achte darauf, wie oft es dich in der Erkältungszeit erwischt und wie schnell du wieder fit bist."],
+      ["oft", "Öfter als 3-mal im Jahr", "Deine Abwehr im Alltag unterstützen", "Achte darauf, wie oft es dich erwischt und wie schnell du wieder fit bist."],
+      ["wieder_fit", "Ich bin gerade erst wieder fit", "Wieder zu Kräften kommen", "Achte darauf, wie schnell deine Kraft zurückkommt."]] }
   };
-  var ALLTAG = {
-    bildschirm: { name: "Viel Bildschirm", icon: "z-bildschirm", art: "Für deinen Alltag", titel: "Pausen für Augen und Körper", text: "Langes Sitzen vor dem Bildschirm macht müde, auch ohne körperliche Arbeit.", schritte: ["Steh alle 60 bis 90 Minuten kurz auf und beweg dich.", "Schau zwischendurch ein paar Sekunden in die Ferne.", "Stell dir eine Flasche Wasser gut sichtbar auf den Schreibtisch."] },
-    unterwegs: { name: "Viel unterwegs", icon: "z-unterwegs", art: "Für deinen Alltag", titel: "Eine Routine, die überall klappt", text: "Wenn jeder Tag anders aussieht, muss die Routine ganz einfach sein.", schritte: ["Nimm deinen Löffel, bevor du das Haus verlässt.", "Kein Abwiegen, kein Anrühren: Ein Löffel reicht.", "Pack dir für lange Tage Wasser und einen Snack ein."] },
-    familie: { name: "Familie, wenig Zeit", icon: "z-familie", art: "Für deinen Alltag", titel: "Ein fester Anker im Trubel", text: "Wenn wenig Zeit für dich bleibt, verknüpf OMNI9 mit etwas, das du sowieso jeden Tag machst.", schritte: ["Nimm deinen Löffel zum ersten Kaffee oder beim Frühstückmachen.", "Stell das Glas so hin, dass du es siehst, Kinder aber nicht drankommen.", "Plan dir jeden Tag 10 Minuten nur für dich ein."] },
-    sport: { name: "Viel Sport", icon: "z-sport", art: "Für deinen Alltag", titel: "Regeneration einplanen", text: "Fortschritt im Training entsteht in den Pausen, nicht im Training selbst.", schritte: ["Plan bewusst Ruhetage ein.", "Achte auf genug Schlaf, gerade nach harten Einheiten.", "Nimm deinen Löffel auch an trainingsfreien Tagen."] }
-  };
-  var IB_MODUS = {
-    akut: { name: "Ich merke erste Anzeichen", icon: "t-thermo", art: "So nimmst du ihn jetzt", titel: "Sofort starten, 5 bis 10 Tage", text: "Starte am besten bei den ersten Anzeichen wie Halskratzen, Frösteln oder Gliederschwere. Dann nutzt du das Zeitfenster, in dem dein Körper Unterstützung am besten verwerten kann.", schritte: ["Morgens, mittags und abends je 1 Teelöffel (ca. 10 g).", "5 bis 10 Tage lang, bei Bedarf wiederholen.", "Pur vom Löffel oder in warmem Tee unter 40 °C."] },
-    vorbeugend: { name: "Ich will vorbeugen", icon: "t-schild", art: "So nimmst du ihn vorbeugend", titel: "1 Teelöffel am Tag", text: "In der Erkältungszeit kannst du den Booster vorbeugend nehmen, besonders in Phasen mit viel Kontakt.", schritte: ["1 Teelöffel am Tag, pur oder in warmem Tee unter 40 °C.", "Merkst du erste Anzeichen, wechsle in die Akutphase: morgens, mittags und abends je 1 Teelöffel.", "Du nimmst schon OMNI9? Der Booster kommt einfach dazu."] }
-  };
-  var IB_KONTAKT = {
-    kita: { name: "Kita oder Schule", icon: "z-kita", art: "Für deinen Alltag", titel: "Mit Kita- oder Schulkindern", text: "Bei Kindern in Kita oder Schule geht oft etwas rum. Eine Kita-Mama schreibt auf omni9.de, dass sie seitdem sofort startet, sobald sie merkt, dass etwas im Anflug ist.", schritte: ["Stell den Booster griffbereit in den Küchenschrank.", "Wascht euch nach dem Abholen gleich die Hände.", "Starte beim ersten Halskratzen, nicht erst, wenn es richtig losgeht."] },
-    buero: { name: "Büro", icon: "z-bildschirm", art: "Für deinen Alltag", titel: "Im Büro", text: "Wo viele Menschen zusammenkommen, geht schnell etwas rum.", schritte: ["Lüfte regelmäßig, zum Beispiel jede Stunde ein paar Minuten.", "Nimm deine eigene Tasse und wasch dir öfter die Hände.", "Starte beim ersten Kratzen im Hals sofort."] },
-    reisen: { name: "Reisen und Bahn", icon: "z-unterwegs", art: "Für deinen Alltag", titel: "Auf Reisen", text: "Unterwegs bist du vielen Menschen nah und schläfst oft schlechter.", schritte: ["Nimm den Booster auf längere Reisen mit.", "Trink unterwegs genug, gerade in Bahn und Flugzeug.", "Plan nach der Reise einen ruhigen Abend ein."] },
-    wenig: { name: "Eher wenig Kontakt", icon: "z-familie", art: "Für deinen Alltag", titel: "Mit wenig Kontakt", text: "Auch mit wenig Kontakt kann dich ein Infekt erwischen. Dann zählt der Start.", schritte: ["Bewahr den Booster dort auf, wo du ihn schnell findest.", "Starte bei den ersten Anzeichen sofort.", "Gönn dir dann Ruhe und schlaf genug."] }
-  };
-  var IB_EXTRA = {
-    akut: { art: "Was dir zusätzlich hilft", icon: "z-abend", titel: "Ruhe für deinen Körper", text: "In der Akutphase braucht dein Körper vor allem Ruhe.", schritte: ["Schlaf genug und schalt einen Gang zurück.", "Trink viel, zum Beispiel warmen Tee. Rühr den Booster nur in Tee unter 40 °C.", "Viele nehmen OMNI9 weiter und für ein paar Tage den Booster dazu."] },
-    vorbeugend: { art: "Für die Erkältungszeit", icon: "t-flocke", titel: "Gut vorbereitet", text: "Vorbeugen heißt vor allem: Du gibst deinem Körper, was er braucht, und bist vorbereitet.", schritte: ["Schlaf ausreichend, gerade in stressigen Wochen.", "Geh jeden Tag raus, auch bei grauem Wetter.", "Halt immer ein Glas Booster als Vorrat bereit."] }
-  };
+  function wahl(liste) { return liste.map(function (e) { return { wert: e[0], text: e[1], icon: e[2] }; }); }
+  /* Solange „Wofür“ offen ist, zählt der längere Weg (Akutphase), damit die Fragen-Zahl nicht wächst */
+  function istAkut(a) { return a.modus !== "vorbeugen"; }
   var QUIZ = {
-    ns: [{ id: "ziel", frage: "Was soll sich als Erstes ändern?", quelle: ZIELE }, { id: "zeit", frage: "Wann bremst es dich am meisten aus?", quelle: ZEITEN }, { id: "alltag", frage: "Wie sieht dein Alltag aus?", quelle: ALLTAG }],
-    ib: [{ id: "modus", frage: "Wofür nimmst du den Booster gerade?", quelle: IB_MODUS }, { id: "kontakt", frage: "Wo hast du gerade viel Kontakt?", quelle: IB_KONTAKT }]
+    ns: [
+      { id: "ziel", art: "wahl", frage: "Was soll sich als Erstes verbessern?", antworten: Object.keys(NS_ZIELE).map(function (k) { return { wert: k, text: NS_ZIELE[k].name, icon: NS_ZIELE[k].icon }; }), danach: ["detail", "startwert"] },
+      { id: "detail", art: "wahl", frage: function (a) { return NS_DETAIL[a.ziel].frage; }, antworten: function (a) { return wahl(NS_DETAIL[a.ziel].antworten.map(function (e) { return [e[0], e[1]]; })); } },
+      { id: "startwert", art: "skala", frage: function (a) { return NS_DETAIL[a.ziel].start; } },
+      { id: "seit", art: "wahl", frage: "Seit wann nimmst du OMNI9?", antworten: wahl([["neu", "Ich fange gerade an"], ["wochen", "Seit 1 bis 3 Wochen"], ["fast_leer", "Mein Glas ist fast leer"], ["laenger", "Länger als einen Monat"]]), wenn: function () { return !nsTagBekannt; } },
+      { id: "alltag", art: "wahl", frage: "Wie sieht dein Alltag aus?", antworten: wahl([["bildschirm", "Viel am Bildschirm", "z-bildschirm"], ["unterwegs", "Viel unterwegs", "z-unterwegs"], ["familie", "Familie, wenig Zeit für mich", "z-familie"], ["schicht", "Schicht oder wechselnde Zeiten", "z-abend"], ["sport", "Viel Sport", "z-sport"], ["ruhig", "Eher ruhig", "z-morgen"]]) },
+      { id: "zutreffend", art: "mehrere", frage: "Was trifft noch auf dich zu?", antworten: wahl([["schlaf_kurz", "Meist unter 7 Stunden Schlaf"], ["kaffee", "Mehr als 2 Kaffee am Tag"], ["bewegung", "Wenig Bewegung"], ["essen", "Unregelmäßig essen"], ["draussen", "Selten draußen am Tag"], ["handy", "Abends lange am Handy"]]), keins: "Nichts davon" },
+      { id: "huerde", art: "wahl", frage: "Was macht es dir schwer, dranzubleiben?", antworten: wahl([["vergessen", "Ich vergesse es leicht"], ["schnell", "Ich will schnell etwas merken"], ["geschmack", "Der Geschmack ist ungewohnt"], ["viele_mittel", "Ich nehme schon viele Supplements"], ["keine", "Nichts, ich bleibe dran"]]) },
+      { id: "freitext", art: "freitext", frage: "Willst du uns noch etwas sagen?", platzhalter: "Zum Beispiel: Ich arbeite im Schichtdienst und will im Frühjahr wieder laufen." }
+    ],
+    ib: [
+      { id: "modus", art: "wahl", frage: "Wofür nimmst du den Booster gerade?", antworten: wahl([["anzeichen", "Ich merke erste Anzeichen", "t-thermo"], ["erwischt", "Es hat mich schon erwischt", "t-flamme"], ["vorbeugen", "Ich will vorbeugen", "t-schild"]]), danach: ["merkst", "kontakt", "schonen"] },
+      { id: "merkst", art: "mehrere", frage: "Was merkst du gerade?", antworten: wahl([["hals", "Kratzen im Hals"], ["froesteln", "Frösteln"], ["glieder", "Schwere Glieder"], ["kopf", "Druck im Kopf"], ["schlapp", "Einfach schlapp"]]), wenn: istAkut },
+      { id: "kontakt", art: "wahl", frage: "Wo hast du gerade viel Kontakt?", antworten: wahl([["kita", "Kita oder Schule", "z-kita"], ["buero", "Büro", "z-bildschirm"], ["reisen", "Reisen und Bahn", "z-unterwegs"], ["wenig", "Eher wenig Kontakt", "z-familie"]]), wenn: function (a) { return a.modus === "vorbeugen"; } },
+      { id: "schonen", art: "wahl", frage: "Kannst du dich gerade schonen?", antworten: wahl([["ja", "Ja, ich kann mich ausruhen"], ["nein", "Nein, ich muss funktionieren"], ["kinder", "Ich kümmere mich um Kinder"]]), wenn: istAkut },
+      { id: "ns", art: "wahl", frage: "Nimmst du auch das Nutrition-System?", antworten: wahl([["taeglich", "Ja, jeden Tag"], ["manchmal", "Ab und zu"], ["nein", "Noch nicht"]]) },
+      { id: "freitext", art: "freitext", frage: "Willst du uns noch etwas sagen?", platzhalter: "Zum Beispiel: Am Wochenende steht eine lange Reise an." }
+    ]
   };
   var ACHSEN_NAMEN = { 1: "Entzündung", 2: "Darm", 3: "Zellenergie", 4: "Stress", 5: "Gehirn und Fokus", 6: "Immunsystem", 7: "Herz und Gefäße", 8: "Leber", 9: "Bioverfügbarkeit" };
-  function tipp(art, icon, q) { return { art: art, icon: icon, titel: q.titel, text: q.text, schritte: q.schritte || [] }; }
-  function planTipps(produkt, a) {
-    if (produkt === "ns") {
-      var z = ZIELE[a.ziel], zeit = ZEITEN[a.zeit], alltag = ALLTAG[a.alltag];
-      return [tipp("Mit OMNI9", "i-loeffel-linie", z.produkt), tipp(zeit.art, zeit.icon, zeit), tipp(alltag.art, alltag.icon, alltag), tipp("Woran du Fortschritt merkst", z.icon, z.fortschritt)];
-    }
-    var m = IB_MODUS[a.modus], k = IB_KONTAKT[a.kontakt], extra = IB_EXTRA[a.modus];
-    return [tipp(m.art, m.icon, m), tipp(k.art, k.icon, k), tipp(extra.art, extra.icon, extra),
-      tipp("Gut zu wissen", "i-hilfe", { titel: "Sicher anwenden", text: "Bei einer Allergie gegen Bienenprodukte bitte verzichten. Bei Schwangerschaft, Stillzeit, chronischen Erkrankungen oder wenn du Medikamente nimmst, sprich vorher kurz mit Arzt oder Apotheke.", schritte: a.modus === "akut" ? [WARNUNG] : [] })];
+  function wert(f, a) { return typeof f === "function" ? f(a) : f; }
+  function aktiveFragen(p) {
+    var a = QUIZ_BOXEN[p].antworten;
+    return QUIZ[p].filter(function (f) { return !f.wenn || f.wenn(a); });
   }
-  /* Ziel-Quiz im eigenen Kapitel (Ziel und Tipps): eine Box pro Produkt, gespeichert wird nichts */
+  /* Navigation über das Kürzel der Frage, nicht über die Position: Fällt unterwegs eine Frage weg
+     (zum Beispiel „Seit wann“, weil der Regler den Tag kennt), wird keine Antwort übersprungen */
+  function naechsteFrage(p, id, richtung) {
+    var liste = QUIZ[p], a = QUIZ_BOXEN[p].antworten, i = liste.map(function (f) { return f.id; }).indexOf(id) + richtung;
+    for (; i >= 0 && i < liste.length; i += richtung) if (!liste[i].wenn || liste[i].wenn(a)) return liste[i];
+    return null;
+  }
+  function aktuelleFrage(p) {
+    var q = QUIZ_BOXEN[p], f = QUIZ[p].filter(function (x) { return x.id === q.id; })[0];
+    if (!f) return aktiveFragen(p)[0];
+    return !f.wenn || f.wenn(q.antworten) ? f : naechsteFrage(p, f.id, 1);
+  }
+  function ersteOffeneFrage(p) {
+    var a = QUIZ_BOXEN[p].antworten;
+    return aktiveFragen(p).filter(function (f) { return f.art !== "freitext" && (a[f.id] === undefined || (f.art === "mehrere" && !Array.isArray(a[f.id]))); })[0] || null;
+  }
+  /* Ändert sich eine Antwort, fallen die davon abhängigen Antworten weg */
+  function antworten(p, f, w) {
+    var a = QUIZ_BOXEN[p].antworten;
+    if (a[f.id] !== w && f.danach) f.danach.forEach(function (id) { delete a[id]; });
+    a[f.id] = w;
+  }
+
+  /* Fragen anzeigen: eine Box pro Produkt im Kapitel „Dein Ziel“ */
   var QUIZ_BOXEN = {};
   document.querySelectorAll("[data-quiz-box]").forEach(function (box) {
     var p = box.dataset.quizBox;
-    QUIZ_BOXEN[p] = { box: box, honig: glasEinsetzen(box.querySelector("[data-glas]")), schritt: 0, antworten: {} };
+    QUIZ_BOXEN[p] = { box: box, honig: glasEinsetzen(box.querySelector("[data-glas]")), id: null, antworten: {}, anfrage: 0, plan: null, quelle: null };
     quizRendern(p);
   });
+  /* Weiter von der Frage, die gerade zu sehen war, auch wenn sie inzwischen wegfällt */
+  function weiter(p) {
+    var q = QUIZ_BOXEN[p], n = naechsteFrage(p, q.id, 1);
+    q.id = n ? n.id : "fertig";
+    quizRendern(p, true);
+  }
   function quizRendern(p, nachKlick) {
-    var q = QUIZ_BOXEN[p], box = q.box, fragenListe = QUIZ[p], n = fragenListe.length;
+    var q = QUIZ_BOXEN[p], box = q.box, a = q.antworten, fragen = aktiveFragen(p), n = fragen.length;
     var koerper = box.querySelector("[data-q-koerper]"), fuss = box.querySelector("[data-q-fuss]");
     var schritt = box.querySelector("[data-q-schritt]"), titel = box.querySelector("[data-q-titel]");
-    glasFuellen(q.honig, q.schritt / n);
     koerper.replaceChildren();
     fuss.replaceChildren();
-    if (q.schritt >= n) quizErgebnis(p, koerper, fuss, schritt, titel);
-    else {
-      var f = fragenListe[q.schritt];
-      schritt.textContent = "Frage " + (q.schritt + 1) + " von " + n;
-      titel.textContent = f.frage;
+    if (q.id === "fertig") {
+      var offen = ersteOffeneFrage(p);
+      if (!offen) { glasFuellen(q.honig, 1); planErstellen(p); return; }
+      q.id = offen.id;
+    }
+    var f = aktuelleFrage(p), nr = fragen.indexOf(f);
+    q.id = f.id;
+    glasFuellen(q.honig, nr / n);
+    schritt.textContent = f.art === "freitext" ? "Zum Schluss" : "Frage " + (nr + 1) + " von " + (n - 1);
+    titel.textContent = wert(f.frage, a);
+    if (f.art === "wahl") {
       var raster = element("div", "quiz-antworten");
-      Object.keys(f.quelle).forEach(function (wert) {
-        var info = f.quelle[wert];
-        var b = knopfMit("", "quiz-antwort", function () { q.antworten[f.id] = wert; q.schritt++; quizRendern(p, true); });
-        b.setAttribute("aria-pressed", q.antworten[f.id] === wert ? "true" : "false");
-        var bild = element("span", "q-ikon");
-        bild.appendChild(ikon(info.icon));
-        b.append(bild, element("span", null, info.name));
+      wert(f.antworten, a).forEach(function (o) {
+        var b = knopfMit("", "quiz-antwort", function () { antworten(p, f, o.wert); weiter(p); });
+        b.setAttribute("aria-pressed", a[f.id] === o.wert ? "true" : "false");
+        if (o.icon) { var bild = element("span", "q-ikon"); bild.appendChild(ikon(o.icon)); b.appendChild(bild); }
+        else b.classList.add("ohne-ikon");
+        b.appendChild(element("span", null, o.text));
         raster.appendChild(b);
       });
       koerper.appendChild(raster);
-      if (q.schritt > 0) fuss.appendChild(knopfMit("Zurück", "text-link", function () { q.schritt--; quizRendern(p, true); }));
+    } else if (f.art === "skala") {
+      var skala = element("div", "quiz-skala");
+      skala.setAttribute("role", "group");
+      skala.setAttribute("aria-label", titel.textContent + " 1 bremst mich stark, 5 richtig gut");
+      [1, 2, 3, 4, 5].forEach(function (z) {
+        var b = knopfMit(String(z), null, function () { antworten(p, f, z); weiter(p); });
+        b.setAttribute("aria-pressed", a[f.id] === z ? "true" : "false");
+        skala.appendChild(b);
+      });
+      var legende = element("div", "quiz-legende");
+      legende.append(element("span", null, "1 = bremst mich stark"), element("span", null, "5 = richtig gut"));
+      koerper.append(skala, legende);
+    } else if (f.art === "mehrere") {
+      var gewaehlt = (a[f.id] || []).slice(), keinsGewaehlt = !!(a[f.id] && !a[f.id].length);
+      var chips = element("div", "quiz-chips"), los = knopfMit("Weiter", "knopf", function () { a[f.id] = gewaehlt.slice(); weiter(p); });
+      chips.setAttribute("role", "group");
+      chips.setAttribute("aria-label", titel.textContent);
+      var stand = function () {
+        los.disabled = !gewaehlt.length && !keinsGewaehlt;
+        Array.prototype.forEach.call(chips.children, function (c) { c.setAttribute("aria-pressed", c.dataset.wert ? String(gewaehlt.indexOf(c.dataset.wert) > -1) : String(keinsGewaehlt)); });
+      };
+      wert(f.antworten, a).forEach(function (o) {
+        var c = knopfMit(o.text, "quiz-chip", function () {
+          var i = gewaehlt.indexOf(o.wert);
+          if (i > -1) gewaehlt.splice(i, 1); else gewaehlt.push(o.wert);
+          keinsGewaehlt = false;
+          stand();
+        });
+        c.dataset.wert = o.wert;
+        chips.appendChild(c);
+      });
+      if (f.keins) chips.appendChild(knopfMit(f.keins, "quiz-chip", function () { gewaehlt = []; keinsGewaehlt = !keinsGewaehlt; stand(); }));
+      stand();
+      koerper.appendChild(chips);
+      fuss.appendChild(los);
+    } else {
+      var feld = element("div", "quiz-freitext"), text = element("textarea"), zaehler = element("p", "quiz-zaehler");
+      text.maxLength = 500;
+      text.rows = 4;
+      text.placeholder = f.platzhalter;
+      text.setAttribute("aria-label", titel.textContent);
+      text.value = a.freitext || "";
+      zaehler.hidden = true;
+      text.addEventListener("input", function () { a.freitext = text.value; zaehler.hidden = text.value.length < 400; zaehler.textContent = text.value.length + " von 500 Zeichen"; });
+      feld.append(text, zaehler, element("p", "quiz-hinweis", "Bitte keine Namen, Diagnosen oder Medikamente. Dein Plan entsteht mit KI (ChatGPT) aus den Produktinfos von OMNI9. Gespeichert wird nichts."));
+      koerper.appendChild(feld);
+      var erstellen = knopfMit("Meinen Plan erstellen", "knopf gold", function () { erstellen.disabled = true; a.freitext = text.value.trim(); weiter(p); });
+      fuss.appendChild(erstellen);
     }
+    var vorige = naechsteFrage(p, f.id, -1);
+    if (vorige) fuss.appendChild(knopfMit("Zurück", "text-link", function () { q.id = vorige.id; quizRendern(p, true); }));
     if (!nachKlick) return;
     if (box.getBoundingClientRect().top < 0) box.scrollIntoView({ behavior: bewegungAus ? "auto" : "smooth", block: "start" });
-    var erste = box.querySelector(".quiz-antwort");
+    var erste = box.querySelector(".quiz-antwort, .quiz-skala button, .quiz-chip, textarea");
     if (erste) erste.focus({ preventScroll: true });
   }
-  function quizErgebnis(p, koerper, fuss, schritt, titel) {
-    var a = QUIZ_BOXEN[p].antworten;
-    schritt.textContent = "Dein Plan";
-    var box = element("div", "quiz-ergebnis");
+
+  /* Ausweich-Plan: gleiche Form wie der Plan vom Server, aus festen Texten */
+  var NS_WIRKSTOFFE = {
+    energie: [["NADH für deine Zellkraftwerke", "NADH unterstützt in deinen Mitochondrien die Prozesse, durch die Energie entsteht. In OMNI9 ist es mikroverkapselt, damit es geschützt ankommt."], ["Aktive B-Vitamine", "B6, B9 und B12 sind in aktiver Form enthalten. Sie liefern wichtige Cofaktoren für Energie, Nerven und Zellteilung."], ["Ceylon-Zimt", "Er unterstützt einen gleichmäßigen Energiefluss und hilft, Blutzuckerspitzen abzufedern."]],
+    schlaf: [["Ashwagandha", "Ashwagandha hilft deinem Nervensystem, Stress besser zu regulieren. Es unterstützt Ruhe, Schlafqualität und mentale Belastbarkeit, ohne dich zu dämpfen."], ["Aktive B-Vitamine", "Die B-Vitamine versorgen deine Nerven."], ["Vitamin D3, K2, Omega-3 und Zink", "Sie stärken das hormonelle Umfeld."]],
+    darm: [["Akazienfaser", "Sie füttert gezielt deine guten Darmbakterien und stabilisiert die Darmflora. Sie unterstützt Verdauung, Stuhlqualität und Nährstoffaufnahme."], ["Sporen-Probiotika", "Bacillus coagulans und subtilis helfen, dein Mikrobiom zu stabilisieren. Sie unterstützen Verdauung, Darmbarriere und Abwehr."], ["Die Honigmatrix", "Der Bio-Buchweizenhonig schützt die Wirkstoffe und lässt sie sanft im Darm ankommen. Honig-Oligosaccharide ergänzen die präbiotische Basis."]],
+    fokus: [["Lion’s Mane", "Lion’s Mane unterstützt Fokus, Gedächtnis und neuronale Regeneration."], ["Ginkgo", "Ginkgo fördert die Durchblutung und damit mentale Klarheit."], ["DHA und NADH", "DHA aus Algenöl ist ein Baustein der Nervenzellen, NADH liefert die Energie."]],
+    stress: [["Ashwagandha", "Ashwagandha hilft deinem Nervensystem, Stress besser zu regulieren. Es unterstützt Ruhe und mentale Belastbarkeit, ohne dich zu dämpfen."], ["Aktive B-Vitamine", "Sie versorgen zusätzlich deine Nerven."], ["Omega-3 aus Algenöl", "Omega-3 versorgt Gehirn und Nerven und unterstützt die Entzündungsbalance."]],
+    abwehr: [["Vitamin C aus Acerola", "Vitamin C unterstützt dein Immunsystem und schützt die Zellen vor oxidativem Stress."], ["Zink und Vitamin D3", "Zink aus Guavenblatt unterstützt die Abwehr, Vitamin D3 aus Bio-Flechte stärkt dein Immunsystem."], ["Die Darmbasis", "Akazienfaser und Sporen-Probiotika stabilisieren die Darmbasis. Kommt doch ein Infekt, kannst du zusätzlich den Immun Booster für ein paar Tage nehmen."]]
+  };
+  var NS_STIMME = {
+    energie: "Einige schreiben nach 2 bis 3 Wochen von mehr Energie, zum Beispiel morgens beim Aufstehen.",
+    schlaf: "Ein Kunde schreibt in Woche 2, er sei ausgeglichener und könne nachts besser schlafen.",
+    darm: "Eine Kundin schreibt, ihr Blähbauch am Abend sei deutlich weniger geworden.",
+    fokus: "Ein Kunde schreibt, er fühle sich klarer und nicht mehr so matschig im Kopf.",
+    stress: "Ein Kunde schreibt in Woche 2, er sei ausgeglichener.",
+    abwehr: "Achte darauf, wie du durch die nächsten Wochen kommst."
+  };
+  var NS_ROUTINE = {
+    bildschirm: ["Nimm deinen Teelöffel jeden Morgen, bevor du dich an den Bildschirm setzt. So startest du den Tag mit einem festen Moment für dich.", "Stell dein Glas neben die Kaffeemaschine."],
+    unterwegs: ["Nimm deinen Teelöffel, bevor du das Haus verlässt. Wenn jeder Tag anders aussieht, muss die Routine ganz einfach sein.", "Ein Löffel genügt, kein Abwiegen, kein Anrühren."],
+    familie: ["Verknüpf deinen Teelöffel mit etwas, das du sowieso jeden Tag machst, zum Beispiel mit dem ersten Kaffee oder dem Frühstückmachen.", "Stell das Glas so hin, dass du es siehst, Kinder aber nicht drankommen."],
+    schicht: ["Wichtiger als die Uhrzeit ist, dass du OMNI9 jeden Tag nimmst. Nimm deinen Teelöffel direkt nach dem Aufstehen, egal wann dein Tag beginnt.", "Verknüpf ihn mit einem festen Schritt, zum Beispiel dem ersten Glas Wasser."],
+    sport: ["Nimm deinen Teelöffel jeden Tag zur gleichen Zeit, zum Beispiel morgens, auch an trainingsfreien Tagen.", "Bleib auch an Ruhetagen dran, Regelmäßigkeit zählt."],
+    ruhig: ["Nimm deinen Teelöffel jeden Tag zur gleichen Zeit, zum Beispiel morgens zum Frühstück. So wird er schnell zum Ritual.", "Nimm dir einen ruhigen Moment und lass den Löffel langsam im Mund zergehen."]
+  };
+  var NS_GEWOHNHEIT = {
+    schlaf_kurz: ["Früher ins Bett", "Geh diese Woche jeden Abend 15 Minuten früher ins Bett. Kleine Schritte halten länger als große Vorsätze."],
+    kaffee: ["Erst Wasser, dann Kaffee", "Trink vor jedem Kaffee ein großes Glas Wasser und lass den Kaffee am späten Nachmittag weg."],
+    bewegung: ["10 Minuten zu Fuß", "Geh jeden Tag 10 Minuten zu Fuß, zum Beispiel nach dem Mittagessen, am besten draußen bei Tageslicht."],
+    essen: ["Feste Essenszeiten", "Iss möglichst zu festen Zeiten und in Ruhe. Kau gründlich, dann hat dein Bauch es leichter."],
+    draussen: ["Tageslicht am Morgen", "Geh in der ersten Stunde nach dem Aufstehen ein paar Minuten raus oder ans offene Fenster."],
+    handy: ["Handy weg vor dem Schlafen", "Leg das Handy eine Stunde vor dem Schlafen weg. Ein Buch oder ein kurzer Spaziergang helfen beim Abschalten."],
+    energie: ["Leichter essen am Mittag", "Iss mittags lieber etwas leichter und geh danach kurz raus ans Tageslicht."],
+    schlaf: ["Kühl und dunkel schlafen", "Halt das Schlafzimmer kühl und dunkel und geh möglichst jeden Tag zur gleichen Zeit ins Bett."],
+    darm: ["In Ruhe essen", "Iss in Ruhe, kau gründlich und probier kleinere Portionen. Ein kurzer Spaziergang nach dem Essen tut gut."],
+    fokus: ["Eine Sache nach der anderen", "Arbeite in Blöcken von 45 Minuten an einer Sache und leg das Handy dabei außer Sicht."],
+    stress: ["Den Tag abschließen", "Schreib abends kurz auf, was morgen ansteht. Dann musst du es nicht im Kopf behalten."],
+    abwehr: ["Hände waschen und lüften", "Wasch dir öfter die Hände, gerade nach Bus und Bahn, und lüfte regelmäßig."],
+    bildschirm: ["Pausen vom Bildschirm", "Steh alle 60 bis 90 Minuten kurz auf und schau ein paar Sekunden in die Ferne."],
+    unterwegs: ["Wasser und Snack dabei", "Pack dir für lange Tage Wasser und einen Snack ein, dann musst du unterwegs nicht improvisieren."],
+    familie: ["10 Minuten für dich", "Plan dir jeden Tag 10 Minuten nur für dich ein, zum Beispiel für einen kurzen Spaziergang."],
+    schicht: ["Ruhe nach der Schicht", "Mach das Schlafzimmer nach einer Nachtschicht richtig dunkel und leise und halt vor dem Schlafen feste Abläufe."],
+    sport: ["Ruhetage einplanen", "Fortschritt im Training entsteht in den Pausen. Plan bewusst Ruhetage ein und achte auf genug Schlaf."],
+    ruhig: ["Jeden Tag raus", "Geh jeden Tag eine Runde raus, auch bei grauem Wetter, am besten bei Tageslicht."]
+  };
+  var NS_HAKT = {
+    vergessen: [["Feste Stelle fürs Glas", "Stell das Glas dorthin, wo du jeden Morgen vorbeikommst, zum Beispiel neben die Kaffeemaschine."], ["Erinnerung im Kalender", "Lass dich jeden Tag erinnern. Den Termin trägst du mit einem Klick in deinen Kalender ein."]],
+    schnell: [["Gib dir Zeit", "OMNI9 ist auf Regeneration und Stabilität ausgelegt, nicht auf kurze Leistungsspitzen. In den ersten Tagen merken manche noch nichts."], ["Kleine Zeichen zählen", "Notier dir jeden Tag eine Zahl von 1 bis 5. So siehst du auch kleine Veränderungen."]],
+    geschmack: [["Langsam zergehen lassen", "Ein Tipp aus einer Bewertung: den Löffel langsam im Mund zergehen lassen. Einige schreiben, dass man sich schnell an den Geschmack gewöhnt."], ["Ein fester Moment", "Nimm den Löffel immer im gleichen ruhigen Moment, dann wird er schnell zum Ritual."]],
+    viele_mittel: [["Ein Löffel statt vieler Dosen", "Viele nutzen OMNI9 als Basis, die den Rest ersetzt oder stark reduziert. Nimmst du Medikamente, sprich vorher mit Arzt oder Apotheke."], ["Schau in den Spar-Rechner", "Im Nachkauf siehst du, was OMNI9 dir ersetzen kann."]],
+    keine: [["Bleib bei deinem Moment", "Behalte deinen festen Zeitpunkt bei, auch am Wochenende und im Urlaub."], ["Nachschub rechtzeitig", "Bestell etwa eine Woche vorher nach, dann reißt deine Routine nicht ab."]]
+  };
+  var NS_SEIT_TAG = { neu: 2, wochen: 12, fast_leer: 26, laenger: null };
+  var NS_STAND = {
+    neu: "Du fängst gerade an. Das ist der beste Moment für eine feste Routine.",
+    wochen: "Du bist schon ein paar Wochen dabei. Jetzt zählt, dass du dranbleibst.",
+    fast_leer: "Dein Glas ist bald leer. Jetzt zählt, dass deine Routine nicht abreißt.",
+    laenger: "Du nimmst OMNI9 schon länger. Jetzt lohnt sich der Blick auf deinen Fortschritt."
+  };
+  function eintrag(e) { return { titel: e[0], text: e[1] }; }
+  function nsStand(a) {
+    if (!nsTagBekannt) return a.seit;
+    return nsTag > 30 ? "laenger" : nsRest(nsTag) <= 7 ? "fast_leer" : nsTag <= 7 ? "neu" : "wochen";
+  }
+  function detailVon(a) { return NS_DETAIL[a.ziel].antworten.filter(function (e) { return e[0] === a.detail; })[0]; }
+  function ausweichNS(a) {
+    var d = detailVon(a), stand = nsStand(a), routine = NS_ROUTINE[a.alltag];
+    var schritte = [routine[1]];
+    if (a.ziel === "darm") schritte.push("Ist dein Bauch empfindlich, nimm die ersten Tage etwas weniger als einen Teelöffel und steigere dann langsam.");
+    if (a.huerde === "vergessen") schritte.push("Lass dich jeden Tag erinnern, mit dem Knopf hier unten.");
+    if (a.huerde === "geschmack") schritte.push("Ist der Geschmack ungewohnt, lass den Löffel langsam im Mund zergehen.");
+    var tipps = [];
+    a.zutreffend.concat([a.ziel, a.alltag]).forEach(function (k) { if (tipps.length < 3 && tipps.indexOf(k) < 0) tipps.push(k); });
+    return {
+      titel: d[2],
+      fazit: "Dein Ziel: " + d[2] + ". " + NS_STAND[stand] + " Dein Plan setzt auf drei Dinge: deinen Teelöffel OMNI9 jeden Tag, kleine Gewohnheiten für deinen Alltag und einen ehrlichen Blick auf deinen Fortschritt.",
+      fortschritt: d[3],
+      routine: { text: routine[0], schritte: schritte.slice(0, 3) },
+      wirkstoffe: NS_WIRKSTOFFE[a.ziel].map(eintrag),
+      phasen: [
+        { titel: stand === "neu" ? "Routine festmachen" : "Dranbleiben", schritte: ["Nimm deinen Teelöffel jeden Tag im gleichen Moment.", stand === "fast_leer" ? "Bestell diese Woche nach, damit keine Lücke entsteht." : "Leg dir deinen Startwert " + a.startwert + " von 5 als Notiz ins Handy."] },
+        { titel: "Eine Gewohnheit dazu", schritte: ["Probier diese Woche: " + NS_GEWOHNHEIT[tipps[0]][0] + ".", "Bleib bei deinem Löffel, auch am Wochenende."] },
+        { titel: "Genau hinschauen", schritte: [d[3], NS_STIMME[a.ziel] + " Bei jedem ist es anders."] },
+        { titel: "Bilanz ziehen", schritte: ["Schätz dich nochmal von 1 bis 5 ein und vergleich mit deinem Startwert " + a.startwert + ".", "Bestell rechtzeitig nach, damit deine Routine nicht abreißt."] }
+      ],
+      tipps: tipps.map(function (k) { return eintrag(NS_GEWOHNHEIT[k]); }),
+      hakt: NS_HAKT[a.huerde].map(eintrag)
+    };
+  }
+  var IB_WIRKSTOFFE = {
+    hals: ["Holunder und Propolis für den Hals", "Holunder wird genutzt, wenn Hals und Atemwege gereizt sind, und unterstützt die Schleimhäute. Propolis wird traditionell genutzt, wenn du das Gefühl hast: Da sitzt was im Hals."],
+    froesteln: ["Ingwer, der von innen wärmt", "Ingwer wärmt von innen und unterstützt den Körper in der frühen Infektphase, zum Beispiel bei Frösteln oder Druck im Kopf."],
+    glieder: ["Kurkuma, Ingwer und Piperin", "Gegen den Entzündungsdruck in der Infektphase arbeiten Kurkuma, Ingwer und Piperin zusammen. Piperin verstärkt die Wirkung von Kurkuma um ein Vielfaches."],
+    schlapp: ["Hagebutte", "Hagebutte liefert pflanzliche Vitamin-C-Synergie und unterstützt die Regeneration nach einem Infekt."],
+    basis: ["Vitamin C und Zink", "Vitamin C und Zink tragen zu einer normalen Funktion des Immunsystems bei."],
+    matrix: ["Alles in einer Honigmatrix", "Der Honig macht die Einnahme einfach und trägt die Wirkstoffe, also Vitamin C und Zink sowie Holunder, Propolis, Ingwer, Kurkuma und Piperin."]
+  };
+  IB_WIRKSTOFFE.kopf = IB_WIRKSTOFFE.glieder;
+  var IB_SCHONEN = {
+    ja: ["Gönn dir Ruhe, das ist jetzt das Wichtigste.", "Nimm deine drei Löffel zu festen Zeiten: morgens nach dem Aufstehen, mittags und abends. Magst du es warm, rühr den Booster in Tee unter 40 °C.", "Leg dich hin, wenn dein Körper es braucht."],
+    nein: ["Auch wenn du weiter funktionieren musst: Plan dir kleine Pausen ein.", "Nimm den ersten Löffel vor dem Losgehen und den letzten am Abend. Für mittags nimm das Glas mit.", "Plan heute feste Pausen ein und geh früher ins Bett."],
+    kinder: ["Mit Kindern im Haus hilft ein fester Ablauf, damit du an deine Löffel denkst.", "Verknüpf deine drei Löffel mit den Mahlzeiten der Familie: Frühstück, Mittagessen, Abendessen.", "Gönn dir Pausen, wann immer es geht, und hol dir Unterstützung."]
+  };
+  var IB_SCHONEN_TIPP = {
+    ja: ["Nimm OMNI9 weiter", "Viele nehmen OMNI9 weiter und für ein paar Tage den Booster dazu."],
+    nein: ["Kleine Pausen", "Steh zwischendurch auf, lüfte und geh abends früher ins Bett."],
+    kinder: ["Hände waschen", "Wascht euch öfter die Hände, damit nicht alle nacheinander krank werden."]
+  };
+  var IB_KONTAKT_TIPPS = {
+    kita: [["Griffbereit", "Stell den Booster griffbereit in den Küchenschrank."], ["Hände waschen", "Wascht euch nach dem Abholen gleich die Hände."], ["Früh starten", "Starte beim ersten Halskratzen, nicht erst, wenn es richtig losgeht."]],
+    buero: [["Lüften", "Lüfte regelmäßig, zum Beispiel jede Stunde ein paar Minuten."], ["Eigene Tasse", "Nimm deine eigene Tasse und wasch dir öfter die Hände."], ["Sofort starten", "Starte beim ersten Kratzen im Hals sofort."]],
+    reisen: [["Mitnehmen", "Nimm den Booster auf längere Reisen mit."], ["Genug trinken", "Trink unterwegs genug, gerade in Bahn und Flugzeug."], ["Ruhiger Abend", "Plan nach der Reise einen ruhigen Abend ein."]],
+    wenig: [["Schnell zur Hand", "Bewahr den Booster dort auf, wo du ihn schnell findest."], ["Sofort starten", "Starte bei den ersten Anzeichen sofort."], ["Ruhe und Schlaf", "Gönn dir dann Ruhe und schlaf genug."]]
+  };
+  function ausweichIB(a) {
+    if (a.modus === "vorbeugen") {
+      return {
+        titel: "Gut vorbereitet durch die Erkältungszeit",
+        fazit: "In der Erkältungszeit nimmst du jeden Tag einen Teelöffel. Merkst du erste Anzeichen, wechselst du sofort auf 3-mal am Tag. So bist du vorbereitet, auch bei viel Kontakt.",
+        fortschritt: "",
+        routine: { text: "Nimm jeden Tag einen Teelöffel zu einem festen Moment, zum Beispiel morgens. Pur vom Löffel oder in warmem Tee unter 40 °C.", schritte: ["Stell den Booster griffbereit in den Küchenschrank."] },
+        wirkstoffe: [IB_WIRKSTOFFE.basis, IB_WIRKSTOFFE.hals, IB_WIRKSTOFFE.matrix].map(eintrag),
+        phasen: [
+          { titel: "Ein Löffel am Tag", schritte: ["1 Teelöffel am Tag, zum Beispiel morgens."] },
+          { titel: "Sofort umstellen", schritte: ["Wechsle bei den ersten Anzeichen auf morgens, mittags und abends je 1 Teelöffel, für 5 bis 10 Tage."] },
+          { titel: "Nachschub sichern", schritte: ["Halte immer ein Glas als Vorrat bereit, dann kannst du sofort starten."] }
+        ],
+        tipps: IB_KONTAKT_TIPPS[a.kontakt].map(eintrag),
+        hakt: []
+      };
+    }
+    var s = IB_SCHONEN[a.schonen], wirk = [];
+    a.merkst.concat(["basis", "matrix"]).forEach(function (k) { var w = IB_WIRKSTOFFE[k]; if (wirk.length < 3 && wirk.indexOf(w) < 0) wirk.push(w); });
+    return {
+      titel: a.modus === "erwischt" ? "Wieder zu Kräften kommen" : "Gut durch die nächsten Tage",
+      fazit: "Jetzt zählt, dass du gleich startest: morgens, mittags und abends je ein Teelöffel, 5 bis 10 Tage lang. " + s[0],
+      fortschritt: "",
+      routine: { text: s[1], schritte: ["Morgens, mittags und abends je 1 Teelöffel (ca. 10 g).", "Bleib bei 3 Löffeln am Tag, auch wenn es schon besser wird."] },
+      wirkstoffe: wirk.map(eintrag),
+      phasen: [
+        { titel: "Sofort starten", schritte: ["Pur vom Löffel oder in warmem Tee unter 40 °C.", s[2]] },
+        { titel: "Dranbleiben", schritte: ["Bleib bei 3 Löffeln am Tag.", "Trink viel, zum Beispiel warmen Tee."] },
+        { titel: "Ruhe geben", schritte: ["Gönn dir Ruhe und schlaf genug.", WARNUNG] },
+        { titel: "Zurück zu Kräften", schritte: ["Nach 5 bis 10 Tagen kannst du die Kur beenden. Bei Bedarf wiederholst du sie.", "Danach in der Erkältungszeit vorbeugend 1 Teelöffel am Tag."] }
+      ],
+      tipps: [["Viel trinken", "Trink viel, zum Beispiel warmen Tee. Rühr den Booster nur in Tee unter 40 °C."], ["Schlaf und Ruhe", "In der Akutphase braucht dein Körper vor allem Ruhe. Schlaf genug und schalt einen Gang zurück."], IB_SCHONEN_TIPP[a.schonen]].map(eintrag),
+      hakt: []
+    };
+  }
+  function ausweichPlan(p, a) { return p === "ns" ? ausweichNS(a) : ausweichIB(a); }
+
+  /* Plan anzeigen: KI-Texte oder Ausweich-Plan in festen Bausteinen, Preise und Links kommen vom Hub */
+  function kurzDatum(d) { return d.getDate() + ". " + MONATE[d.getMonth()]; }
+  function planModus(p, a) { return p === "ns" ? "ns" : istAkut(a) ? "akut" : "vorbeugen"; }
+  function planEtiketten(p, a) {
+    var heute = new Date();
+    if (p === "ns") return [0, 7, 14, 21].map(function (t, i) { return "Woche " + (i + 1) + " · ab " + kurzDatum(plusTage(heute, t)); });
+    return istAkut(a) ? ["Tag 1", "Tag 2 bis 3", "Tag 4 bis 5", "Tag 6 bis 10"] : ["Jeden Tag", "Bei ersten Anzeichen", "Vor der nächsten Erkältungszeit"];
+  }
+  function planArt(p, a) { return p === "ns" ? "Dein 30-Tage-Plan" : istAkut(a) ? "Dein Plan für die nächsten 5 bis 10 Tage" : "Dein Plan für die Erkältungszeit"; }
+  function teil(titel) { var s = element("section", "plan-teil"); s.appendChild(element("h3", null, titel)); return s; }
+  function planListe(eintraege) {
+    var ul = element("ul", "plan-liste");
+    eintraege.forEach(function (e) { var li = element("li"); li.append(element("b", null, e.titel), element("p", null, e.text)); ul.appendChild(li); });
+    return ul;
+  }
+  function haken(schritte) {
+    var ul = element("ul", "haken-liste");
+    schritte.forEach(function (s) { var li = element("li"); li.append(ikon("haken"), element("span", null, s)); ul.appendChild(li); });
+    return ul;
+  }
+  function kaufLink(selektor) { var a = document.querySelector(selektor); return a ? mitKennung(a.href, "plan") : null; }
+  /* Datum zum Nachbestellen fürs Nutrition-System: aus dem bekannten Tag, sonst aus „Seit wann“ */
+  function nachkaufSatz(a) {
+    var tag = nsTagBekannt ? nsTag : NS_SEIT_TAG[a.seit], heute = new Date();
+    if (!tag) return "Ein Glas reicht 30 Tage. Bestell etwa eine Woche vorher nach, dann ist dein neues Glas rechtzeitig da.";
+    var rest = nsRest(tag);
+    if (rest <= 7) return "Bestell am besten heute nach. Die Lieferung dauert 2 bis 7 Tage.";
+    return "Dein Glas ist etwa am " + datumText(plusTage(heute, rest)) + " leer. Bestell bis " + datumText(plusTage(heute, rest - 7)) + ", dann ist das neue rechtzeitig da.";
+  }
+  function kaufTeil(p, a) {
+    var s = element("section", "plan-kauf"), knoepfe = element("div", "plan-knoepfe");
     if (p === "ns") {
-      titel.textContent = ZIELE[a.ziel].name;
-      var achsen = element("div", "plan-achsen");
-      achsen.appendChild(element("p", null, "Diese Achsen arbeiten für dein Ziel:"));
-      ZIELE[a.ziel].achsen.forEach(function (nr) { achsen.appendChild(knopfMit(ACHSEN_NAMEN[nr], "achse-chip", function () { achseOeffnen(nr); })); });
-      box.appendChild(achsen);
+      s.append(element("h3", null, "Damit dein Plan nicht abreißt"), element("p", null, nachkaufSatz(a) + " Mit automatischer Lieferung kommt es von allein, für 69\u00a0€ statt 89\u00a0€."));
+      knoepfe.append(linkMit("Automatisch liefern lassen", "knopf gold", kaufLink('[data-kauf="ns-automatisch"]'), true), linkMit("Einmal nachbestellen", "knopf hell", kaufLink('[data-kauf="ns-einmal"]'), true));
+      if (a.ziel === "abwehr") knoepfe.append(linkMit("3er-Set mit Immun Booster gratis", "text-link", kaufLink('[data-kauf="ns-set3"]'), true), linkMit("Immun Booster ansehen", "text-link", "#immun-booster"));
+      if (a.huerde === "viele_mittel") knoepfe.appendChild(linkMit("Was OMNI9 dir ersetzt", "text-link", "#ns-sparen"));
     } else {
-      titel.textContent = a.modus === "akut" ? "Dein Akut-Plan" : "Dein Plan zum Vorbeugen";
+      s.append(element("h3", null, "Nachschub für die nächste Erkältungszeit"), element("p", null, "Ein Glas reicht für eine Akutphase von bis zu 10 Tagen. Automatisch geliefert kostet es 49,90\u00a0€ statt 59,90\u00a0€."));
+      knoepfe.append(linkMit("Automatisch liefern lassen", "knopf gold", kaufLink('[data-kauf="ib-automatisch"]'), true), linkMit("Einmal nachbestellen", "knopf hell", kaufLink('[data-kauf="ib-einmal"]'), true));
+      if (a.ns !== "taeglich") knoepfe.append(linkMit("Das Nutrition-System als tägliche Basis", "text-link", "#nutrition-system"), linkMit("3er-Set mit Immun Booster gratis", "text-link", kaufLink('[data-kauf="ib-set3"]'), true));
     }
-    zielKarte(p, p === "ns" ? "Dein Ziel: " + ZIELE[a.ziel].name : titel.textContent, "Dein Plan mit Tipps für deinen Alltag steht bereit.");
-    var tipps = element("ul", "plan-tipps");
-    planTipps(p, a).forEach(function (t) {
-      var li = element("li"), bild = element("span", "q-ikon"), inhalt = element("div");
-      bild.appendChild(ikon(t.icon));
-      inhalt.append(element("p", "plan-art", t.art), element("h3", null, t.titel), element("p", null, t.text));
-      if (t.schritte.length) {
-        var schritte = element("ul", "haken-liste plan-schritte");
-        t.schritte.forEach(function (s) {
-          var zeile = element("li");
-          zeile.append(ikon("haken"), element("span", null, s));
-          schritte.appendChild(zeile);
-        });
-        inhalt.appendChild(schritte);
-      }
-      li.append(bild, inhalt);
-      tipps.appendChild(li);
+    s.appendChild(knoepfe);
+    return s;
+  }
+  function planZeigen(p, plan, quelle) {
+    var q = QUIZ_BOXEN[p], a = q.antworten, box = q.box, etiketten = planEtiketten(p, a), heute = new Date();
+    q.plan = plan;
+    q.quelle = quelle;
+    var koerper = box.querySelector("[data-q-koerper]"), fuss = box.querySelector("[data-q-fuss]");
+    box.querySelector("[data-q-schritt]").textContent = planArt(p, a);
+    box.querySelector("[data-q-titel]").textContent = plan.titel;
+    glasFuellen(q.honig, 1);
+    var v = element("div", "plan");
+    v.dataset.plan = p;
+    v.appendChild(element("p", "plan-fazit", plan.fazit));
+    if (p === "ns") {
+      var start = element("section", "plan-start"), zahl = element("p", "plan-wert", a.startwert + " von 5"), stand = element("div");
+      zahl.appendChild(element("small", null, "Heute"));
+      stand.append(element("p", null, plan.fortschritt), element("p", null, "Schätz dich am " + datumText(plusTage(heute, 14)) + " und am " + datumText(plusTage(heute, 28)) + " nochmal ein."));
+      start.append(zahl, stand);
+      v.appendChild(start);
+    }
+    var routine = teil(p === "ns" ? "Deine Routine mit OMNI9" : "So nimmst du den Booster");
+    if (p === "ib") routine.appendChild(element("p", "plan-fakt", istAkut(a) ? "Morgens, mittags und abends je 1 Teelöffel (ca. 10 g), 5 bis 10 Tage. Pur vom Löffel oder in warmem Tee unter 40 °C." : "1 Teelöffel am Tag. Merkst du erste Anzeichen, wechsle auf 3-mal am Tag."));
+    routine.append(element("p", null, plan.routine.text), haken(plan.routine.schritte));
+    var erinnern = knopfMit(p === "ib" && istAkut(a) ? "Erinnere mich 3-mal am Tag" : "Erinnere mich jeden Tag", "knopf hell tp-erinnerung", function () {});
+    erinnern.dataset.erinnerung = p === "ns" ? "ns-taeglich" : istAkut(a) ? "ib-akut" : "ib-vorbeugend";
+    erinnern.prepend(ikon("i-kalender-linie"));
+    var rk = element("div", "plan-knoepfe");
+    rk.appendChild(erinnern);
+    routine.appendChild(rk);
+    v.appendChild(routine);
+    var wirk = teil(p === "ns" ? "Was in OMNI9 für dein Ziel arbeitet" : "Was im Booster für dich arbeitet"), wk = element("div", "plan-knoepfe");
+    wirk.appendChild(planListe(plan.wirkstoffe));
+    if (p === "ns") NS_ZIELE[a.ziel].achsen.forEach(function (nr) { wk.appendChild(knopfMit(ACHSEN_NAMEN[nr], "achse-chip", function () { achseOeffnen(nr); })); });
+    else wk.appendChild(linkMit("Alle Zutaten ansehen", "text-link", "#ib-inhalt"));
+    wirk.appendChild(wk);
+    v.appendChild(wirk);
+    var phasen = teil(p === "ns" ? "Deine 4 Wochen" : istAkut(a) ? "Tag für Tag" : "So bist du vorbereitet"), ol = element("ol", "plan-phasen");
+    plan.phasen.forEach(function (ph, i) {
+      var li = element("li"), rechts = element("div"), ul = element("ul");
+      ph.schritte.forEach(function (s) { ul.appendChild(element("li", null, s)); });
+      rechts.append(element("b", null, ph.titel), ul);
+      li.append(element("span", "plan-etikett", etiketten[i]), rechts);
+      ol.appendChild(li);
     });
-    box.appendChild(tipps);
-    if (p === "ns" && ZIELE[a.ziel].booster) {
-      var extra = element("p", "plan-extra");
-      extra.appendChild(linkMit("Immun Booster ansehen", "text-link", "#immun-booster"));
-      box.appendChild(extra);
+    phasen.appendChild(ol);
+    v.appendChild(phasen);
+    var tipps = teil(p === "ns" ? "3 Gewohnheiten, die dich unterstützen" : "Was dir zusätzlich hilft");
+    tipps.appendChild(planListe(plan.tipps));
+    v.appendChild(tipps);
+    if (p === "ns") {
+      var hakt = teil("Wenn es hakt");
+      hakt.appendChild(planListe(plan.hakt));
+      v.appendChild(hakt);
+    } else {
+      var sicher = teil("Gut zu wissen");
+      sicher.appendChild(element("p", null, "Bei einer Allergie gegen Bienenprodukte bitte verzichten. Bei Schwangerschaft, Stillzeit, chronischen Erkrankungen oder wenn du Medikamente nimmst, sprich vorher kurz mit Arzt oder Apotheke."));
+      if (istAkut(a)) sicher.appendChild(element("p", "plan-warnung", WARNUNG));
+      v.appendChild(sicher);
     }
-    koerper.appendChild(box);
-    fuss.appendChild(knopfMit("Nochmal von vorn", "text-link", function () { QUIZ_BOXEN[p].schritt = 0; QUIZ_BOXEN[p].antworten = {}; zielKarte(p); quizRendern(p, true); }));
+    v.appendChild(kaufTeil(p, a));
+    var hilfe = teil("Fragen zu deinem Plan?"), hk = element("div", "plan-knoepfe");
+    hilfe.appendChild(element("p", null, "Der Assistent im Hub kennt deinen Plan und antwortet sofort. Oder schreib unserem Team an service@omni9.de."));
+    hk.append(knopfMit("Frag den Assistenten", "knopf hell", function () { planImChat(p); }), linkMit("Oder schreib unserem Team", "text-link", "mailto:service@omni9.de?subject=" + encodeURIComponent("Frage zu meinem OMNI9-Plan")));
+    hilfe.appendChild(hk);
+    v.appendChild(hilfe);
+    v.appendChild(element("p", "plan-quelle", (quelle === "ki" ? "Erstellt mit KI aus den Produktinfos von OMNI9." : "Aus den Tipps von OMNI9.") + " Ersetzt keine ärztliche Beratung." + (p === "ns" && a.startwert === 1 ? " Belastet dich das stark, lass es auch ärztlich abklären." : "")));
+    koerper.replaceChildren(v);
+    var aktionen = element("div", "plan-aktionen");
+    aktionen.append(
+      linkMit("Per E-Mail an mich", "knopf gold", planMailLink(p)),
+      knopfMit("Als PDF speichern", "knopf hell", function () { planDrucken(p); })
+    );
+    fuss.replaceChildren(aktionen, knopfMit("Nochmal von vorn", "text-link", function () { q.anfrage++; q.id = null; q.antworten = {}; q.plan = null; zielKarte(p); quizRendern(p, true); }));
+    zielKarte(p, p === "ns" ? "Dein Ziel: " + NS_ZIELE[a.ziel].name : istAkut(a) ? "Dein Plan für die Akutphase" : "Dein Plan zum Vorbeugen", p === "ns" ? "Dein 30-Tage-Plan steht bereit." : "Dein Plan steht bereit.");
+    if (box.getBoundingClientRect().top < 0) box.scrollIntoView({ behavior: bewegungAus ? "auto" : "smooth", block: "start" });
+  }
+
+  /* Plan von ChatGPT über den Hub-Chat-Server (meta hub-plan-api). Geschickt werden nur Kürzel, Freitext und der Tag, kein Name.
+     Ohne Server, nach 25 Sekunden, bei Fehlern oder falscher Form kommt der Ausweich-Plan. Späte Antworten werden verworfen */
+  var PLAN_API = (document.querySelector('meta[name="hub-plan-api"]') || {}).content || "";
+  var PHASEN_ANZAHL = { ns: 4, akut: 4, vorbeugen: 3 };
+  function istText(s) { return typeof s === "string" && s.trim().length > 0; }
+  function eintraegeOk(l, min) { return Array.isArray(l) && l.length >= min && l.every(function (e) { return e && istText(e.titel) && istText(e.text); }); }
+  function planGueltig(plan, modus) {
+    return !!plan && istText(plan.titel) && istText(plan.fazit) && (modus !== "ns" || istText(plan.fortschritt))
+      && !!plan.routine && istText(plan.routine.text) && Array.isArray(plan.routine.schritte) && plan.routine.schritte.every(istText)
+      && eintraegeOk(plan.wirkstoffe, 1) && eintraegeOk(plan.tipps, 1) && (modus !== "ns" || eintraegeOk(plan.hakt, 1))
+      && Array.isArray(plan.phasen) && plan.phasen.length === PHASEN_ANZAHL[modus]
+      && plan.phasen.every(function (ph) { return ph && istText(ph.titel) && Array.isArray(ph.schritte) && ph.schritte.length > 0 && ph.schritte.every(istText); });
+  }
+  function planDaten(p) {
+    var a = QUIZ_BOXEN[p].antworten, antworten = {};
+    aktiveFragen(p).forEach(function (f) { if (f.id !== "freitext" && a[f.id] !== undefined) antworten[f.id] = a[f.id]; });
+    var daten = { produkt: p, antworten: antworten, freitext: (a.freitext || "").trim().slice(0, 500) };
+    if (p === "ns" && nsTagBekannt) daten.tag = nsTag;
+    return daten;
+  }
+  function planErstellen(p) {
+    var q = QUIZ_BOXEN[p], nr = ++q.anfrage, a = q.antworten, modus = planModus(p, a), fertig = false;
+    var koerper = q.box.querySelector("[data-q-koerper]"), fuss = q.box.querySelector("[data-q-fuss]");
+    q.box.querySelector("[data-q-schritt]").textContent = planArt(p, a);
+    q.box.querySelector("[data-q-titel]").textContent = "Dein Plan entsteht …";
+    var laden = element("div", "quiz-laden");
+    laden.setAttribute("role", "status");
+    laden.append(element("b", null, "Einen Moment, dein Plan entsteht."), element("p", null, "Wir schauen auf dein Ziel, deinen Alltag und deine Antworten."));
+    koerper.replaceChildren(laden);
+    fuss.replaceChildren();
+    var fuellung = 0.85, takt = setInterval(function () { fuellung = Math.min(0.98, fuellung + 0.01); glasFuellen(q.honig, fuellung); }, 600);
+    var ab = null, uhr = null;
+    /* Jeder Weg beendet das Laden: KI-Plan, sonst Ausweich-Plan, sonst ein Hinweis mit „Nochmal von vorn“ */
+    function zeigen(plan, quelle) {
+      if (fertig) return;
+      fertig = true;
+      clearInterval(takt);
+      clearTimeout(uhr);
+      if (nr !== q.anfrage) return;
+      try { planZeigen(p, plan || ausweichPlan(p, a), plan ? quelle : "tipps"); }
+      catch (e) {
+        try { planZeigen(p, ausweichPlan(p, a), "tipps"); } catch (e2) { planFehler(p); }
+      }
+    }
+    function ausweichen() { zeigen(null); }
+    if (!PLAN_API) { uhr = setTimeout(ausweichen, 700); return; }
+    ab = new AbortController();
+    uhr = setTimeout(function () { ab.abort(); ausweichen(); }, 25000);
+    fetch(PLAN_API, { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify(planDaten(p)), signal: ab.signal })
+      .then(function (r) { if (!r.ok) throw new Error("Status " + r.status); return r.json(); })
+      .then(function (d) { if (!planGueltig(d && d.plan, modus)) throw new Error("Form"); zeigen(d.plan, "ki"); })
+      .catch(ausweichen);
+  }
+  function planFehler(p) {
+    var q = QUIZ_BOXEN[p];
+    q.box.querySelector("[data-q-titel]").textContent = "Das hat gerade nicht geklappt";
+    q.box.querySelector("[data-q-koerper]").replaceChildren(element("p", "quiz-hinweis plan", "Bitte starte die Fragen nochmal. Oder frag direkt den Assistenten oder unser Team."));
+    q.box.querySelector("[data-q-fuss]").replaceChildren(knopfMit("Nochmal von vorn", "knopf", function () { q.anfrage++; q.id = null; q.antworten = {}; q.plan = null; zielKarte(p); quizRendern(p, true); }));
+  }
+  /* Fragen zum Plan: Der Assistent bekommt Titel und Kurzfazit als Verlauf */
+  function planImChat(p) {
+    var plan = QUIZ_BOXEN[p].plan;
+    oeffnen();
+    chatVerlauf.push({ rolle: "assistent", text: ("Dein Plan „" + plan.titel + "“: " + plan.fazit).slice(0, 900) });
+    nachricht("Ich kenne deinen Plan „" + plan.titel + "“. Was möchtest du dazu wissen?", "bot");
+    vorschlaegeSetzen(p === "ns" ? ["Wann nehme ich OMNI9 am besten?", "Was hilft, wenn ich es vergesse?", "Wann merke ich etwas?"] : ["Darf ich ihn in Tee nehmen?", "Wie lange nehme ich ihn?", "Kann ich ihn mit OMNI9 kombinieren?"]);
+  }
+  /* Kurze Fassung für die eigene Mail-App: höchstens 2.000 Zeichen im Link, damit kein Mail-Programm abschneidet */
+  function planMailLink(p) {
+    var q = QUIZ_BOXEN[p], plan = q.plan, a = q.antworten, heute = new Date(), etiketten = planEtiketten(p, a);
+    var betreff = "Mein OMNI9-Plan: " + plan.titel;
+    var kopf = { text: planArt(p, a) + ": " + plan.titel + "\n\n" + plan.fazit, prio: 0 };
+    var bloecke = [kopf];
+    if (p === "ns") bloecke.push({ text: "Heute: " + a.startwert + " von 5. " + plan.fortschritt + "\nNochmal einschätzen am " + datumText(plusTage(heute, 14)) + " und am " + datumText(plusTage(heute, 28)) + ".", prio: 0 });
+    bloecke.push({ text: (p === "ns" ? "Deine Routine: " : "So nimmst du ihn: ") + plan.routine.text, prio: 0 });
+    var phasenBlock = { text: plan.phasen.map(function (ph, i) { return etiketten[i] + ": " + ph.titel + ". " + ph.schritte[0]; }).join("\n"), prio: 2, kurz: plan.phasen.map(function (ph, i) { return etiketten[i] + ": " + ph.titel; }).join("\n") };
+    bloecke.push(phasenBlock);
+    bloecke.push({ text: (p === "ns" ? "Deine Gewohnheiten: " : "Was dir hilft: ") + plan.tipps.map(function (t) { return t.titel; }).join(", ") + ".", prio: 3 });
+    if (p === "ns") bloecke.push({ text: nachkaufSatz(a), prio: 4 });
+    var schluss = { text: (/^https?:/.test(location.href) ? "Alle Infos und der Assistent für deine Fragen: " + hubAdresse("#" + p + "-tipps") + "\n\n" : "") + (q.quelle === "ki" ? "Erstellt mit KI aus den Produktinfos von OMNI9." : "Aus den Tipps von OMNI9.") + " Ersetzt keine ärztliche Beratung.", prio: 0 };
+    bloecke.push(schluss);
+    function link() { return "mailto:?subject=" + encodeURIComponent(betreff) + "&body=" + encodeURIComponent(bloecke.map(function (b) { return b.text; }).join("\n\n")); }
+    if (link().length > 2000) phasenBlock.text = phasenBlock.kurz;
+    [4, 3, 2].forEach(function (prio) { if (link().length > 2000) bloecke = bloecke.filter(function (b) { return b.prio !== prio; }); });
+    if (link().length > 2000) kopf.text = planArt(p, a) + ": " + plan.titel + "\n\n" + (plan.fazit.match(/^[^.!?]+[.!?]/) || [plan.fazit.slice(0, 200)])[0];
+    /* Reicht das nicht, wird der längste Block am Wortende gekürzt, bis der Link passt. Der Schluss mit Link und Hinweis bleibt */
+    while (link().length > 2000) {
+      var laengster = bloecke.filter(function (b) { return b !== schluss; }).sort(function (x, y) { return y.text.length - x.text.length; })[0];
+      if (!laengster || laengster.text.length < 40) break;
+      var kuerzer = laengster.text.slice(0, laengster.text.length - 40);
+      laengster.text = kuerzer.slice(0, Math.max(kuerzer.lastIndexOf(" "), 1)) + " …";
+    }
+    return link();
+  }
+  /* Als PDF speichern: nur der Plan im OMNI9-Look, über die Druckansicht des Browsers */
+  function planDrucken(p) {
+    var q = QUIZ_BOXEN[p], plan = q.box.querySelector("[data-plan]");
+    if (!plan) return;
+    var druck = element("div"), kopf = element("header", "druck-kopf"), logo = element("img");
+    druck.id = "plan-druck";
+    logo.src = "bilder/omni9-logo.svg";
+    logo.alt = "OMNI9";
+    kopf.append(logo, element("p", null, planArt(p, q.antworten) + " · erstellt am " + datumText(new Date())));
+    druck.append(kopf, element("h1", null, q.plan.titel), plan.cloneNode(true));
+    document.body.appendChild(druck);
+    document.body.classList.add("plan-druck");
+    function aufraeumen() { document.body.classList.remove("plan-druck"); druck.remove(); window.removeEventListener("afterprint", aufraeumen); }
+    window.addEventListener("afterprint", aufraeumen);
+    window.print();
   }
 
   /* Dein Stand: Die Karten der Säulen 2 und 3 zeigen dein Ziel und deinen Vorrat, sobald sie bekannt sind. Gespeichert wird nichts */
