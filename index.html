@@ -401,6 +401,10 @@ details p { padding: 0 0 16px; font-size: 14px; color: var(--muted); }
 .rhythmus input:focus-visible + span { outline: 2px solid var(--gold); outline-offset: 2px; }
 .kasse-hinweis { display: flex; align-items: flex-start; gap: 8px; font-size: 13px; color: var(--muted); }
 .kasse-hinweis svg { flex: none; width: 15px; height: 15px; margin-top: 2px; color: var(--gold-text); }
+.kasse-hinweis + .kasse-hinweis { margin-top: 6px; }
+/* Logos von Zahlungsarten (wie im Shop-Footer von omni9.de) und DHL */
+.kasse-logos { display: inline-flex; gap: 4px; margin-left: 2px; vertical-align: middle; }
+.kasse-logos img { display: block; width: auto; height: 20px; }
 .sets { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 12px; margin-top: 14px; }
 .set { display: grid; grid-template-columns: 72px minmax(0, 1fr) 14px; gap: 14px; align-items: center; padding: 14px; border-radius: 14px; border: 1px solid var(--linie); background: #fff; }
 .set:hover { border-color: var(--gold-hell); }
@@ -1145,7 +1149,8 @@ body.chat-offen .chat-fenster { display: flex; }
               <label><input type="radio" name="ns-kaufbox-rhythmus" value="692321157468"><span>Alle 16 Wochen</span></label>
             </fieldset>
             <a class="knopf gold kb-knopf" data-kb-knopf href="https://omni9.de/cart/56549866013020:1" target="_blank" rel="noopener">Bestellen für 59,90&nbsp;€</a>
-            <p class="kasse-hinweis"><svg><use href="#i-schloss"/></svg>Bezahlen kannst du zum Beispiel mit Klarna, Apple Pay oder Google Pay. Lieferung mit DHL in 2 bis 7 Tagen.</p>
+            <p class="kasse-hinweis"><svg><use href="#i-schloss"/></svg><span>Bezahlen kannst du zum Beispiel mit <span class="kasse-logos"><img src="bilder/zahlung-klarna.svg" alt="Klarna"><img src="bilder/zahlung-apple-pay.svg" alt="Apple Pay"><img src="bilder/zahlung-google-pay.svg" alt="Google Pay"></span></span></p>
+            <p class="kasse-hinweis"><svg><use href="#lieferwagen"/></svg><span>Lieferung in 2 bis 7 Tagen mit <span class="kasse-logos"><img src="bilder/versand-dhl.svg" alt="DHL"></span></span></p>
             <p class="kb-hinweis">Set schon zu Hause? <a class="text-link" href="#ib-einnahme">So nimmst du den Booster</a></p>
           </div>
           <figure class="kb-plan">
@@ -1480,7 +1485,7 @@ body.chat-offen .chat-fenster { display: flex; }
             <a class="knopf gold" data-auto-link data-kauf="ns-automatisch" href="https://omni9.de/cart/add?id=56780244877660&amp;quantity=1&amp;selling_plan=692303823196&amp;return_to=/checkout" target="_blank" rel="noopener">Automatisch liefern lassen</a>
           </section>
         </div>
-        <p class="kasse-hinweis"><svg><use href="#i-schloss"/></svg>Beide Knöpfe führen direkt zur sicheren Kasse von omni9.de. Bezahlen kannst du zum Beispiel mit Klarna, Apple Pay oder Google Pay.</p>
+        <p class="kasse-hinweis"><svg><use href="#i-schloss"/></svg><span>Beide Knöpfe führen direkt zur sicheren Kasse von omni9.de. Bezahlen kannst du zum Beispiel mit <span class="kasse-logos"><img src="bilder/zahlung-klarna.svg" alt="Klarna"><img src="bilder/zahlung-apple-pay.svg" alt="Apple Pay"><img src="bilder/zahlung-google-pay.svg" alt="Google Pay"></span></span></p>
         <section class="block sparen" id="ns-sparen" aria-labelledby="ns-sparen-titel">
           <h2 id="ns-sparen-titel">Was OMNI9 dir ersetzt</h2>
           <p class="block-text">Tipp an, was du vorher einzeln genommen hast. Die Preise pro Monat stammen aus dem Vergleich auf omni9.de.</p>
@@ -1651,7 +1656,8 @@ body.chat-offen .chat-fenster { display: flex; }
               <label><input type="radio" name="ib-kaufbox-rhythmus" value="692318962012"><span>Alle 6 Wochen</span></label>
             </fieldset>
             <a class="knopf gold kb-knopf" data-kb-knopf href="https://omni9.de/cart/add?id=56780244877660&amp;quantity=1&amp;selling_plan=692303823196&amp;return_to=/checkout" target="_blank" rel="noopener">Automatisch liefern lassen für 69,00&nbsp;€</a>
-            <p class="kasse-hinweis"><svg><use href="#i-schloss"/></svg>Bezahlen kannst du zum Beispiel mit Klarna, Apple Pay oder Google Pay. Lieferung mit DHL in 2 bis 7 Tagen.</p>
+            <p class="kasse-hinweis"><svg><use href="#i-schloss"/></svg><span>Bezahlen kannst du zum Beispiel mit <span class="kasse-logos"><img src="bilder/zahlung-klarna.svg" alt="Klarna"><img src="bilder/zahlung-apple-pay.svg" alt="Apple Pay"><img src="bilder/zahlung-google-pay.svg" alt="Google Pay"></span></span></p>
+            <p class="kasse-hinweis"><svg><use href="#lieferwagen"/></svg><span>Lieferung in 2 bis 7 Tagen mit <span class="kasse-logos"><img src="bilder/versand-dhl.svg" alt="DHL"></span></span></p>
             <p class="kb-hinweis"><a class="text-link" href="#nutrition-system">Mehr über das Nutrition-System</a></p>
           </div>
           <figure class="kb-plan">
@@ -1882,7 +1888,7 @@ body.chat-offen .chat-fenster { display: flex; }
             <a class="knopf gold" data-auto-link data-kauf="ib-automatisch" href="https://omni9.de/cart/add?id=56549866013020&amp;quantity=1&amp;selling_plan=692321059164&amp;return_to=/checkout" target="_blank" rel="noopener">Automatisch liefern lassen</a>
           </section>
         </div>
-        <p class="kasse-hinweis"><svg><use href="#i-schloss"/></svg>Beide Knöpfe führen direkt zur sicheren Kasse von omni9.de. Bezahlen kannst du zum Beispiel mit Klarna, Apple Pay oder Google Pay.</p>
+        <p class="kasse-hinweis"><svg><use href="#i-schloss"/></svg><span>Beide Knöpfe führen direkt zur sicheren Kasse von omni9.de. Bezahlen kannst du zum Beispiel mit <span class="kasse-logos"><img src="bilder/zahlung-klarna.svg" alt="Klarna"><img src="bilder/zahlung-apple-pay.svg" alt="Apple Pay"><img src="bilder/zahlung-google-pay.svg" alt="Google Pay"></span></span></p>
         <section class="block">
           <h2>Mehr auf Vorrat</h2>
           <p class="block-text">In beiden Sets mit dem Nutrition-System ist der Immun Booster gratis dabei.</p>
