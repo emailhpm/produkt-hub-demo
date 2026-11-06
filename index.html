@@ -142,26 +142,73 @@ button.mein-produkt:hover, button.mein-produkt[aria-expanded="true"] { backgroun
 .weiter svg { width: 16px; height: 16px; color: var(--gold-text); }
 .block { padding: 24px 26px; background: #fff; border: 1px solid var(--linie); border-radius: 16px; }
 
-/* Dein Stand: Produkt, die drei Säulen und der Regler */
-.p-held { display: grid; grid-template-columns: 124px minmax(0, 1fr); gap: 26px; align-items: center; }
-.p-bild { width: 124px; height: 160px; }
+/* Dein Stand: Produkt mit Roadmap-Zeile, Regler, Erinnerungen und das andere Produkt */
+.p-held { display: grid; grid-template-columns: 124px minmax(0, 1fr); gap: 14px 26px; align-items: center; }
+.p-bild { grid-row: span 2; width: 124px; height: 160px; }
 .p-bild img { display: block; width: 100%; height: 100%; object-fit: contain; object-position: center bottom; filter: drop-shadow(0 16px 14px rgba(51, 50, 64, .24)); }
 .p-held h1 { margin-top: 2px; font-size: 32px; }
 .p-held .unter { margin-top: 6px; font-size: 16.5px; color: var(--text-2); }
-.versand-link { display: inline-flex; align-items: center; gap: 7px; margin-top: 10px; padding: 0; border: 0; background: none; font: inherit; font-size: 14px; font-weight: 600; color: var(--gold-text); text-align: left; cursor: pointer; }
-.versand-link svg { flex: none; width: 20px; height: 20px; }
-.versand-link:hover { text-decoration: underline; }
 .fakten { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 12px; }
 .fakten span { padding: 4px 10px; border-radius: 6px; background: var(--grau); font-size: 12.5px; font-weight: 500; color: var(--text-2); }
-/* Deine Reise in 3 Schritten: ein Kasten statt drei einzelner Karten */
-.saeulen { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); border: 1px solid var(--linie); border-radius: 16px; background: #fff; overflow: hidden; }
-.saeule-karte { display: flex; flex-direction: column; padding: 20px 22px; transition: background .15s; }
-.saeule-karte + .saeule-karte { border-left: 1px solid var(--linie); }
-.saeule-karte:hover { background: var(--creme-hell); }
-.saeule-wert { display: block; margin-top: 12px; font-size: 17px; font-weight: 650; line-height: 1.3; }
-.saeule-text { display: block; margin-top: 4px; font-size: 14px; line-height: 1.45; color: var(--muted); }
-.saeule-link { display: inline-flex; align-items: center; gap: 4px; margin-top: auto; padding-top: 14px; font-size: 14px; font-weight: 600; color: var(--gold-text); }
-.saeule-link svg { width: 14px; height: 14px; }
+/* Dein Stand: die Roadmap in einer Zeile unter dem Produkt. Der nächste Schritt richtet sich nach dem Tag */
+.p-held > .p-bild + div { align-self: end; }
+.roadmap-zeile { grid-column: 2; justify-self: start; align-self: start; display: inline-grid; grid-template-columns: 40px minmax(0, auto) 16px; gap: 12px; align-items: center; padding: 8px 16px 8px 8px; border-radius: 14px; background: var(--creme-hell); box-shadow: inset 0 0 0 1px var(--gold-hell); transition: box-shadow .15s; }
+.roadmap-zeile:hover { box-shadow: inset 0 0 0 1.5px var(--gold); }
+.rz-ikon { display: flex; align-items: center; justify-content: center; width: 40px; height: 40px; border-radius: 50%; background: #fff; color: var(--gold-text); }
+.rz-ikon svg { width: 22px; height: 22px; }
+.rz-titel { display: flex; flex-wrap: wrap; align-items: center; gap: 2px 10px; font-size: 15px; }
+.rz-punkte { display: inline-flex; gap: 4px; }
+.rz-punkte i { width: 7px; height: 7px; border-radius: 50%; background: var(--gold-hell); }
+.rz-punkte i.an { background: var(--gold); }
+.rz-punkte i.jetzt { background: var(--nacht); }
+.rz-schritt { display: block; font-size: 13.5px; line-height: 1.4; color: var(--text-2); }
+.rz-pfeil { width: 16px; height: 16px; color: var(--gold-text); }
+/* Deine Roadmap: der Weg durch den Hub, nach Zeit geordnet. Den Tag liefern Regler oder Link, gespeichert wird nichts */
+.rm-stand { display: flex; flex-wrap: wrap; align-items: baseline; gap: 4px 12px; margin-bottom: 20px; padding-bottom: 16px; border-bottom: 1px solid var(--linie); font-size: 14px; color: var(--text-2); }
+.roadmap, .rm-schritte { list-style: none; }
+.rm-zeit, .rm-schritt { position: relative; }
+.rm-zeit::before, .rm-schritt::before { content: ""; position: absolute; left: 17px; width: 2px; background: var(--linie); }
+.rm-zeit { display: flex; align-items: center; gap: 10px; padding: 2px 0 12px 52px; font-size: 13px; font-weight: 600; color: var(--gold-text); }
+.rm-zeit::before { top: 0; bottom: 0; }
+.rm-phase:first-child .rm-zeit::before { display: none; }
+.rm-phase.jetzt .rm-zeit::after { content: "Du bist hier"; padding: 2px 8px; border-radius: 999px; background: var(--creme); font-size: 11.5px; }
+.rm-schritt { display: grid; grid-template-columns: 36px minmax(0, 1fr) auto; gap: 4px 16px; align-items: start; padding-bottom: 22px; }
+.rm-schritt::before { top: 36px; bottom: 0; }
+.rm-phase:last-child .rm-schritt:last-child { padding-bottom: 0; }
+.rm-phase:last-child .rm-schritt:last-child::before { display: none; }
+.rm-schritt.erledigt::before, .rm-phase.erreicht .rm-zeit::before { background: var(--gold); }
+.rm-nr { position: relative; z-index: 1; display: flex; align-items: center; justify-content: center; width: 36px; height: 36px; border-radius: 50%; background: #fff; border: 1.5px solid var(--gold-hell); font-size: 14px; font-weight: 700; color: var(--gold-text); }
+.rm-schritt.erledigt .rm-nr { background: var(--creme); }
+.rm-schritt.naechster .rm-nr { background: var(--gold); border-color: var(--gold); color: var(--nacht); box-shadow: 0 0 0 5px rgba(214, 166, 85, .16); }
+.rm-inhalt { padding-top: 6px; }
+.rm-inhalt h3 { font-size: 16px; line-height: 1.35; }
+.rm-inhalt p { margin-top: 2px; max-width: 64ch; font-size: 14px; color: var(--muted); }
+.rm-aktion { display: flex; align-items: center; justify-content: flex-end; gap: 16px; padding-top: 2px; }
+.rm-dauer { font-size: 12.5px; font-weight: 600; color: var(--leise); white-space: nowrap; }
+.rm-aktion .text-link { display: inline-flex; align-items: center; min-height: 36px; white-space: nowrap; }
+.rm-schritt.naechster .rm-aktion .text-link { padding: 0 16px; border-radius: 8px; background: var(--verlauf); color: #fff; }
+.rm-schritt.naechster .rm-aktion .text-link:hover { text-decoration: none; filter: brightness(1.12); }
+/* Dein Stand: das andere Produkt und warum beides zusammen passt */
+.duo-kopf { display: grid; grid-template-columns: 76px minmax(0, 1fr); gap: 20px; align-items: center; }
+.duo-kopf img { width: 76px; height: 96px; object-fit: contain; object-position: center bottom; filter: drop-shadow(0 10px 10px rgba(51, 50, 64, .2)); }
+.duo-kopf h2 { margin-top: 2px; font-size: 20px; }
+.duo-kopf .block-text { max-width: 660px; font-size: 14.5px; color: var(--text-2); }
+.duo-band { display: grid; gap: 12px; margin: 20px 0 0; padding-top: 18px; border-top: 1px solid var(--linie); }
+.db-zeile { display: grid; grid-template-columns: 132px minmax(0, 1fr) 220px; gap: 16px; align-items: center; }
+.db-name { font-size: 13.5px; font-weight: 600; }
+.db-spur { position: relative; display: flex; height: 26px; border-radius: 999px; background: var(--grau); overflow: hidden; }
+.db-ns .db-spur i { flex: 1; display: flex; align-items: center; justify-content: center; background: var(--gold); font-style: normal; font-size: 12px; font-weight: 700; color: var(--nacht); }
+.db-ns .db-spur i + i { border-left: 2px solid #fff; }
+.db-ib .db-spur i { position: absolute; top: 0; bottom: 0; left: 44%; width: 11.1%; border-radius: 999px; background: var(--nacht); }
+.db-info { font-size: 13px; color: var(--muted); }
+.duo-band figcaption { font-size: 12.5px; color: var(--muted); }
+.synergie.duo-gruende { grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 0 28px; margin-top: 18px; padding-top: 18px; border-top: 1px solid var(--linie); }
+.synergie.duo-gruende li { padding: 0; border-top: 0; }
+.synergie.duo-gruende li + li { padding-left: 28px; border-left: 1px solid var(--linie); }
+.duo-fuss { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 14px 28px; margin-top: 20px; padding-top: 18px; border-top: 1px solid var(--linie); }
+.duo-knoepfe { display: flex; flex-wrap: wrap; gap: 10px; }
+.duo-knoepfe .knopf { margin-top: 0; }
+.duo-hinweis { flex: 1 1 280px; max-width: 460px; font-size: 13.5px; color: var(--muted); }
 /* Kapitel-Reiter oben: Schritt der Reise und die Kapitel dazu */
 .saeule-nav { display: flex; flex-wrap: wrap; align-items: center; gap: 0 22px; border-bottom: 1px solid var(--linie); }
 .saeule-name { display: inline-flex; align-items: center; gap: 8px; margin-right: 6px; padding: 10px 0; font-size: 13px; font-weight: 600; color: var(--muted); }
@@ -713,6 +760,10 @@ body.chat-offen .chat-fenster { display: flex; }
   .stimmen { grid-template-columns: repeat(2, minmax(0, 1fr)); }
   .erinnern { grid-template-columns: 44px minmax(0, 1fr); }
   .erinnern-knoepfe { grid-column: 2 / -1; }
+  .synergie.duo-gruende { grid-template-columns: minmax(0, 1fr); gap: 0; }
+  .synergie.duo-gruende li { padding: 12px 0; }
+  .synergie.duo-gruende li:first-child { padding-top: 0; }
+  .synergie.duo-gruende li + li { padding-left: 0; border-left: 0; border-top: 1px solid var(--linie); }
 }
 /* Handy: Kopfzeile mit Produkt, Kapitel unten als Leiste */
 @media (max-width: 999px) {
@@ -747,15 +798,26 @@ body.chat-offen .chat-fenster { display: flex; }
   .ansicht-kopf h1 { font-size: 25px; }
   .ansicht-kopf p { font-size: 15px; }
   .ansicht-kopf::before { width: 56px; height: 72px; margin-left: 14px; }
-  .p-held { grid-template-columns: 84px minmax(0, 1fr); gap: 16px; }
-  .p-bild { width: 84px; height: 112px; }
+  .p-held { grid-template-columns: 84px minmax(0, 1fr); gap: 14px 16px; }
+  .p-bild { grid-row: auto; width: 84px; height: 112px; }
   .p-held h1 { font-size: 23px; }
   .p-held .unter { font-size: 14.5px; }
   .block { padding: 20px 18px; }
-  .saeulen { grid-template-columns: minmax(0, 1fr); }
-  .saeule-karte { padding: 16px 18px; }
-  .saeule-karte + .saeule-karte { border-left: 0; border-top: 1px solid var(--linie); }
-  .saeule-wert { margin-top: 10px; font-size: 16px; }
+  .p-held > .p-bild + div { align-self: center; }
+  .p-held .roadmap-zeile { grid-column: 1 / -1; justify-self: stretch; display: grid; grid-template-columns: 36px minmax(0, 1fr) 16px; padding: 8px 12px 8px 8px; }
+  .rz-ikon { width: 36px; height: 36px; }
+  .rm-schritt { grid-template-columns: 36px minmax(0, 1fr); padding-bottom: 20px; }
+  .rm-aktion { grid-column: 2; justify-content: flex-start; padding-top: 6px; }
+  .rm-dauer { order: 2; }
+  .duo-kopf { grid-template-columns: 56px minmax(0, 1fr); gap: 14px; align-items: start; }
+  .duo-kopf img { width: 56px; height: 72px; }
+  .duo-kopf h2 { font-size: 18px; }
+  .db-zeile { grid-template-columns: auto minmax(0, 1fr); gap: 6px 12px; }
+  .db-name { white-space: nowrap; }
+  .db-spur { grid-column: 1 / -1; grid-row: 2; }
+  .db-info { text-align: right; }
+  .duo-knoepfe { width: 100%; }
+  .duo-knoepfe .knopf { flex: 1 1 100%; }
   .saeule-nav { gap: 0 18px; }
   .saeule-nav .saeule-name { flex-basis: 100%; padding-bottom: 2px; }
   .vorrat { grid-template-columns: 40px minmax(0, 1fr); gap: 12px; align-items: start; }
@@ -884,6 +946,7 @@ body.chat-offen .chat-fenster { display: flex; }
   <symbol id="i-senden" viewBox="0 0 24 24"><path d="M4 12l16-7-5.5 15-3-6.5z" fill="none" stroke="#fff" stroke-width="2" stroke-linejoin="round"/></symbol>
   <symbol id="i-x" viewBox="0 0 16 16"><path d="M3 3l10 10M13 3L3 13" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></symbol>
   <symbol id="i-raster" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-width="1.6"><rect x="3.5" y="3.5" width="7" height="7" rx="2.2"/><rect x="13.5" y="3.5" width="7" height="7" rx="2.2"/><rect x="3.5" y="13.5" width="7" height="7" rx="2.2"/><rect x="13.5" y="13.5" width="7" height="7" rx="2.2"/></g></symbol>
+  <symbol id="i-route" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><circle cx="6" cy="18.5" r="2.2"/><circle cx="18" cy="5.5" r="2.2"/><path d="M8.2 18.5h7.3a3 3 0 0 0 0-6h-7a3 3 0 0 1 0-6h7.3"/></g></symbol>
   <symbol id="i-glas" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><rect x="5.5" y="8" width="13" height="13" rx="3"/><rect x="4.5" y="3.5" width="15" height="4.5" rx="1.5"/><path d="M9 14.5h6"/></g></symbol>
   <symbol id="i-weiter" viewBox="0 0 16 16"><path d="M6 3l5 5-5 5" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></symbol>
   <symbol id="i-loeffel-linie" viewBox="0 0 24 24"><g stroke="currentColor" stroke-width="1.6" stroke-linecap="round"><ellipse cx="8" cy="8" rx="3.3" ry="5.8" transform="rotate(-45 8 8)" fill="currentColor" fill-opacity=".22"/><path d="M12.1 12.1l8.4 8.4" fill="none"/></g></symbol>
@@ -985,6 +1048,7 @@ body.chat-offen .chat-fenster { display: flex; }
     <button class="mein-produkt" type="button" title="Produkt wechseln" data-produktwahl aria-haspopup="menu" aria-expanded="false" aria-controls="produkt-menue"><img src="bilder/ns-produkt.webp" alt=""><span><small>Dein Produkt</small><b>Nutrition-System</b></span><svg><use href="#i-runter"/></svg></button>
     <nav class="nav" aria-label="Kapitel">
       <a class="nav-punkt" href="#ns-ueberblick" data-ansicht="ns-ueberblick"><svg><use href="#i-raster"/></svg>Dein Stand</a>
+      <a class="nav-punkt" href="#ns-roadmap" data-ansicht="ns-roadmap"><svg><use href="#i-route"/></svg>Deine Roadmap</a>
       <p class="nav-saeule"><b>1</b>Nutrition-System verstehen</p>
       <a class="nav-punkt" href="#ns-einnahme" data-ansicht="ns-einnahme"><svg><use href="#i-loeffel-linie"/></svg>Einnahme</a>
       <a class="nav-punkt" href="#ns-inhalt" data-ansicht="ns-inhalt"><svg><use href="#i-glas"/></svg>Was drin ist</a>
@@ -1019,8 +1083,8 @@ body.chat-offen .chat-fenster { display: flex; }
             <p class="oberzeile">Dein Produkt</p>
             <h1>Bioaktives Nutrition-System</h1>
             <p class="unter">Alles für deinen Alltag mit OMNI9: so nimmst du es, so kommst du deinem Ziel näher, so bestellst du rechtzeitig nach.</p>
-            <button class="versand-link" type="button" data-paket><svg><use href="#lieferwagen"/></svg>Wo ist mein Paket? Versandstatus ansehen</button>
           </div>
+          <a class="roadmap-zeile" href="#ns-roadmap"><span class="rz-ikon"><svg><use href="#i-route"/></svg></span><span class="rz-text"><span class="rz-titel"><b>Deine Roadmap</b><span class="rz-punkte" data-roadmap-punkte="ns" aria-hidden="true"><i></i><i></i><i></i><i></i><i></i><i></i></span></span><span class="rz-schritt" data-roadmap-naechster="ns">Schritt 1 von 6: So nimmst du OMNI9</span></span><svg class="rz-pfeil"><use href="#i-weiter"/></svg></a>
         </header>
         <section class="fortschritt" id="ns-fortschritt" aria-labelledby="ns-fortschritt-titel">
           <div class="fs-oben">
@@ -1051,11 +1115,69 @@ body.chat-offen .chat-fenster { display: flex; }
             <button class="knopf hell" type="button" data-erinnerung="ns-nachbestellen"><svg><use href="#i-kalender-linie"/></svg><span>Erinnere mich ans Nachbestellen</span></button>
           </div>
         </section>
-        <section class="saeulen" aria-label="Deine drei Säulen">
-          <a class="saeule-karte" href="#ns-einnahme"><span class="saeule-name"><b>1</b>Nutrition-System verstehen</span><b class="saeule-wert">1 Teelöffel am Tag</b><span class="saeule-text">Am besten immer zur gleichen Zeit. So nimmst du es, was drin ist und Antworten auf deine Fragen.</span><span class="saeule-link">Zur Einnahme<svg><use href="#i-weiter"/></svg></span></a>
-          <a class="saeule-karte" href="#ns-tipps"><span class="saeule-name"><b>2</b>Näher an dein Ziel</span><b class="saeule-wert" data-ziel-wert="ns">Was soll sich als Erstes verbessern?</b><span class="saeule-text" data-ziel-text="ns">Ein paar kurze Fragen, dann bekommst du deinen persönlichen 30-Tage-Plan.</span><span class="saeule-link">Zu deinem Ziel<svg><use href="#i-weiter"/></svg></span></a>
-          <a class="saeule-karte" href="#ns-nachkauf"><span class="saeule-name"><b>3</b>Nachbestellen</span><b class="saeule-wert" data-vorrat-wert="ns">Ein Glas reicht 30 Tage</b><span class="saeule-text" data-vorrat-text="ns">Schieb oben den Regler auf deinen Tag. Dann siehst du, wann du nachbestellen solltest.</span><span class="saeule-link">Zum Nachbestellen<svg><use href="#i-weiter"/></svg></span></a>
+        <section class="block duo" aria-labelledby="ns-duo-titel">
+          <div class="duo-kopf">
+            <img src="bilder/ib-produkt.webp" alt="OMNI9 Immun Booster">
+            <div>
+              <p class="oberzeile">Passt zu deinem Nutrition-System</p>
+              <h2 id="ns-duo-titel">Für die Tage, an denen ein Infekt kommt: der Immun Booster</h2>
+              <p class="block-text">Dein Nutrition-System ist die tägliche Basis. Der Immun Booster ist die Akut-Unterstützung, wenn ein Infekt kommt. Viele nutzen beides zusammen.</p>
+            </div>
+          </div>
+          <figure class="duo-band">
+            <div class="db-zeile db-ns"><span class="db-name">Nutrition-System</span><span class="db-spur" aria-hidden="true"><i>Glas 1</i><i>Glas 2</i><i>Glas 3</i></span><span class="db-info">jeden Tag 1 Teelöffel</span></div>
+            <div class="db-zeile db-ib"><span class="db-name">Immun Booster</span><span class="db-spur" aria-hidden="true"><i></i></span><span class="db-info">bei ersten Anzeichen, bis zu 10 Tage</span></div>
+            <figcaption>Ein Beispiel über 3 Monate. So viel steckt auch im 3er-Set: 3 Gläser Nutrition-System und 1 Immun Booster.</figcaption>
+          </figure>
+          <ul class="synergie duo-gruende">
+            <li><b>Basis und Akut-Hilfe</b><span>Mit Vitamin C, Zink und D3 versorgt dein Nutrition-System jeden Tag zentrale Bereiche deiner Abwehr. Der Booster kommt in der Akutphase dazu: Holunder und Propolis für Hals und Schleimhäute, Ingwer und Kurkuma für die frühe Infektphase.</span></li>
+            <li><b>Griffbereit, wenn es zählt</b><span>Am besten startest du beim ersten Halskratzen oder Frösteln. Der Booster ist mindestens 12 Monate haltbar, er kann also schon im Küchenschrank stehen.</span></li>
+            <li><b>Einfach dazu</b><span>Dein Nutrition-System nimmst du weiter wie gewohnt. Den Booster nimmst du 5 bis 10 Tage lang morgens, mittags und abends je 1 Teelöffel.</span></li>
+          </ul>
+          <div class="duo-fuss">
+            <div class="duo-knoepfe">
+              <a class="knopf" data-kauf="ns-stand-booster" href="https://omni9.de/cart/56549866013020:1" target="_blank" rel="noopener">Bestellen für 59,90&nbsp;€</a>
+              <a class="knopf hell" data-kauf="ns-stand-set3" href="https://omni9.de/products/3er-set-gratis-immun-booster" target="_blank" rel="noopener">Im 3er-Set gratis dazu</a>
+            </div>
+            <p class="duo-hinweis">Im 3er-Set: 3 Gläser Nutrition-System und 1 Immun Booster für 249,00&nbsp;€ statt 330,90&nbsp;€. Set schon zu Hause? <a class="text-link" href="#ib-einnahme">So nimmst du den Booster</a></p>
+          </div>
         </section>
+      </section>
+
+      <section class="ansicht" id="ns-roadmap" data-saeule="ns-stand">
+        <header class="ansicht-kopf"><h1>Deine Roadmap</h1><p>So holst du in den ersten 30 Tagen das Meiste aus deinem Nutrition-System: 6 Schritte, jeder dauert nur ein paar Minuten.</p></header>
+        <section class="block" aria-label="Deine 6 Schritte">
+          <p class="rm-stand" data-roadmap-stand="ns">Stell auf „Dein Stand“ ein, seit wie vielen Tagen du OMNI9 nimmst. Dann siehst du hier, wo du gerade stehst. <a class="text-link" href="#ns-fortschritt">Zu deinem Tag</a></p>
+          <ol class="roadmap" data-roadmap="ns">
+            <li class="rm-phase">
+              <p class="rm-zeit">Am ersten Tag</p>
+              <ol class="rm-schritte">
+                <li class="rm-schritt" data-kurz="So nimmst du OMNI9"><span class="rm-nr">1</span><div class="rm-inhalt"><h3>So nimmst du OMNI9</h3><p>1 Teelöffel am Tag, am besten immer zur gleichen Zeit. Dazu das Start-Video.</p></div><div class="rm-aktion"><span class="rm-dauer">1 Min.</span><a class="text-link" href="#ns-einnahme">Zur Einnahme</a></div></li>
+                <li class="rm-schritt" data-kurz="Tägliche Erinnerung einrichten"><span class="rm-nr">2</span><div class="rm-inhalt"><h3>Lass dich jeden Tag erinnern</h3><p>Dein Kalender erinnert dich an deinen Teelöffel. Der Hub speichert dabei nichts.</p></div><div class="rm-aktion"><span class="rm-dauer">1 Min.</span><button class="text-link" type="button" data-erinnerung="ns-taeglich">Erinnerung einrichten</button></div></li>
+              </ol>
+            </li>
+            <li class="rm-phase">
+              <p class="rm-zeit">In der ersten Woche</p>
+              <ol class="rm-schritte">
+                <li class="rm-schritt" data-kurz="Was in deinem Glas steckt"><span class="rm-nr">3</span><div class="rm-inhalt"><h3>Was in deinem Glas steckt</h3><p>16 Zutaten für die 9 Regenerations-Achsen, dazu Gründer Nico im Video.</p></div><div class="rm-aktion"><span class="rm-dauer">5 Min.</span><a class="text-link" href="#ns-inhalt">Zu den Zutaten</a></div></li>
+                <li class="rm-schritt" data-kurz="Dein Ziel und dein Plan"><span class="rm-nr">4</span><div class="rm-inhalt"><h3 data-ziel-wert="ns">Dein Ziel und dein 30-Tage-Plan</h3><p data-ziel-text="ns">Ein paar kurze Fragen, dann bekommst du deinen persönlichen 30-Tage-Plan.</p></div><div class="rm-aktion"><span class="rm-dauer">3 Min.</span><a class="text-link" href="#ns-tipps">Zu deinem Ziel</a></div></li>
+              </ol>
+            </li>
+            <li class="rm-phase">
+              <p class="rm-zeit">Ab Woche 2</p>
+              <ol class="rm-schritte">
+                <li class="rm-schritt" data-kurz="Dranbleiben"><span class="rm-nr">5</span><div class="rm-inhalt"><h3>Dranbleiben</h3><p>Was in den ersten 30 Tagen passiert und was hilft, wenn es mal nicht rund läuft.</p></div><div class="rm-aktion"><span class="rm-dauer">Jede Woche</span><a class="text-link" href="#ns-30">Zu den 30 Tagen</a></div></li>
+              </ol>
+            </li>
+            <li class="rm-phase">
+              <p class="rm-zeit">Bevor dein Glas leer ist</p>
+              <ol class="rm-schritte">
+                <li class="rm-schritt" data-kurz="Rechtzeitig nachbestellen"><span class="rm-nr">6</span><div class="rm-inhalt"><h3>Rechtzeitig nachbestellen</h3><p data-vorrat-text="ns">Ein Glas reicht 30 Tage. Bestell etwa eine Woche vorher nach, dann reißt deine Routine nicht ab.</p></div><div class="rm-aktion"><span class="rm-dauer">2 Min.</span><a class="text-link" href="#ns-nachkauf">Zum Nachkauf</a></div></li>
+              </ol>
+            </li>
+          </ol>
+        </section>
+        <div class="weiter"><a href="#ns-ueberblick">Zu deinem Stand<svg><use href="#i-weiter"/></svg></a></div>
       </section>
 
       <section class="ansicht" id="ns-einnahme" data-saeule="ns-verstehen">
@@ -1440,6 +1562,7 @@ body.chat-offen .chat-fenster { display: flex; }
     <button class="mein-produkt" type="button" title="Produkt wechseln" data-produktwahl aria-haspopup="menu" aria-expanded="false" aria-controls="produkt-menue"><img src="bilder/ib-produkt.webp" alt=""><span><small>Dein Produkt</small><b>Immun Booster</b></span><svg><use href="#i-runter"/></svg></button>
     <nav class="nav" aria-label="Kapitel">
       <a class="nav-punkt" href="#ib-ueberblick" data-ansicht="ib-ueberblick"><svg><use href="#i-raster"/></svg>Dein Stand</a>
+      <a class="nav-punkt" href="#ib-roadmap" data-ansicht="ib-roadmap"><svg><use href="#i-route"/></svg>Deine Roadmap</a>
       <p class="nav-saeule"><b>1</b>Immun Booster verstehen</p>
       <a class="nav-punkt" href="#ib-einnahme" data-ansicht="ib-einnahme"><svg><use href="#i-loeffel-linie"/></svg>Einnahme</a>
       <a class="nav-punkt" href="#ib-inhalt" data-ansicht="ib-inhalt"><svg><use href="#i-glas"/></svg>Was drin ist</a>
@@ -1474,8 +1597,8 @@ body.chat-offen .chat-fenster { display: flex; }
             <p class="oberzeile">Dein Produkt</p>
             <h1>Immun Booster</h1>
             <p class="unter">Alles für deine Akutphase: so nimmst du ihn, so kommst du gut durch, so hast du rechtzeitig Nachschub.</p>
-            <button class="versand-link" type="button" data-paket><svg><use href="#lieferwagen"/></svg>Wo ist mein Paket? Versandstatus ansehen</button>
           </div>
+          <a class="roadmap-zeile" href="#ib-roadmap"><span class="rz-ikon"><svg><use href="#i-route"/></svg></span><span class="rz-text"><span class="rz-titel"><b>Deine Roadmap</b><span class="rz-punkte" data-roadmap-punkte="ib" aria-hidden="true"><i></i><i></i><i></i><i></i><i></i><i></i></span></span><span class="rz-schritt" data-roadmap-naechster="ib">Schritt 1 von 6: So nimmst du den Booster</span></span><svg class="rz-pfeil"><use href="#i-weiter"/></svg></a>
         </header>
         <section class="fortschritt" id="ib-fortschritt" aria-labelledby="ib-fortschritt-titel">
           <div class="fs-oben">
@@ -1506,11 +1629,64 @@ body.chat-offen .chat-fenster { display: flex; }
             <button class="knopf hell" type="button" data-erinnerung="ib-vorbeugend"><svg><use href="#i-kalender-linie"/></svg><span>Vorbeugend: 1-mal am Tag</span></button>
           </div>
         </section>
-        <section class="saeulen" aria-label="Deine drei Säulen">
-          <a class="saeule-karte" href="#ib-einnahme"><span class="saeule-name"><b>1</b>Immun Booster verstehen</span><b class="saeule-wert">3 Teelöffel am Tag</b><span class="saeule-text">In der Akutphase 5 bis 10 Tage lang. So nimmst du ihn, was drin ist und Antworten auf deine Fragen.</span><span class="saeule-link">Zur Einnahme<svg><use href="#i-weiter"/></svg></span></a>
-          <a class="saeule-karte" href="#ib-tipps"><span class="saeule-name"><b>2</b>Näher an dein Ziel</span><b class="saeule-wert" data-ziel-wert="ib">Akutphase oder vorbeugen?</b><span class="saeule-text" data-ziel-text="ib">Ein paar kurze Fragen, dann bekommst du deinen persönlichen Plan.</span><span class="saeule-link">Zu deinem Ziel<svg><use href="#i-weiter"/></svg></span></a>
-          <a class="saeule-karte" href="#ib-nachkauf"><span class="saeule-name"><b>3</b>Nachbestellen</span><b class="saeule-wert" data-vorrat-wert="ib">Ein Glas reicht für eine Akutphase</b><span class="saeule-text" data-vorrat-text="ib">Bis zu 10 Tage mit 3 Teelöffeln am Tag. Bestell rechtzeitig nach, dann hast du ihn beim nächsten Mal griffbereit.</span><span class="saeule-link">Zum Nachbestellen<svg><use href="#i-weiter"/></svg></span></a>
+        <section class="block duo" aria-labelledby="ib-duo-titel">
+          <div class="duo-kopf">
+            <img src="bilder/ns-produkt.webp" alt="OMNI9 Nutrition-System">
+            <div>
+              <p class="oberzeile">Passt zu deinem Immun Booster</p>
+              <h2 id="ib-duo-titel">Für jeden Tag nach der Akutphase: das Nutrition-System</h2>
+              <p class="block-text">Der Booster ist für die Akutphase gemacht, für 5 bis 10 Tage. Das Nutrition-System ist die tägliche Basis für alle 9 Regenerations-Achsen. Viele nutzen beides zusammen.</p>
+            </div>
+          </div>
+          <figure class="duo-band">
+            <div class="db-zeile db-ns"><span class="db-name">Nutrition-System</span><span class="db-spur" aria-hidden="true"><i>Glas 1</i><i>Glas 2</i><i>Glas 3</i></span><span class="db-info">jeden Tag 1 Teelöffel</span></div>
+            <div class="db-zeile db-ib"><span class="db-name">Immun Booster</span><span class="db-spur" aria-hidden="true"><i></i></span><span class="db-info">bei ersten Anzeichen, bis zu 10 Tage</span></div>
+            <figcaption>Ein Beispiel über 3 Monate. So viel steckt auch im 3er-Set: 3 Gläser Nutrition-System und 1 Immun Booster.</figcaption>
+          </figure>
+          <ul class="synergie duo-gruende">
+            <li><b>Basis für jeden Tag</b><span>Mit Vitamin C, Zink und D3 versorgt das Nutrition-System jeden Tag zentrale Bereiche deiner Abwehr. Akazienfaser und Sporen-Probiotika stabilisieren die Darmbasis.</span></li>
+            <li><b>Ein Teelöffel statt vieler Dosen</b><span>16 Zutaten für alle 9 Regenerations-Achsen. Viele nutzen OMNI9 als Basis, die den Rest ersetzt oder stark reduziert. Automatisch geliefert kostet es etwa 2,30&nbsp;€ am Tag.</span></li>
+            <li><b>90 Tage testen</b><span>Es gibt eine 90-Tage-Geld-zurück-Garantie, wenn du das Nutrition-System mindestens 90 Tage nimmst und dafür mindestens 3 Gläser kaufst. Für automatische Lieferungen gilt sie nicht.</span></li>
+          </ul>
+          <div class="duo-fuss">
+            <div class="duo-knoepfe">
+              <a class="knopf" data-kauf="ib-stand-ns" href="https://omni9.de/cart/56780244877660:1" target="_blank" rel="noopener">Bestellen für 89,00&nbsp;€</a>
+              <a class="knopf hell" data-kauf="ib-stand-set3" href="https://omni9.de/products/3er-set-gratis-immun-booster" target="_blank" rel="noopener">3er-Set mit Booster gratis</a>
+            </div>
+            <p class="duo-hinweis">Im 3er-Set: 3 Gläser Nutrition-System und 1 Immun Booster für 249,00&nbsp;€ statt 330,90&nbsp;€. <a class="text-link" href="#nutrition-system">Mehr über das Nutrition-System</a></p>
+          </div>
         </section>
+      </section>
+
+      <section class="ansicht" id="ib-roadmap" data-saeule="ib-stand">
+        <header class="ansicht-kopf"><h1>Deine Roadmap</h1><p>So kommst du mit dem Immun Booster gut durch die Akutphase: 6 Schritte, jeder dauert nur ein paar Minuten.</p></header>
+        <section class="block" aria-label="Deine 6 Schritte">
+          <p class="rm-stand" data-roadmap-stand="ib">Stell auf „Dein Stand“ ein, an welchem Tag deiner Akutphase du bist. Dann siehst du hier, wo du gerade stehst. <a class="text-link" href="#ib-fortschritt">Zu deinem Tag</a></p>
+          <ol class="roadmap" data-roadmap="ib">
+            <li class="rm-phase">
+              <p class="rm-zeit">Bei den ersten Anzeichen</p>
+              <ol class="rm-schritte">
+                <li class="rm-schritt" data-kurz="So nimmst du den Booster"><span class="rm-nr">1</span><div class="rm-inhalt"><h3>So nimmst du den Booster</h3><p>5 bis 10 Tage lang morgens, mittags und abends je 1 Teelöffel. Zum Vorbeugen reicht 1-mal am Tag.</p></div><div class="rm-aktion"><span class="rm-dauer">1 Min.</span><a class="text-link" href="#ib-einnahme">Zur Einnahme</a></div></li>
+                <li class="rm-schritt" data-kurz="Erinnerung einrichten"><span class="rm-nr">2</span><div class="rm-inhalt"><h3>Lass dich 3-mal am Tag erinnern</h3><p>Dein Kalender erinnert dich morgens, mittags und abends. Der Hub speichert dabei nichts.</p></div><div class="rm-aktion"><span class="rm-dauer">1 Min.</span><button class="text-link" type="button" data-erinnerung="ib-akut">Erinnerung einrichten</button></div></li>
+              </ol>
+            </li>
+            <li class="rm-phase">
+              <p class="rm-zeit">Tag 2 bis 10</p>
+              <ol class="rm-schritte">
+                <li class="rm-schritt" data-kurz="Deine Akutphase Tag für Tag"><span class="rm-nr">3</span><div class="rm-inhalt"><h3>Deine Akutphase Tag für Tag</h3><p>Von den ersten Anzeichen bis zur nächsten Erkältungszeit, Schritt für Schritt.</p></div><div class="rm-aktion"><span class="rm-dauer">2 Min.</span><a class="text-link" href="#ib-plan">Zur Akutphase</a></div></li>
+                <li class="rm-schritt" data-kurz="Dein persönlicher Plan"><span class="rm-nr">4</span><div class="rm-inhalt"><h3 data-ziel-wert="ib">Dein persönlicher Plan</h3><p data-ziel-text="ib">Ein paar kurze Fragen, dann bekommst du deinen persönlichen Plan.</p></div><div class="rm-aktion"><span class="rm-dauer">3 Min.</span><a class="text-link" href="#ib-tipps">Zu deinem Plan</a></div></li>
+                <li class="rm-schritt" data-kurz="Was in deinem Glas steckt"><span class="rm-nr">5</span><div class="rm-inhalt"><h3>Was in deinem Glas steckt</h3><p>34 Mikronährstoff-Komponenten für Abwehr, Schleimhäute und Energie.</p></div><div class="rm-aktion"><span class="rm-dauer">5 Min.</span><a class="text-link" href="#ib-inhalt">Zu den Zutaten</a></div></li>
+              </ol>
+            </li>
+            <li class="rm-phase">
+              <p class="rm-zeit">Nach der Akutphase</p>
+              <ol class="rm-schritte">
+                <li class="rm-schritt" data-kurz="Nachschub griffbereit"><span class="rm-nr">6</span><div class="rm-inhalt"><h3>Nachschub griffbereit</h3><p data-vorrat-text="ib">Ein Glas reicht für eine Akutphase von bis zu 10 Tagen. Bestell rechtzeitig nach, dann hast du den Booster beim nächsten Mal sofort griffbereit.</p></div><div class="rm-aktion"><span class="rm-dauer">2 Min.</span><a class="text-link" href="#ib-nachkauf">Zum Nachkauf</a></div></li>
+              </ol>
+            </li>
+          </ol>
+        </section>
+        <div class="weiter"><a href="#ib-ueberblick">Zu deinem Stand<svg><use href="#i-weiter"/></svg></a></div>
       </section>
 
       <section class="ansicht" id="ib-einnahme" data-saeule="ib-verstehen">
@@ -2419,6 +2595,7 @@ body.chat-offen .chat-fenster { display: flex; }
       if (persoenlich) nsTagBekannt = true;
       document.querySelectorAll("[data-erinnerung=ns-nachbestellen]").forEach(function (b) { b.hidden = nsRest(tag) <= 7; });
       if (persoenlich) vorratZeigen("ns", tag);
+      roadmapZeigen("ns", persoenlich ? tag : 0);
     },
     zeitleiste: ["#ns-30 .zeitleiste", function (tag) { return tag > 30 ? 4 : tag <= 3 ? 0 : tag <= 14 ? 1 : nsRest(tag) <= 7 ? 3 : 2; }]
   };
@@ -2431,7 +2608,7 @@ body.chat-offen .chat-fenster { display: flex; }
     hinweis: function (tag) {
       return ibRest(tag) > 9 ? null : { titel: "Nachschub für die nächste Erkältungszeit.", text: "Ein Glas reicht für eine Akutphase von bis zu 10 Tagen. Mit automatischer Lieferung kostet es 49,90\u00a0€ statt 59,90\u00a0€.", link: ["Zum Nachkauf", "#ib-nachkauf"] };
     },
-    beiTag: function (tag, persoenlich) { if (persoenlich) vorratZeigen("ib", tag); },
+    beiTag: function (tag, persoenlich) { if (persoenlich) vorratZeigen("ib", tag); roadmapZeigen("ib", persoenlich ? tag : 0); },
     zeitleiste: ["#ib-plan .zeitleiste", function (tag) { return tag === 1 ? 0 : tag <= 10 ? 1 : 2; }]
   };
   function fortschritt(cfg) {
@@ -3209,7 +3386,7 @@ body.chat-offen .chat-fenster { display: flex; }
     window.print();
   }
 
-  /* Dein Stand: Die Karten der Säulen 2 und 3 zeigen dein Ziel und deinen Vorrat, sobald sie bekannt sind. Gespeichert wird nichts */
+  /* Roadmap und Nachkauf zeigen dein Ziel und deinen Vorrat, sobald sie bekannt sind. Gespeichert wird nichts */
   document.querySelectorAll("[data-ziel-wert], [data-ziel-text]").forEach(function (e) { e.dataset.standard = e.textContent; });
   function zielKarte(p, wert, text) {
     document.querySelectorAll('[data-ziel-wert="' + p + '"]').forEach(function (e) { e.textContent = wert || e.dataset.standard; });
@@ -3231,6 +3408,39 @@ body.chat-offen .chat-fenster { display: flex; }
     }
     document.querySelectorAll('[data-vorrat-wert="' + p + '"]').forEach(function (e) { e.textContent = wert; });
     document.querySelectorAll('[data-vorrat-text="' + p + '"]').forEach(function (e) { e.textContent = text; });
+  }
+
+  /* Deine Roadmap: Der Tag vom Regler oder aus dem Link zeigt, wo du stehst und was als Nächstes dran ist. Gespeichert wird nichts */
+  var ROADMAP_PHASE = {
+    ns: function (tag) { return tag <= 1 ? 0 : tag <= 7 ? 1 : nsRest(tag) <= 7 ? 3 : 2; },
+    ib: function (tag) { return tag <= 1 ? 0 : tag <= 10 ? 1 : 2; }
+  };
+  var ROADMAP_STAND = {
+    ns: function (tag) { return "Tag " + tag; },
+    ib: function (tag) { return tag > 10 ? "Nach der Akutphase" : "Tag " + tag + " deiner Akutphase"; }
+  };
+  function roadmapZeigen(p, tag) {
+    var liste = document.querySelector('[data-roadmap="' + p + '"]');
+    if (!liste) return;
+    var phasen = liste.querySelectorAll(".rm-phase"), schritte = Array.prototype.slice.call(liste.querySelectorAll(".rm-schritt"));
+    var nr = tag ? ROADMAP_PHASE[p](tag) : -1;
+    var naechster = nr < 0 ? schritte[0] : phasen[nr].querySelector(".rm-schritt"), index = schritte.indexOf(naechster);
+    Array.prototype.forEach.call(phasen, function (ph, i) {
+      ph.classList.toggle("erreicht", i <= nr);
+      ph.classList.toggle("jetzt", i === nr);
+    });
+    schritte.forEach(function (s, i) {
+      s.classList.toggle("erledigt", i < index);
+      s.classList.toggle("naechster", i === index);
+      if (i === index) s.setAttribute("aria-current", "step"); else s.removeAttribute("aria-current");
+    });
+    var satz = nr < 0 ? "Schritt 1 von " + schritte.length + ": " + naechster.dataset.kurz : "Jetzt dran: " + naechster.dataset.kurz;
+    document.querySelectorAll('[data-roadmap-naechster="' + p + '"]').forEach(function (e) { e.textContent = satz; });
+    document.querySelectorAll('[data-roadmap-punkte="' + p + '"]').forEach(function (punkte) {
+      Array.prototype.forEach.call(punkte.children, function (punkt, i) { punkt.className = i < index ? "an" : i === index ? "jetzt" : ""; });
+    });
+    var stand = document.querySelector('[data-roadmap-stand="' + p + '"]');
+    if (stand && nr >= 0) stand.replaceChildren(element("span", null, ROADMAP_STAND[p](tag) + ": Dein nächster Schritt ist markiert."), linkMit("Tag ändern", "text-link", "#" + p + "-fortschritt"));
   }
 
   /* Achse aus dem Plan öffnen */
