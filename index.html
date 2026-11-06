@@ -174,6 +174,8 @@ button.mein-produkt:hover, button.mein-produkt[aria-expanded="true"] { backgroun
 .rm-los { align-self: center; display: inline-flex; align-items: center; gap: 6px; font-size: 14px; font-weight: 600; color: var(--gold-text); white-space: nowrap; }
 .rm-los svg { width: 14px; height: 14px; }
 /* Dein Stand: das andere Produkt als Kaufbox wie auf omni9.de, dazu warum beides zusammen passt */
+.ansicht > .stand-trenner { margin-top: 52px; padding-top: 30px; border-top: 1px solid var(--linie); font-size: 24px; line-height: 1.2; font-weight: 650; letter-spacing: -.015em; }
+.ansicht > .stand-trenner + .kaufbox { margin-top: 16px; }
 .kaufbox { display: grid; grid-template-columns: minmax(0, 5fr) minmax(0, 6fr); grid-template-rows: auto 1fr; grid-template-areas: "bild kauf" "plan kauf"; gap: 22px 36px; align-items: start; }
 .kb-bild { grid-area: bild; display: flex; align-items: center; justify-content: center; aspect-ratio: 1 / 1; border-radius: 14px; background: radial-gradient(70% 70% at 50% 62%, #fff 0%, var(--creme-hell) 62%, var(--creme) 100%); }
 .kb-bild img { width: auto; height: 72%; object-fit: contain; filter: drop-shadow(0 22px 18px rgba(51, 50, 64, .28)); }
@@ -181,8 +183,7 @@ button.mein-produkt:hover, button.mein-produkt[aria-expanded="true"] { backgroun
 .kb-sterne { display: inline-flex; align-items: center; gap: 8px; font-size: 13px; font-weight: 500; color: var(--muted); }
 .kb-sterne:hover { color: var(--text); }
 .kb-sterne .mini-sterne svg { width: 14px; height: 14px; }
-.kb-inhalt .oberzeile { margin-top: 12px; }
-.kaufbox h2 { margin-top: 2px; font-size: 26px; line-height: 1.2; font-weight: 650; letter-spacing: -.015em; }
+.kaufbox h3 { margin-top: 10px; font-size: 26px; line-height: 1.2; font-weight: 650; letter-spacing: -.015em; }
 .kb-unter { margin-top: 8px; font-size: 15px; color: var(--text-2); }
 .kb-gruende { margin-top: 16px; }
 .kb-gruende li { color: var(--text-2); }
@@ -818,7 +819,8 @@ body.chat-offen .chat-fenster { display: flex; }
   .rm-los span { display: none; }
   .kaufbox { grid-template-columns: minmax(0, 1fr); grid-template-areas: "bild" "kauf" "plan"; gap: 18px; }
   .kb-bild { aspect-ratio: 16 / 10; }
-  .kaufbox h2 { font-size: 22px; }
+  .ansicht > .stand-trenner { margin-top: 36px; padding-top: 22px; font-size: 21px; }
+  .kaufbox h3 { font-size: 22px; }
   .kb-option { padding: 12px 14px; }
   .saeule-nav { gap: 0 18px; }
   .saeule-nav .saeule-name { flex-basis: 100%; padding-bottom: 2px; }
@@ -1117,12 +1119,12 @@ body.chat-offen .chat-fenster { display: flex; }
             <button class="knopf hell" type="button" data-erinnerung="ns-nachbestellen"><svg><use href="#i-kalender-linie"/></svg><span>Erinnere mich ans Nachbestellen</span></button>
           </div>
         </section>
+        <h2 class="stand-trenner">Passt zu deinem Nutrition-System</h2>
         <section class="block kaufbox" aria-labelledby="ns-duo-titel" data-kaufbox>
           <div class="kb-bild"><img src="bilder/ib-produkt.webp" alt="OMNI9 Immun Booster"></div>
           <div class="kb-inhalt">
             <a class="kb-sterne" data-bewertung-link="ib" target="_blank" rel="noopener"><span class="mini-sterne" role="img" aria-label="4,8 von 5 Sternen"><svg><use href="#stern"/></svg><svg><use href="#stern"/></svg><svg><use href="#stern"/></svg><svg><use href="#stern"/></svg><svg><use href="#stern"/></svg></span>4,8 von 5, über 250 Bewertungen</a>
-            <p class="oberzeile">Passt zu deinem Nutrition-System</p>
-            <h2 id="ns-duo-titel">Immun Booster</h2>
+            <h3 id="ns-duo-titel">Immun Booster</h3>
             <p class="kb-unter">Für die Tage, an denen ein Infekt kommt. Dein Nutrition-System bleibt die tägliche Basis, der Booster kommt für 5 bis 10 Tage dazu. Viele nutzen beides zusammen.</p>
             <ul class="haken-liste kb-gruende">
               <li><svg><use href="#haken"/></svg><span><b>Basis und Akut-Hilfe:</b> Mit Vitamin C, Zink und D3 versorgt dein Nutrition-System jeden Tag zentrale Bereiche deiner Abwehr. In der Akutphase kommen Holunder und Propolis für Hals und Schleimhäute dazu, Ingwer und Kurkuma für die frühe Infektphase.</span></li>
@@ -1624,12 +1626,12 @@ body.chat-offen .chat-fenster { display: flex; }
             <button class="knopf hell" type="button" data-erinnerung="ib-vorbeugend"><svg><use href="#i-kalender-linie"/></svg><span>Vorbeugend: 1-mal am Tag</span></button>
           </div>
         </section>
+        <h2 class="stand-trenner">Passt zu deinem Immun Booster</h2>
         <section class="block kaufbox" aria-labelledby="ib-duo-titel" data-kaufbox>
           <div class="kb-bild"><img src="bilder/ns-produkt.webp" alt="OMNI9 Nutrition-System"></div>
           <div class="kb-inhalt">
             <a class="kb-sterne" data-bewertung-link="ns" target="_blank" rel="noopener"><span class="mini-sterne" role="img" aria-label="4,7 von 5 Sternen"><svg><use href="#stern"/></svg><svg><use href="#stern"/></svg><svg><use href="#stern"/></svg><svg><use href="#stern"/></svg><svg><use href="#stern"/></svg></span>4,7 von 5, über 25.000 Kunden</a>
-            <p class="oberzeile">Passt zu deinem Immun Booster</p>
-            <h2 id="ib-duo-titel">Bioaktives Nutrition-System</h2>
+            <h3 id="ib-duo-titel">Bioaktives Nutrition-System</h3>
             <p class="kb-unter">Für jeden Tag nach der Akutphase. Der Booster ist für 5 bis 10 Tage gemacht, das Nutrition-System ist die tägliche Basis für alle 9 Regenerations-Achsen. Viele nutzen beides zusammen.</p>
             <ul class="haken-liste kb-gruende">
               <li><svg><use href="#haken"/></svg><span><b>Basis für jeden Tag:</b> Mit Vitamin C, Zink und D3 versorgt das Nutrition-System jeden Tag zentrale Bereiche deiner Abwehr. Akazienfaser und Sporen-Probiotika stabilisieren die Darmbasis.</span></li>
