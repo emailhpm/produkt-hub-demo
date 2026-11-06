@@ -2987,8 +2987,9 @@ body.chat-offen .chat-fenster { display: flex; }
     ["zaehne", "Nach dem Zähneputzen am Morgen"],
     ["eigen", "Eigener Moment"]
   ];
-  /* Startwert heute, je Ziel als ganzer Satzanfang */
+  /* Startwert je Ziel als ganzer Satzanfang: am Starttag mit „heute“, später (Plan-Link) mit dem Datum des Starts */
   var NS_HEUTE = { energie: "Deine Energie heute", schlaf: "So erholt wachst du heute auf", darm: "So ruhig ist dein Bauch heute", fokus: "So klar ist dein Kopf heute", stress: "So entspannt bist du heute", abwehr: "So fit fühlst du dich heute" };
+  var NS_DAMALS = { energie: "Deine Energie am {d}", schlaf: "So erholt bist du am {d} aufgewacht", darm: "So ruhig war dein Bauch am {d}", fokus: "So klar war dein Kopf am {d}", stress: "So entspannt warst du am {d}", abwehr: "So fit hast du dich am {d} gefühlt" };
   var NS_SEIT_TAG = { neu: 2, wochen: 12, fast_leer: 26, laenger: null };
   function eintrag(e) { return { titel: e[0], text: e[1] }; }
   function detailVon(a) { return NS_DETAIL[a.ziel].antworten.filter(function (e) { return e[0] === a.detail; })[0]; }
@@ -3561,7 +3562,8 @@ body.chat-offen .chat-fenster { display: flex; }
     });
     v.appendChild(kacheln);
     if (q.geaendert) v.appendChild(element("p", "plan-hinweis", "Termine schon eingetragen? Lösch die alten im Kalender und trag den Plan neu ein."));
-    v.appendChild(element("p", "plan-startwert", NS_HEUTE[plan.z] + ": " + plan.w + " von 5. Neu bewerten am " + tagKurz(nsCheckTag(plan, 14)) + " und am " + tagKurz(nsCheckTag(plan, 28)) + "."));
+    var startSatz = isoTag(heute0()) === plan.s ? NS_HEUTE[plan.z] : NS_DAMALS[plan.z].replace("{d}", tagKurz(ausIso(plan.s)));
+    v.appendChild(element("p", "plan-startwert", startSatz + ": " + plan.w + " von 5. Neu bewerten am " + tagKurz(nsCheckTag(plan, 14)) + " und am " + tagKurz(nsCheckTag(plan, 28)) + "."));
     var weg = element("ol", "plan-weg"), bestellWoche = nsBestellWoche(plan);
     nsWochen(plan).forEach(function (wo, i) {
       var li = element("li", "plan-schritt" + (i === nsAktuelleWoche(plan) ? " jetzt" : "")), inhalt = element("div", "plan-schritt-inhalt");
